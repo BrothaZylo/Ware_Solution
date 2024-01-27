@@ -9,5 +9,6 @@ namespace Ware
     internal interface IPackage
     {
         void SendToWareHouse();
+
     }
 }
