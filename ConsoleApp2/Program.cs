@@ -7,3 +7,5 @@ u.name = "package name";
 Console.WriteLine(u.name);
 Console.WriteLine(u.packageid);
 
+Shelf o = new("egg", 2, "3");
+Console.WriteLine(o.space1);

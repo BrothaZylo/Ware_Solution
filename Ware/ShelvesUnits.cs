@@ -7,12 +7,15 @@ using System.Threading.Tasks;
 
 namespace Ware
 {
-    internal class ShelvesUnits() : IWareHouse
+    public class ShelvesUnits : IWareHouse
     {
 
         private List<Shelf> shelves;
 
-        public ShelvesUnits() => shelves = new List<Shelf>();
+        public ShelvesUnits()
+        {
+            shelves = new List<Shelf>();
+        }
 
         public void ConfigureShelf(string shelfname, int space, string area)
             
@@ -32,7 +35,7 @@ namespace Ware
     }
   
 
-    internal class Shelf(string shelfname, int space, string area)
+    public class Shelf(string shelfname, int space, string area)
     {
         public string shelfname1 = shelfname;
         public int space1 = space;
