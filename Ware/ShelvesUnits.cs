@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ware
 {
-    internal interface InterfaceAPI
+    internal class ShelvesUnits
     {
 
     }

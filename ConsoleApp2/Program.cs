@@ -1,10 +1,8 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using Ware;
 
-Console.WriteLine("Hello, World!");
-CreatePackages u = new CreatePackages("urrr", "eeee");
+CreatePackage u = new CreatePackage("eeee");
 u.name = "package name";
-u.packageid = "imeim2f";
 
 Console.WriteLine(u.name);
-Console.WriteLine(u.li());
+Console.WriteLine(u.packageid);
