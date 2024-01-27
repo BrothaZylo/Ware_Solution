@@ -31,7 +31,7 @@ namespace Ware
             return packet;
         }
 
-        public List<CreatePackage> SendMultipleToWareHouse(List<CreatePackage> packetlist)
+        public static List<CreatePackage> SendMultipleToWareHouse(List<CreatePackage> packetlist)
         {
             return packetlist;
         }
