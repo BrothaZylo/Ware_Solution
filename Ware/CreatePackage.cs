@@ -31,6 +31,16 @@ namespace Ware
             return packet;
         }
 
+        public List<CreatePackage> SendMultipleToWareHouse(List<CreatePackage> packetlist)
+        {
+            return packetlist;
+        }
+
+        public void SendMultipleToWareHouse()
+        {
+            throw new NotImplementedException();
+        }
+
         public void SendToWareHouse()
         {
             throw new NotImplementedException();
