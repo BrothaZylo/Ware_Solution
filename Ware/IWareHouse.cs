@@ -8,6 +8,6 @@ namespace Ware
 {
     internal interface IWareHouse
     {
-
+        void ConfigureShelf();
     }
 }

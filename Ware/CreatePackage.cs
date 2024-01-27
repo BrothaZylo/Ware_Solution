@@ -29,13 +29,6 @@ namespace Ware
             return trueid;
         }
 
-        public string 
-
-
-        void IPackage.GenerateId()
-        {
-            throw new NotImplementedException();
-        }
 
     }
 }
