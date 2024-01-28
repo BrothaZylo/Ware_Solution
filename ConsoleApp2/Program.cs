@@ -13,3 +13,8 @@ List<WareHouseSizeConfig> configlist =
 ];
 
 ShelvesUnits house = new("Frysevarer", 25, configlist);
+
+foreach(WareHouseSizeConfig config in configlist)
+{
+    Console.WriteLine("StorageName: "+config.Sizename+" TotalUnits: "+config.Totalunitsavailable+" Max Length CM: "+config.Maxlengthcm+" Max Width CM: "+config.Maxwidthcm);
+}

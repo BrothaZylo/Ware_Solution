@@ -11,15 +11,7 @@ namespace Ware
     {
         public string shelfcategory = nameofstorage;
         public int totalspace = totalspaceavailable;
-        public List<WareHouseSizeConfig> configuresizes = configuresize;
-    }
-    public List<WareHouseSizeConfig> ShowWareHouseTest(List<WareHouseSizeConfig> configuresize)
-    {
-        foreach(WareHouseSizeConfig config in configuresize)
-        {
-            Console.WriteLine(config);
-        }
-        return configuresize;
+        private List<WareHouseSizeConfig> xconfiguresizes = configuresize;
     }
 
     public class WareHouseSizeConfig
@@ -29,4 +21,6 @@ namespace Ware
         public double Maxwidthcm { get; set; }
         public double Maxlengthcm { get; set; }
     }
+
+
 }
