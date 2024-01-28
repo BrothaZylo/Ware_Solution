@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ware
 {
-    class PackageHistory
+    public class PackageHistory
     {
         private Dictionary<CreatePackage, (DateTime DeliveryTime, DateTime PickupTime)> History;
 
@@ -14,14 +14,13 @@ namespace Ware
         {
             History = history;
         }
-
+        // Adds deliverytime to a package
         public void DeliveryHistory(CreatePackage packages, DateTime deliveryTime)
         {
             // Creates the log for deliverytime and using DateTime.MinValue as a placeholder for PickupTime
             History.Add(packages,(deliveryTime, DateTime.MinValue));
         }
-
-        //Updates the tuple by not changing deliveryTime and adds pickupTime
+        // Adds pickuptime to a package
         public void PickTime(CreatePackage package, DateTime pickupTime)
         {
             if (History.ContainsKey(package))
@@ -30,11 +29,13 @@ namespace Ware
                 History[package] = (deliveryTime, pickupTime);
             }
         }
-       
+        // Returning history of all packages
         public Dictionary<CreatePackage, (DateTime DeliveryTime, DateTime PickupTime)> AllHistory()
         {
             return new Dictionary<CreatePackage, (DateTime DeliveryTime, DateTime PickupTime)>(History);
         }
+
+        // Returning a specific package
         public List<(CreatePackage package, DateTime deliveryTime, DateTime pickupTime)> OnePackageHistory(string packageId)
         {
             List<(CreatePackage package, DateTime deliveryTime, DateTime pickupTime)> packageHistory = new List<(CreatePackage package, DateTime deliveryTime, DateTime pickupTime)>();
