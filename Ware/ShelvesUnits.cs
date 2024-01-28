@@ -7,10 +7,18 @@ using System.Threading.Tasks;
 
 namespace Ware
 {
-    public class ShelvesUnits(string nameofstorage,int totalspaceavailable) : IWareHouse
+    public class ShelvesUnits(string nameofstorage, int totalspaceavailable, List<WareHouseSizeConfig> configuresize) : IWareHouse
     {
         public string shelfcategory = nameofstorage;
         public int totalspace = totalspaceavailable;
+        public List<WareHouseSizeConfig> configuresizes = configuresize;
     }
 
+    public class WareHouseSizeConfig
+    {
+        public required string Sizename { get; set; }
+        public int Totalunitsavailable { get; set; }
+        public double Maxwidthcm { get; set; }
+        public double Maxlengthcm { get; set; }
+    }
 }
