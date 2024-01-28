@@ -7,41 +7,10 @@ using System.Threading.Tasks;
 
 namespace Ware
 {
-    public class ShelvesUnits : IWareHouse
+    public class ShelvesUnits(string nameofstorage,int totalspaceavailable) : IWareHouse
     {
-
-        private List<Shelf> shelves;
-
-        public ShelvesUnits()
-        {
-            shelves = new List<Shelf>();
-        }
-
-        public void ConfigureShelf(string shelfname, int space, string area)
-            
-        {
-            shelves.Add(new Shelf(shelfname, space, area));
-        }
-
-        public List<Shelf> AllShelves()
-        { 
-            return shelves;
-        }
-
-        public void ConfigureShelf()
-        {
-            throw new NotImplementedException();
-        }
+        public string shelfcategory = nameofstorage;
+        public int totalspace = totalspaceavailable;
     }
-  
-
-    public class Shelf(string shelfname, int space, string area)
-    {
-        public string shelfname1 = shelfname;
-        public int space1 = space;
-        public string area1 = area;
-
-    }
-
 
 }
