@@ -13,6 +13,14 @@ namespace Ware
         public int totalspace = totalspaceavailable;
         public List<WareHouseSizeConfig> configuresizes = configuresize;
     }
+    public List<WareHouseSizeConfig> ShowWareHouseTest(List<WareHouseSizeConfig> configuresize)
+    {
+        foreach(WareHouseSizeConfig config in configuresize)
+        {
+            Console.WriteLine(config);
+        }
+        return configuresize;
+    }
 
     public class WareHouseSizeConfig
     {
