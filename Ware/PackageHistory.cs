@@ -24,16 +24,39 @@ namespace Ware
         public void PickTime(CreatePackage package, DateTime pickupTime)
         {
             if (History.ContainsKey(package))
-            {
+            {   
                 var (deliveryTime, _) = History[package];
                 History[package] = (deliveryTime, pickupTime);
             }
         }
+        public void SeveralDelivery(List<CreatePackage> severalPackages, DateTime deliveryTime)
+        {
+            foreach (var items in severalPackages)
+            {
+                DeliveryHistory(items,deliveryTime);
+            }
+        }
+        public void SeveralPickup(List<CreatePackage> severalPackages, DateTime deliveryTime)
+        {
+            foreach (var items in severalPackages)
+            {
+                PickTime(items, deliveryTime);
+            }
+
+        }
+
+
         // Returning history of all packages
+        /*
         public Dictionary<CreatePackage, (DateTime DeliveryTime, DateTime PickupTime)> AllHistory()
         {
             return new Dictionary<CreatePackage, (DateTime DeliveryTime, DateTime PickupTime)>(History);
         }
+        */
+
+
+
+
 
         // Returning a specific package
         public List<(CreatePackage package, DateTime deliveryTime, DateTime pickupTime)> OnePackageHistory(string packageId)
