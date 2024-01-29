@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ware
 {
-    public class CreateShelves(string nameofstorage, int totalspaceavailable, List<CreateShelves.WareHouseSizeConfig> configuresize) : IWareHouse
+    public class StorageConfiguration(string nameofstorage, int totalspaceavailable, List<StorageConfiguration.WareHouseSizeConfig> configuresize) : IWareHouse
     {
         public string Shelfcategory = nameofstorage;
         public int Totalspace = totalspaceavailable;
@@ -28,5 +28,18 @@ namespace Ware
             public double Maxwidthcm { get; set; }
             public double Maxlengthcm { get; set; }
         }
+
+        public string CreateStorage()
+        {
+            Dictionary<int, string> YourStorageUnit = [];
+
+            for (int i = 0; i < Configfiles.Count; i++)
+            {
+                //get all the space.
+            }
+            return "";
+        }
+
+
     }
 }
