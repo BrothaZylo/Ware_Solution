@@ -8,11 +8,15 @@ Console.WriteLine(u.name);
 Console.WriteLine(u.packageid);
 List<StorageConfiguration.WareHouseSizeConfig> configlist =
 [
-    new() { Sizename = "Tiny", Totalunitsavailable = 10, Maxlengthcm = 10.5, Maxwidthcm = 5},
-    new() { Sizename = "Large", Totalunitsavailable = 15, Maxlengthcm = 30, Maxwidthcm = 30 }
+    new() { Sizename = "Tiny", Totalunitsavailable = 5, Maxlengthcm = 10.5, Maxwidthcm = 5},
+    new() { Sizename = "Large", Totalunitsavailable = 5, Maxlengthcm = 30, Maxwidthcm = 30 }
 ];
 
 StorageConfiguration house = new("Frysevarer", 25, configlist);
 
 house.GetSizeConfig();
 house.CreateStorage();
+house.GetStorage();
+Console.WriteLine("");
+house.FindPackageById("EmptySlot: 1");
+Console.WriteLine(house.FindPackageById("EmptySlot: 1"));

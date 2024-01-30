@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,6 +13,8 @@ namespace Ware
         public string Shelfcategory = nameofstorage;
         public int Totalspace = totalspaceavailable;
         public List<WareHouseSizeConfig> Configfiles = configuresize;
+        Dictionary<string, (string, string, double, double, bool)> yourWareList = [];
+
 
         public void GetSizeConfig()
         {
@@ -29,15 +32,39 @@ namespace Ware
             public double Maxlengthcm { get; set; }
         }
 
-        public string CreateStorage()
+        public void CreateStorage()
         {
-            Dictionary<int, string> YourStorageUnit = [];
+            int StorageCounter = 1;
 
-            for (int i = 0; i < Configfiles.Count; i++)
+            foreach(var j in Configfiles)
             {
-                //get all the space.
+                for(int k = 0; k < j.Totalunitsavailable; k++)
+                {
+                    yourWareList.Add("EmptySlot: " +StorageCounter,("ShelfID: " + StorageCounter, "Type: "+ Shelfcategory, j.Maxwidthcm, j.Maxlengthcm, false));
+                    StorageCounter++;
+                }
             }
-            return "";
+        }
+        
+        public void GetStorage()
+        {
+            foreach(var i in yourWareList)
+            {
+                Console.WriteLine(i);
+            }
+        }
+
+        public string FindPackageById(string packageid)
+        {
+            string item = "";
+            foreach( var i in yourWareList)
+            {
+                if (i.Key == packageid)
+                {
+                    item+=i;
+                }
+            }
+            return item;
         }
 
 
