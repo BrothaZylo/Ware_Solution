@@ -18,5 +18,5 @@ house.WareHouseConfigPrint();
 house.CreateStorage();
 house.GetAllStorageInformationPrint();
 Console.WriteLine("");
-Console.WriteLine(house.FindPackageSectionByIdPrint("EmptySlot: 1"));
+house.FindPackageSectionByIdPrint("EmptySlot: 1");
 Console.WriteLine(house.FindPackageById("EmptySlot: 1"));
