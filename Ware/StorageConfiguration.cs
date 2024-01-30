@@ -13,16 +13,7 @@ namespace Ware
         public string Shelfcategory = nameofstorage;
         public int Totalspace = totalspaceavailable;
         public List<WareHouseSizeConfig> Configfiles = configuresize;
-        Dictionary<string, (string, string, double, double, bool)> yourWareList = [];
-
-
-        public void GetSizeConfig()
-        {
-            foreach (var Item in Configfiles)
-            {
-                Console.WriteLine("StorageName: " + Item.Sizename + " TotalUnits: " + Item.Totalunitsavailable + " Max Length CM: " + Item.Maxlengthcm + " Max Width CM: " + Item.Maxwidthcm);
-            }
-        }
+        Dictionary<string, (string, string, string, string, string, bool)> yourWareList = [];
 
         public class WareHouseSizeConfig
         {
@@ -32,21 +23,30 @@ namespace Ware
             public double Maxlengthcm { get; set; }
         }
 
+        public void WareHouseConfigPrint()
+        {
+            foreach (var Item in Configfiles)
+            {
+                Console.WriteLine("StorageName: " + Item.Sizename + " TotalUnits: " + Item.Totalunitsavailable + " Max Length CM: " + Item.Maxlengthcm + " Max Width CM: " + Item.Maxwidthcm);
+            }
+        }
+
         public void CreateStorage()
         {
             int StorageCounter = 1;
-
+            //bool -> if the space is taken
+            //reminder: remove extra info (change string to double (dict(constuctor)) -> cm usages) on use :D
             foreach(var j in Configfiles)
             {
                 for(int k = 0; k < j.Totalunitsavailable; k++)
                 {
-                    yourWareList.Add("EmptySlot: " +StorageCounter,("ShelfID: " + StorageCounter, "Type: "+ Shelfcategory, j.Maxwidthcm, j.Maxlengthcm, false));
+                    yourWareList.Add("EmptySlot: " +StorageCounter,("ShelfID: " + StorageCounter, "Type: "+ Shelfcategory,"Type of storage: "+j.Sizename, "Max width cm: "+j.Maxwidthcm, "Max length cm: " + j.Maxlengthcm, false));
                     StorageCounter++;
                 }
             }
         }
         
-        public void GetStorage()
+        public void GetAllStorageInformationPrint()
         {
             foreach(var i in yourWareList)
             {
@@ -54,7 +54,7 @@ namespace Ware
             }
         }
 
-        public string FindPackageById(string packageid)
+        public void FindPackageSectionByIdPrint(string packageid)
         {
             string item = "";
             foreach( var i in yourWareList)
@@ -64,9 +64,22 @@ namespace Ware
                     item+=i;
                 }
             }
-            return item;
+            Console.WriteLine(item);
         }
 
+        public string FindPackageById(string packageid)
+        {
+            //change to int or something :)
+            string item = "Does not exist";
+            foreach (var i in yourWareList)
+            {
+                if (i.Key == packageid)
+                {
+                    return i.Value.Item1;
+                }
+            }
+            return item;
+        }
 
     }
 }

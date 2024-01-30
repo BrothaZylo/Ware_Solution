@@ -14,9 +14,9 @@ List<StorageConfiguration.WareHouseSizeConfig> configlist =
 
 StorageConfiguration house = new("Frysevarer", 25, configlist);
 
-house.GetSizeConfig();
+house.WareHouseConfigPrint();
 house.CreateStorage();
-house.GetStorage();
+house.GetAllStorageInformationPrint();
 Console.WriteLine("");
-house.FindPackageById("EmptySlot: 1");
+Console.WriteLine(house.FindPackageSectionByIdPrint("EmptySlot: 1"));
 Console.WriteLine(house.FindPackageById("EmptySlot: 1"));
