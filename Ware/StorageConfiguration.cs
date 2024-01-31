@@ -61,10 +61,6 @@ namespace Ware
                     if(packagesizew < i.Value.Item4 && packagesizeh < i.Value.Item5)
                     {
                         yourWareList[i.Key] = (package.packageid, i.Value.Item2, i.Value.Item3, i.Value.Item4, i.Value.Item5, true);
-                        foreach (var o in yourWareList)
-                        {
-                            Console.WriteLine(o);
-                        }
                         return "Package was placed in: "+i.Key;
                     }
                 }
@@ -80,17 +76,17 @@ namespace Ware
             }
         }
 
-        public void FindPackageSectionByIdPrint(string packageid)
+        public string FindPackageSectionById(string packageid)
         {
             string item = "";
             foreach( var i in yourWareList)
             {
-                if (i.Key == packageid)
+                if (i.Value.Item1 == packageid)
                 {
                     item+=i;
                 }
             }
-            Console.WriteLine(item);
+            return item;
         }
 
         public string FindPackageById(string packageid)
@@ -99,9 +95,9 @@ namespace Ware
             string item = "Does not exist";
             foreach (var i in yourWareList)
             {
-                if (i.Key == packageid)
+                if (i.Value.Item1 == packageid)
                 {
-                    return i.Value.Item1;
+                    return i.Key;
                 }
             }
             return item;
