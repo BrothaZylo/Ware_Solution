@@ -8,8 +8,6 @@ namespace Ware
 {
     internal interface IPackage
     {
-        void SendToWareHouse();
 
-        void SendMultipleToWareHouse();
     }
 }

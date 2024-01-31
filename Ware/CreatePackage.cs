@@ -21,10 +21,6 @@ namespace Ware
             return trueid;
         }
 
-        public static string Inte(string x)
-        {
-            return x;
-        }
 
         public static CreatePackage SendToWareHouse(CreatePackage packet)
         {
@@ -36,15 +32,6 @@ namespace Ware
             return packetlist;
         }
 
-        public void SendMultipleToWareHouse()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SendToWareHouse()
-        {
-            throw new NotImplementedException();
-        }
 
     }
 }
