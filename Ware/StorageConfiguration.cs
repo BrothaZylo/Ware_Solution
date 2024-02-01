@@ -88,6 +88,7 @@ namespace Ware
             {
                 if(i.Value.Item1 == package.packageid)
                 {
+                    yourWareList[i.Key] = ("PackageID: Empty", i.Value.Item2, i.Value.Item3, i.Value.Item4, false);
                     return package;
                 }
             }
