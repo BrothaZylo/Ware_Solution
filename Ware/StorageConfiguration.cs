@@ -13,7 +13,7 @@ namespace Ware
         public string Shelfcategory = nameofstorage;
         public int Totalspace = totalspaceavailable;
         public List<WareHouseSizeConfig> Configfiles = configuresize;
-        Dictionary<string, (string, string, string, double, double, bool)> yourWareList = [];
+        Dictionary<string, (string, string, double, double, bool)> yourWareList = [];
 
         public class WareHouseSizeConfig
         {
@@ -34,13 +34,11 @@ namespace Ware
         public void CreateStorage()
         {
             int StorageCounter = 1;
-            //bool -> if the space is taken
-            //reminder: remove extra info (change string to double (dict(constuctor)) -> cm usages) on use :D
             foreach(var j in Configfiles)
             {
                 for(int k = 0; k < j.Totalunitsavailable; k++)
                 {
-                    yourWareList.Add("ShelfID: " +StorageCounter,("PackageID: Empty", "Type: "+ Shelfcategory,"Type of storage: "+j.Sizename, j.Maxwidthcm, j.Maxheightcm, false));
+                    yourWareList.Add(Shelfcategory+"ShelfID: " +StorageCounter,("PackageID: Empty","Type of storage: "+j.Sizename, j.Maxwidthcm, j.Maxheightcm, false));
                     StorageCounter++;
                 }
             }
@@ -56,16 +54,28 @@ namespace Ware
                 {
                     return "Package is already in storagehouse";
                 }
-                if(i.Value.Item6 == false)
+                if(i.Value.Item5 == false)
                 {
-                    if(packagesizew < i.Value.Item4 && packagesizeh < i.Value.Item5)
+                    if(packagesizew < i.Value.Item4 && packagesizeh < i.Value.Item4)
                     {
-                        yourWareList[i.Key] = (package.packageid, i.Value.Item2, i.Value.Item3, i.Value.Item4, i.Value.Item5, true);
+                        yourWareList[i.Key] = (package.packageid, i.Value.Item2, i.Value.Item3, i.Value.Item4, true);
                         return "Package was placed in: "+i.Key;
                     }
                 }
             }
             return "No suitable place found";
+        }
+
+        public string TakePackage(string packageid)
+        {
+            foreach (var i in yourWareList)
+            {
+                if(i.Value.Item1 == packageid)
+                {
+                    yourWareList[i.Key] = ("PackageID: Empty", i.Value.Item2, i.Value.Item3, i.Value.Item4, false);
+                }
+            }
+            return "";
         }
         
         public void GetAllStorageInformationPrint()
@@ -74,6 +84,21 @@ namespace Ware
             {
                 Console.WriteLine(i);
             }
+        }
+
+        public string GetNameStorageById(int shelfnumber)
+        {
+            foreach(var i in yourWareList)
+            {
+                string[] keysplit = i.Key.Split(':');
+                string key1 = keysplit[0];
+                string yournumber = key1+": "+shelfnumber;
+                if(i.Key == yournumber)
+                {
+                    return yournumber;
+                }
+            }
+            return "Does not exist";
         }
 
         public string FindPackageSectionById(string packageid)
@@ -91,7 +116,7 @@ namespace Ware
 
         public string FindPackageById(string packageid)
         {
-            //change to int or something :)
+            //change to int mby or not xd :)
             string item = "Does not exist";
             foreach (var i in yourWareList)
             {
@@ -103,5 +128,16 @@ namespace Ware
             return item;
         }
 
+        public bool IsSpotTaken(string storagename)
+        {
+            foreach( var i in yourWareList)
+            {
+                if (i.Key == storagename)
+                {
+                    return i.Value.Item5;
+                }
+            }
+            return false;
+        }
     }
 }

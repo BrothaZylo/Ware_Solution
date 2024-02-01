@@ -2,13 +2,13 @@
 using System.Xml.Linq;
 using Ware;
 
-CreatePackage u = new("Hestesko", "kjølevare", "fast", 13, 5);
+CreatePackage u = new("Hestesko", "kjølevare", "fast", 3, 5);
 
 Console.WriteLine(u.name);
 Console.WriteLine(u.packageid);
 List<StorageConfiguration.WareHouseSizeConfig> configlist =
 [
-    new() { Sizename = "Tiny", Totalunitsavailable = 5, Maxheightcm = 10.5, Maxwidthcm = 5},
+    new() { Sizename = "Tiny", Totalunitsavailable = 5, Maxheightcm = 10.5, Maxwidthcm = 10},
     new() { Sizename = "Large", Totalunitsavailable = 4, Maxheightcm = 30, Maxwidthcm = 30 }
 ];
 
@@ -25,4 +25,10 @@ Console.WriteLine(house.FindPackageById(u.packageid));
 Console.WriteLine();
 Console.WriteLine(house.FindPackageSectionById(u.packageid));
 Console.WriteLine();
+Console.WriteLine(house.IsSpotTaken("FrysevarerShelfID: 1"));
+Console.WriteLine(house.IsSpotTaken(house.GetNameStorageById(1)));
+Console.WriteLine(house.GetNameStorageById(1));
 house.GetAllStorageInformationPrint();
+house.TakePackage(u.packageid);
+house.GetAllStorageInformationPrint();
+Console.WriteLine(house.IsSpotTaken(house.GetNameStorageById(1)));
