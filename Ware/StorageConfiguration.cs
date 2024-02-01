@@ -8,12 +8,19 @@ using System.Threading.Tasks;
 
 namespace Ware
 {
-    public class StorageConfiguration(string nameofstorage, int totalspaceavailable, List<StorageConfiguration.WareHouseSizeConfig> configuresize) : IWareHouse
+    public class StorageConfiguration(string nameofstorage, int totalspaceavailable, List<StorageConfiguration.WareHouseSizeConfig> configuresize, List<StorageConfiguration.WareHouseTimeConfig> configuretime) : IWareHouse
     {
         public string Shelfcategory = nameofstorage;
         public int Totalspace = totalspaceavailable;
         public List<WareHouseSizeConfig> Configfiles = configuresize;
-        Dictionary<string, (string, string, double, double, bool)> yourWareList = [];
+        public List<WareHouseTimeConfig> Configtime = configuretime;
+        private Dictionary<string, (string, string, double, double, bool)> yourWareList = [];
+
+        public class WareHouseTimeConfig
+        {
+            public int TimeDeliveryToStorageMinutes;
+            public int TimeStorageToTerminalMinutes;
+        }
 
         public class WareHouseSizeConfig
         {
@@ -58,7 +65,7 @@ namespace Ware
                     }
                     if (i.Value.Item5 == false)
                     {
-                        if (packagesizew < i.Value.Item4 && packagesizeh < i.Value.Item4)
+                        if (packagesizew < i.Value.Item3 && packagesizeh < i.Value.Item4)
                         {
                             yourWareList[i.Key] = (package.packageid, i.Value.Item2, i.Value.Item3, i.Value.Item4, true);
                             return "Package was placed in: " + i.Key;
@@ -158,5 +165,42 @@ namespace Ware
             }
             return false;
         }
+
+        public int GetTimeDeliveryToStorage()
+        {
+            foreach (var i in Configtime)
+            {
+                return i.TimeDeliveryToStorageMinutes;
+            }
+            return 0;
+        }
+
+        public int GetTimeStorageToTerminal()
+        {
+            foreach (var i in Configtime)
+            {
+                return i.TimeStorageToTerminalMinutes;
+            }
+            return 0;
+        }
+
+        public int GetTimeDeliveryToStorageSeconds()
+        {
+            foreach (var i in Configtime)
+            {
+                return i.TimeDeliveryToStorageMinutes*60;
+            }
+            return 0;
+        }
+
+        public int GetTimeStorageToTerminalSeconds()
+        {
+            foreach (var i in Configtime)
+            {
+                return i.TimeStorageToTerminalMinutes*60;
+            }
+            return 0;
+        }
+
     }
 }
