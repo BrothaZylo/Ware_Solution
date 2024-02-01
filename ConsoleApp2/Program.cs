@@ -2,7 +2,7 @@
 using System.Xml.Linq;
 using Ware;
 
-CreatePackage u = new("Hestesko", "kjølevare", "fast", 3, 5);
+CreatePackage u = new("Hestesko", "Frysevarer", "fast", 3, 5);
 
 Console.WriteLine(u.name);
 Console.WriteLine(u.packageid);
@@ -26,9 +26,8 @@ Console.WriteLine();
 Console.WriteLine(house.FindPackageSectionById(u.packageid));
 Console.WriteLine();
 Console.WriteLine(house.IsSpotTaken("FrysevarerShelfID: 1"));
-Console.WriteLine(house.IsSpotTaken(house.GetNameStorageById(1)));
-Console.WriteLine(house.GetNameStorageById(1));
+Console.WriteLine(house.IsSpotTaken(house.GetStorageNameById(1)));
+Console.WriteLine(house.GetStorageNameById(1));
+Console.WriteLine(house.FindPackageById(u.packageid));
+Console.WriteLine(house.FindPackageSectionById(u.packageid));
 house.GetAllStorageInformationPrint();
-house.TakePackage(u.packageid);
-house.GetAllStorageInformationPrint();
-Console.WriteLine(house.IsSpotTaken(house.GetNameStorageById(1)));

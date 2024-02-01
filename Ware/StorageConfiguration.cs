@@ -50,34 +50,52 @@ namespace Ware
             double packagesizeh = package.height;
             foreach (var i in yourWareList)
             {
-                if (i.Value.Item1 == package.packageid)
+                if (Shelfcategory == package.goods)
                 {
-                    return "Package is already in storagehouse";
-                }
-                if(i.Value.Item5 == false)
-                {
-                    if(packagesizew < i.Value.Item4 && packagesizeh < i.Value.Item4)
+                    if (i.Value.Item1 == package.packageid)
                     {
-                        yourWareList[i.Key] = (package.packageid, i.Value.Item2, i.Value.Item3, i.Value.Item4, true);
-                        return "Package was placed in: "+i.Key;
+                        return "Package is already in storagehouse";
+                    }
+                    if (i.Value.Item5 == false)
+                    {
+                        if (packagesizew < i.Value.Item4 && packagesizeh < i.Value.Item4)
+                        {
+                            yourWareList[i.Key] = (package.packageid, i.Value.Item2, i.Value.Item3, i.Value.Item4, true);
+                            return "Package was placed in: " + i.Key;
+                        }
                     }
                 }
             }
             return "No suitable place found";
         }
 
-        public string TakePackage(string packageid)
+        public string MovePackageById(string packageid)
         {
             foreach (var i in yourWareList)
             {
                 if(i.Value.Item1 == packageid)
                 {
                     yourWareList[i.Key] = ("PackageID: Empty", i.Value.Item2, i.Value.Item3, i.Value.Item4, false);
+                    return packageid;
                 }
             }
-            return "";
+            return "null";
         }
         
+        public CreatePackage MovePackage(CreatePackage package)
+        {
+            foreach(var i in yourWareList)
+            {
+                if(i.Value.Item1 == package.packageid)
+                {
+                    return package;
+                }
+            }
+            CreatePackage dummy = new("null", "null", "null", 0, 0);
+
+            return dummy;
+        }
+
         public void GetAllStorageInformationPrint()
         {
             foreach(var i in yourWareList)
@@ -86,7 +104,7 @@ namespace Ware
             }
         }
 
-        public string GetNameStorageById(int shelfnumber)
+        public string GetStorageNameById(int shelfnumber)
         {
             foreach(var i in yourWareList)
             {
