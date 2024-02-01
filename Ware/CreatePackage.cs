@@ -36,5 +36,9 @@ namespace Ware
             throw new NotImplementedException();
         }
 
+        internal List<(CreatePackage package, DateTime deliveryTime, DateTime pickupTime)> ToList()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
