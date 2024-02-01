@@ -21,6 +21,7 @@ namespace Ware
             History.Add(packages, (deliveryTime, DateTime.MinValue));
         }
         // Adds pickuptime to a package
+        /*
         public void PickTime(CreatePackage package, DateTime pickupTime)
         {
             if (History.ContainsKey(package))
@@ -28,7 +29,20 @@ namespace Ware
                 var (deliveryTime, _) = History[package];
                 History[package] = (deliveryTime, pickupTime);
             }
+        }*/
+
+        public void PickTime(CreatePackage package, DateTime pickupTime)
+        {
+            if (History.ContainsKey(package))
+            {
+                var packageHistory = History[package];
+                packageHistory.PickupTime = pickupTime;
+                History[package] = packageHistory;
+            }
         }
+
+
+
         // Method recieves a list of packages that will get there delivery time registered
         public void SeveralDelivery(List<CreatePackage> severalPackages, DateTime deliveryTime)
         {
