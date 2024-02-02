@@ -26,7 +26,7 @@ namespace Ware
             {
                 if (receivedPackages.Count > 0)
                 {
-                    var firstPackage = receivedPackages[0];
+                    CreatePackage firstPackage = receivedPackages[0];
                     storageConfiguration.PlacePackage(firstPackage);
 
                     receivedPackages.RemoveAt(0);

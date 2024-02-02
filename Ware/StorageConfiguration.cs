@@ -32,7 +32,7 @@ namespace Ware
 
         public void WareHouseConfigPrint()
         {
-            foreach (var Item in Configfiles)
+            foreach (StorageConfiguration.WareHouseSizeConfig Item in Configfiles)
             {
                 Console.WriteLine("StorageName: " + Item.Sizename + " TotalUnits: " + Item.Totalunitsavailable + " Max Length CM: " + Item.Maxheightcm + " Max Width CM: " + Item.Maxwidthcm);
             }
@@ -41,7 +41,7 @@ namespace Ware
         public void CreateStorage()
         {
             int StorageCounter = 1;
-            foreach (var j in Configfiles)
+            foreach (StorageConfiguration.WareHouseSizeConfig j in Configfiles)
             {
                 for (int k = 0; k < j.Totalunitsavailable; k++)
                 {
