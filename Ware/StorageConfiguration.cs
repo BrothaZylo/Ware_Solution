@@ -8,20 +8,33 @@ using System.Threading.Tasks;
 
 namespace Ware
 {
+    /// <summary>
+    /// Preconfig of the storageunits wich will later be used to create shelves.
+    /// </summary>
+    /// <param name="nameofstorage"></param>
+    /// <param name="totalspaceavailable"></param>
+    /// <param name="configuresize"></param>
+    /// <param name="configuretime"></param>
     public class StorageConfiguration(string nameofstorage, int totalspaceavailable, List<StorageConfiguration.WareHouseSizeConfig> configuresize, List<StorageConfiguration.WareHouseTimeConfig> configuretime) : IWareHouse
     {
         public string Shelfcategory = nameofstorage;
         public int Totalspace = totalspaceavailable;
         public List<WareHouseSizeConfig> Configfiles = configuresize;
         public List<WareHouseTimeConfig> Configtime = configuretime;
-        private Dictionary<string, (string, string, double, double, bool)> yourWareList = [];
+        public Dictionary<string, (string, string, double, double, bool)> yourWareList = [];
 
+        /// <summary>
+        /// Configures the time-progress from start to end-point.
+        /// </summary>
         public class WareHouseTimeConfig
         {
             public int TimeDeliveryToStorageMinutes;
             public int TimeStorageToTerminalMinutes;
         }
 
+        /// <summary>
+        /// Configures diffrent sizes that a complete Warehouse storageunit contains.
+        /// </summary>
         public class WareHouseSizeConfig
         {
             public required string Sizename { get; set; }
@@ -30,6 +43,9 @@ namespace Ware
             public double Maxheightcm { get; set; }
         }
 
+        /// <summary>
+        /// Prints the diffrent Size configs for each size created.
+        /// </summary>
         public void WareHouseConfigPrint()
         {
             foreach (var Item in Configfiles)
@@ -38,6 +54,9 @@ namespace Ware
             }
         }
 
+        /// <summary>
+        /// Creates the Storageunit based on instructions from the config && constructor.
+        /// </summary>
         public void CreateStorage()
         {
             int StorageCounter = 1;
@@ -51,6 +70,11 @@ namespace Ware
             }
         }
 
+        /// <summary>
+        /// Places the package in the storagehouse if the size && goodstype fits the slot.
+        /// </summary>
+        /// <param name="package"></param>
+        /// <returns></returns>
         public string PlacePackage(CreatePackage package)
         {
             double packagesizew = package.width;
@@ -76,6 +100,11 @@ namespace Ware
             return "No suitable place found";
         }
 
+        /// <summary>
+        /// inputting the packageid will remove the package from the shelf its placed.
+        /// </summary>
+        /// <param name="packageid"></param>
+        /// <returns>it will return the packageid if it finds the packackage, else it will return null</returns>
         public string MovePackageById(string packageid)
         {
             foreach (var i in yourWareList)
@@ -89,6 +118,11 @@ namespace Ware
             return "null";
         }
         
+        /// <summary>
+        /// Moves the package from the shelf and returns the it in package format.
+        /// </summary>
+        /// <param name="package"></param>
+        /// <returns>if it find the package it will return the package, else it will return a nulled package format</returns>
         public CreatePackage MovePackage(CreatePackage package)
         {
             foreach(var i in yourWareList)
@@ -104,6 +138,9 @@ namespace Ware
             return dummy;
         }
 
+        /// <summary>
+        /// Prints the entire storage house shelf unit.
+        /// </summary>
         public void GetAllStorageInformationPrint()
         {
             foreach(var i in yourWareList)
@@ -112,6 +149,11 @@ namespace Ware
             }
         }
 
+        /// <summary>
+        /// Entering the storage unit's number it will search for the units nr.
+        /// </summary>
+        /// <param name="shelfnumber"></param>
+        /// <returns>Returns the shelf number else, it will return Does not exist</returns>
         public string GetStorageNameById(int shelfnumber)
         {
             foreach(var i in yourWareList)
@@ -127,6 +169,11 @@ namespace Ware
             return "Does not exist";
         }
 
+        /// <summary>
+        /// It will find the shelf where the packageid is located.
+        /// </summary>
+        /// <param name="packageid"></param>
+        /// <returns>Returns the section of set package id is located, else returns nothing</returns>
         public string FindPackageSectionById(string packageid)
         {
             string item = "";
@@ -140,6 +187,11 @@ namespace Ware
             return item;
         }
 
+        /// <summary>
+        /// Finds the package location by using the id
+        /// </summary>
+        /// <param name="packageid"></param>
+        /// <returns>The shelf its placed at, else will return Does not exist</returns>
         public string FindPackageById(string packageid)
         {
             //change to int mby or not xd :)
@@ -154,6 +206,11 @@ namespace Ware
             return item;
         }
 
+        /// <summary>
+        /// It checks if the spot is taken by another package
+        /// </summary>
+        /// <param name="storagename"></param>
+        /// <returns>returns true if taken, else false</returns>
         public bool IsSpotTaken(string storagename)
         {
             foreach( var i in yourWareList)
@@ -166,6 +223,10 @@ namespace Ware
             return false;
         }
 
+        /// <summary>
+        /// It will find the time from Delivery To storageunit based from the config
+        /// </summary>
+        /// <returns>x amount of minutes, else 0</returns>
         public int GetTimeDeliveryToStorage()
         {
             foreach (var i in Configtime)
@@ -175,6 +236,10 @@ namespace Ware
             return 0;
         }
 
+        /// <summary>
+        /// Finds the time it takes from storage to terminal based on config.
+        /// </summary>
+        /// <returns>x amount of time, else 0</returns>
         public int GetTimeStorageToTerminal()
         {
             foreach (var i in Configtime)
@@ -184,6 +249,10 @@ namespace Ware
             return 0;
         }
 
+        /// <summary>
+        /// It will find the time from Delivery To storageunit based from the config and converts it into seconds
+        /// </summary>
+        /// <returns></returns>
         public int GetTimeDeliveryToStorageSeconds()
         {
             foreach (var i in Configtime)
@@ -193,6 +262,10 @@ namespace Ware
             return 0;
         }
 
+        /// <summary>
+        /// Finds the time it takes from storage to terminal based on config and converts it into seconds.
+        /// </summary>
+        /// <returns></returns>
         public int GetTimeStorageToTerminalSeconds()
         {
             foreach (var i in Configtime)

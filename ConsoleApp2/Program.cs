@@ -23,6 +23,7 @@ Console.WriteLine(house.PlacePackage(u));
 Console.WriteLine(house.PlacePackage(u));
 Console.WriteLine();
 Console.WriteLine(house.FindPackageById(u.packageid));
+Console.WriteLine(house.FindPackageById("gggd"));
 Console.WriteLine();
 Console.WriteLine(house.FindPackageSectionById(u.packageid));
 Console.WriteLine();
