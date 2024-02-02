@@ -7,17 +7,19 @@ class Program
 {
     static void Main(string[] args)
     {
-        CreatePackage u = new CreatePackage("Hestesko", "Frysevarer", "fast", 3, 5);
+        CreatePackage u = new("Hestesko", "Frysevarer", "fast", 3, 5);
 
-        Console.WriteLine(u.name);
-        Console.WriteLine(u.packageid);
         List<StorageConfiguration.WareHouseSizeConfig> configlist =
         [
-            new StorageConfiguration.WareHouseSizeConfig { Sizename = "Tiny", Totalunitsavailable = 5, Maxheightcm = 10.5, Maxwidthcm = 10},
-            new StorageConfiguration.WareHouseSizeConfig { Sizename = "Large", Totalunitsavailable = 4, Maxheightcm = 30, Maxwidthcm = 30 }
+            new() { Sizename = "Tiny", Totalunitsavailable = 5, Maxheightcm = 10.5, Maxwidthcm = 10 },
+            new() { Sizename = "Large", Totalunitsavailable = 4, Maxheightcm = 30, Maxwidthcm = 30 }
+        ];
+        List<StorageConfiguration.WareHouseTimeConfig> configtime =
+        [
+            new() { TimeDeliveryToStorageMinutes = 2, TimeStorageToTerminalMinutes = 2 }
         ];
 
-        StorageConfiguration house = new StorageConfiguration("Frysevarer", 25, configlist);
+        StorageConfiguration house = new("Frysevarer", 25, configlist, configtime);
 
         house.WareHouseConfigPrint();
         house.CreateStorage();
@@ -36,6 +38,7 @@ class Program
         Console.WriteLine(house.FindPackageById(u.packageid));
         Console.WriteLine(house.FindPackageSectionById(u.packageid));
         house.GetAllStorageInformationPrint();
+        Console.WriteLine(house.GetTimeStorageToTerminalSeconds());
 
         ReceivingDepartment receivingDept = new ReceivingDepartment(house);
 

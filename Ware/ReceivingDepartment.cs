@@ -6,11 +6,11 @@ namespace Ware
     public class ReceivingDepartment
     {
         private List<CreatePackage> receivedPackages;
-        private StorageConfiguration warehouse;
+        private StorageConfiguration storageConfiguration;
 
         public ReceivingDepartment(StorageConfiguration warehouse)
         {
-            this.warehouse = warehouse;
+            storageConfiguration = warehouse;
             receivedPackages = new List<CreatePackage>();
         }
 
@@ -24,29 +24,16 @@ namespace Ware
             List<string> results = new List<string>();
             foreach (var package in receivedPackages)
             {
-                string result = warehouse.PlacePackage(package);
-                int transferTime = GetTransferTime(package.goods);
-                result += $" Overføringstid: {transferTime} time(s).";
+                string result = storageConfiguration.PlacePackage(package);
+                int timeDeliveryToStorage = storageConfiguration.GetTimeDeliveryToStorage();
+                int timeStorageToTerminal = storageConfiguration.GetTimeStorageToTerminal();
+                result += $" Tid fra mottak til lager: {timeDeliveryToStorage} minutter.";
+                result += $" Tid fra lager til terminal: {timeStorageToTerminal} minutter.";
                 results.Add(result);
             }
 
             receivedPackages.Clear();
             return results;
-        }
-
-        public int GetTransferTime(string goodsType)
-        {
-            int transferTime = 0;
-            switch (goodsType.ToLower())
-            {
-                case "frysevarer":
-                    transferTime = 2;
-                    break;
-                default:
-                    transferTime = 1;
-                    break;
-            }
-            return transferTime;
         }
     }
 }
