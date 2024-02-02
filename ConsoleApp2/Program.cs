@@ -1,5 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using Ware;
+using static Ware.DeliverySchedule;
 
 CreatePackage u = new("Hestesko", "kjølevare", "fast", 82.5, 43.4);
 
@@ -18,6 +19,7 @@ packageHistory.PickTime(iskrem, DateTime.Now.AddHours(10));
 */ 
 
 //  Test for å legge til en liste med varer
+/*
 List<CreatePackage> packages = new List<CreatePackage>();
 packages.Add(iskrem);
 packages.Add(flammekaster);
@@ -33,3 +35,19 @@ packageHistory.AllHistoryInfo();
 //Hente infoen om en enkelt vare
 packageHistory.OnePackageHistory(iskrem.packageid);
 
+*/
+
+
+
+List<DeliverySchedule.DeliveryList> packageDates =
+[
+    new() { Day = "Monday", Packages = iskrem, DeliveryTime = DateTime.Now, DeliveryType = 1},
+    new() { Day = "Tuesday", Packages = flammekaster, DeliveryTime = DateTime.Now, DeliveryType = 1 }
+
+
+];
+
+DeliverySchedule schedule = new DeliverySchedule(packageDates);
+
+schedule.CreateSchedule();
+schedule.SchedulePrint();

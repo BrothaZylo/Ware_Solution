@@ -20,6 +20,7 @@ namespace Ware
         public void addDailyPickupPackages(CreatePackage package, DateTime time)
         {
             DailyPickupPackages.Add((package, time));
+            
         }
         public void addWeeklyPickupPackages(CreatePackage package, DateTime time)
         {
@@ -38,5 +39,4 @@ namespace Ware
     }
 }
 
-    }
-}
+    

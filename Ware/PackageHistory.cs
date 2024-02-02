@@ -8,12 +8,14 @@ namespace Ware
 {
     public class PackageHistory
     {
-        private Dictionary<CreatePackage, (DateTime DeliveryTime, DateTime PickupTime)> History;
+        private Dictionary<CreatePackage, (DateTime DeliveryTime, DateTime PickupTime)> History { get; set; }
+        private (CreatePackage pacakge, DateTime time) value { get; set; }
 
         public PackageHistory(Dictionary<CreatePackage, (DateTime DeliveryTime, DateTime PickupTime)> history)
         {
             History = history;
         }
+
         // Adds deliverytime to a package
         public void DeliveryHistory(CreatePackage packages, DateTime deliveryTime)
         {
@@ -44,6 +46,7 @@ namespace Ware
 
 
         // Method recieves a list of packages that will get there delivery time registered
+        
         public void SeveralDelivery(List<CreatePackage> severalPackages, DateTime deliveryTime)
         {
             foreach (var items in severalPackages)

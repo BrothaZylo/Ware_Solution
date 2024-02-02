@@ -1,39 +1,53 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO.IsolatedStorage;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Ware
 {
-    public class DeliverySchedule
+    public class DeliverySchedule(List<DeliverySchedule.DeliveryList> ListOfDeliveries)
     {
-        private List<(CreatePackage package, DateTime deliveryTime)>DailyPackages;
-        private List<(CreatePackage package, DateTime deliveryTime)>WeeklyPackages;
+        private Dictionary<string, List<DeliveryList>> Calender = [];
+        private List<DeliveryList> YourDeliveryList = ListOfDeliveries;
+        private List<DeliveryList> PackageList = new();
 
-
-        public DeliverySchedule() 
+        public void CreateSchedule()
         {
-            DailyPackages = new List<(CreatePackage package, DateTime deliveryTime)>();
-            WeeklyPackages = new List<(CreatePackage package, DateTime deliveryTime)>();
-        }
-        public void addDailyPackages(CreatePackage package, DateTime time)
-        {
-            DailyPackages.Add((package, time));
-        }
-        public void addWeeklyPackages(CreatePackage package, DateTime time)
-        {
-            WeeklyPackages.Add((package, time));
+            int count = 1;
+            foreach (var i in ListOfDeliveries)
+            {
+                Calender.Add(i.Day,(PackageList));
+                count++;
+                
+            }
         }
 
-        public List<(CreatePackage, DateTime)> getDailyPackages()
+        public void SchedulePrint()
         {
-            return DailyPackages;
-        }
-        public List<(CreatePackage, DateTime)> getWeeklyPackages() 
-        {
-            return WeeklyPackages;
+            foreach(var i in Calender)
+            {
+                Console.WriteLine(i.Key);
+                foreach (var j in PackageList)
+                {
+                    Console.WriteLine(j.Day);
+                    if (i.Key == j.Day)
+                    {
+                        Console.WriteLine($"Id: {j.Packages.packageid} Name: {j.Packages.name} Type of goods: {j.Packages.goods}");
+
+                    }
+                }
+            }
         }
 
+
+        public class DeliveryList 
+        {
+            public string Day;
+            public CreatePackage Packages;
+            public DateTime DeliveryTime;
+            public int DeliveryType;
+        }
     }
 }
