@@ -23,7 +23,18 @@ namespace Ware
         public void SendFirstPackageToStorage()
         {
             storageConfiguration.PlacePackage(receivedPackages[0]);
+            {
+                if (receivedPackages.Count > 0)
+                {
+                    var firstPackage = receivedPackages[0];
+                    storageConfiguration.PlacePackage(firstPackage);
+
+                    receivedPackages.RemoveAt(0);
+                    Console.WriteLine($"Package {firstPackage.packageid} was sent to the warehouse and removed from the receiving list.");
+                }
+            }
         }
+
         public void SendAllPackagesToStorage()
         {
             foreach (var package in receivedPackages)
@@ -69,5 +80,7 @@ namespace Ware
             receivedPackages.Clear();
             return results;
         }
+
+
     }
 }
