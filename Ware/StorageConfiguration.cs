@@ -20,6 +20,7 @@ namespace Ware
         public string Shelfcategory = nameofstorage;
         public int Totalspace = totalspaceavailable;
         public List<WareHouseSizeConfig> Configfiles = configuresize;
+        public List<WareHouseTimeConfig> Configtime = configuretime;
         Dictionary<string, (string, string, double, double, bool)> yourWareList = [];
 
         /// <summary>
