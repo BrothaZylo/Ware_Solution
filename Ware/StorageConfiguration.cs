@@ -20,8 +20,7 @@ namespace Ware
         public string Shelfcategory = nameofstorage;
         public int Totalspace = totalspaceavailable;
         public List<WareHouseSizeConfig> Configfiles = configuresize;
-        public List<WareHouseTimeConfig> Configtime = configuretime;
-        public Dictionary<string, (string, string, double, double, bool)> yourWareList = [];
+        Dictionary<string, (string, string, double, double, bool)> yourWareList = [];
 
         /// <summary>
         /// Configures the time-progress from start to end-point.
@@ -62,9 +61,9 @@ namespace Ware
             int StorageCounter = 1;
             foreach(StorageConfiguration.WareHouseSizeConfig j in Configfiles)
             {
-                for(int k = 0; k < j.Totalunitsavailable; k++)
+                for (int k = 0; k < j.Totalunitsavailable; k++)
                 {
-                    yourWareList.Add(Shelfcategory+"ShelfID: " +StorageCounter,("PackageID: Empty","Type of storage: "+j.Sizename, j.Maxwidthcm, j.Maxheightcm, false));
+                    yourWareList.Add(Shelfcategory + "ShelfID: " + StorageCounter, ("PackageID: Empty", "Type of storage: " + j.Sizename, j.Maxwidthcm, j.Maxheightcm, false));
                     StorageCounter++;
                 }
             }
@@ -109,7 +108,7 @@ namespace Ware
         {
             foreach (KeyValuePair<string, (string, string, double, double, bool)> i in yourWareList)
             {
-                if(i.Value.Item1 == packageid)
+                if (i.Value.Item1 == packageid)
                 {
                     yourWareList[i.Key] = ("PackageID: Empty", i.Value.Item2, i.Value.Item3, i.Value.Item4, false);
                     return packageid;
@@ -127,7 +126,7 @@ namespace Ware
         {
             foreach(KeyValuePair<string, (string, string, double, double, bool)> i in yourWareList)
             {
-                if(i.Value.Item1 == package.packageid)
+                if (i.Value.Item1 == package.packageid)
                 {
                     yourWareList[i.Key] = ("PackageID: Empty", i.Value.Item2, i.Value.Item3, i.Value.Item4, false);
                     return package;
@@ -160,8 +159,8 @@ namespace Ware
             {
                 string[] keysplit = i.Key.Split(':');
                 string key1 = keysplit[0];
-                string yournumber = key1+": "+shelfnumber;
-                if(i.Key == yournumber)
+                string yournumber = key1 + ": " + shelfnumber;
+                if (i.Key == yournumber)
                 {
                     return yournumber;
                 }
@@ -181,7 +180,7 @@ namespace Ware
             {
                 if (i.Value.Item1 == packageid)
                 {
-                    item+=i;
+                    item += i;
                 }
             }
             return item;
