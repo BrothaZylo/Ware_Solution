@@ -6,14 +6,11 @@ using System.Threading.Tasks;
 
 namespace Ware
 {
-    public class PackageHistory
+    public class PackageHistory(Dictionary<CreatePackage, (DateTime DeliveryTime, DateTime PickupTime)> history)
     {
-        private Dictionary<CreatePackage, (DateTime DeliveryTime, DateTime PickupTime)> History;
+        private Dictionary<CreatePackage, (DateTime DeliveryTime, DateTime PickupTime)> History { get; set; } = history;
+        private (CreatePackage pacakge, DateTime time) value { get; set; }
 
-        public PackageHistory(Dictionary<CreatePackage, (DateTime DeliveryTime, DateTime PickupTime)> history)
-        {
-            History = history;
-        }
         // Adds deliverytime to a package
         public void DeliveryHistory(CreatePackage packages, DateTime deliveryTime)
         {
@@ -21,32 +18,21 @@ namespace Ware
             History.Add(packages, (deliveryTime, DateTime.MinValue));
         }
         // Adds pickuptime to a package
-        /*
         public void PickTime(CreatePackage package, DateTime pickupTime)
         {
             if (History.ContainsKey(package))
             {
-                var (deliveryTime, _) = History[package];
-                History[package] = (deliveryTime, pickupTime);
-            }
-        }*/
-
-        public void PickTime(CreatePackage package, DateTime pickupTime)
-        {
-            if (History.ContainsKey(package))
-            {
-                var packageHistory = History[package];
-                packageHistory.PickupTime = pickupTime;
+                (DateTime, DateTime) packageHistory = History[package];
+                packageHistory.Item2 = pickupTime;
                 History[package] = packageHistory;
             }
         }
 
-
-
         // Method recieves a list of packages that will get there delivery time registered
+        
         public void SeveralDelivery(List<CreatePackage> severalPackages, DateTime deliveryTime)
         {
-            foreach (var items in severalPackages)
+            foreach (CreatePackage items in severalPackages)
             {
                 DeliveryHistory(items, deliveryTime);
             }
@@ -54,11 +40,10 @@ namespace Ware
         // Method recieves a list of packages that will get there pickup time registered
         public void SeveralPickup(List<CreatePackage> severalPackages, DateTime deliveryTime)
         {
-            foreach (var items in severalPackages)
+            foreach (CreatePackage items in severalPackages)
             {
                 PickTime(items, deliveryTime);
             }
-
         }
 
 
@@ -71,8 +56,7 @@ namespace Ware
         // Prints out all package history
         public void AllHistoryInfo()
         {
-            var alllog = new Dictionary<CreatePackage, (DateTime DeliveryTime, DateTime PickupTime)>(History);
-            foreach (var items in alllog)
+            foreach (KeyValuePair<CreatePackage, (DateTime DeliveryTime, DateTime PickupTime)> items in History)
             {
                 Console.WriteLine($"ID: {items.Key.packageid}   " +
                     $"      Name: {items.Key.name}" +
@@ -87,15 +71,14 @@ namespace Ware
         // Returns info about a specific charachter
         public void OnePackageHistory(string packageId)
         {
-            List<(CreatePackage package, DateTime deliveryTime, DateTime pickupTime)> packageHistory = new List<(CreatePackage package, DateTime deliveryTime, DateTime pickupTime)>();
-            foreach (var item in History)
+            foreach (KeyValuePair<CreatePackage, (DateTime DeliveryTime, DateTime PickupTime)> item in History)
             {
                 CreatePackage checkPackage = item.Key;
 
 
                 if (checkPackage.packageid == packageId)
                 {
-                    Console.WriteLine($"{checkPackage.packageid}" +
+                    Console.WriteLine($"ID: {checkPackage.packageid}" +
                         $"      Name: {checkPackage.name}" +
                         $"      Type: {checkPackage.goods}" +
                         $"      Speed: {checkPackage.speed}" +
