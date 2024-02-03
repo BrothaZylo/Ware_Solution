@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO.IsolatedStorage;
 using System.Linq;
@@ -28,7 +29,7 @@ namespace Ware
             Sunday
         }
 
-        private Dictionary<DaysOfWeek, List<(CreatePackage, DateTime)>> calender;
+        private Dictionary<DaysOfWeek, List<(string,CreatePackage, DateTime, DateTime)>> calender;
         
         /// <summary>
         /// When creating a DeliverySchedule will it run PrepareDictinary() that will create 
@@ -41,49 +42,82 @@ namespace Ware
         /// <summary>
         /// When PrepareDictionary is called will it create a dictionary called calender and add the days monday-sunday
         /// as keys inside the dictionary with an empty list as its value
-        /// https://stackoverflow.com/questions/26160503/creating-dictionaries-with-pre-defined-keys-c-sharp
-        // Author visc
+        /// visc. “Creating Dictionaries with Pre-Defined Keys C#.” Stack Overflow, 2024,
+        /// stackoverflow.com/questions/26160503/creating-dictionaries-with-pre-defined-keys-c-sharp.
+        /// Author visc
         /// </summary>
         public void PrepareDictionary()
         {
-            calender = new Dictionary<DaysOfWeek, List<(CreatePackage, DateTime)>>();
+            calender = new Dictionary<DaysOfWeek, List<(string, CreatePackage, DateTime, DateTime)>>();
 
             foreach (DaysOfWeek day in Enum.GetValues(typeof(DaysOfWeek)))
             {
-                calender.Add(day, new List<(CreatePackage, DateTime)>());
+                calender.Add(day, new List<(string, CreatePackage, DateTime, DateTime)>());
             }
-            foreach (KeyValuePair<DaysOfWeek, List<(CreatePackage, DateTime)>> item in calender)
-            {
-                Console.WriteLine(item.Key);
-            }
+
         }
-        //https://stackoverflow.com/questions/14991688/adding-items-to-a-list-in-a-dictionary
-        //Author Steve
-        public void AddPackageToDay(DayOfWeek day, CreatePackage package,DateTime time)
+        /// <summary>
+        /// Checks for which day the package is coming in and adds package and time to the calender
+        /// </summary>
+        /// <param name="day">What day the package is coming</param>
+        /// <param name="package">The package being delivered</param>
+        /// <param name="time">The date and time it will arrive </param>
+        /// Steve. “Adding Items to a List in a Dictionary.” Stack Overflow, 2024,
+        /// stackoverflow.com/questions/14991688/adding-items-to-a-list-in-a-dictionary.
+        /// Author Steve
+        public void AddPackageToDay(string singleOrRepeating, DayOfWeek day, CreatePackage package,DateTime deliveryTime, DateTime pickupTime)
         {
             if (calender.ContainsKey((DaysOfWeek)day))
             {
-                calender[(DaysOfWeek)day].Add((package,time));
-            } 
+                calender[(DaysOfWeek)day-1].Add((singleOrRepeating, package, deliveryTime, pickupTime));
+            }
         }
-
-        public Dictionary<DaysOfWeek, List<(CreatePackage, DateTime)>> GetCalender()
+        /// <summary>
+        /// When run the method will remove all the packages that only arrive once and not repeated daily/weekly
+        /// </summary>
+        public void ClearSchedule()
         {
-            foreach (KeyValuePair<DaysOfWeek, List<(CreatePackage, DateTime)>> keys in calender)
+            List<(string, CreatePackage, DateTime, DateTime)> tmp = new List<(string, CreatePackage, DateTime, DateTime)>();
+            foreach (KeyValuePair<DaysOfWeek, List<(string, CreatePackage, DateTime, DateTime)>> days in calender)
             {
-                Console.WriteLine($"ID: {keys.Key}");
-                foreach ((CreatePackage, DateTime) items in keys.Value) 
+                
+                foreach ((string, CreatePackage, DateTime, DateTime) items in days.Value)
                 {
-                    Console.WriteLine($"ID: {items}   " +
-                    $"      Name: {items.Item1.packageid}" +
-                    $"      Type: {items.Item1.name}" +
-                    $"      Speed: {items.Item1.goods}");
+                    if (items.Item1 == "Single")
+                    {
+                        tmp.Add(items);
+                    }
+                }
+                foreach (var j in tmp)
+                {
+                    calender[days.Key].Remove(j);
+                }
+
+                tmp.Clear();      
+            }
+
+        }
+        /// <summary>
+        /// When run the method will print out the calender that contains the day it will be sent out and
+        /// the packages connected to the day.
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<DaysOfWeek, List<(string, CreatePackage, DateTime, DateTime)>> GetCalender()
+        {
+            foreach (KeyValuePair<DaysOfWeek, List<(string, CreatePackage, DateTime, DateTime)>> keys in calender)
+            {
+                Console.WriteLine($"Weekday: {keys.Key}");
+                foreach ((string, CreatePackage, DateTime, DateTime) items in keys.Value) 
+                {
+                    Console.WriteLine($"Single or Repeat: {items.Item1}   " +
+                    $"   Package ID: {items.Item2.packageid}" +
+                    $"   Delivery time: {items.Item3}" +
+                    $"   Pickup time: {items.Item4}");
 
                 }
             }
             return calender;
         }
-
     }
 
 }
