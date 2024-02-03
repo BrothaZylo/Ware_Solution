@@ -15,8 +15,8 @@ List<StorageConfiguration.WareHouseTimeConfig> configtime =
 
 List<StorageConfiguration.WareHouseSizeConfig> configlistrefig =
 [
-    new() { Sizename = "Tiny", Totalunitsavailable = 5, Maxheightcm = 10.5, Maxwidthcm = 10 },
-    new() { Sizename = "Large", Totalunitsavailable = 4, Maxheightcm = 30, Maxwidthcm = 30 }
+    new() { SizeName = "Tiny", TotalUnitsAvailable = 5, MaxHeightCm = 10.5, MaxWidthCm = 10 },
+    new() { SizeName = "Large", TotalUnitsAvailable = 4, MaxHeightCm = 30, MaxWidthCm = 30 }
 ];
 StorageConfiguration Refridgerated = new("Refridgerated", 25, configlistrefig, configtime);
 CreatePackage package4 = new("Dragon", "Refridgerated", "fast", 2, 10);
@@ -29,8 +29,8 @@ CreatePackage package1 = new("Potato", "Refridgerated", "fast", 20, 10);
 
 List<StorageConfiguration.WareHouseSizeConfig> configlistelec =
 [
-    new() { Sizename = "Tiny", Totalunitsavailable = 5, Maxheightcm = 10.5, Maxwidthcm = 10 },
-    new() { Sizename = "Large", Totalunitsavailable = 4, Maxheightcm = 30, Maxwidthcm = 30 }
+    new() { SizeName = "Tiny", TotalUnitsAvailable = 5, MaxHeightCm = 10.5, MaxWidthCm = 10 },
+    new() { SizeName = "Large", TotalUnitsAvailable = 4, MaxHeightCm = 30, MaxWidthCm = 30 }
 ];
 StorageConfiguration Electronics = new("Electronics", 25, configlistelec, configtime);
 CreatePackage package2 = new("Speakers", "Electronics", "fast", 10, 30);
@@ -41,8 +41,8 @@ CreatePackage package2 = new("Speakers", "Electronics", "fast", 10, 30);
 
 List<StorageConfiguration.WareHouseSizeConfig> configlistdang =
 [
-    new() { Sizename = "Tiny", Totalunitsavailable = 5, Maxheightcm = 10.5, Maxwidthcm = 10 },
-    new() { Sizename = "Large", Totalunitsavailable = 4, Maxheightcm = 30, Maxwidthcm = 30 }
+    new() { SizeName = "Tiny", TotalUnitsAvailable = 5, MaxHeightCm = 10.5, MaxWidthCm = 10 },
+    new() { SizeName = "Large", TotalUnitsAvailable = 4, MaxHeightCm = 30, MaxWidthCm = 30 }
 ];
 StorageConfiguration Dangerous = new("Dangerous", 25, configlistdang, configtime);
 CreatePackage package3 = new("Propane tank", "Dangerous", "fast", 3, 5);
@@ -53,8 +53,8 @@ CreatePackage package3 = new("Propane tank", "Dangerous", "fast", 3, 5);
 
 List<StorageConfiguration.WareHouseSizeConfig> configlistdry =
 [
-    new() { Sizename = "Tiny", Totalunitsavailable = 5, Maxheightcm = 10.5, Maxwidthcm = 10 },
-    new() { Sizename = "Large", Totalunitsavailable = 4, Maxheightcm = 30, Maxwidthcm = 30 }
+    new() { SizeName = "Tiny", TotalUnitsAvailable = 5, MaxHeightCm = 10.5, MaxWidthCm = 10 },
+    new() { SizeName = "Large", TotalUnitsAvailable = 4, MaxHeightCm = 30, MaxWidthCm = 30 }
 ];
 StorageConfiguration Dry = new("Dry goods", 25, configlistdry, configtime);
 CreatePackage package6 = new("Chips", "Dry goods", "fast", 15, 3);

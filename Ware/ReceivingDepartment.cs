@@ -44,7 +44,7 @@ namespace Ware
 
         public void SendAllPackagesToStorage()
         {
-            foreach (var package in receivedPackages)
+            foreach (CreatePackage package in receivedPackages)
             {
                 storageConfiguration.PlacePackage(package);
                 storageConfiguration.GetAllStorageInformationPrint();
@@ -52,7 +52,7 @@ namespace Ware
         }
         public void printlistpackage() 
         {
-            foreach (var package in receivedPackages) 
+            foreach (CreatePackage package in receivedPackages) 
             { 
                 Console.WriteLine(package);
             }
@@ -74,7 +74,7 @@ namespace Ware
         public List<string> SendPackagesToWarehouse()
         {
             List<string> results = new List<string>();
-            foreach (var package in receivedPackages)
+            foreach (CreatePackage package in receivedPackages)
             {
                 string result = storageConfiguration.PlacePackage(package);
                 int timeDeliveryToStorage = storageConfiguration.GetTimeDeliveryToStorage();

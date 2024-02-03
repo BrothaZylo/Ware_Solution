@@ -9,8 +9,8 @@ CreatePackage uu = new("Pæreboks", "kulvare", "treg", 91.3, 15.7);
 
 List<StorageConfiguration.WareHouseSizeConfig> configlist =
 [
-    new() { Sizename = "Tiny", Totalunitsavailable = 5, Maxheightcm = 10.5, Maxwidthcm = 10},
-    new() { Sizename = "Large", Totalunitsavailable = 4, Maxheightcm = 30, Maxwidthcm = 30 }
+    new() { SizeName = "Tiny", TotalUnitsAvailable = 5, MaxHeightCm = 10.5, MaxWidthCm = 10},
+    new() { SizeName = "Large", TotalUnitsAvailable = 4, MaxHeightCm = 30, MaxWidthCm = 30 }
 ];
 List<StorageConfiguration.WareHouseTimeConfig> configtime =
 [
