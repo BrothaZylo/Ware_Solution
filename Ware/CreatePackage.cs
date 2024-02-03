@@ -33,17 +33,5 @@ namespace Ware
             return trueid;
         }
 
-
-        public static CreatePackage SendToWareHouse(CreatePackage packet)
-        {
-            return packet;
-        }
-
-        public static List<CreatePackage> SendMultipleToWareHouse(List<CreatePackage> packetlist)
-        {
-            return packetlist;
-        }
-
-
     }
 }
