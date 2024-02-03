@@ -48,7 +48,7 @@ namespace Ware
         /// </summary>
         public void WareHouseConfigPrint()
         {
-            foreach (var Item in Configfiles)
+            foreach (StorageConfiguration.WareHouseSizeConfig Item in Configfiles)
             {
                 Console.WriteLine("StorageName: " + Item.Sizename + " TotalUnits: " + Item.Totalunitsavailable + " Max Length CM: " + Item.Maxheightcm + " Max Width CM: " + Item.Maxwidthcm);
             }
@@ -60,7 +60,7 @@ namespace Ware
         public void CreateStorage()
         {
             int StorageCounter = 1;
-            foreach(var j in Configfiles)
+            foreach(StorageConfiguration.WareHouseSizeConfig j in Configfiles)
             {
                 for(int k = 0; k < j.Totalunitsavailable; k++)
                 {
@@ -79,7 +79,7 @@ namespace Ware
         {
             double packagesizew = package.width;
             double packagesizeh = package.height;
-            foreach (var i in yourWareList)
+            foreach (KeyValuePair<string, (string, string, double, double, bool)> i in yourWareList)
             {
                 if (Shelfcategory == package.goods)
                 {
@@ -107,7 +107,7 @@ namespace Ware
         /// <returns>it will return the packageid if it finds the packackage, else it will return null</returns>
         public string MovePackageById(string packageid)
         {
-            foreach (var i in yourWareList)
+            foreach (KeyValuePair<string, (string, string, double, double, bool)> i in yourWareList)
             {
                 if(i.Value.Item1 == packageid)
                 {
@@ -125,7 +125,7 @@ namespace Ware
         /// <returns>if it find the package it will return the package, else it will return a nulled package format</returns>
         public CreatePackage MovePackage(CreatePackage package)
         {
-            foreach(var i in yourWareList)
+            foreach(KeyValuePair<string, (string, string, double, double, bool)> i in yourWareList)
             {
                 if(i.Value.Item1 == package.packageid)
                 {
@@ -143,7 +143,7 @@ namespace Ware
         /// </summary>
         public void GetAllStorageInformationPrint()
         {
-            foreach(var i in yourWareList)
+            foreach(KeyValuePair<string, (string, string, double, double, bool)> i in yourWareList)
             {
                 Console.WriteLine(i);
             }
@@ -156,7 +156,7 @@ namespace Ware
         /// <returns>Returns the shelf number else, it will return Does not exist</returns>
         public string GetStorageNameById(int shelfnumber)
         {
-            foreach(var i in yourWareList)
+            foreach(KeyValuePair<string, (string, string, double, double, bool)> i in yourWareList)
             {
                 string[] keysplit = i.Key.Split(':');
                 string key1 = keysplit[0];
@@ -177,7 +177,7 @@ namespace Ware
         public string FindPackageSectionById(string packageid)
         {
             string item = "";
-            foreach( var i in yourWareList)
+            foreach(KeyValuePair<string, (string, string, double, double, bool)> i in yourWareList)
             {
                 if (i.Value.Item1 == packageid)
                 {
@@ -196,7 +196,7 @@ namespace Ware
         {
             //change to int mby or not xd :)
             string item = "Does not exist";
-            foreach (var i in yourWareList)
+            foreach (KeyValuePair<string, (string, string, double, double, bool)> i in yourWareList)
             {
                 if (i.Value.Item1 == packageid)
                 {
@@ -213,7 +213,7 @@ namespace Ware
         /// <returns>returns true if taken, else false</returns>
         public bool IsSpotTaken(string storagename)
         {
-            foreach( var i in yourWareList)
+            foreach(KeyValuePair<string, (string, string, double, double, bool)> i in yourWareList)
             {
                 if (i.Key == storagename)
                 {
@@ -229,7 +229,7 @@ namespace Ware
         /// <returns>x amount of minutes, else 0</returns>
         public int GetTimeDeliveryToStorage()
         {
-            foreach (var i in Configtime)
+            foreach (StorageConfiguration.WareHouseTimeConfig i in Configtime)
             {
                 return i.TimeDeliveryToStorageMinutes;
             }
@@ -242,7 +242,7 @@ namespace Ware
         /// <returns>x amount of time, else 0</returns>
         public int GetTimeStorageToTerminal()
         {
-            foreach (var i in Configtime)
+            foreach (StorageConfiguration.WareHouseTimeConfig i in Configtime)
             {
                 return i.TimeStorageToTerminalMinutes;
             }
@@ -255,7 +255,7 @@ namespace Ware
         /// <returns></returns>
         public int GetTimeDeliveryToStorageSeconds()
         {
-            foreach (var i in Configtime)
+            foreach (StorageConfiguration.WareHouseTimeConfig i in Configtime)
             {
                 return i.TimeDeliveryToStorageMinutes*60;
             }
@@ -268,7 +268,7 @@ namespace Ware
         /// <returns></returns>
         public int GetTimeStorageToTerminalSeconds()
         {
-            foreach (var i in Configtime)
+            foreach (StorageConfiguration.WareHouseTimeConfig i in Configtime)
             {
                 return i.TimeStorageToTerminalMinutes*60;
             }
