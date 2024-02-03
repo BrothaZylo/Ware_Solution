@@ -5,7 +5,6 @@ using static Ware.DeliverySchedule;
 
 CreatePackage u = new("Hestesko", "kjølevare", "fast", 82.5, 43.4);
 CreatePackage uu = new("Pæreboks", "kulvare", "treg", 91.3, 15.7);
-CreatePackage u = new("Hestesko", "Frysevarer", "fast", 3, 5);
 
 List<StorageConfiguration.WareHouseSizeConfig> configlist =
 [
@@ -75,3 +74,4 @@ for(int i = 0; i < e.Count; i++)
 {
     Console.WriteLine(e[i].name);
 }
+*/
