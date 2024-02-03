@@ -1,11 +1,22 @@
 ﻿// See https://aka.ms/new-console-template for more information
+using System.Xml.Linq;
 using Ware;
 using static Ware.DeliverySchedule;
 
 CreatePackage u = new("Hestesko", "kjølevare", "fast", 82.5, 43.4);
 
-//Console.WriteLine(u.name);
-//Console.WriteLine(u.packageid);
+CreatePackage uu = new("Pæreboks", "kulvare", "treg", 91.3, 15.7);
+
+List<StorageConfiguration.WareHouseSizeConfig> configlist =
+[
+    new() { Sizename = "Tiny", Totalunitsavailable = 5, Maxheightcm = 10.5, Maxwidthcm = 10},
+    new() { Sizename = "Large", Totalunitsavailable = 4, Maxheightcm = 30, Maxwidthcm = 30 }
+];
+List<StorageConfiguration.WareHouseTimeConfig> configtime =
+[
+    new() { TimeDeliveryToStorageMinutes = 2, TimeStorageToTerminalMinutes = 2 }
+];
+
 
 PackageHistory packageHistory = new PackageHistory(new Dictionary<CreatePackage, (DateTime DeliveryTime, DateTime PickupTime)>());
 
@@ -57,6 +68,7 @@ deliverySchedule.SchedulePackages("Tuesday");
 */
 DeliverySchedule deliverySchedule = new DeliverySchedule();
 
+
 deliverySchedule.AddPackageToDay("Single",DayOfWeek.Monday, flammekaster, DateTime.Now, DateTime.Now.AddMinutes(10));
 deliverySchedule.AddPackageToDay("Single", DayOfWeek.Monday, iskrem, DateTime.Now, DateTime.Now.AddMinutes(130));
 deliverySchedule.AddPackageToDay("Single", DayOfWeek.Monday, u, DateTime.Now, DateTime.Now.AddMinutes(17));
@@ -68,3 +80,5 @@ deliverySchedule.GetCalender();
 //Console.WriteLine(deliverySchedule.GetCalender());
 
 deliverySchedule.ClearSchedule();
+
+
