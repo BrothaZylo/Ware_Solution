@@ -4,9 +4,17 @@ using static Ware.DeliverySchedule;
 
 CreatePackage u = new("Hestesko", "kjølevare", "fast", 82.5, 43.4);
 CreatePackage uu = new("Pæreboks", "kulvare", "treg", 91.3, 15.7);
+CreatePackage u = new("Hestesko", "Frysevarer", "fast", 3, 5);
 
-Console.WriteLine(u.name);
-Console.WriteLine(u.packageid);
+List<StorageConfiguration.WareHouseSizeConfig> configlist =
+[
+    new() { Sizename = "Tiny", Totalunitsavailable = 5, Maxheightcm = 10.5, Maxwidthcm = 10},
+    new() { Sizename = "Large", Totalunitsavailable = 4, Maxheightcm = 30, Maxwidthcm = 30 }
+];
+List<StorageConfiguration.WareHouseTimeConfig> configtime =
+[
+    new() { TimeDeliveryToStorageMinutes = 2, TimeStorageToTerminalMinutes = 2 }
+];
 
 PackageHistory packageHistory = new PackageHistory(new Dictionary<CreatePackage, (DateTime DeliveryTime, DateTime PickupTime)>());
 
