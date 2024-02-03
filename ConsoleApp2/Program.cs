@@ -80,5 +80,3 @@ deliverySchedule.GetCalender();
 //Console.WriteLine(deliverySchedule.GetCalender());
 
 deliverySchedule.ClearSchedule();
-
-

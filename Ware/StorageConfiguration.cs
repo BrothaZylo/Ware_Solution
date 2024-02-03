@@ -224,6 +224,25 @@ namespace Ware
         }
 
         /// <summary>
+        /// Checks if package good == warehouse goods
+        /// </summary>
+        /// <param name="package"></param>
+        /// <returns>returns true if package good == warehouse goods, else false</returns>
+        public bool IsSameTypeOfGoods(CreatePackage package)
+        {
+            foreach (KeyValuePair<string, (string, string, double, double, bool)> i in yourWareList)
+            {
+                string[] keysplit = i.Key.Split('S');
+                string key1 = keysplit[0];
+                if (key1 == package.goods)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
         /// It will find the time from Delivery To storageunit based from the config
         /// </summary>
         /// <returns>x amount of minutes, else 0</returns>

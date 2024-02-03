@@ -27,10 +27,17 @@ namespace Ware
                 if (receivedPackages.Count > 0)
                 {
                     CreatePackage firstPackage = receivedPackages[0];
-                    storageConfiguration.PlacePackage(firstPackage);
+                    if (storageConfiguration.IsSameTypeOfGoods(firstPackage))
+                    {
+                        storageConfiguration.PlacePackage(firstPackage);
+                        receivedPackages.RemoveAt(0);
+                        Console.WriteLine($"Package {firstPackage.packageid} was sent to the warehouse and removed from the receiving list.");
+                    }
+                    if (!storageConfiguration.IsSameTypeOfGoods(firstPackage))
+                    {
+                        Console.WriteLine($"Package {firstPackage.packageid} was not sent // please send to a warehouse with the same type of goods");
 
-                    receivedPackages.RemoveAt(0);
-                    Console.WriteLine($"Package {firstPackage.packageid} was sent to the warehouse and removed from the receiving list.");
+                    }
                 }
             }
         }

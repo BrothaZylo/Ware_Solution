@@ -22,14 +22,14 @@ namespace Ware
         /// <returns>Returnerer en unik Id til pakken.</returns>
         public static string GenerateId()
         {
-            var selection = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz123456789";
-            var newid = new char[15];
+            string selection = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz123456789";
+            char[] newid = new char[15];
             for (int i = 0; i < 15; i++)
             {
                 Random rand = new();
                 newid[i] = selection[rand.Next(selection.Length)];
             }
-            var trueid = new String(newid);
+            string trueid = new(newid);
             return trueid;
         }
 
