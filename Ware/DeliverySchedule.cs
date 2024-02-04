@@ -13,7 +13,7 @@ namespace Ware
     /// <summary>
     /// A class that creates a calender schedule for delivery
     /// </summary>
-    public class DeliverySchedule
+    public class DeliverySchedule : IDeliverySchedule
     {
         /// <summary>
         /// Creates an enum that will be used as keys for the calender/dictionary
