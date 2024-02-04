@@ -31,11 +31,11 @@ namespace Ware
                     {
                         storageConfiguration.PlacePackage(firstPackage);
                         receivedPackages.RemoveAt(0);
-                        Console.WriteLine($"Package {firstPackage.packageid} was sent to the warehouse and removed from the receiving list.");
+                        Console.WriteLine($"Package {firstPackage.PackageId} was sent to the warehouse and removed from the receiving list.");
                     }
                     if (!storageConfiguration.IsSameTypeOfGoods(firstPackage))
                     {
-                        Console.WriteLine($"Package {firstPackage.packageid} was not sent // please send to a warehouse with the same type of goods");
+                        Console.WriteLine($"Package {firstPackage.PackageId} was not sent // please send to a warehouse with the same type of goods");
 
                     }
                 }

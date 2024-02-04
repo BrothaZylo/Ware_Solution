@@ -58,11 +58,11 @@ namespace Ware
         {
             foreach (KeyValuePair<CreatePackage, (DateTime DeliveryTime, DateTime PickupTime)> items in History)
             {
-                Console.WriteLine($"ID: {items.Key.packageid}   " +
-                    $"      Name: {items.Key.name}" +
-                    $"      Type: {items.Key.goods}" +
-                    $"      Speed: {items.Key.speed}" +
-                    $"      Height: {items.Key.height}" +
+                Console.WriteLine($"ID: {items.Key.PackageId}   " +
+                    $"      Name: {items.Key.Name}" +
+                    $"      Type: {items.Key.Goods}" +
+                    $"      Speed: {items.Key.SpeedOfDelivery}" +
+                    $"      Height: {items.Key.Height}" +
                     $"      Time Arrived: {items.Value.DeliveryTime}" +
                     $"      Time Sent out: {items.Value.PickupTime}");
             }
@@ -76,13 +76,13 @@ namespace Ware
                 CreatePackage checkPackage = item.Key;
 
 
-                if (checkPackage.packageid == packageId)
+                if (checkPackage.PackageId == packageId)
                 {
-                    Console.WriteLine($"ID: {checkPackage.packageid}" +
-                        $"      Name: {checkPackage.name}" +
-                        $"      Type: {checkPackage.goods}" +
-                        $"      Speed: {checkPackage.speed}" +
-                        $"      Height: {checkPackage.height}" +
+                    Console.WriteLine($"ID: {checkPackage.PackageId}" +
+                        $"      Name: {checkPackage.Name}" +
+                        $"      Type: {checkPackage.Goods}" +
+                        $"      Speed: {checkPackage.SpeedOfDelivery}" +
+                        $"      Height: {checkPackage.Height}" +
                         $"      Time Arrived: {item.Value.DeliveryTime}" +
                         $"      Time Sent out{item.Value.PickupTime}");
                 }

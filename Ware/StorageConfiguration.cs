@@ -77,13 +77,13 @@ namespace Ware
         /// <returns></returns>
         public string PlacePackage(CreatePackage package)
         {
-            double packagesizew = package.width;
-            double packagesizeh = package.height;
+            double packagesizew = package.Hidth;
+            double packagesizeh = package.Height;
             foreach (KeyValuePair<string, (string, string, double, double, bool)> i in YourWareList)
             {
-                if (ShelfCategory == package.goods)
+                if (ShelfCategory == package.Goods)
                 {
-                    if (i.Value.Item1 == package.packageid)
+                    if (i.Value.Item1 == package.PackageId)
                     {
                         return "Package is already in storagehouse";
                     }
@@ -91,7 +91,7 @@ namespace Ware
                     {
                         if (packagesizew < i.Value.Item3 && packagesizeh < i.Value.Item4)
                         {
-                            YourWareList[i.Key] = (package.packageid, i.Value.Item2, i.Value.Item3, i.Value.Item4, true);
+                            YourWareList[i.Key] = (package.PackageId, i.Value.Item2, i.Value.Item3, i.Value.Item4, true);
                             return "Package was placed in: " + i.Key;
                         }
                     }
@@ -127,7 +127,7 @@ namespace Ware
         {
             foreach(KeyValuePair<string, (string, string, double, double, bool)> i in YourWareList)
             {
-                if (i.Value.Item1 == package.packageid)
+                if (i.Value.Item1 == package.PackageId)
                 {
                     YourWareList[i.Key] = ("PackageID: Empty", i.Value.Item2, i.Value.Item3, i.Value.Item4, false);
                     return package;
@@ -234,7 +234,7 @@ namespace Ware
             {
                 string[] keysplit = i.Key.Split('S');
                 string key1 = keysplit[0];
-                if (key1 == package.goods)
+                if (key1 == package.Goods)
                 {
                     return true;
                 }

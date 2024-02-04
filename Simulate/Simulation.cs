@@ -94,8 +94,8 @@ while (start!=1)
     terminal.GivingPackagesToDriver();
 
     Console.WriteLine();
-    Console.WriteLine(package6.packageid+" Was moved in " + Dry.GetTimeDeliveryToStorage() + " Minutes");
-    Console.WriteLine(package7.packageid+" Was moved in " + Dry.GetTimeDeliveryToStorage() + " Minutes");
+    Console.WriteLine(package6.PackageId+" Was moved in " + Dry.GetTimeDeliveryToStorage() + " Minutes");
+    Console.WriteLine(package7.PackageId+" Was moved in " + Dry.GetTimeDeliveryToStorage() + " Minutes");
     Console.WriteLine("");
 
     Dry.GetAllStorageInformationPrint();
