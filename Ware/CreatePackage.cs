@@ -15,7 +15,7 @@ namespace Ware
     public class CreatePackage(string packagename, string goodstype, string speedofdelivery, double packageheightCM, double packagewidthCM) : ICreatePackage
     {
         public string PackageId = GenerateId(), Name = packagename, Goods = goodstype, SpeedOfDelivery = speedofdelivery;
-        public double Height = packageheightCM, Hidth = packagewidthCM;
+        public double Height = packageheightCM, Width = packagewidthCM;
 
         /// <summary>
         /// En Id genereres til pakken.
@@ -76,7 +76,7 @@ namespace Ware
         /// <returns>width</returns>
         public double GetPackageWidth()
         {
-            return Hidth;
+            return Width;
         }
 
         /// <summary>

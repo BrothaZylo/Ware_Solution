@@ -18,8 +18,6 @@ List<StorageConfiguration.WareHouseTimeConfig> configtime =
 ];
 
 
-PackageHistory packageHistory = new PackageHistory(new Dictionary<CreatePackage, (DateTime DeliveryTime, DateTime PickupTime)>());
-
 CreatePackage iskrem = new CreatePackage("Iskrem", "kjølevare", "fast",43,4);
 CreatePackage flammekaster = new CreatePackage("Flammekaster", "Farlig gods", "fast", 89, 60);
 // Test for å legge til enkelte pakker
@@ -80,3 +78,18 @@ deliverySchedule.GetCalender();
 //Console.WriteLine(deliverySchedule.GetCalender());
 
 deliverySchedule.ClearSchedule();
+
+List<StorageConfiguration.WareHouseSizeConfig> configlistdry =
+[
+    new() { SizeName = "Tiny", TotalUnitsAvailable = 5, MaxHeightCm = 10.5, MaxWidthCm = 10 },
+    new() { SizeName = "Large", TotalUnitsAvailable = 4, MaxHeightCm = 30, MaxWidthCm = 30 }
+];
+StorageConfiguration Dry = new("Dry goods", 25, configlistdry, configtime);
+CreatePackage package6 = new("Chips", "Dry goods", "fast", 15, 3);
+CreatePackage package7 = new("Ost", "Dry goods", "fast", 7, 3);
+CreatePackage package8 = new("Moose", "Dry goods", "fast", 7, 3);
+Dry.CreateStorage();
+Dry.PlacePackage(package8);
+Dry.GetAllStorageInformationPrint();
+//
+Console.WriteLine(Dry.FindPackageById(package8.PackageId));

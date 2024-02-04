@@ -77,7 +77,7 @@ namespace Ware
         /// <returns></returns>
         public string PlacePackage(CreatePackage package)
         {
-            double packagesizew = package.Hidth;
+            double packagesizew = package.Width;
             double packagesizeh = package.Height;
             foreach (KeyValuePair<string, (string, string, double, double, bool)> i in YourWareList)
             {
