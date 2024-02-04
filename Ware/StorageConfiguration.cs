@@ -15,7 +15,7 @@ namespace Ware
     /// <param name="totalspaceavailable"></param>
     /// <param name="configuresize"></param>
     /// <param name="configuretime"></param>
-    public class StorageConfiguration(string nameofstorage, int totalspaceavailable, List<StorageConfiguration.WareHouseSizeConfig> configuresize, List<StorageConfiguration.WareHouseTimeConfig> configuretime) : IWareHouse
+    public class StorageConfiguration(string nameofstorage, int totalspaceavailable, List<StorageConfiguration.WareHouseSizeConfig> configuresize, List<StorageConfiguration.WareHouseTimeConfig> configuretime) : IStorageConfiguration
     {
         public string Shelfcategory = nameofstorage;
         public int Totalspace = totalspaceavailable;
