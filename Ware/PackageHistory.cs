@@ -10,12 +10,21 @@ using static Ware.DeliverySchedule;
 
 namespace Ware
 {
+    /// <summary>
+    /// The class will save when i package arrived to a location(the shelf, terminal.. etc)
+    /// </summary>
     public class PackageHistory
     {
         private Dictionary<string, List<(string, DateTime)>> PackageLog = new();
         private List<(string, DateTime)> LocationAndTime = new();
 
-        
+        /// <summary>
+        /// AddPackageLog() will check if the package already exist. If it dont then it will add the package as a key and its location and when it got there
+        /// if it already exists will the new location and when it got there be added to the package
+        /// </summary>
+        /// <param name="packageID">This is the id of the package object</param>
+        /// <param name="action">Tjis is the location it arrived at</param>
+        /// <returns></returns>
         public string AddPackageLog(string packageID, string action)
         {
             if (!PackageLog.ContainsKey(packageID))
@@ -31,7 +40,9 @@ namespace Ware
 
             return packageID + " Was logged";
         }
-
+        /// <summary>
+        /// This will print out all the packages and where they have been and when they got there
+        /// </summary>
         public void GetPackageLog()
         {
             foreach (KeyValuePair<string, List<(string, DateTime)>> keys in PackageLog)

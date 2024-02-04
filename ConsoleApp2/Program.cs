@@ -86,6 +86,8 @@ deliverySchedule.ClearSchedule();
 */
 PackageHistory packageHistory = new PackageHistory();
 
+DeliverySchedule deliverySchedule = new DeliverySchedule(packageHistory);
+
 Console.WriteLine(packageHistory.AddPackageLog(flammekaster.packageid,"Varehuset"));
 Console.WriteLine(packageHistory.AddPackageLog(flammekaster.packageid, "Hylla"));
 Console.WriteLine(packageHistory.AddPackageLog(flammekaster.packageid, "Truck"));
