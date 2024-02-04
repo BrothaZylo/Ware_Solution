@@ -106,3 +106,20 @@ while (start!=1)
     deliverySchedule.GetCalender();
     start = 1;
 }
+Console.WriteLine();
+PackageHistory packageHistory = new PackageHistory(new Dictionary<CreatePackage, (DateTime DeliveryTime, DateTime PickupTime)>());
+
+packageHistory.DeliveryHistory(package1, DateTime.Now);
+packageHistory.DeliveryHistory(package2, DateTime.Now);
+packageHistory.DeliveryHistory(package3, DateTime.Now);
+packageHistory.DeliveryHistory(package6, DateTime.Now);
+
+packageHistory.PickTime(package1, DateTime.Now.AddHours(2));
+packageHistory.PickTime(package2, DateTime.Now.AddHours(48));
+packageHistory.PickTime(package3, DateTime.Now.AddHours(24));
+packageHistory.PickTime(package6, DateTime.Now.AddHours(8));
+
+
+packageHistory.AllHistoryInfo();
+
+packageHistory.OnePackageHistory(package1.PackageId);

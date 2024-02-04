@@ -20,6 +20,9 @@ namespace Ware
             receivedPackages.Add(package);
         }
 
+        /// <summary>
+        /// Sends the first package in the list to storage then removes it from the list.
+        /// </summary>
         public void SendFirstPackageToStorage()
         {
             storageConfiguration.PlacePackage(receivedPackages[0]);
@@ -42,6 +45,9 @@ namespace Ware
             }
         }
 
+        /// <summary>
+        /// Sends all packages to storage.
+        /// </summary>
         public void SendAllPackagesToStorage()
         {
             foreach (CreatePackage package in receivedPackages)
@@ -50,6 +56,10 @@ namespace Ware
                 storageConfiguration.GetAllStorageInformationPrint();
             }
         }
+
+        /// <summary>
+        /// Prints the list of all received packages.
+        /// </summary>
         public void printlistpackage() 
         {
             foreach (CreatePackage package in receivedPackages) 
@@ -59,6 +69,10 @@ namespace Ware
 
         }
 
+        /// <summary>
+        /// Finds the time it takes from when recieved to it enters the storage.
+        /// </summary>
+        /// <returns>Represents the estimated time it took to get to storage.</returns>
         public string TravelTimeToStorage() 
         {
             string time = "Estimated time to Storage: ";
