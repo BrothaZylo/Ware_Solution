@@ -2,7 +2,6 @@
 
 using Ware;
 
-int start = 0;
 
 //
 List<StorageConfiguration.WareHouseTimeConfig> configtime =
@@ -68,24 +67,31 @@ DeliverySchedule deliverySchedule = new();
 ReceivingDepartment receivingDepartment = new(Dry);
 Dry.CreateStorage();
 
-while (start!=1)
+int timer = 0;
+
+while (timer!=60)
 {
-    deliverySchedule.AddPackageToDay("Single", DayOfWeek.Monday, package6, DateTime.Now, DateTime.Now.AddMinutes(10));
-    deliverySchedule.AddPackageToDay("Single", DayOfWeek.Monday, package7, DateTime.Now, DateTime.Now.AddMinutes(30));
-    deliverySchedule.AddPackageToDay("Repeating", DayOfWeek.Tuesday, package8, DateTime.Now, DateTime.Now.AddMinutes(40));
+    if (timer == 0)
+    {
+        deliverySchedule.AddPackageToDay("Single", DayOfWeek.Monday, package6, DateTime.Now, DateTime.Now.AddMinutes(10));
+        deliverySchedule.AddPackageToDay("Single", DayOfWeek.Monday, package7, DateTime.Now, DateTime.Now.AddMinutes(30));
+        deliverySchedule.AddPackageToDay("Repeating", DayOfWeek.Tuesday, package8, DateTime.Now, DateTime.Now.AddMinutes(40));
+        deliverySchedule.GetCalender();
+        receivingDepartment.ReceivePackage(package6);
+        receivingDepartment.ReceivePackage(package7);
+        receivingDepartment.ReceivePackage(package8);
+        Console.WriteLine("");
+    }
 
-    deliverySchedule.GetCalender();
-    Console.WriteLine("");
+    if (timer == 3)
+    {
+        receivingDepartment.SendFirstPackageToStorage();
+        receivingDepartment.SendFirstPackageToStorage();
+        receivingDepartment.SendFirstPackageToStorage();
+        Console.WriteLine();
+        Dry.GetAllStorageInformationPrint();
+    }
 
-
-    receivingDepartment.ReceivePackage(package6);
-    receivingDepartment.ReceivePackage(package7);
-    receivingDepartment.ReceivePackage(package8);
-    receivingDepartment.SendFirstPackageToStorage();
-    receivingDepartment.SendFirstPackageToStorage();
-    receivingDepartment.SendFirstPackageToStorage();
-    Console.WriteLine();
-    Dry.GetAllStorageInformationPrint();
 
     Console.WriteLine();
     terminal.AddPackage(Dry.MovePackage(package6));
@@ -94,8 +100,8 @@ while (start!=1)
     terminal.GivingPackagesToDriver();
 
     Console.WriteLine();
-    Console.WriteLine(package6.PackageId+" Was moved in " + Dry.GetTimeDeliveryToStorage() + " Minutes");
-    Console.WriteLine(package7.PackageId+" Was moved in " + Dry.GetTimeDeliveryToStorage() + " Minutes");
+    Console.WriteLine(package6.PackageId + " Was moved in " + Dry.GetTimeDeliveryToStorage() + " Minutes");
+    Console.WriteLine(package7.PackageId + " Was moved in " + Dry.GetTimeDeliveryToStorage() + " Minutes");
     Console.WriteLine("");
 
     Dry.GetAllStorageInformationPrint();
@@ -104,7 +110,12 @@ while (start!=1)
     Console.WriteLine("\nNext weeks Schedule:");
     deliverySchedule.ClearSchedule();
     deliverySchedule.GetCalender();
-    start = 1;
+
+    Thread.Sleep(1000);
+    TimeSpan delay = new TimeSpan(0, 0, 1);
+    Console.WriteLine("Timer "+timer);
+    Thread.Sleep(delay);
+    timer++;
 }
 Console.WriteLine();
 PackageHistory packageHistory = new PackageHistory(new Dictionary<CreatePackage, (DateTime DeliveryTime, DateTime PickupTime)>());
