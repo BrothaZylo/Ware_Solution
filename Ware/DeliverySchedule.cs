@@ -114,7 +114,7 @@ namespace Ware
                 foreach ((string, CreatePackage, DateTime, DateTime) items in keys.Value) 
                 {
                     Console.WriteLine($"Single or Repeat: {items.Item1}   " +
-                    $"   Package ID: {items.Item2.packageid}" +
+                    $"   Package ID: {items.Item2.PackageId}" +
                     $"   Delivery time: {items.Item3}" +
                     $"   Pickup time: {items.Item4}");
 

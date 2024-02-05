@@ -83,6 +83,7 @@ namespace Ware
 
                 // Method recieves a list of packages that will get there delivery time registered
 
+
                 public void SeveralDelivery(List<CreatePackage> severalPackages, DateTime deliveryTime)
                 {
                     foreach (CreatePackage items in severalPackages)
@@ -100,11 +101,13 @@ namespace Ware
                 }
 
 
+
                 // Returning history of all packages as a dictionary
                 public Dictionary<CreatePackage, (DateTime DeliveryTime, DateTime PickupTime)> AllHistoryAsADictionary()
                 {
                     return new Dictionary<CreatePackage, (DateTime DeliveryTime, DateTime PickupTime)>(History);
                 }
+
 
                 // Prints out all package history
                 public void AllHistoryInfo()
@@ -119,6 +122,17 @@ namespace Ware
                             $"      Time Arrived: {items.Value.DeliveryTime}" +
                             $"      Time Sent out: {items.Value.PickupTime}");
                     }
+
+                if (checkPackage.PackageId == packageId)
+                {
+                    Console.WriteLine($"ID: {checkPackage.PackageId}" +
+                        $"      Name: {checkPackage.Name}" +
+                        $"      Type: {checkPackage.Goods}" +
+                        $"      Speed: {checkPackage.SpeedOfDelivery}" +
+                        $"      Height: {checkPackage.Height}" +
+                        $"      Time Arrived: {item.Value.DeliveryTime}" +
+                        $"      Time Sent out{item.Value.PickupTime}");
+
                 }
 
                 // Returns info about a specific charachter

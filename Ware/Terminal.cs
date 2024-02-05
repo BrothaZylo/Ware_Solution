@@ -18,7 +18,7 @@ namespace Ware
         /// <param name="packages">A package object</param>
         public void AddPackage(CreatePackage packages)
         {
-            Console.WriteLine(packages.packageid + " was moved to the Terminal");
+            Console.WriteLine(packages.PackageId + " was moved to the Terminal");
             PackagesSentOut.Add(packages);
         }
         /// <summary>
@@ -28,7 +28,7 @@ namespace Ware
         {
             foreach (CreatePackage package in PackagesSentOut)
             {
-                Console.WriteLine($"{package.packageid}, {package.name} was transfered to the truckdriver");
+                Console.WriteLine($"{package.PackageId}, {package.Name} was transfered to the truckdriver");
             }
             PackagesSentOut.Clear();
         }

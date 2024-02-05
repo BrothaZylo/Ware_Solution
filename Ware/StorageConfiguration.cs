@@ -17,10 +17,10 @@ namespace Ware
     /// <param name="configuretime"></param>
     public class StorageConfiguration(string nameofstorage, int totalspaceavailable, List<StorageConfiguration.WareHouseSizeConfig> configuresize, List<StorageConfiguration.WareHouseTimeConfig> configuretime) : IStorageConfiguration
     {
-        public string Shelfcategory = nameofstorage;
-        public int Totalspace = totalspaceavailable;
-        public List<WareHouseSizeConfig> Configfiles = configuresize;
-        public List<WareHouseTimeConfig> Configtime = configuretime;
+        public string ShelfCategory = nameofstorage;
+        public int TotalSpace = totalspaceavailable;
+        public List<WareHouseSizeConfig> ConfigFiles = configuresize;
+        public List<WareHouseTimeConfig> ConfigTime = configuretime;
         Dictionary<string, (string, string, double, double, bool)> YourWareList = [];
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace Ware
         /// </summary>
         public void WareHouseConfigPrint()
         {
-            foreach (StorageConfiguration.WareHouseSizeConfig Item in Configfiles)
+            foreach (StorageConfiguration.WareHouseSizeConfig Item in ConfigFiles)
             {
                 Console.WriteLine("StorageName: " + Item.SizeName + " TotalUnits: " + Item.TotalUnitsAvailable + " Max Length CM: " + Item.MaxHeightCm + " Max Width CM: " + Item.MaxWidthCm);
             }
@@ -60,11 +60,11 @@ namespace Ware
         public void CreateStorage()
         {
             int StorageCounter = 1;
-            foreach(StorageConfiguration.WareHouseSizeConfig j in Configfiles)
+            foreach(StorageConfiguration.WareHouseSizeConfig j in ConfigFiles)
             {
                 for (int k = 0; k < j.TotalUnitsAvailable; k++)
                 {
-                    YourWareList.Add(Shelfcategory + "ShelfID: " + StorageCounter, ("PackageID: Empty", "Type of storage: " + j.SizeName, j.MaxWidthCm, j.MaxHeightCm, false));
+                    YourWareList.Add(ShelfCategory + "ShelfID: " + StorageCounter, ("PackageID: Empty", "Type of storage: " + j.SizeName, j.MaxWidthCm, j.MaxHeightCm, false));
                     StorageCounter++;
                 }
             }
@@ -77,13 +77,13 @@ namespace Ware
         /// <returns></returns>
         public string PlacePackage(CreatePackage package)
         {
-            double packagesizew = package.width;
-            double packagesizeh = package.height;
+            double packagesizew = package.Width;
+            double packagesizeh = package.Height;
             foreach (KeyValuePair<string, (string, string, double, double, bool)> i in YourWareList)
             {
-                if (Shelfcategory == package.goods)
+                if (ShelfCategory == package.Goods)
                 {
-                    if (i.Value.Item1 == package.packageid)
+                    if (i.Value.Item1 == package.PackageId)
                     {
                         return "Package is already in storagehouse";
                     }
@@ -91,7 +91,7 @@ namespace Ware
                     {
                         if (packagesizew < i.Value.Item3 && packagesizeh < i.Value.Item4)
                         {
-                            YourWareList[i.Key] = (package.packageid, i.Value.Item2, i.Value.Item3, i.Value.Item4, true);
+                            YourWareList[i.Key] = (package.PackageId, i.Value.Item2, i.Value.Item3, i.Value.Item4, true);
                             return "Package was placed in: " + i.Key;
                         }
                     }
@@ -127,7 +127,7 @@ namespace Ware
         {
             foreach(KeyValuePair<string, (string, string, double, double, bool)> i in YourWareList)
             {
-                if (i.Value.Item1 == package.packageid)
+                if (i.Value.Item1 == package.PackageId)
                 {
                     YourWareList[i.Key] = ("PackageID: Empty", i.Value.Item2, i.Value.Item3, i.Value.Item4, false);
                     return package;
@@ -234,7 +234,7 @@ namespace Ware
             {
                 string[] keysplit = i.Key.Split('S');
                 string key1 = keysplit[0];
-                if (key1 == package.goods)
+                if (key1 == package.Goods)
                 {
                     return true;
                 }
@@ -248,7 +248,7 @@ namespace Ware
         /// <returns>x amount of minutes, else 0</returns>
         public int GetTimeDeliveryToStorage()
         {
-            foreach (StorageConfiguration.WareHouseTimeConfig i in Configtime)
+            foreach (StorageConfiguration.WareHouseTimeConfig i in ConfigTime)
             {
                 return i.TimeDeliveryToStorageMinutes;
             }
@@ -261,7 +261,7 @@ namespace Ware
         /// <returns>x amount of time, else 0</returns>
         public int GetTimeStorageToTerminal()
         {
-            foreach (StorageConfiguration.WareHouseTimeConfig i in Configtime)
+            foreach (StorageConfiguration.WareHouseTimeConfig i in ConfigTime)
             {
                 return i.TimeStorageToTerminalMinutes;
             }
@@ -274,7 +274,7 @@ namespace Ware
         /// <returns></returns>
         public int GetTimeDeliveryToStorageSeconds()
         {
-            foreach (StorageConfiguration.WareHouseTimeConfig i in Configtime)
+            foreach (StorageConfiguration.WareHouseTimeConfig i in ConfigTime)
             {
                 return i.TimeDeliveryToStorageMinutes*60;
             }
@@ -287,7 +287,7 @@ namespace Ware
         /// <returns></returns>
         public int GetTimeStorageToTerminalSeconds()
         {
-            foreach (StorageConfiguration.WareHouseTimeConfig i in Configtime)
+            foreach (StorageConfiguration.WareHouseTimeConfig i in ConfigTime)
             {
                 return i.TimeStorageToTerminalMinutes*60;
             }

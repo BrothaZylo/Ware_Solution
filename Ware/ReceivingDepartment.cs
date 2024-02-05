@@ -20,6 +20,9 @@ namespace Ware
             receivedPackages.Add(package);
         }
 
+        /// <summary>
+        /// Sends the first package in the list to storage then removes it from the list.
+        /// </summary>
         public void SendFirstPackageToStorage()
         {
             storageConfiguration.PlacePackage(receivedPackages[0]);
@@ -31,17 +34,20 @@ namespace Ware
                     {
                         storageConfiguration.PlacePackage(firstPackage);
                         receivedPackages.RemoveAt(0);
-                        Console.WriteLine($"Package {firstPackage.packageid} was sent to the warehouse and removed from the receiving list.");
+                        Console.WriteLine($"Package {firstPackage.PackageId} was sent to the warehouse and removed from the receiving list.");
                     }
                     if (!storageConfiguration.IsSameTypeOfGoods(firstPackage))
                     {
-                        Console.WriteLine($"Package {firstPackage.packageid} was not sent // please send to a warehouse with the same type of goods");
+                        Console.WriteLine($"Package {firstPackage.PackageId} was not sent // please send to a warehouse with the same type of goods");
 
                     }
                 }
             }
         }
 
+        /// <summary>
+        /// Sends all packages to storage.
+        /// </summary>
         public void SendAllPackagesToStorage()
         {
             foreach (CreatePackage package in receivedPackages)
@@ -50,6 +56,10 @@ namespace Ware
                 storageConfiguration.GetAllStorageInformationPrint();
             }
         }
+
+        /// <summary>
+        /// Prints the list of all received packages.
+        /// </summary>
         public void printlistpackage() 
         {
             foreach (CreatePackage package in receivedPackages) 
@@ -59,6 +69,10 @@ namespace Ware
 
         }
 
+        /// <summary>
+        /// Finds the time it takes from when recieved to it enters the storage.
+        /// </summary>
+        /// <returns>Represents the estimated time it took to get to storage.</returns>
         public string TravelTimeToStorage() 
         {
             string time = "Estimated time to Storage: ";
