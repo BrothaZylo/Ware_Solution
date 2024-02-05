@@ -13,7 +13,7 @@ namespace Ware
     /// <summary>
     /// A class that creates a calender schedule for delivery
     /// </summary>
-    public class DeliverySchedule : IDeliverySchedule
+    public class DeliverySchedule : PackageHistory ,IDeliverySchedule
     {
         /// <summary>
         /// Creates an enum that will be used as keys for the calender/dictionary
@@ -61,7 +61,8 @@ namespace Ware
         /// </summary>
         /// <param name="day">What day the package is coming</param>
         /// <param name="package">The package being delivered</param>
-        /// <param name="time">The date and time it will arrive </param>
+        /// <param name="deliveryTime">The date and time it will arrive </param>
+        /// <param name="pickupTime">The date and time it will be picke up </param>
         /// Steve. “Adding Items to a List in a Dictionary.” Stack Overflow, 2024,
         /// stackoverflow.com/questions/14991688/adding-items-to-a-list-in-a-dictionary.
         /// Author Steve
@@ -70,6 +71,9 @@ namespace Ware
             if (calender.ContainsKey((DaysOfWeek)day))
             {
                 calender[(DaysOfWeek)day-1].Add((singleOrRepeating, package, deliveryTime, pickupTime));
+               
+                
+                
             }
         }
         /// <summary>

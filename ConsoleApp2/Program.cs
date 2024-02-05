@@ -1,4 +1,5 @@
 ﻿// See https://aka.ms/new-console-template for more information
+using System.Reflection.Metadata.Ecma335;
 using System.Xml.Linq;
 using Ware;
 using static Ware.DeliverySchedule;
@@ -16,6 +17,7 @@ List<StorageConfiguration.WareHouseTimeConfig> configtime =
 [
     new() { TimeDeliveryToStorageMinutes = 2, TimeStorageToTerminalMinutes = 2 }
 ];
+
 
 
 CreatePackage iskrem = new CreatePackage("Iskrem", "kjølevare", "fast",43,4);
@@ -64,6 +66,8 @@ deliverySchedule.AddPackage("Tuesday", flammekaster, DateTime.Now);
 deliverySchedule.SchedulePackages("Monday");
 deliverySchedule.SchedulePackages("Tuesday");
 */
+/*
+
 DeliverySchedule deliverySchedule = new DeliverySchedule();
 
 
@@ -78,6 +82,21 @@ deliverySchedule.GetCalender();
 //Console.WriteLine(deliverySchedule.GetCalender());
 
 deliverySchedule.ClearSchedule();
+
+*/
+PackageHistory packageHistory = new PackageHistory();
+
+DeliverySchedule deliverySchedule = new DeliverySchedule(packageHistory);
+
+Console.WriteLine(packageHistory.AddPackageLog(flammekaster.packageid,"Varehuset"));
+Console.WriteLine(packageHistory.AddPackageLog(flammekaster.packageid, "Hylla"));
+Console.WriteLine(packageHistory.AddPackageLog(flammekaster.packageid, "Truck"));
+Console.WriteLine(packageHistory.AddPackageLog(iskrem.packageid, "Varehuset"));
+Console.WriteLine(packageHistory.AddPackageLog(iskrem.packageid, "Hylla"));
+Console.WriteLine(packageHistory.AddPackageLog(iskrem.packageid, "Truck"));
+
+packageHistory.GetPackageLog();
+
 
 List<StorageConfiguration.WareHouseSizeConfig> configlistdry =
 [
