@@ -67,70 +67,69 @@ DeliverySchedule deliverySchedule = new();
 ReceivingDepartment receivingDepartment = new(Dry);
 Dry.CreateStorage();
 
+Console.WriteLine("The simulation will run for 10 days where 1 day is 1 second.");
+Console.WriteLine("");
+
+// må legge til flere pakker i cases.
 int timer = 0;
+int totalDays = 10;
+int currentDay = 1;
 
-while (timer!=60)
+while (currentDay <= totalDays)
 {
-    if (timer == 0)
+    Console.WriteLine($"Day {currentDay} of the simulation");
+
+    switch (currentDay)
     {
-        deliverySchedule.AddPackageToDay("Single", DayOfWeek.Monday, package6, DateTime.Now, DateTime.Now.AddMinutes(10));
-        deliverySchedule.AddPackageToDay("Single", DayOfWeek.Monday, package7, DateTime.Now, DateTime.Now.AddMinutes(30));
-        deliverySchedule.AddPackageToDay("Repeating", DayOfWeek.Tuesday, package8, DateTime.Now, DateTime.Now.AddMinutes(40));
-        deliverySchedule.GetCalender();
-        receivingDepartment.ReceivePackage(package6);
-        receivingDepartment.ReceivePackage(package7);
-        receivingDepartment.ReceivePackage(package8);
-        Console.WriteLine("");
+        case 1:
+
+            deliverySchedule.AddPackageToDay("Single", DayOfWeek.Monday, package6, DateTime.Now, DateTime.Now.AddMinutes(10));
+            deliverySchedule.AddPackageToDay("Single", DayOfWeek.Monday, package7, DateTime.Now, DateTime.Now.AddMinutes(30));
+            deliverySchedule.AddPackageToDay("Repeating", DayOfWeek.Monday, package8, DateTime.Now, DateTime.Now.AddMinutes(40));
+            deliverySchedule.GetCalender();
+            receivingDepartment.ReceivePackage(package6);
+            receivingDepartment.ReceivePackage(package7);
+            receivingDepartment.ReceivePackage(package8);
+            break;
+        case 2:
+            deliverySchedule.AddPackageToDay("Single", DayOfWeek.Tuesday, package3, DateTime.Now, DateTime.Now.AddMinutes(20));
+            deliverySchedule.GetCalender();
+            receivingDepartment.ReceivePackage(package3);
+            break;
+        case 3:
+            Console.WriteLine($"The Warehouse is quiet on day {currentDay}.");
+            break;
+        case 5:
+            // coinflip chance of earthquacke
+            Random random = new Random();
+            int chance = random.Next(1, 2);
+
+            if (chance == 1)
+            {
+                Console.WriteLine("Earthquake! RIP your warehouse is gone :D");
+                deliverySchedule.ClearSchedule();
+                Console.WriteLine("The staff celebartes their new upcoming holidays.");
+            }
+            else
+            {
+                Console.WriteLine("Somehow you feel very lucky that nothing happend on day 5 :)");
+            }
+            break;
+        case 10:
+            receivingDepartment.SendFirstPackageToStorage();
+            receivingDepartment.SendFirstPackageToStorage();
+            receivingDepartment.SendFirstPackageToStorage();
+            receivingDepartment.SendFirstPackageToStorage();
+            Dry.GetAllStorageInformationPrint();
+            break;
+
+        default:
+            Console.WriteLine($"Nothing happend on day {currentDay}.");
+            break;
     }
-
-    if (timer == 3)
-    {
-        receivingDepartment.SendFirstPackageToStorage();
-        receivingDepartment.SendFirstPackageToStorage();
-        receivingDepartment.SendFirstPackageToStorage();
-        Console.WriteLine();
-        Dry.GetAllStorageInformationPrint();
-    }
-
-
-    Console.WriteLine();
-    terminal.AddPackage(Dry.MovePackage(package6));
-    terminal.AddPackage(Dry.MovePackage(package7));
-    Console.WriteLine();
-    terminal.GivingPackagesToDriver();
-
-    Console.WriteLine();
-    Console.WriteLine(package6.PackageId + " Was moved in " + Dry.GetTimeDeliveryToStorage() + " Minutes");
-    Console.WriteLine(package7.PackageId + " Was moved in " + Dry.GetTimeDeliveryToStorage() + " Minutes");
-    Console.WriteLine("");
-
-    Dry.GetAllStorageInformationPrint();
-    Console.WriteLine();
-
-    Console.WriteLine("\nNext weeks Schedule:");
-    deliverySchedule.ClearSchedule();
-    deliverySchedule.GetCalender();
 
     Thread.Sleep(1000);
-    TimeSpan delay = new TimeSpan(0, 0, 1);
-    Console.WriteLine("Timer "+timer);
-    Thread.Sleep(delay);
-    timer++;
+    currentDay++;
 }
-Console.WriteLine();
-PackageHistory packageHistory = new PackageHistory(new Dictionary<CreatePackage, (DateTime DeliveryTime, DateTime PickupTime)>());
 
-packageHistory.DeliveryHistory(package1, DateTime.Now);
-packageHistory.DeliveryHistory(package2, DateTime.Now);
-packageHistory.DeliveryHistory(package3, DateTime.Now);
-packageHistory.DeliveryHistory(package6, DateTime.Now);
-
-packageHistory.PickTime(package1, DateTime.Now.AddHours(2));
-packageHistory.PickTime(package2, DateTime.Now.AddHours(48));
-packageHistory.PickTime(package3, DateTime.Now.AddHours(24));
-packageHistory.PickTime(package6, DateTime.Now.AddHours(8));
-
-
-packageHistory.AllHistoryInfo();
-
-packageHistory.OnePackageHistory(package1.PackageId);
+Console.WriteLine("Simulation ended.");

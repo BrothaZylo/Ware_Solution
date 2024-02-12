@@ -25,25 +25,25 @@ namespace Ware
         /// </summary>
         public void SendFirstPackageToStorage()
         {
-            storageConfiguration.PlacePackage(receivedPackages[0]);
+            if (receivedPackages.Count > 0)
             {
-                if (receivedPackages.Count > 0)
+                CreatePackage firstPackage = receivedPackages[0];
+                if (storageConfiguration.IsSameTypeOfGoods(firstPackage))
                 {
-                    CreatePackage firstPackage = receivedPackages[0];
-                    if (storageConfiguration.IsSameTypeOfGoods(firstPackage))
-                    {
-                        storageConfiguration.PlacePackage(firstPackage);
-                        receivedPackages.RemoveAt(0);
-                        Console.WriteLine($"Package {firstPackage.PackageId} was sent to the warehouse and removed from the receiving list.");
-                    }
-                    if (!storageConfiguration.IsSameTypeOfGoods(firstPackage))
-                    {
-                        Console.WriteLine($"Package {firstPackage.PackageId} was not sent // please send to a warehouse with the same type of goods");
+                    storageConfiguration.PlacePackage(firstPackage);
+                    receivedPackages.RemoveAt(0);
+                    Console.WriteLine($"Package {firstPackage.PackageId} was sent to the warehouse and removed from the receiving list.");
+                }
+                if (!storageConfiguration.IsSameTypeOfGoods(firstPackage))
+                {
+                    Console.WriteLine($"Package {firstPackage.PackageId} was not sent // please send to a warehouse with the same type of goods");
 
-                    }
                 }
             }
         }
+
+
+
 
         /// <summary>
         /// Sends all packages to storage.
