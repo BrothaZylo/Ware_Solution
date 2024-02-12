@@ -9,9 +9,11 @@ namespace Ware
 {
     internal interface IDeliverySchedule
     {
-        public void AddPackageToDay(string singleOrRepeating, DayOfWeek day, CreatePackage package, DateTime deliveryTime, DateTime pickupTime);
-        public void ClearSchedule();
-        public Dictionary<DaysOfWeek, List<(string, CreatePackage, DateTime, DateTime)>> GetCalender();
+        void AddPackageToDay(string singleOrRepeating, DayOfWeek day, CreatePackage package, DateTime deliveryTime, DateTime pickupTime);
+        void ClearSchedule();
+        Dictionary<DaysOfWeek, List<(string, CreatePackage, DateTime, DateTime)>> GetCalender();
+        bool HasPackagesThisDay(DayOfWeek day);
+        List<(string, CreatePackage, DateTime, DateTime)> GetPackagesForToday(DayOfWeek day);
 
     }
 }

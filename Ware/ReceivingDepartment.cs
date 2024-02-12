@@ -6,7 +6,7 @@ namespace Ware
     /// <summary>
     /// The reception of the packages and the times it takes are handled here.
     /// </summary>
-    public class ReceivingDepartment(StorageConfiguration warehouse)
+    public class ReceivingDepartment(StorageConfiguration warehouse) : IReceivingDepartment
     {
         private List<CreatePackage> receivedPackages = [];
         private List<CreatePackage> allPackages = [];
@@ -110,7 +110,7 @@ namespace Ware
         /// <summary>
         /// Returns a list of all recivived packages
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Returns a list of all recivived packages</returns>
         public List<CreatePackage> GetPackageList()
         {
             return receivedPackages;
@@ -118,7 +118,7 @@ namespace Ware
         /// <summary>
         /// Returns a list of all AllPackages
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Returns a list of all AllPackages</returns>
         public List<CreatePackage> GetAllPackages()
         {
             return allPackages;

@@ -74,7 +74,7 @@ namespace Ware
         /// Places the package in the storagehouse if the size && goodstype fits the slot.
         /// </summary>
         /// <param name="package"></param>
-        /// <returns></returns>
+        /// <returns>An option to know if its in storage or got placed in the storage</returns>
         public string PlacePackage(CreatePackage package)
         {
             double packagesizew = package.Width;
@@ -148,6 +148,10 @@ namespace Ware
                 Console.WriteLine(i);
             }
         }
+        /// <summary>
+        /// Returns the warehouse dictionary 
+        /// </summary>
+        /// <returns>warehouse dictionary </returns>
         public Dictionary<string, (string, string, double, double, bool)> GetAllStorageInformationAsDictionary()
         {
             return YourWareList;
@@ -275,7 +279,7 @@ namespace Ware
         /// <summary>
         /// It will find the time from Delivery To storageunit based from the config and converts it into seconds
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Get Time Delivery To Storage Seconds</returns>
         public int GetTimeDeliveryToStorageSeconds()
         {
             foreach (StorageConfiguration.WareHouseTimeConfig i in ConfigTime)
@@ -288,7 +292,7 @@ namespace Ware
         /// <summary>
         /// Finds the time it takes from storage to terminal based on config and converts it into seconds.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Time Storage To Terminal Seconds</returns>
         public int GetTimeStorageToTerminalSeconds()
         {
             foreach (StorageConfiguration.WareHouseTimeConfig i in ConfigTime)

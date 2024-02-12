@@ -23,7 +23,7 @@ namespace Ware
         /// <summary>
         /// Returns a list of packages in the terminal
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Returns a list of packages in the terminal</returns>
         public List<CreatePackage> GetPackagesInTerminal()
         {
             return PackagesSentOut;

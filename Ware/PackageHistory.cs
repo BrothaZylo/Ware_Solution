@@ -13,7 +13,7 @@ namespace Ware
     /// <summary>
     /// The class will save when i package arrived to a location(the shelf, terminal.. etc)
     /// </summary>
-    public class PackageHistory
+    public class PackageHistory : IPackageHistory
     {
         private Dictionary<string, List<(string, DateTime)>> PackageLog = new();
         private List<(string, DateTime)> LocationAndTime = new();
@@ -24,7 +24,7 @@ namespace Ware
         /// </summary>
         /// <param name="packageID">This is the id of the package object</param>
         /// <param name="action">Tjis is the location it arrived at</param>
-        /// <returns></returns>
+        /// <returns>returns that the package has been logged</returns>
         public string AddPackageLog(string packageID, string action)
         {
             if (!PackageLog.ContainsKey(packageID))
@@ -61,7 +61,7 @@ namespace Ware
         /// Finds package history of a single package
         /// </summary>
         /// <param name="id"></param>
-        /// <returns></returns>
+        /// <returns>a stringbuilder that contains the log of the package asked for</returns>
         public StringBuilder TrackPackage(string id)
         {
             StringBuilder stringBuilder = new System.Text.StringBuilder();

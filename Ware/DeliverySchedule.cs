@@ -105,7 +105,7 @@ namespace Ware
         /// When run the method will print out the calender that contains the day it will be sent out and
         /// the packages connected to the day.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Returns a Console write that tells us the days and what packages will come that day</returns>
         public Dictionary<DaysOfWeek, List<(string, CreatePackage, DateTime, DateTime)>> GetCalender()
         {
             foreach (KeyValuePair<DaysOfWeek, List<(string, CreatePackage, DateTime, DateTime)>> keys in calender)
@@ -129,7 +129,7 @@ namespace Ware
         /// stackoverflow.com/questions/9199080/how-to-get-the-integer-value-of-day-of-week.
         /// </summary>
         /// <param name="day"></param>
-        /// <returns></returns>
+        /// <returns>Returnt a bool that tells if the day contains anything</returns>
         public bool HasPackagesThisDay(DayOfWeek day)
         {
             DaysOfWeek deliveryDay = (DaysOfWeek)(int)day;
@@ -140,7 +140,7 @@ namespace Ware
         /// Returns a list of packages for that day
         /// </summary>
         /// <param name="day"></param>
-        /// <returns></returns>
+        /// <returns>returns the packages for the day asked for</returns>
         public List<(string, CreatePackage, DateTime, DateTime)> GetPackagesForToday(DayOfWeek day)
         {
             DaysOfWeek deliveryDay = (DaysOfWeek)(int)day;
