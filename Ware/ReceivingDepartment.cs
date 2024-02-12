@@ -9,6 +9,8 @@ namespace Ware
     public class ReceivingDepartment(StorageConfiguration warehouse)
     {
         private List<CreatePackage> receivedPackages = [];
+        private List<CreatePackage> allPackages = [];
+
         private StorageConfiguration storageConfiguration = warehouse;
 
         /// <summary>
@@ -18,6 +20,8 @@ namespace Ware
         public void ReceivePackage(CreatePackage package)
         {
             receivedPackages.Add(package);
+            allPackages.Add(package);
+
         }
 
         /// <summary>
@@ -101,7 +105,22 @@ namespace Ware
             receivedPackages.Clear();
             return results;
         }
-
+        /// <summary>
+        /// Returns a list of all recivived packages
+        /// </summary>
+        /// <returns></returns>
+        public List<CreatePackage> GetPackageList()
+        {
+            return receivedPackages;
+        }
+        /// <summary>
+        /// Returns a list of all AllPackages
+        /// </summary>
+        /// <returns></returns>
+        public List<CreatePackage> GetAllPackages()
+        {
+            return allPackages;
+        }
 
     }
 }

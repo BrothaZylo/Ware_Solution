@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO.IsolatedStorage;
 using System.Linq;
 using System.Security.Cryptography;
@@ -20,13 +21,14 @@ namespace Ware
         /// </summary>
         public enum DaysOfWeek
         {
+            Sunday,
             Monday,
             Tuesday,
             Wednesday,
             Thursday,
             Friday,
-            Saturday,
-            Sunday
+            Saturday
+            
         }
 
         private Dictionary<DaysOfWeek, List<(string,CreatePackage, DateTime, DateTime)>> calender;
@@ -46,7 +48,7 @@ namespace Ware
         /// stackoverflow.com/questions/26160503/creating-dictionaries-with-pre-defined-keys-c-sharp.
         /// Author visc
         /// </summary>
-        public void PrepareDictionary()
+        private void PrepareDictionary()
         {
             calender = new Dictionary<DaysOfWeek, List<(string, CreatePackage, DateTime, DateTime)>>();
 
@@ -70,9 +72,7 @@ namespace Ware
         {
             if (calender.ContainsKey((DaysOfWeek)day))
             {
-                calender[(DaysOfWeek)day-1].Add((singleOrRepeating, package, deliveryTime, pickupTime));
-               
-                
+                calender[(DaysOfWeek)day].Add((singleOrRepeating, package, deliveryTime, pickupTime));  
                 
             }
         }
@@ -122,6 +122,33 @@ namespace Ware
             }
             return calender;
         }
+        /// <summary>
+        /// Returns a boolean depending on if the day exists and of it contains any packages
+        /// 
+        /// Joe. “How to Get the Integer Value of Day of Week.” Stack Overflow, 2024,
+        /// stackoverflow.com/questions/9199080/how-to-get-the-integer-value-of-day-of-week.
+        /// </summary>
+        /// <param name="day"></param>
+        /// <returns></returns>
+        public bool HasPackagesThisDay(DayOfWeek day)
+        {
+            DaysOfWeek deliveryDay = (DaysOfWeek)(int)day;
+           
+            return calender.ContainsKey((DaysOfWeek)day) && calender[(DaysOfWeek)day].Any();
+        }
+        /// <summary>
+        /// Returns a list of packages for that day
+        /// </summary>
+        /// <param name="day"></param>
+        /// <returns></returns>
+        public List<(string, CreatePackage, DateTime, DateTime)> GetPackagesForToday(DayOfWeek day)
+        {
+            DaysOfWeek deliveryDay = (DaysOfWeek)(int)day;
+
+            return calender[deliveryDay];
+        }
+
+       
     }
 
 }

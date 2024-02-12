@@ -22,7 +22,7 @@ namespace Ware
         public List<WareHouseSizeConfig> ConfigFiles = configuresize;
         public List<WareHouseTimeConfig> ConfigTime = configuretime;
         Dictionary<string, (string, string, double, double, bool)> YourWareList = [];
-
+        
         /// <summary>
         /// Configures the time-progress from start to end-point.
         /// </summary>
@@ -147,6 +147,10 @@ namespace Ware
             {
                 Console.WriteLine(i);
             }
+        }
+        public Dictionary<string, (string, string, double, double, bool)> GetAllStorageInformationAsDictionary()
+        {
+            return YourWareList;
         }
 
         /// <summary>

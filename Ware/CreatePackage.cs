@@ -18,9 +18,9 @@ namespace Ware
         public double Height = packageheightCM, Width = packagewidthCM;
 
         /// <summary>
-        /// En Id genereres til pakken.
+        /// Generates an ID for the package
         /// </summary>
-        /// <returns>Returnerer en unik Id til pakken.</returns>
+        /// <returns>Returns a a uni.</returns>
         private static string GenerateId()
         {
             string selection = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz123456789";
