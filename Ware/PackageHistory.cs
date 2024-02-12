@@ -51,7 +51,9 @@ namespace Ware
                 foreach ((string, DateTime) items in keys.Value)
                 {
                     Console.WriteLine($"{items.Item1} {items.Item2}");
+                    
                 }
+                Console.WriteLine();
             }
         
         }

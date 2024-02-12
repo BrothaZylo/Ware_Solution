@@ -58,7 +58,9 @@ namespace Ware
             {
                 storageConfiguration.PlacePackage(package);
                 storageConfiguration.GetAllStorageInformationPrint();
+                
             }
+            receivedPackages.Clear();
         }
 
         /// <summary>

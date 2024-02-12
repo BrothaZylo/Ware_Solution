@@ -67,9 +67,16 @@ List<StorageConfiguration.WareHouseSizeConfig> configListDryGoods =
 StorageConfiguration DryGoods = new("Dry", 25, configListDangerous, configtime);
 
 
-CreatePackage package10 = new("Propane tank", "Dry", "fast", 3, 5);
-CreatePackage package11 = new("Propane tank", "Dry", "fast", 3, 5);
-CreatePackage package12 = new("Propane tank", "Dry", "fast", 3, 5);
+CreatePackage package10 = new("1 tank", "Dry", "fast", 3, 5);
+CreatePackage package11 = new("2 tank", "Dry", "fast", 3, 5);
+CreatePackage package12 = new("3 tank", "Dry", "fast", 3, 5);
+CreatePackage package13 = new("4 tank", "Dry", "fast", 3, 5);
+CreatePackage package14 = new("5 tank", "Dry", "fast", 3, 5);
+CreatePackage package15 = new("6 tank", "Dry", "fast", 3, 5);
+CreatePackage package16 = new("7 tank", "Dry", "fast", 3, 5);
+CreatePackage package17 = new("8 tank", "Dry", "fast", 3, 5);
+CreatePackage package18 = new("8 tank", "Dry", "fast", 3, 5);
+
 
 
 /**************************************************************/
@@ -92,9 +99,17 @@ deliverySchedule.AddPackageToDay("Single", DayOfWeek.Wednesday, package8, DateTi
 deliverySchedule.AddPackageToDay("Single", DayOfWeek.Wednesday, package9, DateTime.Now.AddHours(9), DateTime.Now.AddHours(24));
 */
 
-deliverySchedule.AddPackageToDay("Single", DayOfWeek.Thursday, package10, DateTime.Now.AddHours(120), DateTime.Now.AddHours(340));
-deliverySchedule.AddPackageToDay("Single", DayOfWeek.Thursday, package11, DateTime.Now.AddHours(120), DateTime.Now.AddHours(340));
-deliverySchedule.AddPackageToDay("Single", DayOfWeek.Thursday, package12, DateTime.Now.AddHours(120), DateTime.Now.AddHours(340));
+// To add packages you have to create new package objects and then add it to the schedule
+// Hvis du bruker repeating blir det jordskjelv, så hold unna :)
+
+deliverySchedule.AddPackageToDay("Single", DayOfWeek.Monday, package10, DateTime.Now.AddHours(120), DateTime.Now.AddHours(340));
+deliverySchedule.AddPackageToDay("Single", DayOfWeek.Tuesday, package11, DateTime.Now.AddHours(120), DateTime.Now.AddHours(340));
+deliverySchedule.AddPackageToDay("Single", DayOfWeek.Wednesday, package12, DateTime.Now.AddHours(120), DateTime.Now.AddHours(340));
+deliverySchedule.AddPackageToDay("Single", DayOfWeek.Thursday, package13, DateTime.Now.AddHours(120), DateTime.Now.AddHours(340));
+deliverySchedule.AddPackageToDay("Single", DayOfWeek.Thursday, package14, DateTime.Now.AddHours(120), DateTime.Now.AddHours(340));
+deliverySchedule.AddPackageToDay("Single", DayOfWeek.Friday, package15, DateTime.Now.AddHours(120), DateTime.Now.AddHours(340));
+deliverySchedule.AddPackageToDay("Single", DayOfWeek.Saturday, package16, DateTime.Now.AddHours(120), DateTime.Now.AddHours(340));
+deliverySchedule.AddPackageToDay("Single", DayOfWeek.Sunday, package17, DateTime.Now.AddHours(120), DateTime.Now.AddHours(340));
 
 
 
@@ -105,11 +120,16 @@ Terminal terminal = new Terminal();
 PackageHistory packageHistory = new PackageHistory();
 
 DateTime startDate = DateTime.Today;
-DateTime endDate = DateTime.Today.AddDays(4);
+DateTime endDate = DateTime.Today.AddDays(100); // maks 9 dager
+
+int counter = 0;
 
 while (startDate < endDate)
 {
-
+    if (counter == 6)
+    {
+        deliverySchedule.ClearSchedule();
+    }
     if(deliverySchedule.HasPackagesThisDay(startDate.DayOfWeek))
     {
         Console.WriteLine($"Packages at : {startDate.ToString("dd-MM-yyyy")}");
@@ -118,10 +138,12 @@ while (startDate < endDate)
         foreach(var package in packages)
         {
             receivingDepartmentForDryGoods.ReceivePackage(package.Item2);
-            packageHistory.AddPackageLog(package.Item2.PackageId, "Reciving department");
+            packageHistory.AddPackageLog(package.Item2.PackageId, "Reciving department" );
+            
+            
             
         }
-        Thread.Sleep(2000);
+        Thread.Sleep(1000);
         TimeSpan delay = new TimeSpan(0, 0, 1);
         Thread.Sleep(delay);
         // Store the packages
@@ -132,7 +154,7 @@ while (startDate < endDate)
             packageHistory.AddPackageLog(package.PackageId, "Storage/Shelf");
         }
         receivingDepartmentForDryGoods.SendAllPackagesToStorage();
-        Thread.Sleep(2000);
+        Thread.Sleep(1000);
         Thread.Sleep(delay);
 
 
@@ -147,13 +169,14 @@ while (startDate < endDate)
                 {
                     terminal.AddPackage(packagee);
                     packageHistory.AddPackageLog(package.Item1, "Before delivery/Terminal");
+                    Console.WriteLine();
 
                     DryGoods.MovePackageById(packagee.PackageId);
 
                 }
             }
         }
-        Thread.Sleep(2000);
+        Thread.Sleep(1000);
         Thread.Sleep(delay);
 
         // Giving packages to delviery
@@ -161,12 +184,14 @@ while (startDate < endDate)
         foreach (var package in packagesInTerminal)
         {
             packageHistory.AddPackageLog(package.PackageId, "Sent out / Delivered");
+
         }
         terminal.RemoveAllPackages();
-        Thread.Sleep(2000);
+        Thread.Sleep(1000);
         Thread.Sleep(delay);
     }
     startDate = startDate.AddDays(1);
+    counter++;
     
 }
 
