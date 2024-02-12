@@ -109,7 +109,7 @@ deliverySchedule.AddPackageToDay("Single", DayOfWeek.Thursday, package13, DateTi
 deliverySchedule.AddPackageToDay("Single", DayOfWeek.Thursday, package14, DateTime.Now.AddHours(120), DateTime.Now.AddHours(340));
 deliverySchedule.AddPackageToDay("Single", DayOfWeek.Friday, package15, DateTime.Now.AddHours(120), DateTime.Now.AddHours(340));
 deliverySchedule.AddPackageToDay("Single", DayOfWeek.Saturday, package16, DateTime.Now.AddHours(120), DateTime.Now.AddHours(340));
-deliverySchedule.AddPackageToDay("Single", DayOfWeek.Sunday, package17, DateTime.Now.AddHours(120), DateTime.Now.AddHours(340));
+deliverySchedule.AddPackageToDay("Repeating", DayOfWeek.Sunday, package17, DateTime.Now.AddHours(120), DateTime.Now.AddHours(340));
 
 
 
@@ -120,12 +120,13 @@ Terminal terminal = new Terminal();
 PackageHistory packageHistory = new PackageHistory();
 
 DateTime startDate = DateTime.Today;
-DateTime endDate = DateTime.Today.AddDays(100); // maks 9 dager
+DateTime endDate = DateTime.Today.AddDays(7); // maks 7 dager :)
 
 int counter = 0;
 
 while (startDate < endDate)
 {
+    deliverySchedule.GetCalender();
     if (counter == 6)
     {
         deliverySchedule.ClearSchedule();
@@ -138,10 +139,7 @@ while (startDate < endDate)
         foreach(var package in packages)
         {
             receivingDepartmentForDryGoods.ReceivePackage(package.Item2);
-            packageHistory.AddPackageLog(package.Item2.PackageId, "Reciving department" );
-            
-            
-            
+            packageHistory.AddPackageLog(package.Item2.PackageId, "Reciving department" );    
         }
         Thread.Sleep(1000);
         TimeSpan delay = new TimeSpan(0, 0, 1);
@@ -194,7 +192,7 @@ while (startDate < endDate)
     counter++;
     
 }
-
+Console.WriteLine(packageHistory.TrackPackage(package10.PackageId));
 packageHistory.GetPackageLog();
 Console.WriteLine("Simulation ended");
 

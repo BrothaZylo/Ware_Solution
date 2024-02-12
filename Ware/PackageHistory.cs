@@ -57,10 +57,28 @@ namespace Ware
             }
         
         }
-        public List<(string, DateTime)> GetLocationAndTime()
+        /// <summary>
+        /// Finds package history of a single package
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public StringBuilder TrackPackage(string id)
         {
-            return LocationAndTime;
+            StringBuilder stringBuilder = new System.Text.StringBuilder();
+            foreach (KeyValuePair<string, List<(string, DateTime)>> keys in PackageLog)
+            {
+                if (keys.Key == id)
+                {
+                    foreach ((string, DateTime) items in keys.Value)
+                    {
+                        stringBuilder.Append($"PackageID : {keys.Key} {items.Item1} {items.Item2}\n");
+                    } 
+                }
+            }
+            return stringBuilder;
         }
+
+
         /*
         public class PackageHistory(Dictionary<CreatePackage, (DateTime DeliveryTime, DateTime PickupTime)> history)
         {
