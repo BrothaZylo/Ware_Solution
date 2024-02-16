@@ -29,9 +29,25 @@ namespace Ware
             return PackagesSentOut;
         }
         /// <summary>
+        /// Sends out a specific package and removes from list
+        /// </summary>
+        /// <param name="package">A package object</param>
+        public void SendPakcage(CreatePackage package)
+        {
+            foreach (CreatePackage p in PackagesSentOut)
+            {
+                if (PackagesSentOut.Contains(package))
+                {
+                    PackagesSentOut.Remove(p);
+                }
+            }
+        }
+
+
+        /// <summary>
         /// Clears all the packages in terminal
         /// </summary>
-        public void RemoveAllPackages()
+        public void ClearPackages()
         {
             PackagesSentOut.Clear();
         }

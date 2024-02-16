@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 namespace Ware
 {
     /// <summary>
-    /// Preconfig of the storageunits wich will later be used to create shelves.
+    /// Preconfig of the storageunits which will later be used to create shelves.
     /// </summary>
-    /// <param name="nameofstorage"></param>
-    /// <param name="totalspaceavailable"></param>
-    /// <param name="configuresize"></param>
-    /// <param name="configuretime"></param>
+    /// <param name="nameofstorage">Name of the storage</param>
+    /// <param name="totalspaceavailable">Total space available in shelf</param>
+    /// <param name="configuresize">Shelf size list config</param>
+    /// <param name="configuretime">Travel time within the area list config</param>
     public class StorageConfiguration(string nameofstorage, int totalspaceavailable, List<StorageConfiguration.WareHouseSizeConfig> configuresize, List<StorageConfiguration.WareHouseTimeConfig> configuretime) : IStorageConfiguration
     {
         public string ShelfCategory = nameofstorage;
@@ -46,7 +46,7 @@ namespace Ware
         /// <summary>
         /// Prints the diffrent Size configs for each size created.
         /// </summary>
-        public void WareHouseConfigPrint()
+        public void SizeConfigPrint()
         {
             foreach (StorageConfiguration.WareHouseSizeConfig Item in ConfigFiles)
             {
@@ -73,7 +73,7 @@ namespace Ware
         /// <summary>
         /// Places the package in the storagehouse if the size && goodstype fits the slot.
         /// </summary>
-        /// <param name="package"></param>
+        /// <param name="package">A Package</param>
         /// <returns>An option to know if its in storage or got placed in the storage</returns>
         public string PlacePackage(CreatePackage package)
         {
@@ -103,7 +103,7 @@ namespace Ware
         /// <summary>
         /// inputting the packageid will remove the package from the shelf its placed.
         /// </summary>
-        /// <param name="packageid"></param>
+        /// <param name="packageid">A Package</param>
         /// <returns>it will return the packageid if it finds the packackage, else it will return null</returns>
         public string MovePackageById(string packageid)
         {
@@ -121,7 +121,7 @@ namespace Ware
         /// <summary>
         /// Moves the package from the shelf and returns the it in package format.
         /// </summary>
-        /// <param name="package"></param>
+        /// <param name="package">A package</param>
         /// <returns>if it find the package it will return the package, else it will return a nulled package format</returns>
         public CreatePackage MovePackage(CreatePackage package)
         {
@@ -160,7 +160,7 @@ namespace Ware
         /// <summary>
         /// Entering the storage unit's number it will search for the units nr.
         /// </summary>
-        /// <param name="shelfnumber"></param>
+        /// <param name="shelfnumber">ShelfID number</param>
         /// <returns>Returns the shelf number else, it will return Does not exist</returns>
         public string GetStorageNameById(int shelfnumber)
         {
@@ -180,7 +180,7 @@ namespace Ware
         /// <summary>
         /// It will find the shelf where the packageid is located.
         /// </summary>
-        /// <param name="packageid"></param>
+        /// <param name="packageid">A package</param>
         /// <returns>Returns the section of set package id is located, else returns nothing</returns>
         public string FindPackageSectionById(string packageid)
         {
@@ -198,11 +198,10 @@ namespace Ware
         /// <summary>
         /// Finds the package location by using the id
         /// </summary>
-        /// <param name="packageid"></param>
+        /// <param name="packageid">A package</param>
         /// <returns>The shelf its placed at, else will return Does not exist</returns>
         public string FindPackageById(string packageid)
         {
-            //change to int mby or not xd :)
             string item = "Does not exist";
             foreach (KeyValuePair<string, (string, string, double, double, bool)> i in YourWareList)
             {
@@ -217,7 +216,7 @@ namespace Ware
         /// <summary>
         /// It checks if the spot is taken by another package
         /// </summary>
-        /// <param name="storagename"></param>
+        /// <param name="storagename">Name of storage</param>
         /// <returns>returns true if taken, else false</returns>
         public bool IsSpotTaken(string storagename)
         {
@@ -232,10 +231,10 @@ namespace Ware
         }
 
         /// <summary>
-        /// Checks if package good == warehouse goods
+        /// Checks if package type is the same as the one in the storage unit
         /// </summary>
         /// <param name="package"></param>
-        /// <returns>returns true if package good == warehouse goods, else false</returns>
+        /// <returns>returns true if package type is the same as the one in the storage unit, else false</returns>
         public bool IsSameTypeOfGoods(CreatePackage package)
         {
             foreach (KeyValuePair<string, (string, string, double, double, bool)> i in YourWareList)

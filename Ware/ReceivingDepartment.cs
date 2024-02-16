@@ -66,7 +66,7 @@ namespace Ware
         /// <summary>
         /// Prints the list of all received packages.
         /// </summary>
-        public void printlistpackage() 
+        public void GetAllPackagePrint() 
         {
             foreach (CreatePackage package in receivedPackages) 
             { 
@@ -91,6 +91,8 @@ namespace Ware
         /// The packages are sent to the warehouse and return a list of the packages' results.
         /// </summary>
         /// <returns>List of strings that assign the result to the location of each package in the warehouse.</returns>
+        
+        /*
         public List<string> SendPackagesToWarehouse()
         {
             List<string> results = new List<string>();
@@ -107,6 +109,7 @@ namespace Ware
             receivedPackages.Clear();
             return results;
         }
+        */
         /// <summary>
         /// Returns a list of all recivived packages
         /// </summary>

@@ -10,7 +10,7 @@ namespace Ware
     {
         void AddPackage(CreatePackage packages);
         List<CreatePackage> GetPackagesInTerminal();
-        void RemoveAllPackages();
+        void ClearPackages();
 
     }
 }

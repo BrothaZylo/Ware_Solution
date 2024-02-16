@@ -14,10 +14,10 @@ namespace Ware
     /// <summary>
     /// A class that creates a calender schedule for delivery
     /// </summary>
-    public class DeliverySchedule : PackageHistory ,IDeliverySchedule
+    public class DeliverySchedule : IDeliverySchedule
     {
         /// <summary>
-        /// Creates an enum that will be used as keys for the calender/dictionary
+        /// Creates an enum containing the days sunday to saturday that will be used as keys for the calender/dictionary
         /// </summary>
         public enum DaysOfWeek
         {
@@ -68,7 +68,7 @@ namespace Ware
         /// Steve. “Adding Items to a List in a Dictionary.” Stack Overflow, 2024,
         /// stackoverflow.com/questions/14991688/adding-items-to-a-list-in-a-dictionary.
         /// Author Steve
-        public void AddPackageToDay(string singleOrRepeating, DayOfWeek day, CreatePackage package,DateTime deliveryTime, DateTime pickupTime)
+        public void AddPackage(string singleOrRepeating, DayOfWeek day, CreatePackage package,DateTime deliveryTime, DateTime pickupTime)
         {
             if (calender.ContainsKey((DaysOfWeek)day))
             {
@@ -106,7 +106,7 @@ namespace Ware
         /// the packages connected to the day.
         /// </summary>
         /// <returns>Returns a Console write that tells us the days and what packages will come that day</returns>
-        public Dictionary<DaysOfWeek, List<(string, CreatePackage, DateTime, DateTime)>> GetCalender()
+        public Dictionary<DaysOfWeek, List<(string, CreatePackage, DateTime, DateTime)>> GetSchedule()
         {
             foreach (KeyValuePair<DaysOfWeek, List<(string, CreatePackage, DateTime, DateTime)>> keys in calender)
             {
@@ -128,20 +128,20 @@ namespace Ware
         /// Joe. “How to Get the Integer Value of Day of Week.” Stack Overflow, 2024,
         /// stackoverflow.com/questions/9199080/how-to-get-the-integer-value-of-day-of-week.
         /// </summary>
-        /// <param name="day"></param>
+        /// <param name="day">Day of week</param>
         /// <returns>Returnt a bool that tells if the day contains anything</returns>
-        public bool HasPackagesThisDay(DayOfWeek day)
+        public bool CheckDay(DayOfWeek day)
         {
             DaysOfWeek deliveryDay = (DaysOfWeek)(int)day;
            
             return calender.ContainsKey((DaysOfWeek)day) && calender[(DaysOfWeek)day].Any();
         }
         /// <summary>
-        /// Returns a list of packages for that day
+        /// Returns a list of packages for the day asked for
         /// </summary>
-        /// <param name="day"></param>
+        /// <param name="day">Day of week</param>
         /// <returns>returns the packages for the day asked for</returns>
-        public List<(string, CreatePackage, DateTime, DateTime)> GetPackagesForToday(DayOfWeek day)
+        public List<(string, CreatePackage, DateTime, DateTime)> FetchPackages(DayOfWeek day)
         {
             DaysOfWeek deliveryDay = (DaysOfWeek)(int)day;
 

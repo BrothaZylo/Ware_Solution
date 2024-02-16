@@ -10,9 +10,9 @@ namespace Ware
     {
         void SendFirstPackageToStorage();
         public void SendAllPackagesToStorage();
-        void printlistpackage();
+        void GetAllPackagePrint();
         string TravelTimeToStorage();
-        List<string> SendPackagesToWarehouse();
+        //List<string> SendPackagesToWarehouse();
         List<CreatePackage> GetPackageList();
         List<CreatePackage> GetAllPackages();
 

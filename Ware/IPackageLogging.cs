@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Ware
 {
-    internal interface IPackageHistory
+    internal interface IPackageLogging
     {
         public string AddPackageLog(string packageID, string action);
-        public void GetPackageLog();
+        public void LogsPrint();
         public StringBuilder TrackPackage(string id);
     }
 }

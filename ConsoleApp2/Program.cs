@@ -84,7 +84,7 @@ deliverySchedule.GetCalender();
 deliverySchedule.ClearSchedule();
 
 */
-PackageHistory packageHistory = new PackageHistory();
+PackageLogging packageHistory = new PackageLogging();
 
 DeliverySchedule deliverySchedule = new DeliverySchedule(packageHistory);
 
@@ -95,7 +95,7 @@ Console.WriteLine(packageHistory.AddPackageLog(iskrem.packageid, "Varehuset"));
 Console.WriteLine(packageHistory.AddPackageLog(iskrem.packageid, "Hylla"));
 Console.WriteLine(packageHistory.AddPackageLog(iskrem.packageid, "Truck"));
 
-packageHistory.GetPackageLog();
+packageHistory.LogsPrint();
 
 
 List<StorageConfiguration.WareHouseSizeConfig> configlistdry =

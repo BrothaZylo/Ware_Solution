@@ -8,7 +8,7 @@ namespace Ware
 {
     internal interface IStorageConfiguration
     {
-        void WareHouseConfigPrint();
+        void SizeConfigPrint();
 
         void CreateStorage();
 

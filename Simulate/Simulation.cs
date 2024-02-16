@@ -102,14 +102,14 @@ deliverySchedule.AddPackageToDay("Single", DayOfWeek.Wednesday, package9, DateTi
 // To add packages you have to create new package objects and then add it to the schedule
 // Hvis du bruker repeating blir det jordskjelv, så hold unna :)
 
-deliverySchedule.AddPackageToDay("Single", DayOfWeek.Monday, package10, DateTime.Now.AddHours(120), DateTime.Now.AddHours(340));
-deliverySchedule.AddPackageToDay("Single", DayOfWeek.Tuesday, package11, DateTime.Now.AddHours(120), DateTime.Now.AddHours(340));
-deliverySchedule.AddPackageToDay("Single", DayOfWeek.Wednesday, package12, DateTime.Now.AddHours(120), DateTime.Now.AddHours(340));
-deliverySchedule.AddPackageToDay("Single", DayOfWeek.Thursday, package13, DateTime.Now.AddHours(120), DateTime.Now.AddHours(340));
-deliverySchedule.AddPackageToDay("Single", DayOfWeek.Thursday, package14, DateTime.Now.AddHours(120), DateTime.Now.AddHours(340));
-deliverySchedule.AddPackageToDay("Single", DayOfWeek.Friday, package15, DateTime.Now.AddHours(120), DateTime.Now.AddHours(340));
-deliverySchedule.AddPackageToDay("Single", DayOfWeek.Saturday, package16, DateTime.Now.AddHours(120), DateTime.Now.AddHours(340));
-deliverySchedule.AddPackageToDay("Repeating", DayOfWeek.Sunday, package17, DateTime.Now.AddHours(120), DateTime.Now.AddHours(340));
+deliverySchedule.AddPackage("Single", DayOfWeek.Monday, package10, DateTime.Now.AddHours(120), DateTime.Now.AddHours(340));
+deliverySchedule.AddPackage("Single", DayOfWeek.Tuesday, package11, DateTime.Now.AddHours(120), DateTime.Now.AddHours(340));
+deliverySchedule.AddPackage("Single", DayOfWeek.Wednesday, package12, DateTime.Now.AddHours(120), DateTime.Now.AddHours(340));
+deliverySchedule.AddPackage("Single", DayOfWeek.Thursday, package13, DateTime.Now.AddHours(120), DateTime.Now.AddHours(340));
+deliverySchedule.AddPackage("Single", DayOfWeek.Thursday, package14, DateTime.Now.AddHours(120), DateTime.Now.AddHours(340));
+deliverySchedule.AddPackage("Single", DayOfWeek.Friday, package15, DateTime.Now.AddHours(120), DateTime.Now.AddHours(340));
+deliverySchedule.AddPackage("Single", DayOfWeek.Saturday, package16, DateTime.Now.AddHours(120), DateTime.Now.AddHours(340));
+deliverySchedule.AddPackage("Repeating", DayOfWeek.Sunday, package17, DateTime.Now.AddHours(120), DateTime.Now.AddHours(340));
 
 
 
@@ -117,7 +117,7 @@ deliverySchedule.AddPackageToDay("Repeating", DayOfWeek.Sunday, package17, DateT
 DryGoods.CreateStorage();
 
 Terminal terminal = new Terminal();
-PackageHistory packageHistory = new PackageHistory();
+PackageLogging packageHistory = new PackageLogging();
 
 DateTime startDate = DateTime.Today;
 DateTime endDate = DateTime.Today.AddDays(7); // maks 7 dager :)
@@ -126,16 +126,16 @@ int counter = 0;
 
 while (startDate < endDate)
 {
-    deliverySchedule.GetCalender();
+    deliverySchedule.GetSchedule();
     if (counter == 6)
     {
         deliverySchedule.ClearSchedule();
     }
-    if(deliverySchedule.HasPackagesThisDay(startDate.DayOfWeek))
+    if(deliverySchedule.CheckDay(startDate.DayOfWeek))
     {
         Console.WriteLine($"Packages at : {startDate.ToString("dd-MM-yyyy")}");
         // Packages that arrive
-        var packages = deliverySchedule.GetPackagesForToday(startDate.DayOfWeek);
+        var packages = deliverySchedule.FetchPackages(startDate.DayOfWeek);
         foreach(var package in packages)
         {
             receivingDepartmentForDryGoods.ReceivePackage(package.Item2);
@@ -184,7 +184,7 @@ while (startDate < endDate)
             packageHistory.AddPackageLog(package.PackageId, "Sent out / Delivered");
 
         }
-        terminal.RemoveAllPackages();
+        terminal.ClearPackages();
         Thread.Sleep(1000);
         Thread.Sleep(delay);
     }
@@ -193,7 +193,7 @@ while (startDate < endDate)
     
 }
 Console.WriteLine(packageHistory.TrackPackage(package10.PackageId));
-packageHistory.GetPackageLog();
+packageHistory.LogsPrint();
 Console.WriteLine("Simulation ended");
 
 

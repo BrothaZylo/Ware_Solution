@@ -87,5 +87,22 @@ namespace Ware
         {
             return Height;
         }
+        /// <summary>
+        /// Sets the package width
+        /// </summary>
+        /// <param name="newWidth">the package width</param>
+        public void SetPackageWidth(double newWidth)
+        {
+            Width = newWidth;
+        }
+        /// <summary>
+        /// Sets the pacakge height
+        /// </summary>
+        /// <param name="newHeight">package height</param>
+        public void SetPackageHeight(double newHeight)
+        {
+            Height = newHeight;
+        }
     }
+
 }
