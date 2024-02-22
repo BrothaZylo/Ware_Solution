@@ -6,18 +6,18 @@ namespace Ware
     /// <summary>
     /// The reception of the packages and the times it takes are handled here.
     /// </summary>
-    public class ReceivingDepartment(StorageConfiguration warehouse) : IReceivingDepartment
+    public class ReceivingDepartment(Storage storage) : IReceivingDepartment
     {
-        private List<CreatePackage> receivedPackages = [];
-        private List<CreatePackage> allPackages = [];
+        private List<Package> receivedPackages = [];
+        private List<Package> allPackages = [];
 
-        private StorageConfiguration storageConfiguration = warehouse;
+        private Storage storageConfiguration = storage;
 
         /// <summary>
         /// The package is received and added to the list of received packages.
         /// </summary>
         /// <param name="package">The name of the package being received.</param>
-        public void ReceivePackage(CreatePackage package)
+        public void ReceivePackage(Package package)
         {
             receivedPackages.Add(package);
             allPackages.Add(package);
@@ -33,7 +33,7 @@ namespace Ware
             {
                 if (receivedPackages.Count > 0)
                 {
-                    CreatePackage firstPackage = receivedPackages[0];
+                    Package firstPackage = receivedPackages[0];
                     if (storageConfiguration.IsSameTypeOfGoods(firstPackage))
                     {
                         storageConfiguration.PlacePackage(firstPackage);
@@ -54,7 +54,7 @@ namespace Ware
         /// </summary>
         public void SendAllPackagesToStorage()
         {
-            foreach (CreatePackage package in receivedPackages)
+            foreach (Package package in receivedPackages)
             {
                 storageConfiguration.PlacePackage(package);
                 storageConfiguration.GetAllStorageInformationPrint();
@@ -68,7 +68,7 @@ namespace Ware
         /// </summary>
         public void GetAllPackagePrint() 
         {
-            foreach (CreatePackage package in receivedPackages) 
+            foreach (Package package in receivedPackages) 
             { 
                 Console.WriteLine(package);
             }
@@ -96,7 +96,7 @@ namespace Ware
         public List<string> SendPackagesToWarehouse()
         {
             List<string> results = new List<string>();
-            foreach (CreatePackage package in receivedPackages)
+            foreach (Package package in receivedPackages)
             {
                 string result = storageConfiguration.PlacePackage(package);
                 int timeDeliveryToStorage = storageConfiguration.GetTimeDeliveryToStorage();
@@ -114,7 +114,7 @@ namespace Ware
         /// Returns a list of all recivived packages
         /// </summary>
         /// <returns>Returns a list of all recivived packages</returns>
-        public List<CreatePackage> GetPackageList()
+        public List<Package> GetPackageList()
         {
             return receivedPackages;
         }
@@ -122,7 +122,7 @@ namespace Ware
         /// Returns a list of all AllPackages
         /// </summary>
         /// <returns>Returns a list of all AllPackages</returns>
-        public List<CreatePackage> GetAllPackages()
+        public List<Package> GetAllPackages()
         {
             return allPackages;
         }

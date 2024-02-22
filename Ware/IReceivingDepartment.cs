@@ -13,8 +13,8 @@ namespace Ware
         void GetAllPackagePrint();
         string TravelTimeToStorage();
         //List<string> SendPackagesToWarehouse();
-        List<CreatePackage> GetPackageList();
-        List<CreatePackage> GetAllPackages();
+        List<Package> GetPackageList();
+        List<Package> GetAllPackages();
 
     }
 }

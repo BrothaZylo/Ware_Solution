@@ -6,7 +6,7 @@ using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
-using static Ware.DeliverySchedule;
+using static Ware.Schedule;
 
 namespace Ware
 {
@@ -22,23 +22,23 @@ namespace Ware
         /// AddPackageLog() will check if the package already exist. If it dont then it will add the package as a key and its location and when it got there
         /// if it already exists will the new location and when it got there be added to the package
         /// </summary>
-        /// <param name="packageID">This is the id of the package object</param>
+        /// <param name="packageId">This is the id of the package object</param>
         /// <param name="action">Tjis is the location it arrived at</param>
         /// <returns>returns that the package has been logged</returns>
-        public string AddPackageLog(string packageID, string action)
+        public string AddPackageLog(string packageId, string action)
         {
-            if (!PackageLog.ContainsKey(packageID))
+            if (!PackageLog.ContainsKey(packageId))
             {
-                PackageLog.Add(packageID, new List<(string, DateTime)>());
+                PackageLog.Add(packageId, new List<(string, DateTime)>());
 
-                PackageLog[packageID].Add((action, DateTime.Now));
+                PackageLog[packageId].Add((action, DateTime.Now));
 
-                return packageID + " Was logged";
+                return packageId + " Was logged";
             }
 
-            PackageLog[packageID].Add((action, DateTime.Now));
+            PackageLog[packageId].Add((action, DateTime.Now));
 
-            return packageID + " Was logged";
+            return packageId + " Was logged";
         }
         /// <summary>
         /// This will print out all the packages and where they have been and when they got there
@@ -80,19 +80,19 @@ namespace Ware
 
 
         /*
-        public class PackageHistory(Dictionary<CreatePackage, (DateTime DeliveryTime, DateTime PickupTime)> history)
+        public class PackageHistory(Dictionary<Package, (DateTime DeliveryTime, DateTime PickupTime)> history)
         {
-            private Dictionary<CreatePackage, (DateTime DeliveryTime, DateTime PickupTime)> History { get; set; } = history;
-            private (CreatePackage pacakge, DateTime time) value { get; set; }
+            private Dictionary<Package, (DateTime DeliveryTime, DateTime PickupTime)> History { get; set; } = history;
+            private (Package pacakge, DateTime time) value { get; set; }
 
             // Adds deliverytime to a package
-            public void DeliveryHistory(CreatePackage packages, DateTime deliveryTime)
+            public void DeliveryHistory(Package packages, DateTime deliveryTime)
             {
                 // Creates the log for deliverytime and using DateTime.MinValue as a placeholder for PickupTime
                 History.Add(packages, (deliveryTime, DateTime.MinValue));
             }
             // Adds pickuptime to a package
-            public void PickTime(CreatePackage package, DateTime pickupTime)
+            public void PickTime(Package package, DateTime pickupTime)
             {
                 if (History.ContainsKey(package))
                 {
@@ -105,17 +105,17 @@ namespace Ware
             // Method recieves a list of packages that will get there delivery time registered
 
 
-            public void SeveralDelivery(List<CreatePackage> severalPackages, DateTime deliveryTime)
+            public void SeveralDelivery(List<Package> severalPackages, DateTime deliveryTime)
             {
-                foreach (CreatePackage items in severalPackages)
+                foreach (Package items in severalPackages)
                 {
                     DeliveryHistory(items, deliveryTime);
                 }
             }
             // Method recieves a list of packages that will get there pickup time registered
-            public void SeveralPickup(List<CreatePackage> severalPackages, DateTime deliveryTime)
+            public void SeveralPickup(List<Package> severalPackages, DateTime deliveryTime)
             {
-                foreach (CreatePackage items in severalPackages)
+                foreach (Package items in severalPackages)
                 {
                     PickTime(items, deliveryTime);
                 }
@@ -124,16 +124,16 @@ namespace Ware
 
 
             // Returning history of all packages as a dictionary
-            public Dictionary<CreatePackage, (DateTime DeliveryTime, DateTime PickupTime)> AllHistoryAsADictionary()
+            public Dictionary<Package, (DateTime DeliveryTime, DateTime PickupTime)> AllHistoryAsADictionary()
             {
-                return new Dictionary<CreatePackage, (DateTime DeliveryTime, DateTime PickupTime)>(History);
+                return new Dictionary<Package, (DateTime DeliveryTime, DateTime PickupTime)>(History);
             }
 
 
             // Prints out all package history
             public void AllHistoryInfo()
             {
-                foreach (KeyValuePair<CreatePackage, (DateTime DeliveryTime, DateTime PickupTime)> items in History)
+                foreach (KeyValuePair<Package, (DateTime DeliveryTime, DateTime PickupTime)> items in History)
                 {
                     Console.WriteLine($"ID: {items.Key.packageid}   " +
                         $"      Name: {items.Key.name}" +
@@ -159,9 +159,9 @@ namespace Ware
             // Returns info about a specific charachter
             public void OnePackageHistory(string packageId)
             {
-                foreach (KeyValuePair<CreatePackage, (DateTime DeliveryTime, DateTime PickupTime)> item in History)
+                foreach (KeyValuePair<Package, (DateTime DeliveryTime, DateTime PickupTime)> item in History)
                 {
-                    CreatePackage checkPackage = item.Key;
+                    Package checkPackage = item.Key;
 
 
                     if (checkPackage.packageid == packageId)

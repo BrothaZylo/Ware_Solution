@@ -8,8 +8,8 @@ namespace Ware
 {
     internal interface ITerminal
     {
-        void AddPackage(CreatePackage packages);
-        List<CreatePackage> GetPackagesInTerminal();
+        void AddPackage(Package packages);
+        List<Package> GetPackagesInTerminal();
         void ClearPackages();
 
     }

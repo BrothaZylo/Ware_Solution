@@ -2,26 +2,26 @@
 using System.Reflection.Metadata.Ecma335;
 using System.Xml.Linq;
 using Ware;
-using static Ware.DeliverySchedule;
+using static Ware.Schedule;
 
-CreatePackage u = new("Hestesko", "kjølevare", "fast", 82.5, 43.4);
+Package u = new("Hestesko", "kjølevare", "fast", 82.5, 43.4);
 
-CreatePackage uu = new("Pæreboks", "kulvare", "treg", 91.3, 15.7);
+Package uu = new("Pæreboks", "kulvare", "treg", 91.3, 15.7);
 
-List<StorageConfiguration.WareHouseSizeConfig> configlist =
+List<Storage.WareHouseSizeConfig> configlist =
 [
-    new() { SizeName = "Tiny", TotalUnitsAvailable = 5, MaxHeightCm = 10.5, MaxWidthCm = 10},
-    new() { SizeName = "Large", TotalUnitsAvailable = 4, MaxHeightCm = 30, MaxWidthCm = 30 }
+    new() { sizeName = "Tiny", totalUnitsAvailable = 5, maxHeightCm = 10.5, maxWidthCm = 10},
+    new() { sizeName = "Large", totalUnitsAvailable = 4, maxHeightCm = 30, maxWidthCm = 30 }
 ];
-List<StorageConfiguration.WareHouseTimeConfig> configtime =
+List<Storage.WareHouseTimeConfig> configtime =
 [
     new() { TimeDeliveryToStorageMinutes = 2, TimeStorageToTerminalMinutes = 2 }
 ];
 
 
 
-CreatePackage iskrem = new CreatePackage("Iskrem", "kjølevare", "fast",43,4);
-CreatePackage flammekaster = new CreatePackage("Flammekaster", "Farlig gods", "fast", 89, 60);
+Package iskrem = new Package("Iskrem", "kjølevare", "fast",43,4);
+Package flammekaster = new Package("Flammekaster", "Farlig gods", "fast", 89, 60);
 // Test for å legge til enkelte pakker
 /*
 packageHistory.DeliveryHistory(iskrem, DateTime.Now);
@@ -31,7 +31,7 @@ packageHistory.PickTime(iskrem, DateTime.Now.AddHours(10));
 
 //  Test for å legge til en liste med varer
 /*
-List<CreatePackage> packages = new List<CreatePackage>();
+List<Package> packages = new List<Package>();
 packages.Add(iskrem);
 packages.Add(flammekaster);
 
@@ -48,7 +48,7 @@ packageHistory.AllHistoryInfo();
 
 
 /*
-DeliverySchedule deliverySchedule = new(new Dictionary<string, List<(string,CreatePackage, DateTime)>>());
+Schedule deliverySchedule = new(new Dictionary<string, List<(string,Package, DateTime)>>());
 
 deliverySchedule.AddPackage("Monday",iskrem, DateTime.Now);
 deliverySchedule.AddPackage("Monday", u, DateTime.Now);
@@ -68,7 +68,7 @@ deliverySchedule.SchedulePackages("Tuesday");
 */
 /*
 
-DeliverySchedule deliverySchedule = new DeliverySchedule();
+Schedule deliverySchedule = new Schedule();
 
 
 deliverySchedule.AddPackageToDay("Single",DayOfWeek.Monday, flammekaster, DateTime.Now, DateTime.Now.AddMinutes(10));
@@ -86,7 +86,7 @@ deliverySchedule.ClearSchedule();
 */
 PackageLogging packageHistory = new PackageLogging();
 
-DeliverySchedule deliverySchedule = new DeliverySchedule(packageHistory);
+Schedule deliverySchedule = new DeliverySchedule(packageHistory);
 
 Console.WriteLine(packageHistory.AddPackageLog(flammekaster.packageid,"Varehuset"));
 Console.WriteLine(packageHistory.AddPackageLog(flammekaster.packageid, "Hylla"));
@@ -98,15 +98,15 @@ Console.WriteLine(packageHistory.AddPackageLog(iskrem.packageid, "Truck"));
 packageHistory.LogsPrint();
 
 
-List<StorageConfiguration.WareHouseSizeConfig> configlistdry =
+List<Storage.WareHouseSizeConfig> configlistdry =
 [
-    new() { SizeName = "Tiny", TotalUnitsAvailable = 5, MaxHeightCm = 10.5, MaxWidthCm = 10 },
-    new() { SizeName = "Large", TotalUnitsAvailable = 4, MaxHeightCm = 30, MaxWidthCm = 30 }
+    new() { sizeName = "Tiny", totalUnitsAvailable = 5, maxHeightCm = 10.5, maxWidthCm = 10 },
+    new() { sizeName = "Large", totalUnitsAvailable = 4, maxHeightCm = 30, maxWidthCm = 30 }
 ];
-StorageConfiguration Dry = new("Dry goods", 25, configlistdry, configtime);
-CreatePackage package6 = new("Chips", "Dry goods", "fast", 15, 3);
-CreatePackage package7 = new("Ost", "Dry goods", "fast", 7, 3);
-CreatePackage package8 = new("Moose", "Dry goods", "fast", 7, 3);
+Storage Dry = new("Dry goods", 25, configlistdry, configtime);
+Package package6 = new("Chips", "Dry goods", "fast", 15, 3);
+Package package7 = new("Ost", "Dry goods", "fast", 7, 3);
+Package package8 = new("Moose", "Dry goods", "fast", 7, 3);
 Dry.CreateStorage();
 Dry.PlacePackage(package8);
 Dry.GetAllStorageInformationPrint();

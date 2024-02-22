@@ -6,17 +6,17 @@ using System.Threading.Tasks;
 
 namespace Ware
 {
-    internal interface IStorageConfiguration
+    internal interface IStorage
     {
         void SizeConfigPrint();
 
         void CreateStorage();
 
-        string PlacePackage(CreatePackage package);
+        string PlacePackage(Package package);
 
         string MovePackageById(string packageid);
 
-        CreatePackage MovePackage(CreatePackage package);
+        Package MovePackage(Package package);
 
         void GetAllStorageInformationPrint();
 
@@ -28,7 +28,7 @@ namespace Ware
 
         bool IsSpotTaken(string storagename);
 
-        bool IsSameTypeOfGoods(CreatePackage package);
+        bool IsSameTypeOfGoods(Package package);
 
         int GetTimeDeliveryToStorage();
 

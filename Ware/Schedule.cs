@@ -14,7 +14,7 @@ namespace Ware
     /// <summary>
     /// A class that creates a calender schedule for delivery
     /// </summary>
-    public class DeliverySchedule : IDeliverySchedule
+    public class Schedule : ISchedule
     {
         /// <summary>
         /// Creates an enum containing the days sunday to saturday that will be used as keys for the calender/dictionary
@@ -31,13 +31,13 @@ namespace Ware
             
         }
 
-        private Dictionary<DaysOfWeek, List<(string,CreatePackage, DateTime, DateTime)>> calender;
+        private Dictionary<DaysOfWeek, List<(string,Package, DateTime, DateTime)>> calender;
         
         /// <summary>
-        /// When creating a DeliverySchedule will it run PrepareDictinary() that will create 
+        /// When creating a Schedule will it run PrepareDictinary() that will create 
         /// the calender with the 7 days as keys
         /// </summary>
-        public DeliverySchedule()
+        public Schedule()
         {
             PrepareDictionary();
         }
@@ -50,11 +50,11 @@ namespace Ware
         /// </summary>
         private void PrepareDictionary()
         {
-            calender = new Dictionary<DaysOfWeek, List<(string, CreatePackage, DateTime, DateTime)>>();
+            calender = new Dictionary<DaysOfWeek, List<(string, Package, DateTime, DateTime)>>();
 
             foreach (DaysOfWeek day in Enum.GetValues(typeof(DaysOfWeek)))
             {
-                calender.Add(day, new List<(string, CreatePackage, DateTime, DateTime)>());
+                calender.Add(day, new List<(string, Package, DateTime, DateTime)>());
             }
 
         }
@@ -68,7 +68,7 @@ namespace Ware
         /// Steve. “Adding Items to a List in a Dictionary.” Stack Overflow, 2024,
         /// stackoverflow.com/questions/14991688/adding-items-to-a-list-in-a-dictionary.
         /// Author Steve
-        public void AddPackage(string singleOrRepeating, DayOfWeek day, CreatePackage package,DateTime deliveryTime, DateTime pickupTime)
+        public void AddPackage(string singleOrRepeating, DayOfWeek day, Package package,DateTime deliveryTime, DateTime pickupTime)
         {
             if (calender.ContainsKey((DaysOfWeek)day))
             {
@@ -81,11 +81,11 @@ namespace Ware
         /// </summary>
         public void ClearSchedule()
         {
-            List<(string, CreatePackage, DateTime, DateTime)> tmp = new List<(string, CreatePackage, DateTime, DateTime)>();
-            foreach (KeyValuePair<DaysOfWeek, List<(string, CreatePackage, DateTime, DateTime)>> days in calender)
+            List<(string, Package, DateTime, DateTime)> tmp = new List<(string, Package, DateTime, DateTime)>();
+            foreach (KeyValuePair<DaysOfWeek, List<(string, Package, DateTime, DateTime)>> days in calender)
             {
                 
-                foreach ((string, CreatePackage, DateTime, DateTime) items in days.Value)
+                foreach ((string, Package, DateTime, DateTime) items in days.Value)
                 {
                     if (items.Item1 == "Single")
                     {
@@ -106,12 +106,12 @@ namespace Ware
         /// the packages connected to the day.
         /// </summary>
         /// <returns>Returns a Console write that tells us the days and what packages will come that day</returns>
-        public Dictionary<DaysOfWeek, List<(string, CreatePackage, DateTime, DateTime)>> GetSchedule()
+        public Dictionary<DaysOfWeek, List<(string, Package, DateTime, DateTime)>> GetSchedule()
         {
-            foreach (KeyValuePair<DaysOfWeek, List<(string, CreatePackage, DateTime, DateTime)>> keys in calender)
+            foreach (KeyValuePair<DaysOfWeek, List<(string, Package, DateTime, DateTime)>> keys in calender)
             {
                 Console.WriteLine($"Weekday: {keys.Key}");
-                foreach ((string, CreatePackage, DateTime, DateTime) items in keys.Value) 
+                foreach ((string, Package, DateTime, DateTime) items in keys.Value) 
                 {
                     Console.WriteLine($"Single or Repeat: {items.Item1}   " +
                     $"   Package ID: {items.Item2.PackageId}" +
@@ -141,7 +141,7 @@ namespace Ware
         /// </summary>
         /// <param name="day">Day of week</param>
         /// <returns>returns the packages for the day asked for</returns>
-        public List<(string, CreatePackage, DateTime, DateTime)> FetchPackages(DayOfWeek day)
+        public List<(string, Package, DateTime, DateTime)> FetchPackages(DayOfWeek day)
         {
             DaysOfWeek deliveryDay = (DaysOfWeek)(int)day;
 

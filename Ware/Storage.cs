@@ -11,16 +11,16 @@ namespace Ware
     /// <summary>
     /// Preconfig of the storageunits which will later be used to create shelves.
     /// </summary>
-    /// <param name="nameofstorage">Name of the storage</param>
-    /// <param name="totalspaceavailable">Total space available in shelf</param>
-    /// <param name="configuresize">Shelf size list config</param>
-    /// <param name="configuretime">Travel time within the area list config</param>
-    public class StorageConfiguration(string nameofstorage, int totalspaceavailable, List<StorageConfiguration.WareHouseSizeConfig> configuresize, List<StorageConfiguration.WareHouseTimeConfig> configuretime) : IStorageConfiguration
+    /// <param name="nameOfStorage">Name of the storage</param>
+    /// <param name="totalSpaceAvailable">Total space available in shelf</param>
+    /// <param name="configureSize">Shelf size list config</param>
+    /// <param name="configureTime">Travel time within the area list config</param>
+    public class Storage(string nameOfStorage, int totalSpaceAvailable, List<Storage.WareHouseSizeConfig> configureSize, List<Storage.WareHouseTimeConfig> configureTime) : IStorage
     {
-        public string ShelfCategory = nameofstorage;
-        public int TotalSpace = totalspaceavailable;
-        public List<WareHouseSizeConfig> ConfigFiles = configuresize;
-        public List<WareHouseTimeConfig> ConfigTime = configuretime;
+        public string ShelfCategory = nameOfStorage;
+        public int TotalSpace = totalSpaceAvailable;
+        public List<WareHouseSizeConfig> ConfigFiles = configureSize;
+        public List<WareHouseTimeConfig> ConfigTime = configureTime;
         Dictionary<string, (string, string, double, double, bool)> YourWareList = [];
         
         /// <summary>
@@ -37,10 +37,10 @@ namespace Ware
         /// </summary>
         public class WareHouseSizeConfig
         {
-            public required string SizeName { get; set; }
-            public int TotalUnitsAvailable { get; set; }
-            public double MaxWidthCm { get; set; }
-            public double MaxHeightCm { get; set; }
+            public required string sizeName { get; set; }
+            public int totalUnitsAvailable { get; set; }
+            public double maxWidthCm { get; set; }
+            public double maxHeightCm { get; set; }
         }
 
         /// <summary>
@@ -48,9 +48,9 @@ namespace Ware
         /// </summary>
         public void SizeConfigPrint()
         {
-            foreach (StorageConfiguration.WareHouseSizeConfig Item in ConfigFiles)
+            foreach (Storage.WareHouseSizeConfig Item in ConfigFiles)
             {
-                Console.WriteLine("StorageName: " + Item.SizeName + " TotalUnits: " + Item.TotalUnitsAvailable + " Max Length CM: " + Item.MaxHeightCm + " Max Width CM: " + Item.MaxWidthCm);
+                Console.WriteLine("StorageName: " + Item.sizeName + " TotalUnits: " + Item.totalUnitsAvailable + " Max Length CM: " + Item.maxHeightCm + " Max Width CM: " + Item.maxWidthCm);
             }
         }
 
@@ -60,11 +60,11 @@ namespace Ware
         public void CreateStorage()
         {
             int StorageCounter = 1;
-            foreach(StorageConfiguration.WareHouseSizeConfig j in ConfigFiles)
+            foreach(Storage.WareHouseSizeConfig j in ConfigFiles)
             {
-                for (int k = 0; k < j.TotalUnitsAvailable; k++)
+                for (int k = 0; k < j.totalUnitsAvailable; k++)
                 {
-                    YourWareList.Add(ShelfCategory + "ShelfID: " + StorageCounter, ("PackageID: Empty", "Type of storage: " + j.SizeName, j.MaxWidthCm, j.MaxHeightCm, false));
+                    YourWareList.Add(ShelfCategory + "ShelfID: " + StorageCounter, ("PackageID: Empty", "Type of storage: " + j.sizeName, j.maxWidthCm, j.maxHeightCm, false));
                     StorageCounter++;
                 }
             }
@@ -75,7 +75,7 @@ namespace Ware
         /// </summary>
         /// <param name="package">A Package</param>
         /// <returns>An option to know if its in storage or got placed in the storage</returns>
-        public string PlacePackage(CreatePackage package)
+        public string PlacePackage(Package package)
         {
             double packagesizew = package.Width;
             double packagesizeh = package.Height;
@@ -101,18 +101,18 @@ namespace Ware
         }
 
         /// <summary>
-        /// inputting the packageid will remove the package from the shelf its placed.
+        /// inputting the packageId will remove the package from the shelf its placed.
         /// </summary>
-        /// <param name="packageid">A Package</param>
-        /// <returns>it will return the packageid if it finds the packackage, else it will return null</returns>
-        public string MovePackageById(string packageid)
+        /// <param name="packageId">A Package</param>
+        /// <returns>it will return the packageId if it finds the packackage, else it will return null</returns>
+        public string MovePackageById(string packageId)
         {
             foreach (KeyValuePair<string, (string, string, double, double, bool)> i in YourWareList)
             {
-                if (i.Value.Item1 == packageid)
+                if (i.Value.Item1 == packageId)
                 {
                     YourWareList[i.Key] = ("PackageID: Empty", i.Value.Item2, i.Value.Item3, i.Value.Item4, false);
-                    return packageid;
+                    return packageId;
                 }
             }
             return "null";
@@ -123,7 +123,7 @@ namespace Ware
         /// </summary>
         /// <param name="package">A package</param>
         /// <returns>if it find the package it will return the package, else it will return a nulled package format</returns>
-        public CreatePackage MovePackage(CreatePackage package)
+        public Package MovePackage(Package package)
         {
             foreach(KeyValuePair<string, (string, string, double, double, bool)> i in YourWareList)
             {
@@ -133,7 +133,7 @@ namespace Ware
                     return package;
                 }
             }
-            CreatePackage dummy = new("null", "null", "null", 0, 0);
+            Package dummy = new("null", "null", "null", 0, 0);
 
             return dummy;
         }
@@ -160,15 +160,15 @@ namespace Ware
         /// <summary>
         /// Entering the storage unit's number it will search for the units nr.
         /// </summary>
-        /// <param name="shelfnumber">ShelfID number</param>
+        /// <param name="shelfNumber">ShelfID number</param>
         /// <returns>Returns the shelf number else, it will return Does not exist</returns>
-        public string GetStorageNameById(int shelfnumber)
+        public string GetStorageNameById(int shelfNumber)
         {
             foreach(KeyValuePair<string, (string, string, double, double, bool)> i in YourWareList)
             {
                 string[] keysplit = i.Key.Split(':');
                 string key1 = keysplit[0];
-                string yournumber = key1 + ": " + shelfnumber;
+                string yournumber = key1 + ": " + shelfNumber;
                 if (i.Key == yournumber)
                 {
                     return yournumber;
@@ -178,16 +178,16 @@ namespace Ware
         }
 
         /// <summary>
-        /// It will find the shelf where the packageid is located.
+        /// It will find the shelf where the packageId is located.
         /// </summary>
-        /// <param name="packageid">A package</param>
+        /// <param name="packageId">A package</param>
         /// <returns>Returns the section of set package id is located, else returns nothing</returns>
-        public string FindPackageSectionById(string packageid)
+        public string FindPackageSectionById(string packageId)
         {
             string item = "";
             foreach(KeyValuePair<string, (string, string, double, double, bool)> i in YourWareList)
             {
-                if (i.Value.Item1 == packageid)
+                if (i.Value.Item1 == packageId)
                 {
                     item += i;
                 }
@@ -198,14 +198,14 @@ namespace Ware
         /// <summary>
         /// Finds the package location by using the id
         /// </summary>
-        /// <param name="packageid">A package</param>
+        /// <param name="packageId">A package</param>
         /// <returns>The shelf its placed at, else will return Does not exist</returns>
-        public string FindPackageById(string packageid)
+        public string FindPackageById(string packageId)
         {
             string item = "Does not exist";
             foreach (KeyValuePair<string, (string, string, double, double, bool)> i in YourWareList)
             {
-                if (i.Value.Item1 == packageid)
+                if (i.Value.Item1 == packageId)
                 {
                     return i.Key;
                 }
@@ -216,13 +216,13 @@ namespace Ware
         /// <summary>
         /// It checks if the spot is taken by another package
         /// </summary>
-        /// <param name="storagename">Name of storage</param>
+        /// <param name="storageName">Name of storage</param>
         /// <returns>returns true if taken, else false</returns>
-        public bool IsSpotTaken(string storagename)
+        public bool IsSpotTaken(string storageName)
         {
             foreach(KeyValuePair<string, (string, string, double, double, bool)> i in YourWareList)
             {
-                if (i.Key == storagename)
+                if (i.Key == storageName)
                 {
                     return i.Value.Item5;
                 }
@@ -235,7 +235,7 @@ namespace Ware
         /// </summary>
         /// <param name="package"></param>
         /// <returns>returns true if package type is the same as the one in the storage unit, else false</returns>
-        public bool IsSameTypeOfGoods(CreatePackage package)
+        public bool IsSameTypeOfGoods(Package package)
         {
             foreach (KeyValuePair<string, (string, string, double, double, bool)> i in YourWareList)
             {
@@ -255,7 +255,7 @@ namespace Ware
         /// <returns>x amount of minutes, else 0</returns>
         public int GetTimeDeliveryToStorage()
         {
-            foreach (StorageConfiguration.WareHouseTimeConfig i in ConfigTime)
+            foreach (Storage.WareHouseTimeConfig i in ConfigTime)
             {
                 return i.TimeDeliveryToStorageMinutes;
             }
@@ -268,7 +268,7 @@ namespace Ware
         /// <returns>x amount of time, else 0</returns>
         public int GetTimeStorageToTerminal()
         {
-            foreach (StorageConfiguration.WareHouseTimeConfig i in ConfigTime)
+            foreach (Storage.WareHouseTimeConfig i in ConfigTime)
             {
                 return i.TimeStorageToTerminalMinutes;
             }
@@ -281,7 +281,7 @@ namespace Ware
         /// <returns>Get Time Delivery To Storage Seconds</returns>
         public int GetTimeDeliveryToStorageSeconds()
         {
-            foreach (StorageConfiguration.WareHouseTimeConfig i in ConfigTime)
+            foreach (Storage.WareHouseTimeConfig i in ConfigTime)
             {
                 return i.TimeDeliveryToStorageMinutes*60;
             }
@@ -294,7 +294,7 @@ namespace Ware
         /// <returns>Time Storage To Terminal Seconds</returns>
         public int GetTimeStorageToTerminalSeconds()
         {
-            foreach (StorageConfiguration.WareHouseTimeConfig i in ConfigTime)
+            foreach (Storage.WareHouseTimeConfig i in ConfigTime)
             {
                 return i.TimeStorageToTerminalMinutes*60;
             }

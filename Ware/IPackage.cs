@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ware
 {
-    internal interface ICreatePackage
+    internal interface IPackage
     {
         string GetPackageId();
 

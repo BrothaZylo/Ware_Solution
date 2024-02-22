@@ -7,15 +7,15 @@ namespace Ware
     /// <summary>
     /// Representerer en pakke med dens egenskaper og funksjonalitet for håndtering.
     /// </summary>
-    /// <param name="packagename">Navn på pakken.</param>
-    /// <param name="goodstype">Typen gods som er i pakken.</param>
-    /// <param name="speedofdelivery">Farten på leveringen.</param>
-    /// <param name="packageheightCM">Høyden på pakken i cm.</param>
-    /// <param name="packagewidthCM">Bredden på pakken i cm.</param>
-    public class CreatePackage(string packagename, string goodstype, string speedofdelivery, double packageheightCM, double packagewidthCM) : ICreatePackage
+    /// <param name="packageName">Navn på pakken.</param>
+    /// <param name="goodsType">Typen gods som er i pakken.</param>
+    /// <param name="speedOfDelivery">Farten på leveringen.</param>
+    /// <param name="packageHeightCm">Høyden på pakken i cm.</param>
+    /// <param name="packageWidthCm">Bredden på pakken i cm.</param>
+    public class Package(string packageName, string goodsType, string speedOfDelivery, double packageHeightCm, double packageWidthCm) : IPackage
     {
-        public string PackageId = GenerateId(), Name = packagename, Goods = goodstype, SpeedOfDelivery = speedofdelivery;
-        public double Height = packageheightCM, Width = packagewidthCM;
+        public string PackageId = GenerateId(), Name = packageName, Goods = goodsType, SpeedOfDelivery = speedOfDelivery;
+        public double Height = packageHeightCm, Width = packageWidthCm;
 
         /// <summary>
         /// Generates an ID for the package
