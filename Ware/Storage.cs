@@ -11,13 +11,13 @@ namespace Ware
     /// <summary>
     /// Preconfig of the storageunits which will later be used to create shelves.
     /// </summary>
-    /// <param name="nameOfStorage">Name of the storage</param>
+    /// <param name="goodsType">This will be the name of the storage unit</param>
     /// <param name="totalSpaceAvailable">Total space available in shelf</param>
     /// <param name="configureSize">Shelf size list config</param>
     /// <param name="configureTime">Travel time within the area list config</param>
-    public class Storage(string nameOfStorage, int totalSpaceAvailable, List<Storage.WareHouseSizeConfig> configureSize, List<Storage.WareHouseTimeConfig> configureTime) : IStorage
+    public class Storage(string goodsType, int totalSpaceAvailable, List<Storage.WareHouseSizeConfig> configureSize, List<Storage.WareHouseTimeConfig> configureTime) : IStorage
     {
-        public string ShelfCategory = nameOfStorage;
+        public string ShelfCategory = goodsType;
         public int TotalSpace = totalSpaceAvailable;
         public List<WareHouseSizeConfig> ConfigFiles = configureSize;
         public List<WareHouseTimeConfig> ConfigTime = configureTime;
