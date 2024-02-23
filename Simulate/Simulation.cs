@@ -3,12 +3,6 @@
 using Ware;
 
 
-// Configuring the time it will take to the storage
-List<Storage.WareHouseTimeConfig> configtime =
-[
-    new() { TimeDeliveryToStorageMinutes = 2, TimeStorageToTerminalMinutes = 5 }
-];
-/**************************************************************/
 
 // Configuring the size of the refrigirated units
 List<Storage.WareHouseSizeConfig> configListRefridge =
@@ -16,11 +10,11 @@ List<Storage.WareHouseSizeConfig> configListRefridge =
     new() { sizeName = "Tiny", totalUnitsAvailable = 5, maxHeightCm = 10.5, maxWidthCm = 10 },
     new() { sizeName = "Large", totalUnitsAvailable = 4, maxHeightCm = 30, maxWidthCm = 30 }
 ];
-Storage Refridgerated = new("Refridgerated", 25, configListRefridge, configtime);
+Storage Refridgerated = new("Refridgerated", 25, configListRefridge);
 
-Package package1 = new("Milk", "Refridgerated", "fast", 10, 30);
-Package package2 = new("Eggs", "Refridgerated", "fast", 10, 30);
-Package package3 = new("Fruit Juice", "Refridgerated", "fast", 10, 30);
+Package package1 = new("Milk", "Refridgerated", 10, 30);
+Package package2 = new("Eggs", "Refridgerated", 10, 30);
+Package package3 = new("Fruit Juice", "Refridgerated", 10, 30);
 
 
 /**************************************************************/
@@ -31,12 +25,12 @@ List<Storage.WareHouseSizeConfig> configListElectronics =
     new() { sizeName = "Tiny", totalUnitsAvailable = 5, maxHeightCm = 10.5, maxWidthCm = 10 },
     new() { sizeName = "Large", totalUnitsAvailable = 4, maxHeightCm = 30, maxWidthCm = 30 }
 ];
-Storage Electronics = new("Electronics", 25, configListElectronics, configtime);
+Storage Electronics = new("Electronics", 25, configListElectronics);
 
 
-Package package4 = new("Speakers", "Electronics", "fast", 10, 30);
-Package package5 = new("Camera", "Electronics", "fast", 10, 30);
-Package package6 = new("Laptop", "Electronics", "fast", 10, 30);
+Package package4 = new("Speakers", "Electronics", 10, 30);
+Package package5 = new("Camera", "Electronics", 10, 30);
+Package package6 = new("Laptop", "Electronics", 10, 30);
 
 
 /**************************************************************/
@@ -47,12 +41,12 @@ List<Storage.WareHouseSizeConfig> configListDangerous =
     new() { sizeName = "Tiny", totalUnitsAvailable = 5, maxHeightCm = 10.5, maxWidthCm = 10 },
     new() { sizeName = "Large", totalUnitsAvailable = 4, maxHeightCm = 30, maxWidthCm = 30 }
 ];
-Storage Dangerous = new("Dangerous", 25, configListDangerous, configtime);
+Storage Dangerous = new("Dangerous", 25, configListDangerous);
 
 
-Package package7 = new("Propane tank", "Dangerous", "fast", 3, 5);
-Package package8 = new("Firework", "Dangerous", "fast", 3, 5);
-Package package9 = new("You", "Dangerous", "fast", 3, 5);
+Package package7 = new("Propane tank", "Dangerous", 3, 5);
+Package package8 = new("Firework", "Dangerous", 3, 5);
+Package package9 = new("You", "Dangerous", 3, 5);
 
 
 /**************************************************************/
@@ -64,18 +58,18 @@ List<Storage.WareHouseSizeConfig> configListDryGoods =
     new() { sizeName = "Tiny", totalUnitsAvailable = 5, maxHeightCm = 10.5, maxWidthCm = 10 },
     new() { sizeName = "Large", totalUnitsAvailable = 4, maxHeightCm = 30, maxWidthCm = 30 }
 ];
-Storage DryGoods = new("Dry", 25, configListDangerous, configtime);
+Storage DryGoods = new("Dry", 25, configListDangerous);
 
 
-Package package10 = new("1 tank", "Dry", "fast", 3, 5);
-Package package11 = new("2 tank", "Dry", "fast", 3, 5);
-Package package12 = new("3 tank", "Dry", "fast", 3, 5);
-Package package13 = new("4 tank", "Dry", "fast", 3, 5);
-Package package14 = new("5 tank", "Dry", "fast", 3, 5);
-Package package15 = new("6 tank", "Dry", "fast", 3, 5);
-Package package16 = new("7 tank", "Dry", "fast", 3, 5);
-Package package17 = new("8 tank", "Dry", "fast", 3, 5);
-Package package18 = new("8 tank", "Dry", "fast", 3, 5);
+Package package10 = new("1 tank", "Dry", 3, 5);
+Package package11 = new("2 tank", "Dry", 3, 5);
+Package package12 = new("3 tank", "Dry", 3, 5);
+Package package13 = new("4 tank", "Dry", 3, 5);
+Package package14 = new("5 tank", "Dry", 3, 5);
+Package package15 = new("6 tank", "Dry", 3, 5);
+Package package16 = new("7 tank", "Dry", 3, 5);
+Package package17 = new("8 tank", "Dry", 3, 5);
+Package package18 = new("8 tank", "Dry", 3, 5);
 
 
 
@@ -296,8 +290,8 @@ while (timer!=60)
     terminal.GivingPackagesToDriver();
 
     Console.WriteLine();
-    Console.WriteLine(package6.PackageId + " Was moved in " + Dry.GetTimeDeliveryToStorage() + " Minutes");
-    Console.WriteLine(package7.PackageId + " Was moved in " + Dry.GetTimeDeliveryToStorage() + " Minutes");
+    Console.WriteLine(package6.packageId + " Was moved in " + Dry.GetTimeDeliveryToStorage() + " Minutes");
+    Console.WriteLine(package7.packageId + " Was moved in " + Dry.GetTimeDeliveryToStorage() + " Minutes");
     Console.WriteLine("");
 
     Dry.GetAllStorageInformationPrint();
@@ -329,5 +323,5 @@ packageHistory.PickTime(package6, DateTime.Now.AddHours(8));
 
 packageHistory.AllHistoryInfo();
 
-packageHistory.OnePackageHistory(package1.PackageId);
+packageHistory.OnePackageHistory(package1.packageId);
 */

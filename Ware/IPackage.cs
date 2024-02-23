@@ -8,16 +8,6 @@ namespace Ware
 {
     internal interface IPackage
     {
-        string GetPackageId();
 
-        string GetPackageName();
-
-        string GetPackageGoodsType();
-
-        string GetPackageSpeedofdelivery();
-
-        double GetPackageWidth();
-
-        double GetPackageHeight();
     }
 }

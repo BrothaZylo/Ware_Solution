@@ -15,22 +15,24 @@ namespace Ware
     /// <param name="totalSpaceAvailable">Total space available in shelf</param>
     /// <param name="configureSize">Shelf size list config</param>
     /// <param name="configureTime">Travel time within the area list config</param>
-    public class Storage(string goodsType, int totalSpaceAvailable, List<Storage.WareHouseSizeConfig> configureSize, List<Storage.WareHouseTimeConfig> configureTime) : IStorage
+    public class Storage(string goodsType, int totalSpaceAvailable, List<Storage.WareHouseSizeConfig> configureSize) : IStorage
     {
         public string ShelfCategory = goodsType;
         public int TotalSpace = totalSpaceAvailable;
         public List<WareHouseSizeConfig> ConfigFiles = configureSize;
-        public List<WareHouseTimeConfig> ConfigTime = configureTime;
+        private double timeFromReceivingDepartmentToStorage, timeFromStoragetoTerminal;
         Dictionary<string, (string, string, double, double, bool)> YourWareList = [];
         
-        /// <summary>
-        /// Configures the time-progress from start to end-point.
-        /// </summary>
-        public class WareHouseTimeConfig
+        public void SetTimeReceivingDepartmentToStorage(double seconds)
         {
-            public int TimeDeliveryToStorageMinutes;
-            public int TimeStorageToTerminalMinutes;
+            timeFromReceivingDepartmentToStorage = seconds;
         }
+
+        public void SetTimeStoragetoTerminal(double seconds)
+        {
+            timeFromReceivingDepartmentToStorage = seconds;
+        }
+
 
         /// <summary>
         /// Configures diffrent sizes that a complete Warehouse storageunit contains.
@@ -50,12 +52,12 @@ namespace Ware
         {
             foreach (Storage.WareHouseSizeConfig Item in ConfigFiles)
             {
-                Console.WriteLine("StorageName: " + Item.sizeName + " TotalUnits: " + Item.totalUnitsAvailable + " Max Length CM: " + Item.maxHeightCm + " Max Width CM: " + Item.maxWidthCm);
+                Console.WriteLine("StorageName: " + Item.sizeName + " TotalUnits: " + Item.totalUnitsAvailable + " Max Length CM: " + Item.maxHeightCm + " Max width CM: " + Item.maxWidthCm);
             }
         }
 
         /// <summary>
-        /// Creates the Storageunit based on instructions from the config && constructor.
+        /// Creates the Storageunit based on instructions from the config and constructor.
         /// </summary>
         public void CreateStorage()
         {
@@ -71,7 +73,7 @@ namespace Ware
         }
 
         /// <summary>
-        /// Places the package in the storagehouse if the size && goodstype fits the slot.
+        /// Places the package in the storagehouse if the size and goodstype fits the slot.
         /// </summary>
         /// <param name="package">A Package</param>
         /// <returns>An option to know if its in storage or got placed in the storage</returns>
@@ -133,7 +135,7 @@ namespace Ware
                     return package;
                 }
             }
-            Package dummy = new("null", "null", "null", 0, 0);
+            Package dummy = new("null", "null", 0, 0);
 
             return dummy;
         }
@@ -253,52 +255,36 @@ namespace Ware
         /// It will find the time from Delivery To storageunit based from the config
         /// </summary>
         /// <returns>x amount of minutes, else 0</returns>
-        public int GetTimeDeliveryToStorage()
+        public double GetTimeDeliveryToStorageMinutes()
         {
-            foreach (Storage.WareHouseTimeConfig i in ConfigTime)
-            {
-                return i.TimeDeliveryToStorageMinutes;
-            }
-            return 0;
+            return timeFromReceivingDepartmentToStorage / 60;
         }
 
         /// <summary>
         /// Finds the time it takes from storage to terminal based on config.
         /// </summary>
         /// <returns>x amount of time, else 0</returns>
-        public int GetTimeStorageToTerminal()
+        public double GetTimeStorageToTerminalMinutes()
         {
-            foreach (Storage.WareHouseTimeConfig i in ConfigTime)
-            {
-                return i.TimeStorageToTerminalMinutes;
-            }
-            return 0;
+            return timeFromStoragetoTerminal / 60;
         }
 
         /// <summary>
         /// It will find the time from Delivery To storageunit based from the config and converts it into seconds
         /// </summary>
         /// <returns>Get Time Delivery To Storage Seconds</returns>
-        public int GetTimeDeliveryToStorageSeconds()
+        public double GetTimeDeliveryToStorageSeconds()
         {
-            foreach (Storage.WareHouseTimeConfig i in ConfigTime)
-            {
-                return i.TimeDeliveryToStorageMinutes*60;
-            }
-            return 0;
+            return timeFromReceivingDepartmentToStorage;
         }
 
         /// <summary>
         /// Finds the time it takes from storage to terminal based on config and converts it into seconds.
         /// </summary>
         /// <returns>Time Storage To Terminal Seconds</returns>
-        public int GetTimeStorageToTerminalSeconds()
+        public double GetTimeStorageToTerminalSeconds()
         {
-            foreach (Storage.WareHouseTimeConfig i in ConfigTime)
-            {
-                return i.TimeStorageToTerminalMinutes*60;
-            }
-            return 0;
+            return timeFromStoragetoTerminal;
         }
 
     }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Dynamic;
 using System.Runtime.InteropServices;
+using System.Xml.Linq;
 
 namespace Ware
 {
@@ -9,13 +10,12 @@ namespace Ware
     /// </summary>
     /// <param name="packageName">Navn på pakken.</param>
     /// <param name="goodsType">Typen gods som er i pakken.</param>
-    /// <param name="speedOfDelivery">Farten på leveringen.</param>
     /// <param name="packageHeightCm">Høyden på pakken i cm.</param>
     /// <param name="packageWidthCm">Bredden på pakken i cm.</param>
-    public class Package(string packageName, string goodsType, string speedOfDelivery, double packageHeightCm, double packageWidthCm) : IPackage
+    public class Package(string packageName, string goodsType,double packageHeightCm, double packageWidthCm) : IPackage
     {
-        public string PackageId = GenerateId(), Name = packageName, Goods = goodsType, SpeedOfDelivery = speedOfDelivery;
-        public double Height = packageHeightCm, Width = packageWidthCm;
+        private string packageId = GenerateId(), name = packageName, goods = goodsType;
+        private double height = packageHeightCm, width = packageWidthCm;
 
         /// <summary>
         /// Generates an ID for the package
@@ -38,71 +38,52 @@ namespace Ware
         /// Gets the package id
         /// </summary>
         /// <returns>packageid</returns>
-        public string GetPackageId()
+        public string PackageId
         {
-            return PackageId;
+            get { return packageId; }
+            set { packageId = value; }
         }
 
         /// <summary>
         /// Gets the package name
         /// </summary>
         /// <returns>name</returns>
-        public string GetPackageName()
+        public string Name
         {
-            return Name;
+            get { return name; }
+            set { name = value; }
         }
 
         /// <summary>
         /// Gets the package goods type
         /// </summary>
         /// <returns>goods</returns>
-        public string GetPackageGoodsType()
+        public string Goods
         {
-            return Goods;
+            get { return goods; }
+            set { goods = value; }
         }
 
         /// <summary>
-        /// Gets the package speed
-        /// </summary>
-        /// <returns>speed</returns>
-        public string GetPackageSpeedofdelivery()
-        {
-            return SpeedOfDelivery;
-        }
-
-        /// <summary>
-        /// Gets the package Width
+        /// Gets the package width
         /// </summary>
         /// <returns>width</returns>
-        public double GetPackageWidth()
+        public double Width
         {
-            return Width;
+            get { return width; }
+            set { width = value; }
         }
 
         /// <summary>
         /// Gets the package height
         /// </summary>
         /// <returns>height</returns>
-        public double GetPackageHeight()
+        public double Height
         {
-            return Height;
+            get { return height; }
+            set { height = value; }
         }
-        /// <summary>
-        /// Sets the package width
-        /// </summary>
-        /// <param name="newWidth">the package width</param>
-        public void SetPackageWidth(double newWidth)
-        {
-            Width = newWidth;
-        }
-        /// <summary>
-        /// Sets the pacakge height
-        /// </summary>
-        /// <param name="newHeight">package height</param>
-        public void SetPackageHeight(double newHeight)
-        {
-            Height = newHeight;
-        }
+
     }
 
 }

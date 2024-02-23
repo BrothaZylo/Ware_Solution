@@ -139,18 +139,18 @@ namespace Ware
                         $"      Name: {items.Key.name}" +
                         $"      Type: {items.Key.goods}" +
                         $"      Speed: {items.Key.speed}" +
-                        $"      Height: {items.Key.height}" +
+                        $"      height: {items.Key.height}" +
                         $"      Time Arrived: {items.Value.DeliveryTime}" +
                         $"      Time Sent out: {items.Value.PickupTime}");
                 }
 
-            if (checkPackage.PackageId == packageId)
+            if (checkPackage.packageId == packageId)
             {
-                Console.WriteLine($"ID: {checkPackage.PackageId}" +
+                Console.WriteLine($"ID: {checkPackage.packageId}" +
                     $"      Name: {checkPackage.Name}" +
-                    $"      Type: {checkPackage.Goods}" +
+                    $"      Type: {checkPackage.goods}" +
                     $"      Speed: {checkPackage.SpeedOfDelivery}" +
-                    $"      Height: {checkPackage.Height}" +
+                    $"      height: {checkPackage.height}" +
                     $"      Time Arrived: {item.Value.DeliveryTime}" +
                     $"      Time Sent out{item.Value.PickupTime}");
 
@@ -170,7 +170,7 @@ namespace Ware
                             $"      Name: {checkPackage.name}" +
                             $"      Type: {checkPackage.goods}" +
                             $"      Speed: {checkPackage.speed}" +
-                            $"      Height: {checkPackage.height}" +
+                            $"      height: {checkPackage.height}" +
                             $"      Time Arrived: {item.Value.DeliveryTime}" +
                             $"      Time Sent out{item.Value.PickupTime}");
                     }
