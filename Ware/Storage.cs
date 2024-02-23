@@ -249,7 +249,7 @@ namespace Ware
         /// <summary>
         /// Gets the time it takes from ReceivingDeportment to Storage
         /// </summary>
-        public double GetTimeReceivingToStorageMinutes
+        public double TimeReceivingToStorageMinutes
         {
             get { return timeFromReceivingDepartmentToStorage / 60; }
             set { timeFromReceivingDepartmentToStorage = value; }
@@ -259,7 +259,7 @@ namespace Ware
         /// Finds the time it takes from storage to terminal based on config.
         /// </summary>
         /// <returns>x amount of time, else 0</returns>
-        public double GetTimeStorageToTerminalMinutes
+        public double TimeStorageToTerminalMinutes
         {
             get { return timeFromStoragetoTerminal / 60; }
             set { timeFromStoragetoTerminal = value; }
@@ -269,7 +269,7 @@ namespace Ware
         /// It will find the time from Delivery To storageunit based from the config and converts it into seconds
         /// </summary>
         /// <returns>Get Time Delivery To Storage Seconds</returns>
-        public double GetTimeDeliveryToStorageSeconds
+        public double TimeDeliveryToStorageSeconds
         {
             get { return timeFromReceivingDepartmentToStorage; }
             set { timeFromReceivingDepartmentToStorage = value; }
@@ -279,7 +279,7 @@ namespace Ware
         /// Finds the time it takes from storage to terminal based on config and converts it into seconds.
         /// </summary>
         /// <returns>Time Storage To Terminal Seconds</returns>
-        public double GetTimeStorageToTerminalSeconds
+        public double TimeStorageToTerminalSeconds
         {
             get { return timeFromStoragetoTerminal; }
             set { timeFromStoragetoTerminal = value; }

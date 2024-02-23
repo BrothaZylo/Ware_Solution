@@ -82,7 +82,7 @@ namespace Ware
         public string TravelTimeToStorage() 
         {
             string time = "Estimated time to storage in minutes: ";
-            return time+= storageConfiguration.GetTimeReceivingToStorageMinutes;
+            return time+= storageConfiguration.TimeReceivingToStorageMinutes;
 
 
         }
