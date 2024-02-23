@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Ware
 {
     /// <summary>
-    /// 
+    /// Simulates how the system would act with Refrigerated, Dangrous and Dry storage units.
     /// </summary>
     /// <param name="seconds"></param>
     public class Simulation(int seconds) : ISimulation
@@ -71,11 +71,13 @@ namespace Ware
         /// </summary>
         public void Run()
         {
-            int start = 0;
+            int start = 1;
             int stop = seconds;
+            int delay = 1000;
+
             AddUnits();
             BuildStorages();
-            int delay = 1000;
+
 
             while (start != stop)
             {
@@ -84,11 +86,13 @@ namespace Ware
                 start++;
             }
 
-            Dry.GetAllStorageInformationPrint();
+            //Dry.GetAllStorageInformationPrint();
             Console.WriteLine();
-            Refrigerated.GetAllStorageInformationPrint();
+            //Refrigerated.GetAllStorageInformationPrint();
             Console.WriteLine();
-            Dangrous.GetAllStorageInformationPrint();
+            //Dangrous.GetAllStorageInformationPrint();
+
+            Console.WriteLine("Simulation ended at: " + stop + " Seconds");
         }
 
     }
