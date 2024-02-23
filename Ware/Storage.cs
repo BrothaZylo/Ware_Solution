@@ -12,26 +12,13 @@ namespace Ware
     /// Preconfig of the storageunits which will later be used to create shelves.
     /// </summary>
     /// <param name="goodsType">This will be the name of the storage unit</param>
-    /// <param name="totalSpaceAvailable">Total space available in shelf</param>
     /// <param name="configureSize">Shelf size list config</param>
-    /// <param name="configureTime">Travel time within the area list config</param>
-    public class Storage(string goodsType, int totalSpaceAvailable, List<Storage.WareHouseSizeConfig> configureSize) : IStorage
+    public class Storage(string goodsType, List<Storage.WareHouseSizeConfig> configureSize) : IStorage
     {
-        public string ShelfCategory = goodsType;
-        public int TotalSpace = totalSpaceAvailable;
+        private readonly string shelfcategory = goodsType;
         public List<WareHouseSizeConfig> ConfigFiles = configureSize;
         private double timeFromReceivingDepartmentToStorage, timeFromStoragetoTerminal;
-        Dictionary<string, (string, string, double, double, bool)> YourWareList = [];
-        
-        public void SetTimeReceivingDepartmentToStorage(double seconds)
-        {
-            timeFromReceivingDepartmentToStorage = seconds;
-        }
-
-        public void SetTimeStoragetoTerminal(double seconds)
-        {
-            timeFromReceivingDepartmentToStorage = seconds;
-        }
+        private readonly Dictionary<string, (string, string, double, double, bool)> yourWareList = [];
 
 
         /// <summary>
@@ -43,6 +30,14 @@ namespace Ware
             public int totalUnitsAvailable { get; set; }
             public double maxWidthCm { get; set; }
             public double maxHeightCm { get; set; }
+        }
+
+        /// <summary>
+        /// Gets the goodstype of the shelf
+        /// </summary>
+        public string ShelfCategory
+        {
+            get { return shelfcategory; }
         }
 
         /// <summary>
@@ -59,14 +54,14 @@ namespace Ware
         /// <summary>
         /// Creates the Storageunit based on instructions from the config and constructor.
         /// </summary>
-        public void CreateStorage()
+        public void Build()
         {
             int StorageCounter = 1;
             foreach(Storage.WareHouseSizeConfig j in ConfigFiles)
             {
                 for (int k = 0; k < j.totalUnitsAvailable; k++)
                 {
-                    YourWareList.Add(ShelfCategory + "ShelfID: " + StorageCounter, ("PackageID: Empty", "Type of storage: " + j.sizeName, j.maxWidthCm, j.maxHeightCm, false));
+                    yourWareList.Add(shelfcategory + "ShelfID: " + StorageCounter, ("PackageID: Empty", "Type of storage: " + j.sizeName, j.maxWidthCm, j.maxHeightCm, false));
                     StorageCounter++;
                 }
             }
@@ -81,9 +76,9 @@ namespace Ware
         {
             double packagesizew = package.Width;
             double packagesizeh = package.Height;
-            foreach (KeyValuePair<string, (string, string, double, double, bool)> i in YourWareList)
+            foreach (KeyValuePair<string, (string, string, double, double, bool)> i in yourWareList)
             {
-                if (ShelfCategory == package.Goods)
+                if (shelfcategory == package.Goods)
                 {
                     if (i.Value.Item1 == package.PackageId)
                     {
@@ -93,7 +88,7 @@ namespace Ware
                     {
                         if (packagesizew < i.Value.Item3 && packagesizeh < i.Value.Item4)
                         {
-                            YourWareList[i.Key] = (package.PackageId, i.Value.Item2, i.Value.Item3, i.Value.Item4, true);
+                            yourWareList[i.Key] = (package.PackageId, i.Value.Item2, i.Value.Item3, i.Value.Item4, true);
                             return "Package was placed in: " + i.Key;
                         }
                     }
@@ -109,11 +104,11 @@ namespace Ware
         /// <returns>it will return the packageId if it finds the packackage, else it will return null</returns>
         public string MovePackageById(string packageId)
         {
-            foreach (KeyValuePair<string, (string, string, double, double, bool)> i in YourWareList)
+            foreach (KeyValuePair<string, (string, string, double, double, bool)> i in yourWareList)
             {
                 if (i.Value.Item1 == packageId)
                 {
-                    YourWareList[i.Key] = ("PackageID: Empty", i.Value.Item2, i.Value.Item3, i.Value.Item4, false);
+                    yourWareList[i.Key] = ("PackageID: Empty", i.Value.Item2, i.Value.Item3, i.Value.Item4, false);
                     return packageId;
                 }
             }
@@ -127,11 +122,11 @@ namespace Ware
         /// <returns>if it find the package it will return the package, else it will return a nulled package format</returns>
         public Package MovePackage(Package package)
         {
-            foreach(KeyValuePair<string, (string, string, double, double, bool)> i in YourWareList)
+            foreach(KeyValuePair<string, (string, string, double, double, bool)> i in yourWareList)
             {
                 if (i.Value.Item1 == package.PackageId)
                 {
-                    YourWareList[i.Key] = ("PackageID: Empty", i.Value.Item2, i.Value.Item3, i.Value.Item4, false);
+                    yourWareList[i.Key] = ("PackageID: Empty", i.Value.Item2, i.Value.Item3, i.Value.Item4, false);
                     return package;
                 }
             }
@@ -145,7 +140,7 @@ namespace Ware
         /// </summary>
         public void GetAllStorageInformationPrint()
         {
-            foreach(KeyValuePair<string, (string, string, double, double, bool)> i in YourWareList)
+            foreach(KeyValuePair<string, (string, string, double, double, bool)> i in yourWareList)
             {
                 Console.WriteLine(i);
             }
@@ -156,7 +151,7 @@ namespace Ware
         /// <returns>warehouse dictionary </returns>
         public Dictionary<string, (string, string, double, double, bool)> GetAllStorageInformationAsDictionary()
         {
-            return YourWareList;
+            return yourWareList;
         }
 
         /// <summary>
@@ -166,7 +161,7 @@ namespace Ware
         /// <returns>Returns the shelf number else, it will return Does not exist</returns>
         public string GetStorageNameById(int shelfNumber)
         {
-            foreach(KeyValuePair<string, (string, string, double, double, bool)> i in YourWareList)
+            foreach(KeyValuePair<string, (string, string, double, double, bool)> i in yourWareList)
             {
                 string[] keysplit = i.Key.Split(':');
                 string key1 = keysplit[0];
@@ -187,7 +182,7 @@ namespace Ware
         public string FindPackageSectionById(string packageId)
         {
             string item = "";
-            foreach(KeyValuePair<string, (string, string, double, double, bool)> i in YourWareList)
+            foreach(KeyValuePair<string, (string, string, double, double, bool)> i in yourWareList)
             {
                 if (i.Value.Item1 == packageId)
                 {
@@ -205,7 +200,7 @@ namespace Ware
         public string FindPackageById(string packageId)
         {
             string item = "Does not exist";
-            foreach (KeyValuePair<string, (string, string, double, double, bool)> i in YourWareList)
+            foreach (KeyValuePair<string, (string, string, double, double, bool)> i in yourWareList)
             {
                 if (i.Value.Item1 == packageId)
                 {
@@ -222,7 +217,7 @@ namespace Ware
         /// <returns>returns true if taken, else false</returns>
         public bool IsSpotTaken(string storageName)
         {
-            foreach(KeyValuePair<string, (string, string, double, double, bool)> i in YourWareList)
+            foreach(KeyValuePair<string, (string, string, double, double, bool)> i in yourWareList)
             {
                 if (i.Key == storageName)
                 {
@@ -239,7 +234,7 @@ namespace Ware
         /// <returns>returns true if package type is the same as the one in the storage unit, else false</returns>
         public bool IsSameTypeOfGoods(Package package)
         {
-            foreach (KeyValuePair<string, (string, string, double, double, bool)> i in YourWareList)
+            foreach (KeyValuePair<string, (string, string, double, double, bool)> i in yourWareList)
             {
                 string[] keysplit = i.Key.Split('S');
                 string key1 = keysplit[0];

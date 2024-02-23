@@ -10,7 +10,7 @@ namespace Ware
     {
         void SizeConfigPrint();
 
-        void CreateStorage();
+        void Build();
 
         string PlacePackage(Package package);
 

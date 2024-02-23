@@ -10,7 +10,7 @@ List<Storage.WareHouseSizeConfig> configListRefridge =
     new() { sizeName = "Tiny", totalUnitsAvailable = 5, maxHeightCm = 10.5, maxWidthCm = 10 },
     new() { sizeName = "Large", totalUnitsAvailable = 4, maxHeightCm = 30, maxWidthCm = 30 }
 ];
-Storage Refridgerated = new("Refridgerated", 25, configListRefridge);
+Storage Refridgerated = new("Refridgerated", configListRefridge);
 
 Package package1 = new("Milk", "Refridgerated", 10, 30);
 Package package2 = new("Eggs", "Refridgerated", 10, 30);
@@ -25,7 +25,7 @@ List<Storage.WareHouseSizeConfig> configListElectronics =
     new() { sizeName = "Tiny", totalUnitsAvailable = 5, maxHeightCm = 10.5, maxWidthCm = 10 },
     new() { sizeName = "Large", totalUnitsAvailable = 4, maxHeightCm = 30, maxWidthCm = 30 }
 ];
-Storage Electronics = new("Electronics", 25, configListElectronics);
+Storage Electronics = new("Electronics", configListElectronics);
 
 
 Package package4 = new("Speakers", "Electronics", 10, 30);
@@ -41,7 +41,7 @@ List<Storage.WareHouseSizeConfig> configListDangerous =
     new() { sizeName = "Tiny", totalUnitsAvailable = 5, maxHeightCm = 10.5, maxWidthCm = 10 },
     new() { sizeName = "Large", totalUnitsAvailable = 4, maxHeightCm = 30, maxWidthCm = 30 }
 ];
-Storage Dangerous = new("Dangerous", 25, configListDangerous);
+Storage Dangerous = new("Dangerous", configListDangerous);
 
 
 Package package7 = new("Propane tank", "Dangerous", 3, 5);
@@ -58,7 +58,7 @@ List<Storage.WareHouseSizeConfig> configListDryGoods =
     new() { sizeName = "Tiny", totalUnitsAvailable = 5, maxHeightCm = 10.5, maxWidthCm = 10 },
     new() { sizeName = "Large", totalUnitsAvailable = 4, maxHeightCm = 30, maxWidthCm = 30 }
 ];
-Storage DryGoods = new("Dry", 25, configListDangerous);
+Storage DryGoods = new("Dry", configListDangerous);
 
 
 Package package10 = new("1 tank", "Dry", 3, 5);
@@ -108,7 +108,7 @@ deliverySchedule.AddPackage("Repeating", DayOfWeek.Sunday, package17, DateTime.N
 
 
 
-DryGoods.CreateStorage();
+DryGoods.Build();
 
 Terminal terminal = new Terminal();
 PackageLogging packageHistory = new PackageLogging();
@@ -255,7 +255,7 @@ Package package8 = new("Moose", "Dry goods", "fast", 7, 3);
 Terminal terminal = new Terminal();
 Schedule deliverySchedule = new();
 ReceivingDepartment receivingDepartment = new(Dry);
-Dry.CreateStorage();
+Dry.Build();
 
 int timer = 0;
 

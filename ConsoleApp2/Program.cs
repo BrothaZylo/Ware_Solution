@@ -34,11 +34,11 @@ List<Storage.WareHouseSizeConfig> configlistdry =
     new() { sizeName = "Tiny", totalUnitsAvailable = 5, maxHeightCm = 10.5, maxWidthCm = 10 },
     new() { sizeName = "Large", totalUnitsAvailable = 4, maxHeightCm = 30, maxWidthCm = 30 }
 ];
-Storage Dry = new("Dry goods", 25, configlistdry);
+Storage Dry = new("Dry goods", configlistdry);
 Package package6 = new("Chips", "Dry goods", 15, 3);
 Package package7 = new("Ost", "Dry goods", 7, 3);
 Package package8 = new("Moose", "Dry goods", 7, 3);
-Dry.CreateStorage();
+Dry.Build();
 Dry.PlacePackage(package8);
 Dry.GetAllStorageInformationPrint();
 //
