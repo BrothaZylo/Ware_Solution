@@ -12,14 +12,20 @@ namespace Ware
     /// Preconfig of the storageunits which will later be used to create shelves.
     /// </summary>
     /// <param name="goodsType">This will be the name of the storage unit</param>
-    /// <param name="configureSize">Shelf size list config</param>
-    public class Storage(string goodsType, List<Storage.WareHouseSizeConfig> configureSize) : IStorage
+    public class Storage(string goodsType) : IStorage
     {
-        private readonly string shelfcategory = goodsType;
-        private readonly List<WareHouseSizeConfig> configfiles = configureSize;
+        private readonly string shelfCategory = goodsType;
+        private readonly List<WareHouseSizeConfig> configFiles = [];
         private double timeFromReceivingDepartmentToStorage, timeFromStoragetoTerminal;
         private readonly Dictionary<string, (string, string, double, double, bool)> yourWareList = [];
 
+        /// <summary>
+        /// Predefine before you build the storage. Adds a custom set of sized shelfs to the storage unit
+        /// </summary>
+        public void AddUnit(string sizeName, int totalUntsAvailable, double maxHeightCm, double maxWidthCm)
+        {
+            configFiles.Add(new() { sizeName = sizeName, totalUnitsAvailable = totalUntsAvailable, maxHeightCm = maxHeightCm, maxWidthCm = maxWidthCm });
+        }
 
         /// <summary>
         /// Configures diffrent sizes that a complete Warehouse storageunit contains.
@@ -37,7 +43,7 @@ namespace Ware
         /// </summary>
         public string ShelfCategory
         {
-            get { return shelfcategory; }
+            get { return shelfCategory; }
         }
 
         /// <summary>
@@ -45,7 +51,7 @@ namespace Ware
         /// </summary>
         public void SizeConfigPrint()
         {
-            foreach (Storage.WareHouseSizeConfig Item in configfiles)
+            foreach (Storage.WareHouseSizeConfig Item in configFiles)
             {
                 Console.WriteLine("StorageName: " + Item.sizeName + " TotalUnits: " + Item.totalUnitsAvailable + " Max Length CM: " + Item.maxHeightCm + " Max width CM: " + Item.maxWidthCm);
             }
@@ -57,11 +63,11 @@ namespace Ware
         public void Build()
         {
             int StorageCounter = 1;
-            foreach(Storage.WareHouseSizeConfig j in configfiles)
+            foreach(Storage.WareHouseSizeConfig j in configFiles)
             {
                 for (int k = 0; k < j.totalUnitsAvailable; k++)
                 {
-                    yourWareList.Add(shelfcategory + "ShelfID: " + StorageCounter, ("PackageID: Empty", "Type of storage: " + j.sizeName, j.maxWidthCm, j.maxHeightCm, false));
+                    yourWareList.Add(shelfCategory + "ShelfID: " + StorageCounter, ("PackageID: Empty", "Type of storage: " + j.sizeName, j.maxWidthCm, j.maxHeightCm, false));
                     StorageCounter++;
                 }
             }
@@ -78,7 +84,7 @@ namespace Ware
             double packagesizeh = package.Height;
             foreach (KeyValuePair<string, (string, string, double, double, bool)> i in yourWareList)
             {
-                if (shelfcategory == package.Goods)
+                if (shelfCategory == package.Goods)
                 {
                     if (i.Value.Item1 == package.PackageId)
                     {

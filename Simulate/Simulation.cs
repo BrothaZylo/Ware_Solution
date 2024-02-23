@@ -3,14 +3,8 @@
 using Ware;
 
 
-
-// Configuring the size of the refrigirated units
-List<Storage.WareHouseSizeConfig> configListRefridge =
-[
-    new() { sizeName = "Tiny", totalUnitsAvailable = 5, maxHeightCm = 10.5, maxWidthCm = 10 },
-    new() { sizeName = "Large", totalUnitsAvailable = 4, maxHeightCm = 30, maxWidthCm = 30 }
-];
-Storage Refridgerated = new("Refridgerated", configListRefridge);
+Storage Refridgerated = new("Refridgerated");
+Refridgerated.AddUnit("Big", 15, 100, 100);
 
 Package package1 = new("Milk", "Refridgerated", 10, 30);
 Package package2 = new("Eggs", "Refridgerated", 10, 30);
@@ -20,12 +14,8 @@ Package package3 = new("Fruit Juice", "Refridgerated", 10, 30);
 /**************************************************************/
 
 // Configuring the size of the electronic units
-List<Storage.WareHouseSizeConfig> configListElectronics =
-[
-    new() { sizeName = "Tiny", totalUnitsAvailable = 5, maxHeightCm = 10.5, maxWidthCm = 10 },
-    new() { sizeName = "Large", totalUnitsAvailable = 4, maxHeightCm = 30, maxWidthCm = 30 }
-];
-Storage Electronics = new("Electronics", configListElectronics);
+Storage Electronics = new("Electronics");
+Electronics.AddUnit("Big", 15, 100, 100);
 
 
 Package package4 = new("Speakers", "Electronics", 10, 30);
@@ -36,13 +26,8 @@ Package package6 = new("Laptop", "Electronics", 10, 30);
 /**************************************************************/
 
 // Configuring the size of the Dangerouos goods units
-List<Storage.WareHouseSizeConfig> configListDangerous =
-[
-    new() { sizeName = "Tiny", totalUnitsAvailable = 5, maxHeightCm = 10.5, maxWidthCm = 10 },
-    new() { sizeName = "Large", totalUnitsAvailable = 4, maxHeightCm = 30, maxWidthCm = 30 }
-];
-Storage Dangerous = new("Dangerous", configListDangerous);
-
+Storage Dangerous = new("Dangerous");
+Dangerous.AddUnit("Big", 15, 100, 100);
 
 Package package7 = new("Propane tank", "Dangerous", 3, 5);
 Package package8 = new("Firework", "Dangerous", 3, 5);
@@ -53,12 +38,9 @@ Package package9 = new("You", "Dangerous", 3, 5);
 
 // Configuring the size of the dry goods units
 
-List<Storage.WareHouseSizeConfig> configListDryGoods =
-[
-    new() { sizeName = "Tiny", totalUnitsAvailable = 5, maxHeightCm = 10.5, maxWidthCm = 10 },
-    new() { sizeName = "Large", totalUnitsAvailable = 4, maxHeightCm = 30, maxWidthCm = 30 }
-];
-Storage DryGoods = new("Dry", configListDangerous);
+
+Storage DryGoods = new("Dry");
+DryGoods.AddUnit("Big", 15, 100, 100);
 
 
 Package package10 = new("1 tank", "Dry", 3, 5);

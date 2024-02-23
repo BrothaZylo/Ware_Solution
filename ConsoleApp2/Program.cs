@@ -5,11 +5,6 @@ Package u = new("Hestesko", "kjølevare", 82.5, 43.4);
 
 Package uu = new("Pæreboks", "kulvare", 91.3, 15.7);
 
-List<Storage.WareHouseSizeConfig> configlist =
-[
-    new() { sizeName = "Tiny", totalUnitsAvailable = 5, maxHeightCm = 10.5, maxWidthCm = 10},
-    new() { sizeName = "Large", totalUnitsAvailable = 4, maxHeightCm = 30, maxWidthCm = 30 }
-];
 
 
 Package iskrem = new Package("Iskrem", "kjølevare",43,4);
@@ -29,12 +24,11 @@ Console.WriteLine(packageHistory.AddPackageLog(iskrem.PackageId, "Truck"));
 packageHistory.LogsPrint();
 
 
-List<Storage.WareHouseSizeConfig> configlistdry =
-[
-    new() { sizeName = "Tiny", totalUnitsAvailable = 5, maxHeightCm = 10.5, maxWidthCm = 10 },
-    new() { sizeName = "Large", totalUnitsAvailable = 4, maxHeightCm = 30, maxWidthCm = 30 }
-];
-Storage Dry = new("Dry goods", configlistdry);
+
+Storage Dry = new("Dry goods");
+Dry.AddUnit("Small", 5, 11, 10);
+Dry.AddUnit("Large", 4, 90, 90);
+Dry.AddUnit("BIIG", 2, 670, 50);
 Package package6 = new("Chips", "Dry goods", 15, 3);
 Package package7 = new("Ost", "Dry goods", 7, 3);
 Package package8 = new("Moose", "Dry goods", 7, 3);
