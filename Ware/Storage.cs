@@ -247,39 +247,42 @@ namespace Ware
         }
 
         /// <summary>
-        /// It will find the time from Delivery To storageunit based from the config
+        /// Gets the time it takes from ReceivingDeportment to Storage
         /// </summary>
-        /// <returns>x amount of minutes, else 0</returns>
-        public double GetTimeDeliveryToStorageMinutes()
+        public double GetTimeReceivingToStorageMinutes
         {
-            return timeFromReceivingDepartmentToStorage / 60;
+            get { return timeFromReceivingDepartmentToStorage / 60; }
+            set { timeFromReceivingDepartmentToStorage = value; }
         }
 
         /// <summary>
         /// Finds the time it takes from storage to terminal based on config.
         /// </summary>
         /// <returns>x amount of time, else 0</returns>
-        public double GetTimeStorageToTerminalMinutes()
+        public double GetTimeStorageToTerminalMinutes
         {
-            return timeFromStoragetoTerminal / 60;
+            get { return timeFromStoragetoTerminal / 60; }
+            set { timeFromStoragetoTerminal = value; }
         }
 
         /// <summary>
         /// It will find the time from Delivery To storageunit based from the config and converts it into seconds
         /// </summary>
         /// <returns>Get Time Delivery To Storage Seconds</returns>
-        public double GetTimeDeliveryToStorageSeconds()
+        public double GetTimeDeliveryToStorageSeconds
         {
-            return timeFromReceivingDepartmentToStorage;
+            get { return timeFromReceivingDepartmentToStorage; }
+            set { timeFromReceivingDepartmentToStorage = value; }
         }
 
         /// <summary>
         /// Finds the time it takes from storage to terminal based on config and converts it into seconds.
         /// </summary>
         /// <returns>Time Storage To Terminal Seconds</returns>
-        public double GetTimeStorageToTerminalSeconds()
+        public double GetTimeStorageToTerminalSeconds
         {
-            return timeFromStoragetoTerminal;
+            get { return timeFromStoragetoTerminal; }
+            set { timeFromStoragetoTerminal = value; }
         }
 
     }

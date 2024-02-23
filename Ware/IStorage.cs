@@ -30,12 +30,5 @@ namespace Ware
 
         bool IsSameTypeOfGoods(Package package);
 
-        double GetTimeDeliveryToStorageMinutes();
-
-        double GetTimeStorageToTerminalMinutes();
-
-        double GetTimeDeliveryToStorageSeconds();
-
-        double GetTimeStorageToTerminalSeconds();
     }
 }

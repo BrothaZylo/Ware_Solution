@@ -81,8 +81,8 @@ namespace Ware
         /// <returns>Represents the estimated time it took to get to storage.</returns>
         public string TravelTimeToStorage() 
         {
-            string time = "Estimated time to Storage: ";
-            return time+= storageConfiguration.GetTimeDeliveryToStorageMinutes();
+            string time = "Estimated time to storage in minutes: ";
+            return time+= storageConfiguration.GetTimeReceivingToStorageMinutes;
 
 
         }
