@@ -11,7 +11,7 @@ namespace Ware
     /// <summary>
     /// Preconfig of the storageunits which will later be used to create shelves.
     /// </summary>
-    /// <param name="goodsType">This will be the name of the storage unit</param>
+    /// <param name="goodsType">This will be the name of the storage unit, and what type of goods can be placed in this unit</param>
     public class Storage(string goodsType) : IStorage
     {
         private readonly string shelfCategory = goodsType;
@@ -24,7 +24,7 @@ namespace Ware
         /// </summary>
         public void AddUnit(string sizeName, int totalUntsAvailable, double maxHeightCm, double maxWidthCm)
         {
-            configFiles.Add(new() { sizeName = sizeName, totalUnitsAvailable = totalUntsAvailable, maxHeightCm = maxHeightCm, maxWidthCm = maxWidthCm });
+            configFiles.Add(new() { SizeName = sizeName, TotalUnitsAvailable = totalUntsAvailable, MaxHeightCm = maxHeightCm, MaxWidthCm = maxWidthCm });
         }
 
         /// <summary>
@@ -32,10 +32,22 @@ namespace Ware
         /// </summary>
         public class WareHouseSizeConfig
         {
-            public required string sizeName { get; set; }
-            public int totalUnitsAvailable { get; set; }
-            public double maxWidthCm { get; set; }
-            public double maxHeightCm { get; set; }
+            /// <summary>
+            /// Name of the size for x amount of units
+            /// </summary>
+            public required string SizeName { get; set; }
+            /// <summary>
+            /// Set the amount of units for set size in the unit
+            /// </summary>
+            public int TotalUnitsAvailable { get; set; }
+            /// <summary>
+            /// Max width for x amount of units
+            /// </summary>
+            public double MaxWidthCm { get; set; }
+            /// <summary>
+            /// Max Height for x amount of units
+            /// </summary>
+            public double MaxHeightCm { get; set; }
         }
 
         /// <summary>
@@ -53,7 +65,7 @@ namespace Ware
         {
             foreach (Storage.WareHouseSizeConfig Item in configFiles)
             {
-                Console.WriteLine("StorageName: " + Item.sizeName + " TotalUnits: " + Item.totalUnitsAvailable + " Max Length CM: " + Item.maxHeightCm + " Max width CM: " + Item.maxWidthCm);
+                Console.WriteLine("StorageName: " + Item.SizeName + " TotalUnits: " + Item.TotalUnitsAvailable + " Max Length CM: " + Item.MaxHeightCm + " Max width CM: " + Item.MaxWidthCm);
             }
         }
 
@@ -65,9 +77,9 @@ namespace Ware
             int StorageCounter = 1;
             foreach(Storage.WareHouseSizeConfig j in configFiles)
             {
-                for (int k = 0; k < j.totalUnitsAvailable; k++)
+                for (int k = 0; k < j.TotalUnitsAvailable; k++)
                 {
-                    yourWareList.Add(shelfCategory + "ShelfID: " + StorageCounter, ("PackageID: Empty", "Type of storage: " + j.sizeName, j.maxWidthCm, j.maxHeightCm, false));
+                    yourWareList.Add(shelfCategory + "ShelfID: " + StorageCounter, ("PackageID: Empty", "Type of storage: " + j.SizeName, j.MaxWidthCm, j.MaxHeightCm, false));
                     StorageCounter++;
                 }
             }
