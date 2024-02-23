@@ -16,7 +16,7 @@ namespace Ware
     public class Storage(string goodsType, List<Storage.WareHouseSizeConfig> configureSize) : IStorage
     {
         private readonly string shelfcategory = goodsType;
-        public List<WareHouseSizeConfig> ConfigFiles = configureSize;
+        private readonly List<WareHouseSizeConfig> configfiles = configureSize;
         private double timeFromReceivingDepartmentToStorage, timeFromStoragetoTerminal;
         private readonly Dictionary<string, (string, string, double, double, bool)> yourWareList = [];
 
@@ -45,7 +45,7 @@ namespace Ware
         /// </summary>
         public void SizeConfigPrint()
         {
-            foreach (Storage.WareHouseSizeConfig Item in ConfigFiles)
+            foreach (Storage.WareHouseSizeConfig Item in configfiles)
             {
                 Console.WriteLine("StorageName: " + Item.sizeName + " TotalUnits: " + Item.totalUnitsAvailable + " Max Length CM: " + Item.maxHeightCm + " Max width CM: " + Item.maxWidthCm);
             }
@@ -57,7 +57,7 @@ namespace Ware
         public void Build()
         {
             int StorageCounter = 1;
-            foreach(Storage.WareHouseSizeConfig j in ConfigFiles)
+            foreach(Storage.WareHouseSizeConfig j in configfiles)
             {
                 for (int k = 0; k < j.totalUnitsAvailable; k++)
                 {
