@@ -30,7 +30,7 @@ namespace Ware
         /// <summary>
         /// Configures diffrent sizes that a complete Warehouse storageunit contains.
         /// </summary>
-        public class WareHouseSizeConfig
+        private class WareHouseSizeConfig
         {
             /// <summary>
             /// Name of the size for x amount of units

@@ -8,10 +8,10 @@ namespace Ware
     /// </summary>
     public class ReceivingDepartment(Storage storage) : IReceivingDepartment
     {
-        private List<Package> receivedPackages = [];
-        private List<Package> allPackages = [];
+        private readonly List<Package> receivedPackages = [];
+        private readonly List<Package> allPackages = [];
 
-        private Storage storageConfiguration = storage;
+        private readonly Storage storageConfiguration = storage;
 
         /// <summary>
         /// The package is received and added to the list of received packages.
