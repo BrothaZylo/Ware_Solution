@@ -75,12 +75,20 @@ namespace Ware
             int stop = seconds;
             AddUnits();
             BuildStorages();
+            int delay = 1000;
 
             while (start != stop)
             {
-
+                Console.WriteLine(start);
+                Thread.Sleep(delay);
                 start++;
             }
+
+            Dry.GetAllStorageInformationPrint();
+            Console.WriteLine();
+            Refrigerated.GetAllStorageInformationPrint();
+            Console.WriteLine();
+            Dangrous.GetAllStorageInformationPrint();
         }
 
     }
