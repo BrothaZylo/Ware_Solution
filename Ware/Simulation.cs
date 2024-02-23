@@ -20,7 +20,7 @@ namespace Ware
         /// Adds packages that will run in the simulation
         /// </summary>
         /// <param name="package"></param>
-        public void Add(Package package)
+        public void AddPackage(Package package)
         {
             simulationPackages.Add(package);
         }
@@ -32,6 +32,15 @@ namespace Ware
         {
             Console.WriteLine("Sim start");
         }
+
+        private Package GetFirstPackage()
+        {
+            Package first = simulationPackages[0];
+            simulationPackages.RemoveAt(0);
+            return first;
+        }
+
+
 
     }
 }

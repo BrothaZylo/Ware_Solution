@@ -8,7 +8,7 @@ namespace Ware
 {
     internal interface ISimulation
     {
-        void Add(Package package);
+        void AddPackage(Package package);
         void Run();
     }
 }
