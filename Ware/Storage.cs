@@ -130,7 +130,7 @@ namespace Ware
                     return packageId;
                 }
             }
-            return "null";
+            return;
         }
         
         /// <summary>
@@ -148,9 +148,7 @@ namespace Ware
                     return package;
                 }
             }
-            Package dummy = new("null", "null", 0, 0);
-
-            return dummy;
+            return;
         }
         /// <summary>
         /// Moves the package from the shelf and returns the it in package format.
@@ -169,9 +167,7 @@ namespace Ware
                     return package;
                 }
             }
-            Package dummy = new("null", "null", 0, 0);
-
-            return dummy;
+            return;
         }
 
 
