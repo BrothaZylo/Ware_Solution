@@ -152,6 +152,29 @@ namespace Ware
 
             return dummy;
         }
+        /// <summary>
+        /// Moves the package from the shelf and returns the it in package format.
+        /// </summary>
+        /// <param name="package">A package</param>
+        /// <param name="terminal">The Terminal where the package will be sent out</param>
+        /// <returns>if it find the package it will return the package, else it will return a nulled package format</returns>
+        public Package MovePackageToTerminal(Package package, Terminal terminal)
+        {
+            foreach (KeyValuePair<string, (string, string, double, double, bool)> i in yourWareList)
+            {
+                if (i.Value.Item1 == package.PackageId)
+                {
+                    yourWareList[i.Key] = ("PackageID: Empty", i.Value.Item2, i.Value.Item3, i.Value.Item4, false);
+                    return package;
+                    terminal.AddPackage(package);
+
+                }
+            }
+            Package dummy = new("null", "null", 0, 0);
+
+            return dummy;
+        }
+
 
         /// <summary>
         /// Prints the entire storage house shelf unit.

@@ -32,7 +32,7 @@ namespace Ware
         /// Sends out a specific package and removes from list
         /// </summary>
         /// <param name="package">A package object</param>
-        public void SendPak0cage(Package package)
+        public void SendPackage(Package package)
             {
             foreach (Package p in PackagesSentOut)
             {
