@@ -130,7 +130,7 @@ namespace Ware
                     return packageId;
                 }
             }
-            return "";
+            return "Could not find id";
         }
         
         /// <summary>
