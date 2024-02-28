@@ -64,7 +64,7 @@ namespace Ware
         /// <param name="day">What day the package is coming</param>
         /// <param name="package">The package being delivered</param>
         /// <param name="deliveryTime">The date and time it will arrive </param>
-        /// <param name="pickupTime">The date and time it will be picke up </param>
+        /// <param name="pickupTime">The date and time it will be picked up </param>
         /// Steve. “Adding Items to a List in a Dictionary.” Stack Overflow, 2024,
         /// stackoverflow.com/questions/14991688/adding-items-to-a-list-in-a-dictionary.
         /// Author Steve
@@ -123,13 +123,13 @@ namespace Ware
             return calender;
         }
         /// <summary>
-        /// Returns a boolean depending on if the day exists and of it contains any packages
+        /// Returns a boolean depending on if the day exists and if it contains any packages
         /// 
         /// Joe. “How to Get the Integer Value of Day of Week.” Stack Overflow, 2024,
         /// stackoverflow.com/questions/9199080/how-to-get-the-integer-value-of-day-of-week.
         /// </summary>
         /// <param name="day">Day of week</param>
-        /// <returns>Returnt a bool that tells if the day contains anything</returns>
+        /// <returns>Return a bool that tells if the day contains anything</returns>
         public bool CheckDay(DayOfWeek day)
         {
             DaysOfWeek deliveryDay = (DaysOfWeek)(int)day;

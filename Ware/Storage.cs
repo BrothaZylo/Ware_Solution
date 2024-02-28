@@ -22,6 +22,10 @@ namespace Ware
         /// <summary>
         /// Predefine before you build the storage. Adds a custom set of sized shelfs to the storage unit
         /// </summary>
+        /// <param name="sizeName">name of the size, example: "Large"</param>
+        /// <param name="totalUntsAvailable">How many units of set size exists</param>
+        /// <param name="maxHeightCm">Max height of the storage in cm</param>
+        /// <param name="maxWidthCm">Max width of the storage in cm</param>
         public void AddUnit(string sizeName, int totalUntsAvailable, double maxHeightCm, double maxWidthCm)
         {
             configFiles.Add(new() { SizeName = sizeName, TotalUnitsAvailable = totalUntsAvailable, MaxHeightCm = maxHeightCm, MaxWidthCm = maxWidthCm });
@@ -120,7 +124,7 @@ namespace Ware
         /// </summary>
         /// <param name="packageId">A Package</param>
         /// <returns>it will return the packageId if it finds the packackage, else it will return null</returns>
-        public string MovePackageById(string packageId)
+        public string? MovePackageById(string packageId)
         {
             foreach (KeyValuePair<string, (string, string, double, double, bool)> i in yourWareList)
             {
@@ -130,14 +134,14 @@ namespace Ware
                     return packageId;
                 }
             }
-            return "Could not find id";
+            return null;
         }
         
         /// <summary>
-        /// Moves the package from the shelf and returns the it in package format.
+        /// Moves the package from the shelf and returns it in package format.
         /// </summary>
         /// <param name="package">A package</param>
-        /// <returns>if it find the package it will return the package, else it will return a nulled package format</returns>
+        /// <returns>if it finds the package it will return the package, else it will return a null</returns>
         public Package? MovePackage(Package package)
         {
             foreach(KeyValuePair<string, (string, string, double, double, bool)> i in yourWareList)
@@ -152,11 +156,11 @@ namespace Ware
             return null;
         }
         /// <summary>
-        /// Moves the package from the shelf and returns the it in package format.
+        /// Moves the package from the shelf and returns it in package format.
         /// </summary>
         /// <param name="package">A package</param>
         /// <param name="terminal">The Terminal where the package will be sent out</param>
-        /// <returns>if it find the package it will return the package, else it will return a nulled package format</returns>
+        /// <returns>if it finds the package it will return the package, else it will return null</returns>
         public Package? MovePackageToTerminal(Package package, Terminal terminal)
         {
             foreach (KeyValuePair<string, (string, string, double, double, bool)> i in yourWareList)
@@ -192,7 +196,7 @@ namespace Ware
         }
 
         /// <summary>
-        /// Entering the storage unit's number it will search for the units nr.
+        /// Entering the storage unit's id will find the shelf content.
         /// </summary>
         /// <param name="shelfNumber">ShelfID number</param>
         /// <returns>Returns the shelf number else, it will return Does not exist</returns>
@@ -267,7 +271,7 @@ namespace Ware
         /// <summary>
         /// Checks if package type is the same as the one in the storage unit
         /// </summary>
-        /// <param name="package"></param>
+        /// <param name="package">class package object</param>
         /// <returns>returns true if package type is the same as the one in the storage unit, else false</returns>
         public bool IsSameTypeOfGoods(Package package)
         {

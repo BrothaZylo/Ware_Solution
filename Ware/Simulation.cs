@@ -9,7 +9,7 @@ namespace Ware
     /// <summary>
     /// Simulates how the system would act with Refrigerated, Dangrous and Dry storage units.
     /// </summary>
-    /// <param name="seconds"></param>
+    /// <param name="seconds">Seconds the simulation will run</param>
     public class Simulation(int seconds) : ISimulation
     {
         private readonly int seconds = seconds;
@@ -22,7 +22,7 @@ namespace Ware
         /// <summary>
         /// Adds packages that will run in the simulation. Only add packages with the goodtype of Refrigerated, Dangerous or Dry.
         /// </summary>
-        /// <param name="package"></param>
+        /// <param name="package">package class object</param>
         public void AddPackage(Package package)
         {
             simulationPackages.Add(package);

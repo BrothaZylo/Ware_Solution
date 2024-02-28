@@ -88,29 +88,6 @@ namespace Ware
         }
 
         /// <summary>
-        /// The packages are sent to the warehouse and return a list of the packages' results.
-        /// </summary>
-        /// <returns>List of strings that assign the result to the location of each package in the warehouse.</returns>
-        
-        /*
-        public List<string> SendPackagesToWarehouse()
-        {
-            List<string> results = new List<string>();
-            foreach (Package package in receivedPackages)
-            {
-                string result = storageConfiguration.PlacePackage(package);
-                int timeDeliveryToStorage = storageConfiguration.GetTimeDeliveryToStorage();
-                int timeStorageToTerminal = storageConfiguration.GetTimeStorageToTerminal();
-                result += $" Time from receipt to storage: {timeDeliveryToStorage} minutes.";
-                result += $" Time from warehouse to terminal: {timeStorageToTerminal} minutes.";
-                results.Add(result);
-            }
-
-            receivedPackages.Clear();
-            return results;
-        }
-        */
-        /// <summary>
         /// Returns a list of all recivived packages
         /// </summary>
         /// <returns>Returns a list of all recivived packages</returns>

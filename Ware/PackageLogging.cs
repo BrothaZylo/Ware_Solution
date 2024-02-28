@@ -11,7 +11,7 @@ using static Ware.Schedule;
 namespace Ware
 {
     /// <summary>
-    /// The class will save when i package arrived to a location(the shelf, terminal.. etc)
+    /// The class starts a package log. Saves as (TimeStamp, Action)
     /// </summary>
     public class PackageLogging : IPackageLogging
     {
@@ -23,7 +23,7 @@ namespace Ware
         /// if it already exists will the new location and when it got there be added to the package
         /// </summary>
         /// <param name="packageId">This is the id of the package object</param>
-        /// <param name="action">Tjis is the location it arrived at</param>
+        /// <param name="action">This is the action preformed</param>
         /// <returns>returns that the package has been logged</returns>
         public string AddPackageLog(string packageId, string action)
         {
@@ -78,104 +78,5 @@ namespace Ware
             return stringBuilder;
         }
 
-
-        /*
-        public class PackageHistory(Dictionary<Package, (DateTime DeliveryTime, DateTime PickupTime)> history)
-        {
-            private Dictionary<Package, (DateTime DeliveryTime, DateTime PickupTime)> History { get; set; } = history;
-            private (Package pacakge, DateTime time) value { get; set; }
-
-            // Adds deliverytime to a package
-            public void DeliveryHistory(Package packages, DateTime deliveryTime)
-            {
-                // Creates the log for deliverytime and using DateTime.MinValue as a placeholder for PickupTime
-                History.Add(packages, (deliveryTime, DateTime.MinValue));
-            }
-            // Adds pickuptime to a package
-            public void PickTime(Package package, DateTime pickupTime)
-            {
-                if (History.ContainsKey(package))
-                {
-                    (DateTime, DateTime) packageHistory = History[package];
-                    packageHistory.Item2 = pickupTime;
-                    History[package] = packageHistory;
-                }
-            }
-
-            // Method recieves a list of packages that will get there delivery time registered
-
-
-            public void SeveralDelivery(List<Package> severalPackages, DateTime deliveryTime)
-            {
-                foreach (Package items in severalPackages)
-                {
-                    DeliveryHistory(items, deliveryTime);
-                }
-            }
-            // Method recieves a list of packages that will get there pickup time registered
-            public void SeveralPickup(List<Package> severalPackages, DateTime deliveryTime)
-            {
-                foreach (Package items in severalPackages)
-                {
-                    PickTime(items, deliveryTime);
-                }
-            }
-
-
-
-            // Returning history of all packages as a dictionary
-            public Dictionary<Package, (DateTime DeliveryTime, DateTime PickupTime)> AllHistoryAsADictionary()
-            {
-                return new Dictionary<Package, (DateTime DeliveryTime, DateTime PickupTime)>(History);
-            }
-
-
-            // Prints out all package history
-            public void AllHistoryInfo()
-            {
-                foreach (KeyValuePair<Package, (DateTime DeliveryTime, DateTime PickupTime)> items in History)
-                {
-                    Console.WriteLine($"ID: {items.Key.packageid}   " +
-                        $"      Name: {items.Key.name}" +
-                        $"      Type: {items.Key.goods}" +
-                        $"      Speed: {items.Key.speed}" +
-                        $"      height: {items.Key.height}" +
-                        $"      Time Arrived: {items.Value.DeliveryTime}" +
-                        $"      Time Sent out: {items.Value.PickupTime}");
-                }
-
-            if (checkPackage.packageId == packageId)
-            {
-                Console.WriteLine($"ID: {checkPackage.packageId}" +
-                    $"      Name: {checkPackage.Name}" +
-                    $"      Type: {checkPackage.goods}" +
-                    $"      Speed: {checkPackage.SpeedOfDelivery}" +
-                    $"      height: {checkPackage.height}" +
-                    $"      Time Arrived: {item.Value.DeliveryTime}" +
-                    $"      Time Sent out{item.Value.PickupTime}");
-
-            }
-
-            // Returns info about a specific charachter
-            public void OnePackageHistory(string packageId)
-            {
-                foreach (KeyValuePair<Package, (DateTime DeliveryTime, DateTime PickupTime)> item in History)
-                {
-                    Package checkPackage = item.Key;
-
-
-                    if (checkPackage.packageid == packageId)
-                    {
-                        Console.WriteLine($"ID: {checkPackage.packageid}" +
-                            $"      Name: {checkPackage.name}" +
-                            $"      Type: {checkPackage.goods}" +
-                            $"      Speed: {checkPackage.speed}" +
-                            $"      height: {checkPackage.height}" +
-                            $"      Time Arrived: {item.Value.DeliveryTime}" +
-                            $"      Time Sent out{item.Value.PickupTime}");
-                    }
-                }
-            }
-        }*/
     }
 }

@@ -6,12 +6,12 @@ using System.Xml.Linq;
 namespace Ware
 {
     /// <summary>
-    /// Representerer en pakke med dens egenskaper og funksjonalitet for håndtering.
+    /// Create a package
     /// </summary>
-    /// <param name="packageName">Navn på pakken.</param>
-    /// <param name="goodsType">Typen gods som er i pakken.</param>
-    /// <param name="packageHeightCm">Høyden på pakken i cm.</param>
-    /// <param name="packageWidthCm">Bredden på pakken i cm.</param>
+    /// <param name="packageName">Name of the package</param>
+    /// <param name="goodsType">Package goods type</param>
+    /// <param name="packageHeightCm">height of the package in cm</param>
+    /// <param name="packageWidthCm">width of the package i cm.</param>
     public class Package(string packageName, string goodsType,double packageHeightCm, double packageWidthCm) : IPackage
     {
         private string packageId = GenerateId(), name = packageName, goods = goodsType;
@@ -20,7 +20,7 @@ namespace Ware
         /// <summary>
         /// Generates an ID for the package
         /// </summary>
-        /// <returns>Returns a a uni.</returns>
+        /// <returns>Returns the package id</returns>
         private static string GenerateId()
         {
             string selection = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz123456789";
