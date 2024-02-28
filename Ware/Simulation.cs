@@ -18,10 +18,13 @@ namespace Ware
         private static readonly Storage Refrigerated = new("Refrigerated");
         private static readonly Storage Dangerous = new("Dangerous");
 
-        private readonly PackageLogging packageLogging = new PackageLogging();
-        private readonly ReceivingDepartment receiving = new ReceivingDepartment();
-        private readonly Schedule schedule = new Schedule();
-        private readonly Terminal terminal = new Terminal();
+        private readonly PackageLogging packageLogging = new();
+        private readonly ReceivingDepartment receiving = new();
+        private readonly Schedule schedule = new();
+        private readonly Terminal terminal = new();
+
+        private bool sendRecToStorage = true;
+        private bool recPackages = true;
 
 
         /// <summary>
@@ -76,26 +79,21 @@ namespace Ware
             foreach(Package package in simulationPackages)
             {
                 receiving.AddPackage(package);
+                Console.WriteLine(package.Name + " was received");
             }
         }
 
         private void SendDryPackagesToStorage()
         {
-            NewDelay();
             receiving.SendAllPackagesToStorage(Dry);
-            Console.WriteLine("Dry");
         }
         private void SendRefrigiratedPackagesToStorage()
         {
-            NewDelay();
             receiving.SendAllPackagesToStorage(Refrigerated);
-            Console.WriteLine("Refrigirated");
         }
         private void SendDangerousPackagesToStorage()
         {
-            NewDelay();
             receiving.SendAllPackagesToStorage(Dangerous);
-            Console.WriteLine("Dangerous");
         }
 
         private void SendPackagesToStorage()
@@ -103,29 +101,9 @@ namespace Ware
             SendDryPackagesToStorage();
             SendRefrigiratedPackagesToStorage();
             SendDangerousPackagesToStorage();
+            Console.WriteLine("Fra mottak til storage");
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// Jin Vincent Necesario. “Task Parallel Library 101 Using C#.” C-Sharpcorner.com, 2023,
-        /// www.c-sharpcorner.com/article/task-parallel-library-101-using-c-sharp/. 
-        private void NewDelay()
-        {
-            var action = new Action(() =>
-            {
-                CalculateDelay();
-                double timeMs = TravelTime() * 1000;
-                Task.Delay((int)timeMs);
-                Console.WriteLine("Hello Task World");
-
-            });
-
-            Task myTask = new Task(action);
-            myTask.Start();
-
-            myTask.Wait();
-        }
 
         private void FromStorageToTerminal()
         {
@@ -167,14 +145,14 @@ namespace Ware
             Dangerous.TimeStorageToTerminalSeconds = enSmartKalkulasjon;
         }
 
-        private double TravelTime()
+        private static double TravelTime()
         {
             double time = Dry.TimeDeliveryToStorageSeconds;
             return time;
         }
 
         /// <summary>
-        /// Starts the simulation with the added packages
+        /// Starts the simulation with the added packages. 60 seconds recommend runtime.
         /// </summary>
         public void Run()
         {
@@ -185,33 +163,30 @@ namespace Ware
             AddUnits();
             BuildStorages();
            
-            RecievePackages();
             //SendPackagesToStorage();
-            FromStorageToTerminal();
+            //FromStorageToTerminal();
             
 
             while (start != stop)
             {
-                Console.WriteLine(start);
-                Thread.Sleep(delay);
-                if (start == 1)
+                if (recPackages && start == seconds / 10)
+                {
+                    RecievePackages();
+                    recPackages = false;
+                }
+
+                if (sendRecToStorage && start == seconds / 8)
                 {
                     SendPackagesToStorage();
+                    sendRecToStorage = false;
                 }
-                
 
 
+                Console.WriteLine(start);
+                Thread.Sleep(delay);
                 start++;
             }
-
-
-
-            //Dry.GetAllStorageInformationPrint();
-            Console.WriteLine();
-            //Refrigerated.GetAllStorageInformationPrint();
-            Console.WriteLine();
-            //Dangrous.GetAllStorageInformationPrint();
-
+            PrintStorages();
             Console.WriteLine("Simulation ended at: " + stop + " Seconds");
         }
 

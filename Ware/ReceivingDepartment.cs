@@ -38,7 +38,7 @@ namespace Ware
                 }
                 if (!storageConfiguration.IsSameTypeOfGoods(firstPackage))
                 {
-                    Console.WriteLine($"Package {firstPackage.PackageId} was not sent // please send to a warehouse with the same type of goods");
+                    Console.WriteLine($"Package {firstPackage.PackageId} was not sent // please sendRecToStorage to a warehouse with the same type of goods");
                 }
             } 
         }
@@ -54,10 +54,14 @@ namespace Ware
                 {
                     storageConfiguration.PlacePackage(package);
                 }
-                
-                
             }
-            receivedPackages.Clear();
+            for(int i = 0; i < receivedPackages.Count; i++)
+            {
+                if (storageConfiguration.IsSameTypeOfGoods(receivedPackages[i]))
+                {
+                    receivedPackages.RemoveAt((int)i);
+                }
+            }
         }
 
         /// <summary>

@@ -145,7 +145,7 @@ while (startDate < endDate)
                     packageHistory.AddPackageLog(package.Item1, "Before delivery/Terminal");
                     Console.WriteLine();
 
-                    DryGoods.MovePackage(packagee.PackageId);
+                    DryGoods.MovePackage(packagee);
 
                 }
             }
