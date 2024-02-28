@@ -8,10 +8,11 @@ namespace Ware
 {
     internal interface IReceivingDepartment
     {
-        void SendFirstPackageToStorage();
-        public void SendAllPackagesToStorage();
+        void AddPackage(Package package);
+        void SendFirstPackageToStorage(Storage storageConfiguration);
+        public void SendAllPackagesToStorage(Storage storageConfiguration);
         void GetAllPackagePrint();
-        string TravelTimeToStorage();
+        string TravelTimeToStorage(Storage storageConfiguration);
         //List<string> SendPackagesToWarehouse();
         List<Package> GetPackageList();
         List<Package> GetAllPackages();

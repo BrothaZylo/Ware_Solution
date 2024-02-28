@@ -114,7 +114,7 @@ while (startDate < endDate)
         var packages = deliverySchedule.FetchPackages(startDate.DayOfWeek);
         foreach(var package in packages)
         {
-            receivingDepartmentForDryGoods.ReceivePackage(package.Item2);
+            receivingDepartmentForDryGoods.AddPackage(package.Item2);
             packageHistory.AddPackageLog(package.Item2.PackageId, "Reciving department" );    
         }
         Thread.Sleep(1000);

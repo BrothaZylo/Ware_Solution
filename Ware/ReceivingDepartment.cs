@@ -6,18 +6,16 @@ namespace Ware
     /// <summary>
     /// The reception of the packages and the times it takes are handled here.
     /// </summary>
-    public class ReceivingDepartment(Storage storage) : IReceivingDepartment
+    public class ReceivingDepartment() : IReceivingDepartment
     {
         private readonly List<Package> receivedPackages = [];
         private readonly List<Package> allPackages = [];
-
-        private readonly Storage storageConfiguration = storage;
 
         /// <summary>
         /// The package is received and added to the list of received packages.
         /// </summary>
         /// <param name="package">The name of the package being received.</param>
-        public void ReceivePackage(Package package)
+        public void AddPackage(Package package)
         {
             receivedPackages.Add(package);
             allPackages.Add(package);
@@ -27,37 +25,36 @@ namespace Ware
         /// <summary>
         /// Sends the first package in the list to storage then removes it from the list.
         /// </summary>
-        public void SendFirstPackageToStorage()
+        public void SendFirstPackageToStorage(Storage storageConfiguration)
         {
-            storageConfiguration.PlacePackage(receivedPackages[0]);
+            if (receivedPackages.Count > 0)
             {
-                if (receivedPackages.Count > 0)
+                Package firstPackage = receivedPackages[0];
+                if (storageConfiguration.IsSameTypeOfGoods(firstPackage))
                 {
-                    Package firstPackage = receivedPackages[0];
-                    if (storageConfiguration.IsSameTypeOfGoods(firstPackage))
-                    {
-                        storageConfiguration.PlacePackage(firstPackage);
-                        receivedPackages.RemoveAt(0);
-                        Console.WriteLine($"Package {firstPackage.PackageId} was sent to the warehouse and removed from the receiving list.");
-                    }
-                    if (!storageConfiguration.IsSameTypeOfGoods(firstPackage))
-                    {
-                        Console.WriteLine($"Package {firstPackage.PackageId} was not sent // please send to a warehouse with the same type of goods");
-
-                    }
+                    storageConfiguration.PlacePackage(firstPackage);
+                    receivedPackages.RemoveAt(0);
+                    Console.WriteLine($"Package {firstPackage.PackageId} was sent to the warehouse and removed from the receiving list.");
                 }
-            }
+                if (!storageConfiguration.IsSameTypeOfGoods(firstPackage))
+                {
+                    Console.WriteLine($"Package {firstPackage.PackageId} was not sent // please send to a warehouse with the same type of goods");
+                }
+            } 
         }
 
         /// <summary>
         /// Sends all packages to storage.
         /// </summary>
-        public void SendAllPackagesToStorage()
+        public void SendAllPackagesToStorage(Storage storageConfiguration)
         {
             foreach (Package package in receivedPackages)
             {
-                storageConfiguration.PlacePackage(package);
-                storageConfiguration.GetAllStorageInformationPrint();
+                if (storageConfiguration.IsSameTypeOfGoods(package))
+                {
+                    storageConfiguration.PlacePackage(package);
+                }
+                
                 
             }
             receivedPackages.Clear();
@@ -79,7 +76,7 @@ namespace Ware
         /// Finds the time it takes from when recieved to it enters the storage.
         /// </summary>
         /// <returns>Represents the estimated time it took to get to storage.</returns>
-        public string TravelTimeToStorage() 
+        public string TravelTimeToStorage(Storage storageConfiguration) 
         {
             string time = "Estimated time to storage in seconds: ";
             return time+= storageConfiguration.TimeDeliveryToStorageSeconds;

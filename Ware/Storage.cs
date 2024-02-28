@@ -16,7 +16,7 @@ namespace Ware
     {
         private readonly string shelfCategory = goodsType;
         private readonly List<WareHouseSizeConfig> configFiles = [];
-        private double timeFromReceivingDepartmentToStorage, timeFromStoragetoTerminal;
+        private double timeFromReceivingDepartmentToStorage = 0, timeFromStoragetoTerminal = 0;
         private readonly Dictionary<string, (string, string, double, double, bool)> yourWareList = [];
 
         /// <summary>
