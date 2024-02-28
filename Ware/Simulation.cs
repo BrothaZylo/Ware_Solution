@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,6 +25,7 @@ namespace Ware
         private readonly Terminal terminal = new();
 
         private bool sendRecToStorage = true;
+        private bool sendStorageToTerminal = true;
         private bool recPackages = true;
 
 
@@ -122,6 +124,7 @@ namespace Ware
                     Dangerous.MovePackageToTerminal(package, terminal);
                 }
             }
+            Console.WriteLine("From Storage to Terminal");
         }
         private static void PrintStorages()
         {
@@ -151,8 +154,21 @@ namespace Ware
             return time;
         }
 
+        private int CalcSimTime(int instanceNumber)
+        {
+            int s = seconds;
+            int i = instanceNumber;
+
+            if (s > 59)
+            {
+                return s - s+i;
+            }
+
+            return s/s-i;
+        }
+
         /// <summary>
-        /// Starts the simulation with the added packages. 60 seconds recommend runtime.
+        /// Starts the simulation with the added packages. 60 seconds recommended runtime.
         /// </summary>
         public void Run()
         {
@@ -169,18 +185,22 @@ namespace Ware
 
             while (start != stop)
             {
-                if (recPackages && start == seconds / 10)
+                if (recPackages)
                 {
                     RecievePackages();
                     recPackages = false;
                 }
 
-                if (sendRecToStorage && start == seconds / 8)
+                if (sendRecToStorage && start == CalcSimTime(1))
                 {
                     SendPackagesToStorage();
                     sendRecToStorage = false;
                 }
 
+                if(sendStorageToTerminal && start == CalcSimTime(2))
+                {
+                    FromStorageToTerminal();
+                }
 
                 Console.WriteLine(start);
                 Thread.Sleep(delay);

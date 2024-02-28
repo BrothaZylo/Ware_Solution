@@ -14,7 +14,7 @@ Package package5 = new("Ice", "Refrigerated", 18, 39);
 //----------------------------------------------------------//
 //-----------------------Simulation-------------------------//
 //----------------------------------------------------------//
-Simulation sim = new(40);
+Simulation sim = new(60);
 
 sim.AddPackage(package1);
 sim.AddPackage(package2);
