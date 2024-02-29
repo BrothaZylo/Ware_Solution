@@ -11,21 +11,19 @@ Package package4 = new("Cream", "Refrigerated", 84, 43);
 Package package5 = new("Ice", "Refrigerated", 18, 39);
 Package package6 = new(null, null, 18, 39);
 
-ReceivingDepartment receivingDepartment = new ReceivingDepartment();
+//ReceivingDepartment receivingDepartment = new ReceivingDepartment();
 
-receivingDepartment.AddPackage(package6);
-receivingDepartment.CheckIfInList(package5);
+//receivingDepartment.AddPackage(package6);
+//receivingDepartment.CheckIfInList(package5);
 
 //----------------------------------------------------------//
 //-----------------------Simulation-------------------------//
 //----------------------------------------------------------//
 Simulation sim = new(60);
-/*
+
 sim.AddPackage(package1);
 sim.AddPackage(package2);
 sim.AddPackage(package3);
 sim.AddPackage(package4);
 sim.AddPackage(package5);
 sim.Run();
-
-*/

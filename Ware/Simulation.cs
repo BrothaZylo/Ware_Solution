@@ -27,6 +27,7 @@ namespace Ware
         private bool sendRecToStorage = true;
         private bool sendStorageToTerminal = true;
         private bool recPackages = true;
+        private bool printStorage = true;
 
 
         /// <summary>
@@ -85,25 +86,12 @@ namespace Ware
             }
         }
 
-        private void SendDryPackagesToStorage()
-        {
-            receiving.SendAllPackagesToStorage(Dry);
-        }
-        private void SendRefrigiratedPackagesToStorage()
-        {
-            receiving.SendAllPackagesToStorage(Refrigerated);
-        }
-        private void SendDangerousPackagesToStorage()
-        {
-            receiving.SendAllPackagesToStorage(Dangerous);
-        }
-
         private void SendPackagesToStorage()
         {
-            SendDryPackagesToStorage();
-            SendRefrigiratedPackagesToStorage();
-            SendDangerousPackagesToStorage();
-            Console.WriteLine("Fra mottak til storage");
+            receiving.SendAllPackagesToStorage(Dry);
+            receiving.SendAllPackagesToStorage(Dangerous);
+            receiving.SendAllPackagesToStorage(Refrigerated);
+            Console.WriteLine("Packages was sent from the the receiving department to storage");
         }
 
 
@@ -124,7 +112,7 @@ namespace Ware
                     Dangerous.MovePackageToTerminal(package, terminal);
                 }
             }
-            Console.WriteLine("From Storage to Terminal");
+            Console.WriteLine("Packages was sent from the the storag to the terminal");
         }
         private static void PrintStorages()
         {
@@ -135,18 +123,6 @@ namespace Ware
             Dangerous.GetAllStorageInformationPrint();
         }
 
-        private void CalculateDelay()
-        {
-            double enSmartKalkulasjon = seconds / 3;
-
-            Dry.TimeDeliveryToStorageSeconds = enSmartKalkulasjon;
-            Refrigerated.TimeDeliveryToStorageSeconds = enSmartKalkulasjon;
-            Dangerous.TimeDeliveryToStorageSeconds = enSmartKalkulasjon;
-
-            Dry.TimeStorageToTerminalSeconds = enSmartKalkulasjon;
-            Refrigerated.TimeStorageToTerminalSeconds = enSmartKalkulasjon;
-            Dangerous.TimeStorageToTerminalSeconds = enSmartKalkulasjon;
-        }
 
         private static double TravelTime()
         {
@@ -175,13 +151,18 @@ namespace Ware
             int start = 1;
             int stop = seconds;
             int delay = 1000;
+            int sdelay = 4000;
 
             AddUnits();
             BuildStorages();
-           
-            //SendPackagesToStorage();
-            //FromStorageToTerminal();
-            
+
+            Console.WriteLine(" ---------------------");
+            Console.WriteLine("| Simulation starting  |");
+            Console.WriteLine("|      Loading...      |");
+            Console.WriteLine(" ---------------------\n\n");
+
+            Thread.Sleep(sdelay);
+
 
             while (start != stop)
             {
@@ -191,18 +172,26 @@ namespace Ware
                     recPackages = false;
                 }
 
-                if (sendRecToStorage && start == CalcSimTime(1))
+                if (sendRecToStorage && start == CalcSimTime(2))
                 {
                     SendPackagesToStorage();
                     sendRecToStorage = false;
                 }
 
-                if(sendStorageToTerminal && start == CalcSimTime(2))
+                if (printStorage && start == CalcSimTime(4))
+                {
+                    PrintStorages();
+                }
+
+                if (sendStorageToTerminal && start == CalcSimTime(6))
                 {
                     FromStorageToTerminal();
                 }
 
-                Console.WriteLine(start);
+
+                Console.WriteLine("\n---------------");
+                Console.WriteLine("TimeStamp: "+start);
+                Console.WriteLine("---------------\n");
                 Thread.Sleep(delay);
                 start++;
             }
