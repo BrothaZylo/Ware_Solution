@@ -17,10 +17,18 @@ namespace Ware
         /// <param name="package">The name of the package being received.</param>
         public void AddPackage(Package package)
         {
+            if (package == null)
+            {
+                throw new ArgumentNullException("Can't add null on package.");
+            }
+
+
             receivedPackages.Add(package);
             allPackages.Add(package);
 
         }
+
+
 
         /// <summary>
         /// Sends the first package in the list to storage then removes it from the list.
