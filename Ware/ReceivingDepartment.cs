@@ -28,6 +28,25 @@ namespace Ware
 
         }
 
+        public void CheckIfInList(Package package)
+        {
+            try
+            {
+                CheckPackage(package);
+            }
+            catch (PackageNotFoundException message)
+            {
+                Console.WriteLine(message+" Package name error: "+package.Name);
+            }
+        }
+
+        private void CheckPackage(Package p)
+        {
+            if (!receivedPackages.Contains(p))
+            {
+                throw new PackageNotFoundException("Package not found: "+p.Name);
+            }
+        }
 
 
         /// <summary>
