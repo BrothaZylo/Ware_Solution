@@ -28,6 +28,7 @@ namespace Ware
         private bool sendStorageToTerminal = true;
         private bool recPackages = true;
         private bool printStorage = true;
+        private int listcounter, dry, refrigerated, dangerous;
 
 
         /// <summary>
@@ -70,19 +71,93 @@ namespace Ware
             }
         }
 
-        private void BuildStorages()
+        private static void BuildStorages()
         {
             Dry.Build();
             Refrigerated.Build();
             Dangerous.Build();
         }
 
+        private void CalcAmountGoodsTypeList()
+        {
+            foreach (Package package in simulationPackages)
+            {
+                if (package.Goods == "Refrigerated")
+                {
+                    refrigerated++;
+                }
+                if (package.Goods == "Dry")
+                {
+                    dry++;
+                }
+                if (package.Goods == "Dangerous")
+                {
+                    dangerous++;
+                }
+            }
+        }
+
         private void RecievePackages()
         {
-            foreach(Package package in simulationPackages)
+            if (dry > refrigerated && dry > dangerous && dry != 0)
             {
-                receiving.AddPackage(package);
-                Console.WriteLine(package.Name + " was received");
+                foreach(Package package in simulationPackages)
+                {
+                    if (package.Goods == "Dry")
+                    {
+                        receiving.AddPackage(package);
+                        Console.WriteLine(package.Name + " was received :O");
+                    }
+                }
+                dry = 0;
+            }
+            if (refrigerated > dry && refrigerated > dangerous && refrigerated != 0)
+            {
+                foreach (Package package in simulationPackages)
+                {
+                    if (package.Goods == "Refrigerated")
+                    {
+                        receiving.AddPackage(package);
+                        Console.WriteLine(package.Name + " was received xd");
+                    }
+                }
+                refrigerated = 0;
+            }
+            if (dangerous > refrigerated && dangerous > dry && dangerous != 0)
+            {
+                foreach (Package package in simulationPackages)
+                {
+                    if (package.Goods == "Dangerous")
+                    {
+                        receiving.AddPackage(package);
+                        Console.WriteLine(package.Name + " was received uu");
+                    }
+                }
+                dangerous = 0;
+            }
+            if(dry == dangerous && dry != 0 || dry == refrigerated && dry != 0)
+            {
+                foreach (Package package in simulationPackages)
+                {
+                    if (package.Goods == "Dry")
+                    {
+                        receiving.AddPackage(package);
+                        Console.WriteLine(package.Name + " was received ll");
+                    }
+                }
+                dry = 0;
+            }
+            if (refrigerated == dangerous && refrigerated != 0)
+            {
+                foreach (Package package in simulationPackages)
+                {
+                    if (package.Goods == "Refrigerated")
+                    {
+                        receiving.AddPackage(package);
+                        Console.WriteLine(package.Name + " was received qq");
+                    }
+                }
+                refrigerated = 0;
             }
         }
 
@@ -112,7 +187,7 @@ namespace Ware
                     Dangerous.MovePackageToTerminal(package, terminal);
                 }
             }
-            Console.WriteLine("Packages was sent from the the storag to the terminal");
+            Console.WriteLine("Packages was sent from the the storage to the terminal");
         }
         private static void PrintStorages()
         {
@@ -153,41 +228,51 @@ namespace Ware
             int delay = 1000;
             int sdelay = 4000;
 
-            AddUnits();
-            BuildStorages();
-
             Console.WriteLine(" ---------------------");
             Console.WriteLine("| Simulation starting  |");
             Console.WriteLine("|      Loading...      |");
             Console.WriteLine(" ---------------------\n\n");
+
+            CalcAmountGoodsTypeList();
+            AddUnits();
+            BuildStorages();
+            listcounter += simulationPackages.Count;
 
             Thread.Sleep(sdelay);
 
 
             while (start != stop)
             {
-                if (recPackages)
+                if (recPackages && start == CalcSimTime(2))
                 {
                     RecievePackages();
-                    recPackages = false;
                 }
 
-                if (sendRecToStorage && start == CalcSimTime(2))
+                if (sendRecToStorage && start == CalcSimTime(4))
                 {
                     SendPackagesToStorage();
                     sendRecToStorage = false;
                 }
 
-                if (printStorage && start == CalcSimTime(4))
+                if (printStorage && start == CalcSimTime(7))
                 {
                     PrintStorages();
                 }
 
-                if (sendStorageToTerminal && start == CalcSimTime(6))
+                if (sendStorageToTerminal && start == CalcSimTime(9))
                 {
                     FromStorageToTerminal();
                 }
 
+                if (recPackages && start == CalcSimTime(10))
+                {
+                    RecievePackages();
+                }
+
+                if (recPackages && start == CalcSimTime(13))
+                {
+                    RecievePackages();
+                }
 
                 Console.WriteLine("\n---------------");
                 Console.WriteLine("TimeStamp: "+start);
