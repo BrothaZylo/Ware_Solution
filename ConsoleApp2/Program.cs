@@ -11,7 +11,6 @@ Package package4 = new("Cream", "Refrigerated", 84, 43);
 Package package5 = new("Ice", "Refrigerated", 18, 39);
 Package package6 = new("Cardboard", "Dry", 18, 39);
 
-
 Storage storage = new Storage("Dry");
 
 storage.AddUnit("100", 10, 100, 100);
@@ -19,17 +18,24 @@ storage.Build();
 
 ReceivingDepartment receivingDepartment = new ReceivingDepartment();
 
+receivingDepartment.AddPackage(package1);
+receivingDepartment.AddPackage(package2);
+
+
+Terminal terminal = new Terminal();
+
 
 try
 {
-    receivingDepartment.AddPackage(package1);
-    receivingDepartment.AddPackage(package1);
+    storage.PlacePackage(package3);
 }
-catch (PackageNotFoundException message)
+catch (StorageException message)
 {
-    Console.WriteLine(message + " Package name error: " + package1.Name);
+    Console.WriteLine(message + "Package not found");
 }
 
+
+storage.GetAllStorageInformationPrint();
 
 //----------------------------------------------------------//
 //-----------------------Simulation-------------------------//

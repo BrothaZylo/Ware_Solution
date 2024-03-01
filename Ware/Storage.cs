@@ -116,7 +116,7 @@ namespace Ware
                     }
                 }
             }
-            return "No suitable place found";
+            throw new StorageException("No suitable place found: "+ package.Name);
         }
 
         /// <summary>
@@ -134,7 +134,7 @@ namespace Ware
                     return packageId;
                 }
             }
-            return null;
+            throw new PackageNotFoundException(" Package with ID not found: "+packageId);
         }
         
         /// <summary>
@@ -152,8 +152,7 @@ namespace Ware
                     return package;
                 }
             }
-
-            return null;
+            throw new PackageNotFoundException(" Package with ID not found: " + package.Name);
         }
         /// <summary>
         /// Moves the package from the shelf and returns it in package format.
@@ -172,7 +171,7 @@ namespace Ware
                     return package;
                 }
             }
-            return null;
+            throw new PackageNotFoundException(" Package with ID not found: " + package.Name);
         }
 
 
@@ -230,7 +229,7 @@ namespace Ware
                     item += i;
                 }
             }
-            return item;
+            throw new PackageNotFoundException(" Package with ID not found: " + packageId);
         }
 
         /// <summary>
@@ -248,7 +247,7 @@ namespace Ware
                     return i.Key;
                 }
             }
-            return item;
+            throw new PackageNotFoundException(" Package with ID not found: " + packageId);
         }
 
         /// <summary>
