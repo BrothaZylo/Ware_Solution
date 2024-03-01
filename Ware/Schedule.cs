@@ -31,7 +31,7 @@ namespace Ware
             
         }
 
-        private Dictionary<DaysOfWeek, List<(string,Package, DateTime, DateTime)>> calender;
+        private Dictionary<DaysOfWeek, List<(string,Package, DateTime)>> calender;
         
         /// <summary>
         /// When creating a Schedule will it run PrepareDictinary() that will create 
@@ -50,11 +50,11 @@ namespace Ware
         /// </summary>
         private void PrepareDictionary()
         {
-            calender = new Dictionary<DaysOfWeek, List<(string, Package, DateTime, DateTime)>>();
+            calender = new Dictionary<DaysOfWeek, List<(string, Package,  DateTime)>>();
 
             foreach (DaysOfWeek day in Enum.GetValues(typeof(DaysOfWeek)))
             {
-                calender.Add(day, new List<(string, Package, DateTime, DateTime)>());
+                calender.Add(day, new List<(string, Package, DateTime)>());
             }
 
         }
@@ -68,12 +68,11 @@ namespace Ware
         /// Steve. “Adding Items to a List in a Dictionary.” Stack Overflow, 2024,
         /// stackoverflow.com/questions/14991688/adding-items-to-a-list-in-a-dictionary.
         /// Author Steve
-        public void AddPackage(string singleOrRepeating, DayOfWeek day, Package package,DateTime deliveryTime, DateTime pickupTime)
+        public void AddPackage(string singleOrRepeating, DayOfWeek day, Package package, DateTime pickupTime)
         {
             if (calender.ContainsKey((DaysOfWeek)day))
             {
-                calender[(DaysOfWeek)day].Add((singleOrRepeating, package, deliveryTime, pickupTime));  
-                
+                calender[(DaysOfWeek)day].Add((singleOrRepeating, package, pickupTime));  
             }
         }
         /// <summary>
@@ -81,11 +80,11 @@ namespace Ware
         /// </summary>
         public void ClearSchedule()
         {
-            List<(string, Package, DateTime, DateTime)> tmp = new List<(string, Package, DateTime, DateTime)>();
-            foreach (KeyValuePair<DaysOfWeek, List<(string, Package, DateTime, DateTime)>> days in calender)
+            List<(string, Package, DateTime)> tmp = new List<(string, Package, DateTime)>();
+            foreach (KeyValuePair<DaysOfWeek, List<(string, Package, DateTime)>> days in calender)
             {
                 
-                foreach ((string, Package, DateTime, DateTime) items in days.Value)
+                foreach ((string, Package, DateTime) items in days.Value)
                 {
                     if (items.Item1 == "Single")
                     {
@@ -106,17 +105,16 @@ namespace Ware
         /// the packages connected to the day.
         /// </summary>
         /// <returns>Returns a Console write that tells us the days and what packages will come that day</returns>
-        public Dictionary<DaysOfWeek, List<(string, Package, DateTime, DateTime)>> GetSchedule()
+        public Dictionary<DaysOfWeek, List<(string, Package,  DateTime)>> GetSchedule()
         {
-            foreach (KeyValuePair<DaysOfWeek, List<(string, Package, DateTime, DateTime)>> keys in calender)
+            foreach (KeyValuePair<DaysOfWeek, List<(string, Package, DateTime)>> keys in calender)
             {
                 Console.WriteLine($"Weekday: {keys.Key}");
-                foreach ((string, Package, DateTime, DateTime) items in keys.Value) 
+                foreach ((string, Package, DateTime) items in keys.Value) 
                 {
                     Console.WriteLine($"Single or Repeat: {items.Item1}   " +
                     $"   Package ID: {items.Item2.PackageId}" +
-                    $"   Delivery time: {items.Item3}" +
-                    $"   Pickup time: {items.Item4}");
+                    $"   Expected Pickup Time: {items.Item3}");
 
                 }
             }
@@ -141,7 +139,7 @@ namespace Ware
         /// </summary>
         /// <param name="day">Day of week</param>
         /// <returns>returns the packages for the day asked for</returns>
-        public List<(string, Package, DateTime, DateTime)> FetchPackages(DayOfWeek day)
+        public List<(string, Package, DateTime)> GetPackageDay(DayOfWeek day)
         {
             DaysOfWeek deliveryDay = (DaysOfWeek)(int)day;
 
