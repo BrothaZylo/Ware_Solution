@@ -19,14 +19,17 @@ storage.Build();
 
 ReceivingDepartment receivingDepartment = new ReceivingDepartment();
 
-receivingDepartment.AddPackage(package1);
-receivingDepartment.AddPackage(package2);
-receivingDepartment.AddPackage(package3);
 
+try
+{
+    receivingDepartment.AddPackage(package1);
+    receivingDepartment.AddPackage(package1);
+}
+catch (PackageNotFoundException message)
+{
+    Console.WriteLine(message + " Package name error: " + package1.Name);
+}
 
-receivingDepartment.SendFirstPackageToStorage(storage);
-
-storage.GetAllStorageInformationPrint();
 
 //----------------------------------------------------------//
 //-----------------------Simulation-------------------------//

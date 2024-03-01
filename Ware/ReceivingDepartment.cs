@@ -17,78 +17,40 @@ namespace Ware
         /// <param name="package">The name of the package being received.</param>
         public void AddPackage(Package package)
         {
-            try
+            if (receivedPackages.Contains(package))
             {
-                if (!!receivedPackages.Contains(package))
-
-                {
-                    throw new PackageNotFoundException("Attempted to add the same package two times: " +package.Name);
-
-                }
-
-
-                receivedPackages.Add(package);
-                allPackages.Add(package);
+                throw new PackageNotFoundException("Attempted to add the same package two times: " + package.Name);
             }
 
-            catch (PackageNotFoundException message)
-            {
-                Console.WriteLine(message+" Package name error: " + package.Name);
-            }
+            receivedPackages.Add(package);
+            allPackages.Add(package);
+
         }
-
-        public void CheckIfInList(Package package)
-        {
-            try
-            {
-                CheckPackage(package);
-            }
-            catch (PackageNotFoundException message)
-            {
-                Console.WriteLine(message+" Package name error: "+package.Name);
-            }
-        }
-
-        private void CheckPackage(Package p)
-        {
-            if (!receivedPackages.Contains(p))
-            {
-                throw new PackageNotFoundException("Package not found: "+p.Name);
-            }
-        }
-
 
         /// <summary>
         /// Sends the first package in the list to storage then removes it from the list.
         /// </summary>
         public void SendFirstPackageToStorage(Storage storageConfiguration)
         {
-            try
+            if (receivedPackages.Count == 0)
             {
-                if (receivedPackages.Count == 0)
-                {
-                    throw new PackageNotFoundException("No packages to send to the storage.");
-                }
-
-                if (receivedPackages.Count > 0)
-                {
-                    Package firstPackage = receivedPackages[0];
-                    if (storageConfiguration.IsSameTypeOfGoods(firstPackage))
-                    {
-                        storageConfiguration.PlacePackage(firstPackage);
-                        receivedPackages.RemoveAt(0);
-                        Console.WriteLine($"Package {firstPackage.PackageId} was sent to the warehouse and removed from the receiving list.");
-                    }
-
-                    if (!storageConfiguration.IsSameTypeOfGoods(firstPackage))
-                    {
-                        throw new PackageNotFoundException("First package doesn't match with storage type: " + firstPackage.Name);
-                    }
-                }
+                throw new PackageNotFoundException("No packages to send to the storage.");
             }
-            catch (PackageNotFoundException message)
+
+            if (receivedPackages.Count > 0)
             {
-                Console.WriteLine(message+ " Storage type error: "+ storageConfiguration.ShelfCategory);
+                Package firstPackage = receivedPackages[0];
+                if (storageConfiguration.IsSameTypeOfGoods(firstPackage))
+                {
+                    storageConfiguration.PlacePackage(firstPackage);
+                    receivedPackages.RemoveAt(0);
+                    Console.WriteLine($"Package {firstPackage.PackageId} was sent to the warehouse and removed from the receiving list.");
+                }
+
+                if (!storageConfiguration.IsSameTypeOfGoods(firstPackage))
+                {
+                    throw new PackageNotFoundException("First package doesn't match with storage type: " + firstPackage.Name);
+                }
             }
 
         }
@@ -98,31 +60,24 @@ namespace Ware
         /// </summary>
         public void SendAllPackagesToStorage(Storage storageConfiguration)
         {
-            try
+            if (receivedPackages.Count == 0)
             {
-                if (receivedPackages.Count == 0)
-                {
-                    throw new PackageNotFoundException("No packages to send to the storage.");
-                }
-
-                for (int i = receivedPackages.Count - 1; i >= 0; i--)
-                {
-                    Package package = receivedPackages[i];
-                    if (storageConfiguration.IsSameTypeOfGoods(receivedPackages[i]))
-                    {
-                        storageConfiguration.PlacePackage(receivedPackages[i]);
-                        receivedPackages.RemoveAt(i);
-                    }
-
-                    if (!storageConfiguration.IsSameTypeOfGoods(package))
-                    {
-                        throw new PackageNotFoundException("Package doesn't match with the storage type " + package.Name);
-                    }
-                }
+                throw new PackageNotFoundException("No packages to send to the storage.");
             }
-            catch (PackageNotFoundException message)
+
+            for (int i = receivedPackages.Count - 1; i >= 0; i--)
             {
-                Console.WriteLine(message+ " Storage type error: " + storageConfiguration.ShelfCategory);
+                Package package = receivedPackages[i];
+                if (storageConfiguration.IsSameTypeOfGoods(receivedPackages[i]))
+                {
+                    storageConfiguration.PlacePackage(receivedPackages[i]);
+                    receivedPackages.RemoveAt(i);
+                }
+
+                if (!storageConfiguration.IsSameTypeOfGoods(package))
+                {
+                    throw new PackageNotFoundException("Package doesn't match with the storage type " + package.Name);
+                }
             }
         }
 
