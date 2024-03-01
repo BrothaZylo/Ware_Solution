@@ -88,7 +88,7 @@ namespace Ware
                     return packageId;
                 }
             }
-            throw new PackageNotFoundException(" Package with ID not found: "+packageId);
+            throw new PackageInvalidException(" Package with ID not found: "+packageId);
         }
         
         /// <summary>
@@ -106,7 +106,7 @@ namespace Ware
                     return package;
                 }
             }
-            throw new PackageNotFoundException(" Package with ID not found: " + package.Name);
+            throw new PackageInvalidException(" Package with ID not found: " + package.Name);
         }
         /// <summary>
         /// Moves the package from the shelf and returns it in package format.
@@ -125,7 +125,7 @@ namespace Ware
                     return package;
                 }
             }
-            throw new PackageNotFoundException(" Package with ID not found: " + package.Name);
+            throw new PackageInvalidException(" Package with ID not found: " + package.Name);
         }
 
 
@@ -183,7 +183,7 @@ namespace Ware
                     item += i;
                 }
             }
-            throw new PackageNotFoundException(" Package with ID not found: " + packageId);
+            throw new PackageInvalidException(" Package with ID not found: " + packageId);
         }
 
         /// <summary>
@@ -201,7 +201,7 @@ namespace Ware
                     return i.Key;
                 }
             }
-            throw new PackageNotFoundException(" Package with ID not found: " + packageId);
+            throw new PackageInvalidException(" Package with ID not found: " + packageId);
         }
 
         /// <summary>

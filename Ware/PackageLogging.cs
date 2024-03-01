@@ -88,7 +88,7 @@ namespace Ware
         }
         if (!packageExist)
         {
-            throw new PackageNotFoundException($"The package id: {id} could not be found in log");
+            throw new PackageInvalidException($"The package id: {id} could not be found in log");
         }    
         return stringBuilder;
         }

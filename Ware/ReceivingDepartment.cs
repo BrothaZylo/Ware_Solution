@@ -19,7 +19,7 @@ namespace Ware
         {
             if (receivedPackages.Contains(package))
             {
-                throw new PackageNotFoundException(" Attempted to add the same package two times: " + package.Name);
+                throw new PackageInvalidException(" Attempted to add the same package two times: " + package.Name);
             }
             receivedPackages.Add(package);
             allPackages.Add(package);
@@ -32,7 +32,7 @@ namespace Ware
         {
             if (receivedPackages.Count == 0)
             {
-                throw new PackageNotFoundException(" No packages to send to the storage: "+ storageConfiguration.ToString);
+                throw new PackageInvalidException(" No packages to send to the storage: "+ storageConfiguration.ToString);
             }
 
             if (receivedPackages.Count > 0)
@@ -47,7 +47,7 @@ namespace Ware
 
                 if (!storageConfiguration.IsSameTypeOfGoods(firstPackage))
                 {
-                    throw new PackageNotFoundException(" First package doesn't match with storage type: " + firstPackage.Name);
+                    throw new PackageInvalidException(" First package doesn't match with storage type: " + firstPackage.Name);
                 }
             }
 
@@ -60,7 +60,7 @@ namespace Ware
         {
             if (receivedPackages.Count == 0)
             {
-                throw new PackageNotFoundException("No packages to send to the storage."+ storageConfiguration);
+                throw new PackageInvalidException("No packages to send to the storage."+ storageConfiguration);
             }
 
             for (int i = receivedPackages.Count - 1; i >= 0; i--)
@@ -74,7 +74,7 @@ namespace Ware
 
                 if (!storageConfiguration.IsSameTypeOfGoods(package))
                 {
-                    throw new PackageNotFoundException(" Package doesn't match with the storage type " + package.Name);
+                    throw new PackageInvalidException(" Package doesn't match with the storage type " + package.Name);
                 }
             }
         }

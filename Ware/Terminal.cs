@@ -58,7 +58,7 @@ namespace Ware
             int newCount = PackagesToSendOut.Count;
             if (newCount == numberOfPackages)
             {
-                throw new PackageNotFoundException("Package does not exist in terminal." );
+                throw new PackageInvalidException("Package does not exist in terminal." );
             
             } 
 
