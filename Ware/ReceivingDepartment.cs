@@ -23,7 +23,6 @@ namespace Ware
             }
             receivedPackages.Add(package);
             allPackages.Add(package);
-
         }
 
         /// <summary>
@@ -89,7 +88,6 @@ namespace Ware
             { 
                 Console.WriteLine(package);
             }
-
         }
 
         /// <summary>
@@ -100,8 +98,6 @@ namespace Ware
         {
             string time = "Estimated time to storage in seconds: ";
             return time+= storageConfiguration.TimeDeliveryToStorageSeconds;
-
-
         }
 
         /// <summary>
