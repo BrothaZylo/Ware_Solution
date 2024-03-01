@@ -21,7 +21,6 @@ namespace Ware
             {
                 throw new PackageNotFoundException(" Attempted to add the same package two times: " + package.Name);
             }
-
             receivedPackages.Add(package);
             allPackages.Add(package);
 
