@@ -26,33 +26,6 @@ namespace Ware
         /// <param name="totalUntsAvailable">How many units of set size exists</param>
         /// <param name="maxHeightCm">Max height of the storage in cm</param>
         /// <param name="maxWidthCm">Max width of the storage in cm</param>
-        public void AddUnit(string sizeName, int totalUntsAvailable, double maxHeightCm, double maxWidthCm)
-        {
-            addShelves.Add(new() { SizeName = sizeName, TotalUnitsAvailable = totalUntsAvailable, MaxHeightCm = maxHeightCm, MaxWidthCm = maxWidthCm });
-        }
-
-        /// <summary>
-        /// Configures diffrent sizes that a complete Warehouse storageunit contains.
-        /// </summary>
-        private class ShelvesConfig
-        {
-            /// <summary>
-            /// Name of the size for x amount of units
-            /// </summary>
-            public required string SizeName { get; set; }
-            /// <summary>
-            /// Set the amount of units for set size in the unit
-            /// </summary>
-            public int TotalUnitsAvailable { get; set; }
-            /// <summary>
-            /// Max width for x amount of units
-            /// </summary>
-            public double MaxWidthCm { get; set; }
-            /// <summary>
-            /// Max Height for x amount of units
-            /// </summary>
-            public double MaxHeightCm { get; set; }
-        }
 
         /// <summary>
         /// Gets the goodstype of the shelf
@@ -60,17 +33,6 @@ namespace Ware
         public string ShelfCategory
         {
             get { return shelfCategory; }
-        }
-
-        /// <summary>
-        /// Prints the diffrent Size configs for each size created.
-        /// </summary>
-        public void SizeConfigPrint()
-        {
-            foreach (Storage.ShelvesConfig Item in addShelves)
-            {
-                Console.WriteLine("StorageName: " + Item.SizeName + " TotalUnits: " + Item.TotalUnitsAvailable + " Max Length CM: " + Item.MaxHeightCm + " Max width CM: " + Item.MaxWidthCm);
-            }
         }
 
         /// <summary>
@@ -325,5 +287,43 @@ namespace Ware
             set { timeFromStoragetoTerminal = value; }
         }
 
+        /// <summary>
+        /// Configures diffrent sizes that a complete Warehouse storageunit contains.
+        /// </summary>
+        private class ShelvesConfig
+        {
+            /// <summary>
+            /// Name of the size for x amount of units
+            /// </summary>
+            public required string SizeName { get; set; }
+            /// <summary>
+            /// Set the amount of units for set size in the unit
+            /// </summary>
+            public int TotalUnitsAvailable { get; set; }
+            /// <summary>
+            /// Max width for x amount of units
+            /// </summary>
+            public double MaxWidthCm { get; set; }
+            /// <summary>
+            /// Max Height for x amount of units
+            /// </summary>
+            public double MaxHeightCm { get; set; }
+        }
+
+        public void AddUnit(string sizeName, int totalUntsAvailable, double maxHeightCm, double maxWidthCm)
+        {
+            addShelves.Add(new() { SizeName = sizeName, TotalUnitsAvailable = totalUntsAvailable, MaxHeightCm = maxHeightCm, MaxWidthCm = maxWidthCm });
+        }
+
+        /// <summary>
+        /// Prints the diffrent Size configs for each size created.
+        /// </summary>
+        public void SizeConfigPrint()
+        {
+            foreach (Storage.ShelvesConfig Item in addShelves)
+            {
+                Console.WriteLine("StorageName: " + Item.SizeName + " TotalUnits: " + Item.TotalUnitsAvailable + " Max Length CM: " + Item.MaxHeightCm + " Max width CM: " + Item.MaxWidthCm);
+            }
+        }
     }
 }
