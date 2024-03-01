@@ -19,7 +19,7 @@ namespace Ware
         {
             if (package == null)
             {
-                throw new ArgumentNullException("Can't add null on package.");
+                throw new ArgumentNullException(nameof(package),"Can't add null on package.");
             }
 
 

@@ -9,11 +9,11 @@ namespace Ware
 {
     internal interface ISchedule
     {
-        void AddPackage(string SingleOrRepeating, DayOfWeek day, Package package, DateTime deliveryTime, DateTime pickupTime);
+        void AddPackage(string SingleOrRepeating, DayOfWeek day, Package package, DateTime pickupTime);
         void ClearSchedule();
-        Dictionary<DaysOfWeek, List<(string, Package, DateTime, DateTime)>> GetSchedule();
+        Dictionary<DaysOfWeek, List<(string, Package, DateTime)>> GetSchedule();
         bool CheckDay(DayOfWeek day);
-        List<(string, Package, DateTime, DateTime)> FetchPackages(DayOfWeek day);
+        List<(string, Package, DateTime)> GetPackageDay(DayOfWeek day);
 
     }
 }
