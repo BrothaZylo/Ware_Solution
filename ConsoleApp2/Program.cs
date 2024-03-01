@@ -11,11 +11,66 @@ Package package4 = new("Cream", "Refrigerated", 84, 43);
 Package package5 = new("Ice", "Refrigerated", 18, 39);
 Package package6 = new(null, null, 18, 39);
 
-ReceivingDepartment receivingDepartment = new ReceivingDepartment();
+//ReceivingDepartment receivingDepartment = new ReceivingDepartment();
 
-receivingDepartment.AddPackage(package6);
-receivingDepartment.CheckIfInList(package5);
+//receivingDepartment.AddPackage(package6);
+//receivingDepartment.CheckIfInList(package5);
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*Testeer SendPackage
+Terminal terminal = new Terminal();
+terminal.AddPackage(package1);
+terminal.AddPackage(package2);
+
+
+try
+{
+    terminal.SendPackage(package6);
+}
+catch(PackageNotFoundException e)
+{
+    Console.WriteLine(e);
+}
+
+*/
+/*Tester AddPackage
+PackageLogging packageLogging = new PackageLogging();
+try
+{
+    packageLogging.AddPackageLog("dsadas dsadas","From this to that");
+}
+catch( ArgumentException e)
+{
+    Console.WriteLine(e);
+}
+*/
+/*Tester TrackPackage
+PackageLogging packageLogging = new PackageLogging();
+packageLogging.AddPackageLog(package1.PackageId, "from me to you");
+try
+{
+    Console.WriteLine(packageLogging.TrackPackage(package1.PackageId));
+}
+catch(PackageNotFoundException e)
+{
+    Console.WriteLine(e);
+}*/
 //----------------------------------------------------------//
 //-----------------------Simulation-------------------------//
 //----------------------------------------------------------//
@@ -27,5 +82,4 @@ sim.AddPackage(package3);
 sim.AddPackage(package4);
 sim.AddPackage(package5);
 sim.Run();
-
 */

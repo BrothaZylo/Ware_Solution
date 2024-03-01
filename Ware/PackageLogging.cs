@@ -27,19 +27,28 @@ namespace Ware
         /// <returns>returns that the package has been logged</returns>
         public string AddPackageLog(string packageId, string action)
         {
-            if (!PackageLog.ContainsKey(packageId))
+            if (packageId != null & packageId.Contains(' '))
             {
-                PackageLog.Add(packageId, new List<(string, DateTime)>());
+                throw new ArgumentException("The packageId should not be empty or contain any whitespaces");
+            }
+            else
+            {
+                if (!PackageLog.ContainsKey(packageId))
+                {
+                    PackageLog.Add(packageId, new List<(string, DateTime)>());
 
+                    PackageLog[packageId].Add((action, DateTime.Now));
+
+                    return packageId + " Was logged";
+                }
                 PackageLog[packageId].Add((action, DateTime.Now));
 
-                return packageId + " Was logged";
+                return packageId + " Was logged";         
             }
 
-            PackageLog[packageId].Add((action, DateTime.Now));
-
-            return packageId + " Was logged";
         }
+
+
         /// <summary>
         /// This will print out all the packages and where they have been and when they got there
         /// </summary>
@@ -64,19 +73,26 @@ namespace Ware
         /// <returns>a stringbuilder that contains the log of the package asked for</returns>
         public StringBuilder TrackPackage(string id)
         {
-            StringBuilder stringBuilder = new System.Text.StringBuilder();
-            foreach (KeyValuePair<string, List<(string, DateTime)>> keys in PackageLog)
+        StringBuilder stringBuilder = new System.Text.StringBuilder();
+        bool packageExist = false;
+        foreach (KeyValuePair<string, List<(string, DateTime)>> keys in PackageLog)
+        {
+            if (keys.Key == id)
             {
-                if (keys.Key == id)
+                packageExist = true;
+                foreach ((string, DateTime) items in keys.Value)
                 {
-                    foreach ((string, DateTime) items in keys.Value)
-                    {
-                        stringBuilder.Append($"PackageID : {keys.Key} {items.Item1} {items.Item2}\n");
-                    } 
+                    stringBuilder.Append($"PackageID : {keys.Key} {items.Item1} {items.Item2}\n");
                 }
             }
-            return stringBuilder;
         }
+        if (!packageExist)
+        {
+            throw new PackageNotFoundException($"The package id: {id} could not be found in log");
+        }    
+        return stringBuilder;
+        }
+
 
     }
 }
