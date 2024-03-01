@@ -11,48 +11,12 @@ Package package6 = new("ebb", "Dangerous", 84, 43);
 Package package7 = new("eee", "Dangerous", 84, 43);
 Package package4 = new("Cream", "Refrigerated", 84, 43);
 Package package5 = new("Ice", "Refrigerated", 18, 39);
+
 Package package8 = new("Ice boog", "Refrigerated", 18, 39);
 
+receivingDepartment.AddPackage(package1);
+receivingDepartment.AddPackage(package2);
 
-
-/*Testeer SendPackage
-Terminal terminal = new Terminal();
-terminal.AddPackage(package1);
-terminal.AddPackage(package2);
-
-
-try
-{
-    terminal.SendPackage(package6);
-}
-catch(PackageNotFoundException e)
-{
-    Console.WriteLine(e);
-}
-
-*/
-/*Tester AddPackage
-PackageLogging packageLogging = new PackageLogging();
-try
-{
-    packageLogging.AddPackageLog("dsadas dsadas","From this to that");
-}
-catch( ArgumentException e)
-{
-    Console.WriteLine(e);
-}
-*/
-/*Tester TrackPackage
-PackageLogging packageLogging = new PackageLogging();
-packageLogging.AddPackageLog(package1.PackageId, "from me to you");
-try
-{
-    Console.WriteLine(packageLogging.TrackPackage(package1.PackageId));
-}
-catch(PackageNotFoundException e)
-{
-    Console.WriteLine(e);
-}*/
 //----------------------------------------------------------//
 //-----------------------Simulation-------------------------//
 //----------------------------------------------------------//
