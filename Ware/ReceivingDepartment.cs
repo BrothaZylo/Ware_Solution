@@ -58,6 +58,7 @@ namespace Ware
         /// </summary>
         public void SendAllPackagesToStorage(Storage storageConfiguration)
         {
+            int pamount = receivedPackages.Count;
             if (receivedPackages.Count == 0)
             {
                 throw new PackageInvalidException("No packages to send to the storage."+ storageConfiguration);
@@ -71,11 +72,10 @@ namespace Ware
                     storageConfiguration.PlacePackage(receivedPackages[i]);
                     receivedPackages.RemoveAt(i);
                 }
-
-                if (!storageConfiguration.IsSameTypeOfGoods(package))
-                {
-                    throw new PackageInvalidException(" Package doesn't match with the storage type " + package.Name);
-                }
+            }
+            if (pamount == receivedPackages.Count)
+            {
+                throw new PackageInvalidException(" Package doesn't match with the storage type " + storageConfiguration);
             }
         }
 

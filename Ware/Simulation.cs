@@ -214,11 +214,23 @@ namespace Ware
             return percentageNumber * s / 100;
         }
 
+        private DateTime AutomaticTimeCreator(int percentageRunSim)
+        {
+            int s = seconds;
+            int sum = percentageRunSim * s / 100;
+
+            DateTime day = DateTime.Now;
+            day.AddMinutes(sum);
+            return day;
+        }
+
         private void CreateSchedule()
         {
             foreach(Package package in simulationPackages)
             {
-                schedule.AddPackage("single", DayOfWeek.Monday, package, DateTime.Now);
+                Random rand = new();
+                int u = rand.Next(0, 30);
+                schedule.AddPackage("single", DayOfWeek.Monday, package, AutomaticTimeCreator(u));
             }
         }
 

@@ -14,6 +14,7 @@ Package package5 = new("Ice", "Refrigerated", 18, 39);
 
 Package package8 = new("Ice boog", "Refrigerated", 18, 39);
 
+ReceivingDepartment receivingDepartment = new ReceivingDepartment();
 receivingDepartment.AddPackage(package1);
 receivingDepartment.AddPackage(package2);
 
