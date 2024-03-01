@@ -107,7 +107,7 @@ namespace Ware
                     if (package.Goods == "Dry")
                     {
                         receiving.AddPackage(package);
-                        Console.WriteLine(package.Name + " was received :O");
+                        Console.WriteLine(package.Name + " was received");
                     }
                 }
                 dry = 0;
@@ -119,7 +119,7 @@ namespace Ware
                     if (package.Goods == "Refrigerated")
                     {
                         receiving.AddPackage(package);
-                        Console.WriteLine(package.Name + " was received xd");
+                        Console.WriteLine(package.Name + " was received");
                     }
                 }
                 refrigerated = 0;
@@ -131,7 +131,7 @@ namespace Ware
                     if (package.Goods == "Dangerous")
                     {
                         receiving.AddPackage(package);
-                        Console.WriteLine(package.Name + " was received uu");
+                        Console.WriteLine(package.Name + " was received");
                     }
                 }
                 dangerous = 0;
@@ -143,7 +143,7 @@ namespace Ware
                     if (package.Goods == "Dry")
                     {
                         receiving.AddPackage(package);
-                        Console.WriteLine(package.Name + " was received ll");
+                        Console.WriteLine(package.Name + " was received");
                     }
                 }
                 dry = 0;
@@ -155,7 +155,7 @@ namespace Ware
                     if (package.Goods == "Refrigerated")
                     {
                         receiving.AddPackage(package);
-                        Console.WriteLine(package.Name + " was received qq");
+                        Console.WriteLine(package.Name + " was received");
                     }
                 }
                 refrigerated = 0;
@@ -207,18 +207,18 @@ namespace Ware
         }
 
         //idk 
-        private int CalcSimTime(int instanceNumber)
+        private int CalcSimTime(int percentageNumber)
         {
             int s = seconds;
 
-            return instanceNumber * s / 100;
+            return percentageNumber * s / 100;
         }
 
         private void CreateSchedule()
         {
             foreach(Package package in simulationPackages)
             {
-                schedule.AddPackage("single", DayOfWeek.Monday, package, DateTime.Now, DateTime.Now);
+                schedule.AddPackage("single", DayOfWeek.Monday, package, DateTime.Now);
             }
         }
 
@@ -240,6 +240,7 @@ namespace Ware
             CalcAmountGoodsTypeList();
             AddUnits();
             BuildStorages();
+            CreateSchedule();
             listcounter += simulationPackages.Count;
 
             Thread.Sleep(sdelay);
@@ -247,6 +248,10 @@ namespace Ware
 
             while (start != stop)
             {
+                if (start == CalcSimTime(5))
+                {
+                    schedule.GetSchedule();
+                }
                 if (recPackages && start == CalcSimTime(10))
                 {
                     RecievePackages();
