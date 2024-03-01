@@ -20,14 +20,6 @@ namespace Ware
         private readonly Dictionary<string, (string, string, double, double, bool)> yourStorageDict = [];
 
         /// <summary>
-        /// Predefine before you build the storage. Adds a custom set of sized shelfs to the storage unit
-        /// </summary>
-        /// <param name="sizeName">name of the size, example: "Large"</param>
-        /// <param name="totalUntsAvailable">How many units of set size exists</param>
-        /// <param name="maxHeightCm">Max height of the storage in cm</param>
-        /// <param name="maxWidthCm">Max width of the storage in cm</param>
-
-        /// <summary>
         /// Gets the goodstype of the shelf
         /// </summary>
         public string ShelfCategory
