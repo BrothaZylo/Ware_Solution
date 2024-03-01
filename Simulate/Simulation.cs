@@ -111,7 +111,7 @@ while (startDate < endDate)
     {
         Console.WriteLine($"Packages at : {startDate.ToString("dd-MM-yyyy")}");
         // Packages that arrive
-        var packages = deliverySchedule.FetchPackages(startDate.DayOfWeek);
+        var packages = deliverySchedule.GetPackageDay(startDate.DayOfWeek);
         foreach(var package in packages)
         {
             receivingDepartmentForDryGoods.AddPackage(package.Item2);

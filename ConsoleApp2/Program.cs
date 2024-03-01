@@ -22,7 +22,7 @@ Package package8 = new("Ice boog", "Refrigerated", 18, 39);
 //----------------------------------------------------------//
 //-----------------------Simulation-------------------------//
 //----------------------------------------------------------//
-Simulation sim = new(60);
+Simulation sim = new(30);
 
 sim.AddPackage(package1);
 sim.AddPackage(package2);

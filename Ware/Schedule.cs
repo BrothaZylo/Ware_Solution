@@ -141,7 +141,7 @@ namespace Ware
         /// </summary>
         /// <param name="day">Day of week</param>
         /// <returns>returns the packages for the day asked for</returns>
-        public List<(string, Package, DateTime, DateTime)> FetchPackages(DayOfWeek day)
+        public List<(string, Package, DateTime, DateTime)> GetPackageDay(DayOfWeek day)
         {
             DaysOfWeek deliveryDay = (DaysOfWeek)(int)day;
 

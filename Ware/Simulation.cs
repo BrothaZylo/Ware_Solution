@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -205,17 +206,20 @@ namespace Ware
             return time;
         }
 
+        //idk 
         private int CalcSimTime(int instanceNumber)
         {
             int s = seconds;
-            int i = instanceNumber;
 
-            if (s > 59)
+            return instanceNumber * s / 100;
+        }
+
+        private void CreateSchedule()
+        {
+            foreach(Package package in simulationPackages)
             {
-                return s - s+i;
+                schedule.AddPackage("single", DayOfWeek.Monday, package, DateTime.Now, DateTime.Now);
             }
-
-            return s/s-i;
         }
 
         /// <summary>
@@ -243,33 +247,33 @@ namespace Ware
 
             while (start != stop)
             {
-                if (recPackages && start == CalcSimTime(2))
-                {
-                    RecievePackages();
-                }
-
-                if (sendRecToStorage && start == CalcSimTime(4))
-                {
-                    SendPackagesToStorage();
-                    sendRecToStorage = false;
-                }
-
-                if (printStorage && start == CalcSimTime(7))
-                {
-                    PrintStorages();
-                }
-
-                if (sendStorageToTerminal && start == CalcSimTime(9))
-                {
-                    FromStorageToTerminal();
-                }
-
                 if (recPackages && start == CalcSimTime(10))
                 {
                     RecievePackages();
                 }
 
-                if (recPackages && start == CalcSimTime(13))
+                if (sendRecToStorage && start == CalcSimTime(20))
+                {
+                    SendPackagesToStorage();
+                    sendRecToStorage = false;
+                }
+
+                if (printStorage && start == CalcSimTime(30))
+                {
+                    PrintStorages();
+                }
+
+                if (sendStorageToTerminal && start == CalcSimTime(40))
+                {
+                    FromStorageToTerminal();
+                }
+
+                if (recPackages && start == CalcSimTime(50))
+                {
+                    RecievePackages();
+                }
+
+                if (recPackages && start == CalcSimTime(60))
                 {
                     RecievePackages();
                 }
@@ -280,7 +284,6 @@ namespace Ware
                 Thread.Sleep(delay);
                 start++;
             }
-            PrintStorages();
             Console.WriteLine("Simulation ended at: " + stop + " Seconds");
         }
 

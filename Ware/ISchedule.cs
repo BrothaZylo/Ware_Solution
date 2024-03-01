@@ -13,7 +13,7 @@ namespace Ware
         void ClearSchedule();
         Dictionary<DaysOfWeek, List<(string, Package, DateTime, DateTime)>> GetSchedule();
         bool CheckDay(DayOfWeek day);
-        List<(string, Package, DateTime, DateTime)> FetchPackages(DayOfWeek day);
+        List<(string, Package, DateTime, DateTime)> GetPackageDay(DayOfWeek day);
 
     }
 }
