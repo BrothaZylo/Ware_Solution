@@ -35,6 +35,7 @@ namespace Ware
             CONTROLLER,
             AMBASSADOR,
             TECHNICAL,
+            SUPPORT,
             OTHERS,
             EXTRA1,
             EXTRA2,
