@@ -36,6 +36,7 @@ namespace Ware
             AMBASSADOR,
             TECHNICAL,
             SUPPORT,
+            DRIVER,
             OTHERS,
             EXTRA1,
             EXTRA2,

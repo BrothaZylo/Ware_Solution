@@ -16,7 +16,7 @@ namespace Ware
         private readonly List<CrewList.AccessLevel> equipment = [];
         private string name = name;
         private int quantity = quantity;
-        
+
         /// <summary>
         /// Adds permission locks behind set
         /// </summary>
@@ -26,6 +26,18 @@ namespace Ware
             equipment.Add(accessLevel);
         }
 
+        public CrewList.AccessLevel? GetAccessLevel(string sname)
+        {
+            foreach (CrewList.AccessLevel item in equipment)
+            {
+                if (name == sname)
+                {
+                    Console.WriteLine(item);
+                }
+            }
+            return null;
+        }
+
         /// <summary>
         /// Deletes the equipment access for set enum.
         /// </summary>
@@ -33,6 +45,14 @@ namespace Ware
         public void DeleteAccessLevel(CrewList.AccessLevel accessLevel)
         {
             equipment.Remove(accessLevel);
+        }
+
+        public void AccessLevelPrint()
+        {
+            foreach (CrewList.AccessLevel item in equipment)
+            {
+                Console.WriteLine(item);
+            }
         }
 
         /// <summary>

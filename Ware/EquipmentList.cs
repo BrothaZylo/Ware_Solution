@@ -11,6 +11,7 @@ namespace Ware
     /// </summary>
     public class EquipmentList
     {
+        private List<Equipment> allEquipmentList = [];
         private readonly Dictionary<string, (int, Equipment)> allEquipment = [];
 
         /// <summary>
@@ -19,6 +20,7 @@ namespace Ware
         /// <param name="equipment">name of equipment object</param>
         public void AddEquipment(Equipment equipment)
         {
+            allEquipmentList.Add(equipment);
             allEquipment.Add(equipment.Name, (equipment.Quantity, equipment));
         }
 
@@ -36,10 +38,13 @@ namespace Ware
         /// </summary>
         public void EquipmentListPrint()
         {
-            foreach (var item in allEquipment)
+            foreach (KeyValuePair<string, (int, Equipment)> item in allEquipment)
             {
-                Console.WriteLine(item);
+                Console.WriteLine("------------");
+                Console.WriteLine(item.Key+"\n");
+                Console.WriteLine(item.Value.Item2.GetAccessLevel(item.Key));
             }
+            Console.WriteLine("------------");
         }
 
         /// <summary>
