@@ -59,12 +59,12 @@ namespace Ware
 
         }
         /// <summary>
-        /// Checks for which day the package is coming in and adds package and time to the calender
+        /// Checks for which day the package is coming in and adds package and resetSpan to the calender
         /// </summary>
         /// <param name="day">What day the package is coming</param>
         /// <param name="package">The package being delivered</param>
-        /// <param name="deliveryTime">The date and time it will arrive </param>
-        /// <param name="pickupTime">The date and time it will be picked up </param>
+        /// <param name="deliveryTime">The date and resetSpan it will arrive </param>
+        /// <param name="pickupTime">The date and resetSpan it will be picked up </param>
         /// Steve. “Adding Items to a List in a Dictionary.” Stack Overflow, 2024,
         /// stackoverflow.com/questions/14991688/adding-items-to-a-list-in-a-dictionary.
         /// Author Steve

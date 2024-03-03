@@ -7,11 +7,10 @@ using Ware;
 Package package1 = new("Chips", "Dry", 15, 3);
 Package package2 = new("Ost", "Dry", 14, 23);
 Package package3 = new("Moose", "Dangerous", 84, 43);
-Package package6 = new("ebb", "Dangerous", 84, 43);
-Package package7 = new("eee", "Dangerous", 84, 43);
-Package package4 = new("Cream", "Refrigerated", 84, 43);
-Package package5 = new("Ice", "Refrigerated", 18, 39);
-
+Package package4 = new("ebb", "Dangerous", 84, 43);
+Package package5 = new("eee", "Dangerous", 84, 43);
+Package package6 = new("Cream", "Refrigerated", 84, 43);
+Package package7 = new("Ice", "Refrigerated", 18, 39);
 Package package8 = new("Ice boog", "Refrigerated", 18, 39);
 
 ReceivingDepartment receivingDepartment = new ReceivingDepartment();

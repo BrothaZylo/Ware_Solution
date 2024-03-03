@@ -91,12 +91,12 @@ namespace Ware
         }
 
         /// <summary>
-        /// Finds the time it takes from when recieved to it enters the storage.
+        /// Finds the resetSpan it takes from when recieved to it enters the storage.
         /// </summary>
-        /// <returns>Represents the estimated time it took to get to storage.</returns>
+        /// <returns>Represents the estimated resetSpan it took to get to storage.</returns>
         public string TravelTimeToStorage(Storage storageConfiguration) 
         {
-            string time = "Estimated time to storage in seconds: ";
+            string time = "Estimated resetSpan to storage in seconds: ";
             return time+= storageConfiguration.TimeDeliveryToStorageSeconds;
         }
 

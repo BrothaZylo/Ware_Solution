@@ -241,7 +241,7 @@ namespace Ware
         }
 
         /// <summary>
-        /// Gets the time it takes from ReceivingDeportment to Storage
+        /// Gets the resetSpan it takes from ReceivingDeportment to Storage
         /// </summary>
         public double TimeReceivingToStorageMinutes
         {
@@ -250,9 +250,9 @@ namespace Ware
         }
 
         /// <summary>
-        /// Finds the time it takes from storage to terminal based on config.
+        /// Finds the resetSpan it takes from storage to terminal based on config.
         /// </summary>
-        /// <returns>x amount of time, else 0</returns>
+        /// <returns>x amount of resetSpan, else 0</returns>
         public double TimeStorageToTerminalMinutes
         {
             get { return timeFromStoragetoTerminal / 60; }
@@ -260,7 +260,7 @@ namespace Ware
         }
 
         /// <summary>
-        /// It will find the time from Delivery To storageunit based from the config and converts it into seconds
+        /// It will find the resetSpan from Delivery To storageunit based from the config and converts it into seconds
         /// </summary>
         /// <returns>Get Time Delivery To Storage Seconds</returns>
         public double TimeDeliveryToStorageSeconds
@@ -270,7 +270,7 @@ namespace Ware
         }
 
         /// <summary>
-        /// Finds the time it takes from storage to terminal based on config and converts it into seconds.
+        /// Finds the resetSpan it takes from storage to terminal based on config and converts it into seconds.
         /// </summary>
         /// <returns>Time Storage To Terminal Seconds</returns>
         public double TimeStorageToTerminalSeconds
