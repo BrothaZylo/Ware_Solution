@@ -18,9 +18,18 @@ ReceivingDepartment receivingDepartment = new ReceivingDepartment();
 receivingDepartment.AddPackage(package1);
 receivingDepartment.AddPackage(package2);
 
+Statistics statistics = new Statistics();
+statistics.GetAllStatisticsDictionary();
+statistics.PrintDict();
+statistics.AddPackagesHandledToDay();
+statistics.AddPackagesHandledToDay();
+statistics.PrintDict();
+
+
 //----------------------------------------------------------//
 //-----------------------Simulation-------------------------//
 //----------------------------------------------------------//
+/*
 Simulation sim = new(30);
 
 sim.AddPackage(package1);
@@ -32,4 +41,4 @@ sim.AddPackage(package6);
 sim.AddPackage(package7);
 sim.AddPackage(package8);
 sim.Run();
-
+*/
