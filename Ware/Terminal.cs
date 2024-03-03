@@ -12,6 +12,8 @@ namespace Ware
     public class Terminal : ITerminal
     {
         public List<Package> PackagesToSendOut = new List<Package>();
+        public Queue<Package> PackagesToSendOutQueue = new Queue<Package>();
+
         /// <summary>
         /// This will add a package to a list which are the packages at the terminal
         /// </summary>
@@ -20,6 +22,7 @@ namespace Ware
         {
             PackagesToSendOut.Add(packages);
         }
+
         /// <summary>
         /// Returns a list of packages in the terminal
         /// </summary>
@@ -63,6 +66,26 @@ namespace Ware
             } 
 
         }
+        private void AddToQueue()
+        {
+            foreach(Package p in PackagesToSendOut) 
+            {
+                PackagesToSendOutQueue.Enqueue(p);
+            }
+            PackagesToSendOut.Clear();
+        }
+
+        public void SendAllPackages()
+        {
+            AddToQueue();
+            while(PackagesToSendOutQueue.Count > 0)
+            {
+                PackagesToSendOutQueue.Dequeue();
+            }
+            
+        }
+
+
         /// <summary>
         /// Clears all the packages in terminal
         /// </summary>

@@ -117,18 +117,14 @@ namespace Ware
         /// <returns>if it finds the package it will return the package, else it will return null</returns>
         public void MovePackageToTerminal(Package package, Terminal terminal)
         {
-            int counter = 0;
             foreach (KeyValuePair<string, (string, string, double, double, bool)> i in yourStorageDict)
             {
                 if (i.Value.Item1 == package.PackageId)
                 {
                     yourStorageDict[i.Key] = ("PackageID: Empty", i.Value.Item2, i.Value.Item3, i.Value.Item4, false);
                     terminal.AddPackage(package);
-                    counter++;                
                 }
             }
-            Console.WriteLine(counter);
-            
         }
 
 

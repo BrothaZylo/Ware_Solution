@@ -161,10 +161,18 @@ namespace Ware
 
         private void SendPackagesToStorage()
         {
-            receiving.SendAllPackagesToStorage(Dry);
-            receiving.SendAllPackagesToStorage(Dangerous);
-            receiving.SendAllPackagesToStorage(Refrigerated);
-            Console.WriteLine("Packages was sent from the the receiving department to storage");
+            try
+            {
+                receiving.SendAllPackagesToStorage(Dry);
+                receiving.SendAllPackagesToStorage(Dangerous);
+                receiving.SendAllPackagesToStorage(Refrigerated);
+                Console.WriteLine("Packages was sent from the the receiving department to storage");
+            }
+            catch(PackageInvalidException e) 
+            { 
+                Console.WriteLine(e);
+            }
+
         }
 
 
@@ -239,7 +247,28 @@ namespace Ware
                 schedule.AddPackage("single", DayOfWeek.Monday, package, AutomaticTimeCreator(u));
             }
         }
+        private void FromTerminalAndAway()
+        {
+            terminal.SendAllPackages();
+            Console.WriteLine("Sending out packages");
+        }
 
+
+        private int RandomDelay()
+        {
+            Console.WriteLine("ÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆ");
+            Random r = new Random();
+            int randomNumber = r.Next(0,2);
+            Console.WriteLine(randomNumber);
+            if (randomNumber == 1)
+            {
+                Console.WriteLine("Pick up has been delayed");
+                Random rr = new Random();
+                return rr.Next(5,10);
+
+            }
+            return 0;
+        }
 
         /// <summary>
         /// Starts the simulation with the added packages. 60 seconds recommended runtime.
@@ -262,6 +291,7 @@ namespace Ware
             CreateSchedule();
 
             Thread.Sleep(startDelay);
+            int randomDelay = RandomDelay();
 
 
             while (start != stop)
@@ -275,33 +305,70 @@ namespace Ware
                     RecievePackages();
                 }
 
-                if (start == CalcSimTime(20))
+                if (start == CalcSimTime(15))
+                {
+                    SendPackagesToStorage();
+                }
+                                
+                if (start == CalcSimTime(25))
+                {
+                    PrintStorages();
+                }
+                if (start == CalcSimTime(30))
+                {
+                    FromStorageToTerminal();
+                }
+                if (start == CalcSimTime(35))
+                {
+                    FromTerminalAndAway();
+                }
+                /***********************************/
+                if (start == CalcSimTime(40))
+                {
+                    RecievePackages();
+                }
+
+                if (start == CalcSimTime(45))
                 {
                     SendPackagesToStorage();
                 }
 
-                if (start == CalcSimTime(30))
+                if (start == CalcSimTime(50))
                 {
                     PrintStorages();
                 }
+                if (start == CalcSimTime(55))
+                {
+                    FromStorageToTerminal();
+                }
+                if (start == CalcSimTime(60))
+                {
+                    FromTerminalAndAway();
+                }
 
-                if (start == CalcSimTime(40))
+                /*********************/
+                if (start == CalcSimTime(65 + randomDelay))
+                {
+                    RecievePackages();
+                }
+
+                if (start == CalcSimTime(70 + randomDelay))
+                {
+                    SendPackagesToStorage();
+                }
+
+                if (start == CalcSimTime(75 + randomDelay))
+                {
+                    PrintStorages();
+                }
+                if (start == CalcSimTime(80 + randomDelay))
                 {
                     FromStorageToTerminal();
                 }
 
-                if (start == CalcSimTime(11))
+                if (start == CalcSimTime(81 + randomDelay))
                 {
-                    RecievePackages();
-                }
-
-                if (start == CalcSimTime(11))
-                {
-                    RecievePackages();
-                }
-                if (start == CalcSimTime(99)) 
-                { 
-                    RecievePackages(); 
+                    FromTerminalAndAway();
                 }
 
                 Console.WriteLine("\n---------------");
@@ -310,7 +377,9 @@ namespace Ware
                 Thread.Sleep(delay);
                 start++;
             }
-            Console.WriteLine("Simulation ended at: " + stop + " Seconds");
+            Console.WriteLine("Simulation ended at: " + (stop) + " Seconds\n");
+            
+            Console.WriteLine("The total delay was " + randomDelay + " seconds in this simulation ");
         }
 
     }
