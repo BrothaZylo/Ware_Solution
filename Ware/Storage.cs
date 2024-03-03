@@ -48,7 +48,7 @@ namespace Ware
         /// </summary>
         /// <param name="package">A Package</param>
         /// <returns>An option to know if its in storage or got placed in the storage</returns>
-        public string PlacePackage(Package package)
+        public string? PlacePackage(Package package)
         {
             double packagesizew = package.Width;
             double packagesizeh = package.Height;
@@ -58,7 +58,8 @@ namespace Ware
                 {
                     if (i.Value.Item1 == package.PackageId)
                     {
-                        return "Package is already in storagehouse";
+                        throw new PackageInvalidException("No matching Id found: " + package.PackageId);
+                        break;
                     }
                     if (i.Value.Item5 == false)
                     {
@@ -70,7 +71,7 @@ namespace Ware
                     }
                 }
             }
-            throw new StorageException("No suitable place found: "+ package.Name);
+            return null;
         }
 
         /// <summary>
@@ -114,18 +115,20 @@ namespace Ware
         /// <param name="package">A package</param>
         /// <param name="terminal">The Terminal where the package will be sent out</param>
         /// <returns>if it finds the package it will return the package, else it will return null</returns>
-        public Package? MovePackageToTerminal(Package package, Terminal terminal)
+        public void MovePackageToTerminal(Package package, Terminal terminal)
         {
+            int counter = 0;
             foreach (KeyValuePair<string, (string, string, double, double, bool)> i in yourStorageDict)
             {
                 if (i.Value.Item1 == package.PackageId)
                 {
                     yourStorageDict[i.Key] = ("PackageID: Empty", i.Value.Item2, i.Value.Item3, i.Value.Item4, false);
                     terminal.AddPackage(package);
-                    return package;
+                    counter++;                
                 }
             }
-            throw new PackageInvalidException(" Package with ID not found: " + package.Name);
+            Console.WriteLine(counter);
+            
         }
 
 

@@ -73,10 +73,6 @@ namespace Ware
                     receivedPackages.RemoveAt(i);
                 }
             }
-            if (pamount == receivedPackages.Count)
-            {
-                throw new PackageInvalidException(" Package doesn't match with the storage type " + storageConfiguration);
-            }
         }
 
         /// <summary>

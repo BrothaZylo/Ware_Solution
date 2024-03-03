@@ -5,6 +5,7 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace Ware
 {
@@ -25,11 +26,7 @@ namespace Ware
         private readonly Schedule schedule = new();
         private readonly Terminal terminal = new();
 
-        private bool sendRecToStorage = true;
-        private bool sendStorageToTerminal = true;
-        private bool recPackages = true;
-        private bool printStorage = true;
-        private int listcounter, dry, refrigerated, dangerous;
+        private int dry, refrigerated, dangerous;
 
 
         /// <summary>
@@ -59,15 +56,15 @@ namespace Ware
 
                 if (goods == "Dry")
                 {
-                    Dry.AddUnit("Autosized", 2, height + 10, width + 10);
+                    Dry.AddUnit("Autosized", 3, height + 10, width + 10);
                 }
                 if (goods == "Refrigerated")
                 {
-                    Refrigerated.AddUnit("Autosized", 2, height + 10, width + 10);
+                    Refrigerated.AddUnit("Autosized", 3, height + 10, width + 10);
                 }
                 if (goods == "Dangerous")
                 {
-                    Dangerous.AddUnit("Autosized", 2, height + 10, width + 10);
+                    Dangerous.AddUnit("Autosized", 3, height + 10, width + 10);
                 }
             }
         }
@@ -173,20 +170,29 @@ namespace Ware
 
         private void FromStorageToTerminal()
         {
+
             foreach (Package package in simulationPackages)
             {
-                if (Dry.IsSameTypeOfGoods(package))
+                try
                 {
-                Dry.MovePackageToTerminal(package,terminal);
+                    if (Dry.IsSameTypeOfGoods(package))
+                    {
+                        Dry.MovePackageToTerminal(package, terminal);
+                    }
+                    if (Refrigerated.IsSameTypeOfGoods(package))
+                    {
+                        Refrigerated.MovePackageToTerminal(package, terminal);
+                    }
+                    if (Dangerous.IsSameTypeOfGoods(package))
+                    {
+                        Dangerous.MovePackageToTerminal(package, terminal);
+                    }
                 }
-                if (Refrigerated.IsSameTypeOfGoods(package))
+                catch (PackageInvalidException e)
                 {
-                    Refrigerated.MovePackageToTerminal(package, terminal);
+                    Console.WriteLine(e);
                 }
-                if (Dangerous.IsSameTypeOfGoods(package))
-                {
-                    Dangerous.MovePackageToTerminal(package, terminal);
-                }
+
             }
             Console.WriteLine("Packages was sent from the the storage to the terminal");
         }
@@ -206,7 +212,7 @@ namespace Ware
             return time;
         }
 
-        //idk 
+
         private int CalcSimTime(int percentageNumber)
         {
             int s = seconds;
@@ -234,6 +240,7 @@ namespace Ware
             }
         }
 
+
         /// <summary>
         /// Starts the simulation with the added packages. 60 seconds recommended runtime.
         /// </summary>
@@ -242,7 +249,7 @@ namespace Ware
             int start = 1;
             int stop = seconds;
             int delay = 1000;
-            int sdelay = 4000;
+            int startDelay = 4000;
 
             Console.WriteLine(" ---------------------");
             Console.WriteLine("| Simulation starting  |");
@@ -253,9 +260,8 @@ namespace Ware
             AddUnits();
             BuildStorages();
             CreateSchedule();
-            listcounter += simulationPackages.Count;
 
-            Thread.Sleep(sdelay);
+            Thread.Sleep(startDelay);
 
 
             while (start != stop)
@@ -264,35 +270,38 @@ namespace Ware
                 {
                     schedule.GetSchedule();
                 }
-                if (recPackages && start == CalcSimTime(10))
+                if (start == CalcSimTime(10))
                 {
                     RecievePackages();
                 }
 
-                if (sendRecToStorage && start == CalcSimTime(20))
+                if (start == CalcSimTime(20))
                 {
                     SendPackagesToStorage();
-                    sendRecToStorage = false;
                 }
 
-                if (printStorage && start == CalcSimTime(30))
+                if (start == CalcSimTime(30))
                 {
                     PrintStorages();
                 }
 
-                if (sendStorageToTerminal && start == CalcSimTime(40))
+                if (start == CalcSimTime(40))
                 {
                     FromStorageToTerminal();
                 }
 
-                if (recPackages && start == CalcSimTime(50))
+                if (start == CalcSimTime(11))
                 {
                     RecievePackages();
                 }
 
-                if (recPackages && start == CalcSimTime(60))
+                if (start == CalcSimTime(11))
                 {
                     RecievePackages();
+                }
+                if (start == CalcSimTime(99)) 
+                { 
+                    RecievePackages(); 
                 }
 
                 Console.WriteLine("\n---------------");

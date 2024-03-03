@@ -17,7 +17,7 @@ namespace Ware
         string MovePackageById(string packageid);
 
         Package? MovePackage(Package package);
-        Package? MovePackageToTerminal(Package package, Terminal terminal);
+        void MovePackageToTerminal(Package package, Terminal terminal);
 
         void GetAllStorageInformationPrint();
 
