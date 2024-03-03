@@ -12,7 +12,7 @@ namespace Ware
     /// </summary>
     public class CrewList() : ICrewList
     {
-        private Dictionary<string, AccessLevel> list = [];
+        private readonly Dictionary<string, AccessLevel> list = [];
 
         /// <summary>
         /// Job / access / position
@@ -51,6 +51,15 @@ namespace Ware
         public void AddCrewMember(string name, AccessLevel accessLevel)
         {
             list.Add(name, accessLevel);
+        }
+
+        /// <summary>
+        /// Removes a crewmember
+        /// </summary>
+        /// <param name="name">Name of the person you want removed</param>
+        public void RemoveCrewMember(string name)
+        {
+            list.Remove(name);
         }
 
         /// <summary>

@@ -40,5 +40,6 @@ crew.AddCrewMember("Ola", CrewList.AccessLevel.HR);
 crew.AddCrewMember("Big", CrewList.AccessLevel.ADMINISTRATOR);
 
 crew.CrewListPrint();
-
+crew.RemoveCrewMember("Ola");
+crew.CrewListPrint();
 
