@@ -21,6 +21,7 @@ receivingDepartment.AddPackage(package2);
 //----------------------------------------------------------//
 //-----------------------Simulation-------------------------//
 //----------------------------------------------------------//
+/*
 Simulation sim = new(30);
 
 sim.AddPackage(package1);
@@ -32,4 +33,12 @@ sim.AddPackage(package6);
 sim.AddPackage(package7);
 sim.AddPackage(package8);
 sim.Run();
+*/
+CrewList crew = new();
+
+crew.AddCrewMember("Ola", CrewList.AccessLevel.EXTRA);
+crew.AddCrewMember("Olae", CrewList.AccessLevel.EXTRA);
+
+crew.CrewListPrint();
+
 
