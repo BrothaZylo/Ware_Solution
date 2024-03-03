@@ -36,8 +36,8 @@ sim.Run();
 */
 CrewList crew = new();
 
-crew.AddCrewMember("Ola", CrewList.AccessLevel.EXTRA);
-crew.AddCrewMember("Olae", CrewList.AccessLevel.EXTRA);
+crew.AddCrewMember("Ola", CrewList.AccessLevel.HR);
+crew.AddCrewMember("Big", CrewList.AccessLevel.ADMINISTRATOR);
 
 crew.CrewListPrint();
 

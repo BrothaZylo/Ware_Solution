@@ -7,11 +7,16 @@ using System.Threading.Tasks;
 
 namespace Ware
 {
-    public class CrewList()
+    /// <summary>
+    /// Creates a crewlist for everyone working there. Can also make positions for outsiders.
+    /// </summary>
+    public class CrewList() : ICrewList
     {
-        Dictionary<string, AccessLevel> list = [];
+        private Dictionary<string, AccessLevel> list = [];
 
-
+        /// <summary>
+        /// Job / access / position
+        /// </summary>
         public enum AccessLevel
         {
             CEO,
@@ -22,15 +27,20 @@ namespace Ware
             EMPLOYEE,
             JANITOR,
             VISITOR,
-            OTHERS,
-            EXTRA,
             OPERATOR,
             STOWER,
             PICKER,
             PACKER,
+            SENDER,
             CONTROLLER,
             AMBASSADOR,
             TECHNICAL,
+            OTHERS,
+            EXTRA1,
+            EXTRA2,
+            EXTRA3,
+            EXTRA4,
+            EXTRA5,
         }
 
         /// <summary>
@@ -50,7 +60,7 @@ namespace Ware
         {
             foreach(var item in list)
             {
-                Console.WriteLine(item.Key + " " + item.Value);
+                Console.WriteLine("| " + item.Key + " | " + item.Value + " | ");
             }
         }
 
@@ -62,6 +72,7 @@ namespace Ware
         {
             return list;
         }
+
 
 
     }
