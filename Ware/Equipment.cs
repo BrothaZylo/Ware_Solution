@@ -26,6 +26,11 @@ namespace Ware
             equipment.Add(accessLevel);
         }
 
+        /// <summary>
+        /// Itterative soluton for foreach :() console writes all the accesses.
+        /// </summary>
+        /// <param name="sname">name of the key of EquipmentList dict</param>
+        /// <returns>null</returns>
         public CrewList.AccessLevel? GetAccessLevel(string sname)
         {
             foreach (CrewList.AccessLevel item in equipment)
@@ -47,6 +52,9 @@ namespace Ware
             equipment.Remove(accessLevel);
         }
 
+        /// <summary>
+        /// Console writes the access level of selected equipment.
+        /// </summary>
         public void AccessLevelPrint()
         {
             foreach (CrewList.AccessLevel item in equipment)
