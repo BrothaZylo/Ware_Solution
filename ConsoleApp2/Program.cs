@@ -1,4 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
+// See https://aka.ms/new-console-template for more information
 using Ware;
 namespace ConsoleApp2
 {
@@ -17,7 +17,6 @@ namespace ConsoleApp2
             Package package4 = new("Cream", "Refrigerated", 84, 43);
             Package package5 = new("Ice", "Refrigerated", 18, 39);
 
-            Package package8 = new("Ice boog", "Refrigerated", 18, 39);
 
        
 
