@@ -9,8 +9,9 @@ namespace Ware
 {
     internal interface ICrewList
     {
-        void AddCrewMember(string name, AccessLevel accessLevel);
-        void RemoveCrewMember(string name);
+        void AddCrewMember(Person person);
+
+        void RemoveCrewMember(Person person);
         void CrewListPrint();
         Dictionary<string, AccessLevel> GetCrewListDictionary();
     }

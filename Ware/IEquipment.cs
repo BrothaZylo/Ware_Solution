@@ -11,7 +11,7 @@ namespace Ware
         void AccessLevelPrint();
         void AddAccessLevel(CrewList.AccessLevel accessLevel);
         void DeleteAccessLevel(CrewList.AccessLevel accessLevel);
-        CrewList.AccessLevel? GetAccessLevel(string sname);
+        CrewList.AccessLevel? GetAccessLevelPrint(string sname);
 
 
     }

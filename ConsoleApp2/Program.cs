@@ -36,12 +36,22 @@ sim.Run();
 */
 CrewList crew = new();
 
-crew.AddCrewMember("Ola", CrewList.AccessLevel.HR);
-crew.AddCrewMember("Big", CrewList.AccessLevel.ADMINISTRATOR);
+Assignment assignment = new("Garbage");
+assignment.AddDescription("Take the garbage out");
+assignment.AssignmentPrint();
 
+Person person = new("Ole", 32, CrewList.AccessLevel.PACKER);
+Person person1 = new("Oink", 56, CrewList.AccessLevel.EMPLOYEE);
+Person person2 = new("Vegg", 44, CrewList.AccessLevel.MANAGER);
+
+crew.AddCrewMember(person);
+crew.AddCrewMember(person1);
+crew.AddCrewMember(person2);
 crew.CrewListPrint();
-crew.RemoveCrewMember("Ola");
-crew.CrewListPrint();
+
+person.AddAssignment(assignment);
+person.GetAssignmentPrint();
+
 
 EquipmentList equipmentList = new();
 Equipment equipment = new("Scanner", 5);

@@ -48,20 +48,19 @@ namespace Ware
         /// <summary>
         /// Adds a member to the crew.
         /// </summary>
-        /// <param name="name">Name of person</param>
-        /// <param name="accessLevel">Job level / Access</param>
-        public void AddCrewMember(string name, AccessLevel accessLevel)
+        /// <param name="person">Person object</param>
+        public void AddCrewMember(Person person)
         {
-            list.Add(name, accessLevel);
+            list.Add(person.Name, person.AccessLevel);
         }
 
         /// <summary>
         /// Removes a crewmember
         /// </summary>
-        /// <param name="name">Name of the person you want removed</param>
-        public void RemoveCrewMember(string name)
+        /// <param name="person">Person object you want removed</param>
+        public void RemoveCrewMember(Person person)
         {
-            list.Remove(name);
+            list.Remove(person.Name);
         }
 
         /// <summary>
@@ -71,7 +70,7 @@ namespace Ware
         {
             foreach(var item in list)
             {
-                Console.WriteLine("| " + item.Key + " | " + item.Value + " | ");
+                Console.WriteLine(item.Key + " - " + item.Value);
             }
         }
 

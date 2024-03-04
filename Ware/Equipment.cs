@@ -27,11 +27,28 @@ namespace Ware
         }
 
         /// <summary>
+        /// Checks if a person has access to use equipment
+        /// </summary>
+        /// <param name="person">object person</param>
+        /// <returns>True or false</returns>
+        public bool HasAccess(Person person)
+        {
+            foreach(CrewList.AccessLevel item in equipment)
+            {
+                if(person.AccessLevel == item)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
         /// Itterative soluton for foreach :() console writes all the accesses.
         /// </summary>
         /// <param name="sname">name of the key of EquipmentList dict</param>
         /// <returns>null</returns>
-        public CrewList.AccessLevel? GetAccessLevel(string sname)
+        public CrewList.AccessLevel? GetAccessLevelPrint(string sname)
         {
             foreach (CrewList.AccessLevel item in equipment)
             {
@@ -79,6 +96,16 @@ namespace Ware
         {
             get { return quantity; }
             set { quantity = value; }
+        }
+
+        /// <summary>
+        /// Eqipment obj print
+        /// </summary>
+        /// <returns>Name and quantity</returns>
+        override
+        public string ToString()
+        {
+            return "\n" + Name + "\n" + Quantity + "\n";
         }
     }
 }

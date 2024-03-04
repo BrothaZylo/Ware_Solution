@@ -42,7 +42,7 @@ namespace Ware
             {
                 Console.WriteLine("------------");
                 Console.WriteLine(item.Key+"\n");
-                Console.WriteLine(item.Value.Item2.GetAccessLevel(item.Key));
+                Console.WriteLine(item.Value.Item2.GetAccessLevelPrint(item.Key));
             }
             Console.WriteLine("------------");
         }
