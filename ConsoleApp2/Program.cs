@@ -44,17 +44,17 @@ crew.RemoveCrewMember("Ola");
 crew.CrewListPrint();
 
 EquipmentList equipmentList = new();
-Equipment equipment = new Equipment("Scanner", 5);
+Equipment equipment = new("Scanner", 5);
 equipment.AddAccessLevel(CrewList.AccessLevel.TECHNICAL);
 equipment.AddAccessLevel(CrewList.AccessLevel.CEO);
 
 
-Equipment equipment1 = new Equipment("Lift", 8);
+Equipment equipment1 = new("Lift", 8);
 equipment1.AddAccessLevel(CrewList.AccessLevel.SUPPORT);
 equipment1.AddAccessLevel(CrewList.AccessLevel.ADMINISTRATOR);
 equipment1.AddAccessLevel(CrewList.AccessLevel.AMBASSADOR);
 
-Equipment equipment2 = new Equipment("Truck", 7);
+Equipment equipment2 = new("Truck", 7);
 equipment2.AddAccessLevel(CrewList.AccessLevel.EXTRA1);
 equipment2.AddAccessLevel(CrewList.AccessLevel.EMPLOYEE);
 

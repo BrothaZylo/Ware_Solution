@@ -11,7 +11,7 @@ namespace Ware
     /// </summary>
     /// <param name="name"></param>
     /// <param name="quantity"></param>
-    public class Equipment(string name, int quantity)
+    public class Equipment(string name, int quantity) : IEquipment
     {
         private readonly List<CrewList.AccessLevel> equipment = [];
         private string name = name;

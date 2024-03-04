@@ -9,9 +9,9 @@ namespace Ware
     /// <summary>
     /// Storage for work equipment or machinery.
     /// </summary>
-    public class EquipmentList
+    public class EquipmentList : IEquipmentList
     {
-        private List<Equipment> allEquipmentList = [];
+        private readonly List<Equipment> allEquipmentList = [];
         private readonly Dictionary<string, (int, Equipment)> allEquipment = [];
 
         /// <summary>
