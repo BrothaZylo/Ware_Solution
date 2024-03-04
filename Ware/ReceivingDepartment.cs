@@ -6,7 +6,7 @@ namespace Ware
     /// <summary>
     /// The reception of the packages and the times it takes are handled here.
     /// </summary>
-    public class ReceivingDepartment() : IReceivingDepartment
+    public class ReceivingDepartment : IReceivingDepartment
     {
         private readonly List<Package> receivedPackages = [];
         private readonly List<Package> allPackages = [];

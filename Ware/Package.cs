@@ -12,7 +12,7 @@ namespace Ware
     /// <param name="goodsType">Package goods type</param>
     /// <param name="packageHeightCm">height of the package in cm</param>
     /// <param name="packageWidthCm">width of the package i cm.</param>
-    public class Package(string packageName, string goodsType,double packageHeightCm, double packageWidthCm) : IPackage
+    public class Package(string packageName = "Undefined", string goodsType = "Undefined", double packageHeightCm = 0, double packageWidthCm = 0) : IPackage
     {
         private string packageId = GenerateId(), name = packageName, goods = goodsType;
         private double height = packageHeightCm, width = packageWidthCm;

@@ -13,7 +13,7 @@ namespace Ware
     /// Simulates how the system would act with Refrigerated, Dangrous and Dry storage units.
     /// </summary>
     /// <param name="seconds">Seconds the simulation will run</param>
-    public class Simulation(int seconds) : ISimulation
+    public class Simulation(int seconds = 60) : ISimulation
     {
         private readonly int seconds = seconds;
         private readonly List<Package> simulationPackages = [];

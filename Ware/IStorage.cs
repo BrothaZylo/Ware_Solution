@@ -8,7 +8,7 @@ namespace Ware
 {
     internal interface IStorage
     {
-        void SizeConfigPrint();
+        void UnitSpecsPrint();
 
         void Build();
 
@@ -20,6 +20,7 @@ namespace Ware
         void MovePackageToTerminal(Package package, Terminal terminal);
 
         void GetAllStorageInformationPrint();
+        Dictionary<string, (string, string, double, double, bool)> GetAllStorageInformationAsDictionary();
 
         string GetStorageNameById(int shelfnumber);
 
@@ -31,5 +32,6 @@ namespace Ware
 
         bool IsSameTypeOfGoods(Package package);
 
+        void AddUnit(string sizeName, int totalUntsAvailable, double maxHeightCm, double maxWidthCm);
     }
 }

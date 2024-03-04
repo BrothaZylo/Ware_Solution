@@ -12,7 +12,7 @@ namespace Ware
     /// Preconfig of the storageunits which will later be used to create shelves.
     /// </summary>
     /// <param name="goodsType">This will be the name of the storage unit, and what type of goods can be placed in this unit</param>
-    public class Storage(string goodsType) : IStorage
+    public class Storage(string goodsType = "Undefined") : IStorage
     {
         private readonly string shelfCategory = goodsType;
         private readonly List<ShelvesConfig> addShelves = [];
@@ -301,7 +301,13 @@ namespace Ware
             /// </summary>
             public double MaxHeightCm { get; set; }
         }
-
+        /// <summary>
+        /// Custom unit can be added to the storage
+        /// </summary>
+        /// <param name="sizeName">Size of the shelf</param>
+        /// <param name="totalUntsAvailable">Total units/shelves </param>
+        /// <param name="maxHeightCm">Height of the unit/Shelf</param>
+        /// <param name="maxWidthCm">Width if the unit/shelf</param>
         public void AddUnit(string sizeName, int totalUntsAvailable, double maxHeightCm, double maxWidthCm)
         {
             addShelves.Add(new() { SizeName = sizeName, TotalUnitsAvailable = totalUntsAvailable, MaxHeightCm = maxHeightCm, MaxWidthCm = maxWidthCm });
@@ -310,7 +316,7 @@ namespace Ware
         /// <summary>
         /// Prints the diffrent Size configs for each size created.
         /// </summary>
-        public void SizeConfigPrint()
+        public void UnitSpecsPrint()
         {
             foreach (Storage.ShelvesConfig Item in addShelves)
             {

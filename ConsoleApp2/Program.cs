@@ -35,7 +35,6 @@ namespace ConsoleApp2
             sim.AddPackage(package5);
             sim.AddPackage(package6);
             sim.AddPackage(package7);
-            sim.AddPackage(package8);
             sim.Run();
 
 

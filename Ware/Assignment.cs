@@ -10,7 +10,7 @@ namespace Ware
     /// Creates an assignment
     /// </summary>
     /// <param name="assignment">Name of the assignment</param>
-    public class Assignment(string assignment) : IAssignment
+    public class Assignment(string assignment = "Undefined")  : IAssignment
     {
         private string task = assignment;
         private string description = "";

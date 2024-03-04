@@ -13,7 +13,7 @@ namespace Ware
     /// <param name="name">Name of person</param>
     /// <param name="age">Age of person</param>
     /// <param name="accessLevel">Position / permissions of the person</param>
-    public class Person(string name, int age, CrewList.AccessLevel accessLevel) : IPerson
+    public class Person(string name = "Unknown", int age = 0, CrewList.AccessLevel accessLevel = CrewList.AccessLevel.OTHERS) : IPerson
     {
         private string name = name;
         private int age = age;
