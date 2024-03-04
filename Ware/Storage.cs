@@ -17,6 +17,7 @@ namespace Ware
         private readonly string shelfCategory = goodsType;
         private readonly List<ShelvesConfig> addShelves = [];
         private double timeFromReceivingDepartmentToStorage = 0, timeFromStoragetoTerminal = 0;
+        // Goods,(id,sizename,width,height,isEmpty)
         private readonly Dictionary<string, (string, string, double, double, bool)> yourStorageDict = [];
 
         /// <summary>

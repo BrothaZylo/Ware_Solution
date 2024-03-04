@@ -22,12 +22,34 @@ namespace Ware
         private static readonly Storage Dangerous = new("Dangerous");
 
         private readonly PackageLogging packageLogging = new();
-        private readonly ReceivingDepartment receiving = new();
+        private ReceivingDepartment receiving = new();
         private readonly Schedule schedule = new();
         private readonly Terminal terminal = new();
 
+        private bool a = true;
+        private bool b = true;
+        private bool c = true;
+
         private int dry, refrigerated, dangerous;
 
+        //Define delegate
+        //Define an event based on the delegate
+        // Raise the event
+
+
+        
+        public delegate void PackageReceivedHandler(object o, PackageEventArgs args);
+        public event PackageReceivedHandler PackageReceieved;
+
+
+
+        public delegate void PackageSentToTerminalHandler(object o, PackageEventArgs args);
+        public event PackageSentToTerminalHandler PackageSentToTerminal;
+
+        public delegate void PackageSentAwayHandler(object o, PackageEventArgs args);
+        public event PackageSentAwayHandler PackageSentAway;
+
+               
 
         /// <summary>
         /// Adds packages that will run in the simulation. Only add packages with the goodtype of Refrigerated, Dangerous or Dry.
@@ -37,15 +59,6 @@ namespace Ware
         {
             simulationPackages.Add(package);
         }
-
-
-        private Package GetFirstPackage()
-        {
-            Package first = simulationPackages[0];
-            simulationPackages.RemoveAt(0);
-            return first;
-        }
-
         private void AddUnits()
         {
             for (int index = 0; index < simulationPackages.Count; index++)
@@ -76,7 +89,7 @@ namespace Ware
             Dangerous.Build();
         }
 
-        private void CalcAmountGoodsTypeList()
+        private void CalculateAmountOfGoodsType()
         {
             foreach (Package package in simulationPackages)
             {
@@ -94,7 +107,60 @@ namespace Ware
                 }
             }
         }
+        private static void OnPackageReceieved(object o, PackageEventArgs args)
+        {
+            Console.WriteLine($"Package {args.Package.Name} with Id: {args.Package.PackageId} was received");
+        }
 
+
+        private void ReceivePackages()
+        {
+          
+            Random rand = new Random();
+
+            if (a)
+            {
+                a = false;
+                foreach (Package package in simulationPackages)
+                {
+                    if (package.Goods == "Dry")
+                    {
+                        receiving.AddPackage(package);
+                        receiving.PackageAddedToReceivingDepartment += OnPackageReceieved;
+                    }
+                }
+                return;
+            }
+            if (b)
+            {
+                b = false;
+                foreach (Package package in simulationPackages)
+                {
+                    if (package.Goods == "Dangerous")
+                    {
+                        receiving.AddPackage(package);
+                        receiving.PackageAddedToReceivingDepartment += OnPackageReceieved;
+                    }
+                }
+                return;
+            }
+            if (c)
+            {
+                c = false;
+                foreach (Package package in simulationPackages)
+                {
+                    if (package.Goods == "Refrigirated")
+                    {
+                        receiving.AddPackage(package);
+                        receiving.PackageAddedToReceivingDepartment += OnPackageReceieved;
+                    }
+                }
+                return;
+            }
+
+        }
+
+        /*
         private void RecievePackages()
         {
             if (dry > refrigerated && dry > dangerous && dry != 0)
@@ -104,7 +170,7 @@ namespace Ware
                     if (package.Goods == "Dry")
                     {
                         receiving.AddPackage(package);
-                        Console.WriteLine(package.Name + " was received");
+                        receiving.PackageAddedToReceivingDepartment += OnPackageReceieved;
                     }
                 }
                 dry = 0;
@@ -116,7 +182,8 @@ namespace Ware
                     if (package.Goods == "Refrigerated")
                     {
                         receiving.AddPackage(package);
-                        Console.WriteLine(package.Name + " was received");
+                        receiving.PackageAddedToReceivingDepartment += OnPackageReceieved;
+
                     }
                 }
                 refrigerated = 0;
@@ -128,7 +195,8 @@ namespace Ware
                     if (package.Goods == "Dangerous")
                     {
                         receiving.AddPackage(package);
-                        Console.WriteLine(package.Name + " was received");
+                        receiving.PackageAddedToReceivingDepartment += OnPackageReceieved;
+
                     }
                 }
                 dangerous = 0;
@@ -140,7 +208,8 @@ namespace Ware
                     if (package.Goods == "Dry")
                     {
                         receiving.AddPackage(package);
-                        Console.WriteLine(package.Name + " was received");
+                        receiving.PackageAddedToReceivingDepartment += OnPackageReceieved;
+
                     }
                 }
                 dry = 0;
@@ -152,57 +221,104 @@ namespace Ware
                     if (package.Goods == "Refrigerated")
                     {
                         receiving.AddPackage(package);
-                        Console.WriteLine(package.Name + " was received");
+                        receiving.PackageAddedToReceivingDepartment += OnPackageReceieved;
+
                     }
                 }
                 refrigerated = 0;
             }
         }
-
+        */
+        public static void OnAllPackagesSentToStorage(object o, PackageEventArgs args)
+        {
+            Console.WriteLine($"Packages was sent from the the receiving department to storage {args.Storage.ShelfCategory}");
+        }
         private void SendPackagesToStorage()
         {
             try
             {
+                receiving.AllPackagesSentToStorage += OnAllPackagesSentToStorage;
+
                 receiving.SendAllPackagesToStorage(Dry);
                 receiving.SendAllPackagesToStorage(Dangerous);
                 receiving.SendAllPackagesToStorage(Refrigerated);
-                Console.WriteLine("Packages was sent from the the receiving department to storage");
+
             }
-            catch(PackageInvalidException e) 
+            catch (PackageInvalidException e) 
             { 
                 Console.WriteLine(e);
             }
 
         }
 
-
-        private void FromStorageToTerminal()
+        private void FromDryToTerminal()
         {
-
-            foreach (Package package in simulationPackages)
+            foreach (KeyValuePair<string, (string, string, double, double, bool)> a in Dry.GetAllStorageInformationAsDictionary())
             {
                 try
                 {
-                    if (Dry.IsSameTypeOfGoods(package))
+                    foreach (Package package in simulationPackages)
                     {
-                        Dry.MovePackageToTerminal(package, terminal);
+                        if (Dry.IsSameTypeOfGoods(package) && package.PackageId == a.Value.Item1)
+                        {
+                            Dry.MovePackageToTerminal(package, terminal);
+                            PackageSentToTerminal?.Invoke(this, new PackageEventArgs(package, package.PackageId));
+                        }
                     }
-                    if (Refrigerated.IsSameTypeOfGoods(package))
+                }
+                catch (PackageInvalidException e)
+                {
+                    Console.WriteLine(e);
+                }                
+            }
+        }
+        private void FromRefrigiratedToTerminal()
+        {
+            foreach (KeyValuePair<string, (string, string, double, double, bool)> a in Refrigerated.GetAllStorageInformationAsDictionary())
+            {
+                try
+                {
+                    foreach (Package package in simulationPackages)
                     {
-                        Refrigerated.MovePackageToTerminal(package, terminal);
-                    }
-                    if (Dangerous.IsSameTypeOfGoods(package))
-                    {
-                        Dangerous.MovePackageToTerminal(package, terminal);
+                        if (Refrigerated.IsSameTypeOfGoods(package) && package.PackageId == a.Value.Item1)
+                        {
+                            Refrigerated.MovePackageToTerminal(package, terminal);
+                            PackageSentToTerminal?.Invoke(this, new PackageEventArgs(package, package.PackageId));
+                        }
                     }
                 }
                 catch (PackageInvalidException e)
                 {
                     Console.WriteLine(e);
                 }
-
             }
-            Console.WriteLine("Packages was sent from the the storage to the terminal");
+        }
+        private void FromDangerousToTerminal()
+        {
+            foreach (KeyValuePair<string, (string, string, double, double, bool)> a in Dangerous.GetAllStorageInformationAsDictionary())
+            {
+                try
+                {
+                    foreach (Package package in simulationPackages)
+                    {
+                        if (Dangerous.IsSameTypeOfGoods(package) && package.PackageId == a.Value.Item1)
+                        {
+                            Dangerous.MovePackageToTerminal(package, terminal);
+                            PackageSentToTerminal?.Invoke(this, new PackageEventArgs(package, package.PackageId));
+                        }
+                    }
+                }
+                catch (PackageInvalidException e)
+                {
+                    Console.WriteLine(e);
+                }
+            }
+        }
+        private void FromStorageToTerminal()
+        {
+            FromDryToTerminal();
+            FromRefrigiratedToTerminal();
+            FromDangerousToTerminal();
         }
         private static void PrintStorages()
         {
@@ -214,14 +330,7 @@ namespace Ware
         }
 
 
-        private static double TravelTime()
-        {
-            double time = Dry.TimeDeliveryToStorageSeconds;
-            return time;
-        }
-
-
-        private int CalcSimTime(int percentageNumber)
+        private int CalculateSimulationTime(int percentageNumber)
         {
             int s = seconds;
 
@@ -250,13 +359,12 @@ namespace Ware
         private void FromTerminalAndAway()
         {
             terminal.SendAllPackages();
-            Console.WriteLine("Sending out packages");
+            PackageSentAway?.Invoke(this, new PackageEventArgs(null));
         }
 
 
         private int RandomDelay()
         {
-            Console.WriteLine("ÆÆÆÆÆÆÆÆÆÆÆÆÆÆÆ");
             Random r = new Random();
             int randomNumber = r.Next(0,2);
             Console.WriteLine(randomNumber);
@@ -285,7 +393,7 @@ namespace Ware
             Console.WriteLine("|      Loading...      |");
             Console.WriteLine(" ---------------------\n\n");
 
-            CalcAmountGoodsTypeList();
+            CalculateAmountOfGoodsType();
             AddUnits();
             BuildStorages();
             CreateSchedule();
@@ -296,77 +404,77 @@ namespace Ware
 
             while (start != stop)
             {
-                if (start == CalcSimTime(5))
+                if (start == CalculateSimulationTime(5))
                 {
                     schedule.GetSchedule();
                 }
-                if (start == CalcSimTime(10))
+                if (start == CalculateSimulationTime(10))
                 {
-                    RecievePackages();
+                    ReceivePackages();
                 }
 
-                if (start == CalcSimTime(15))
+                if (start == CalculateSimulationTime(15))
                 {
                     SendPackagesToStorage();
                 }
                                 
-                if (start == CalcSimTime(25))
+                if (start == CalculateSimulationTime(25))
                 {
                     PrintStorages();
                 }
-                if (start == CalcSimTime(30))
+                if (start == CalculateSimulationTime(30))
                 {
                     FromStorageToTerminal();
                 }
-                if (start == CalcSimTime(35))
+                if (start == CalculateSimulationTime(35))
                 {
                     FromTerminalAndAway();
                 }
                 /***********************************/
-                if (start == CalcSimTime(40))
+                if (start == CalculateSimulationTime(40))
                 {
-                    RecievePackages();
+                    ReceivePackages();
                 }
 
-                if (start == CalcSimTime(45))
+                if (start == CalculateSimulationTime(45))
                 {
                     SendPackagesToStorage();
                 }
 
-                if (start == CalcSimTime(50))
+                if (start == CalculateSimulationTime(50))
                 {
                     PrintStorages();
                 }
-                if (start == CalcSimTime(55))
+                if (start == CalculateSimulationTime(55))
                 {
                     FromStorageToTerminal();
                 }
-                if (start == CalcSimTime(60))
+                if (start == CalculateSimulationTime(60))
                 {
                     FromTerminalAndAway();
                 }
 
                 /*********************/
-                if (start == CalcSimTime(65 + randomDelay))
+                if (start == CalculateSimulationTime(65 + randomDelay))
                 {
-                    RecievePackages();
+                    ReceivePackages();
                 }
 
-                if (start == CalcSimTime(70 + randomDelay))
+                if (start == CalculateSimulationTime(70 + randomDelay))
                 {
                     SendPackagesToStorage();
                 }
 
-                if (start == CalcSimTime(75 + randomDelay))
+                if (start == CalculateSimulationTime(75 + randomDelay))
                 {
                     PrintStorages();
                 }
-                if (start == CalcSimTime(80 + randomDelay))
+                if (start == CalculateSimulationTime(80 + randomDelay))
                 {
                     FromStorageToTerminal();
                 }
 
-                if (start == CalcSimTime(81 + randomDelay))
+                if (start == CalculateSimulationTime(81 + randomDelay))
                 {
                     FromTerminalAndAway();
                 }

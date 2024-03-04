@@ -11,6 +11,15 @@ namespace Ware
         private readonly List<Package> receivedPackages = [];
         private readonly List<Package> allPackages = [];
 
+        public delegate void PackageAddedToRecevingDepartmentHandler(object o, PackageEventArgs args);
+        public event PackageAddedToRecevingDepartmentHandler PackageAddedToReceivingDepartment;
+
+
+        public delegate void AllPackagesSentToStorageHandler(object o, PackageEventArgs args);
+        public event AllPackagesSentToStorageHandler AllPackagesSentToStorage;
+
+
+
         /// <summary>
         /// The package is received and added to the list of received packages.
         /// </summary>
@@ -23,6 +32,8 @@ namespace Ware
             }
             receivedPackages.Add(package);
             allPackages.Add(package);
+            PackageAddedToReceivingDepartment?.Invoke(this, new PackageEventArgs(package));
+
         }
 
         /// <summary>
@@ -53,6 +64,7 @@ namespace Ware
 
         }
 
+
         /// <summary>
         /// Sends all packages to storage.
         /// </summary>
@@ -71,8 +83,11 @@ namespace Ware
                 {
                     storageConfiguration.PlacePackage(receivedPackages[i]);
                     receivedPackages.RemoveAt(i);
+
                 }
             }
+            AllPackagesSentToStorage?.Invoke(this, new PackageEventArgs(null, storageConfiguration));
+
         }
 
         /// <summary>
