@@ -33,13 +33,13 @@ namespace Ware
         /// Removes an assignment from a person.
         /// </summary>
         /// <param name="assignment">object assignment</param>
-        public void RemoveTask(Assignment assignment)
+        public void RemoveAssignment(Assignment assignment)
         {
             assignments.Remove(assignment);
         }
 
         /// <summary>
-        /// Gets the list over all the tasks a person has received.
+        /// Gets the dictionary over all the tasks a person has received.
         /// </summary>
         /// <returns>A List</returns>
         public List<Assignment> GetAssignmentsList()

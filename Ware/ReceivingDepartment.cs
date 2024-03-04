@@ -12,7 +12,7 @@ namespace Ware
         private readonly List<Package> allPackages = [];
 
         /// <summary>
-        /// The package is received and added to the list of received packages.
+        /// The package is received and added to the dictionary of received packages.
         /// </summary>
         /// <param name="package">The name of the package being received.</param>
         public void AddPackage(Package package)
@@ -26,7 +26,7 @@ namespace Ware
         }
 
         /// <summary>
-        /// Sends the first package in the list to storage then removes it from the list.
+        /// Sends the first package in the dictionary to storage then removes it from the dictionary.
         /// </summary>
         public void SendFirstPackageToStorage(Storage storageConfiguration)
         {
@@ -42,7 +42,7 @@ namespace Ware
                 {
                     storageConfiguration.PlacePackage(firstPackage);
                     receivedPackages.RemoveAt(0);
-                    Console.WriteLine($"Package {firstPackage.PackageId} was sent to the warehouse and removed from the receiving list.");
+                    Console.WriteLine($"Package {firstPackage.PackageId} was sent to the warehouse and removed from the receiving dictionary.");
                 }
 
                 if (!storageConfiguration.IsSameTypeOfGoods(firstPackage))
@@ -76,7 +76,7 @@ namespace Ware
         }
 
         /// <summary>
-        /// Prints the list of all received packages.
+        /// Prints the dictionary of all received packages.
         /// </summary>
         public void GetAllPackagePrint() 
         {
@@ -97,17 +97,17 @@ namespace Ware
         }
 
         /// <summary>
-        /// Returns a list of all recivived packages
+        /// Returns a dictionary of all recivived packages
         /// </summary>
-        /// <returns>Returns a list of all recivived packages</returns>
+        /// <returns>Returns a dictionary of all recivived packages</returns>
         public List<Package> GetPackageList()
         {
             return receivedPackages;
         }
         /// <summary>
-        /// Returns a list of all AllPackages
+        /// Returns a dictionary of all AllPackages
         /// </summary>
-        /// <returns>Returns a list of all AllPackages</returns>
+        /// <returns>Returns a dictionary of all AllPackages</returns>
         public List<Package> GetAllPackages()
         {
             return allPackages;

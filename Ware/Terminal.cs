@@ -13,7 +13,7 @@ namespace Ware
     {
         public List<Package> PackagesToSendOut = new List<Package>();
         /// <summary>
-        /// This will add a package to a list which are the packages at the terminal
+        /// This will add a package to a dictionary which are the packages at the terminal
         /// </summary>
         /// <param name="packages">A package object</param>
         public void AddPackage(Package packages)
@@ -21,9 +21,9 @@ namespace Ware
             PackagesToSendOut.Add(packages);
         }
         /// <summary>
-        /// Returns a list of packages in the terminal
+        /// Returns a dictionary of packages in the terminal
         /// </summary>
-        /// <returns>Returns a list of packages in the terminal</returns>
+        /// <returns>Returns a dictionary of packages in the terminal</returns>
         public List<Package> GetPackagesInTerminal()
         {
             return PackagesToSendOut;
@@ -39,7 +39,7 @@ namespace Ware
             }
         }
         /// <summary>
-        /// Sends out a specific package and removes from list
+        /// Sends out a specific package and removes from dictionary
         /// </summary>
         /// <param name="package">A package object</param>
         public void SendPackage(Package package)

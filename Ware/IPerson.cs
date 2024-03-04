@@ -9,7 +9,7 @@ namespace Ware
     internal interface IPerson
     {
         void AddAssignment(Assignment assignment);
-        void RemoveTask(Assignment assignment);
+        void RemoveAssignment(Assignment assignment);
         List<Assignment> GetAssignmentsList();
         void GetAssignmentPrint();
     }

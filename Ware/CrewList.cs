@@ -12,7 +12,7 @@ namespace Ware
     /// </summary>
     public class CrewList() : ICrewList
     {
-        private readonly Dictionary<string, AccessLevel> list = [];
+        private readonly Dictionary<string, AccessLevel> dictionary = [];
 
         /// <summary>
         /// Job / access / position
@@ -51,7 +51,7 @@ namespace Ware
         /// <param name="person">Person object</param>
         public void AddCrewMember(Person person)
         {
-            list.Add(person.Name, person.AccessLevel);
+            dictionary.Add(person.Name, person.AccessLevel);
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace Ware
         /// <param name="person">Person object you want removed</param>
         public void RemoveCrewMember(Person person)
         {
-            list.Remove(person.Name);
+            dictionary.Remove(person.Name);
         }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace Ware
         /// </summary>
         public void CrewListPrint()
         {
-            foreach(var item in list)
+            foreach(KeyValuePair<string, CrewList.AccessLevel> item in dictionary)
             {
                 Console.WriteLine(item.Key + " - " + item.Value);
             }
@@ -80,7 +80,7 @@ namespace Ware
         /// <returns>A dict containing the crew members</returns>
         public Dictionary<string, AccessLevel> GetCrewListDictionary()
         {
-            return list;
+            return dictionary;
         }
 
 
