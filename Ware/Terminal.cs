@@ -12,24 +12,27 @@ namespace Ware
     public class Terminal : ITerminal
     {
         public List<Package> PackagesToSendOut = new List<Package>();
+        public Queue<Package> PackagesToSendOutQueue = new Queue<Package>();
+
         /// <summary>
-        /// This will add a package to a list which are the packages at the terminal
+        /// This will add a package to a dictionary which are the packages at the terminal
         /// </summary>
-        /// <param packageName="packages">A package object</param>
+        /// <param name="packages">A package object</param>
         public void AddPackage(Package packages)
         {
             PackagesToSendOut.Add(packages);
         }
+
         /// <summary>
-        /// Returns a list of packages in the terminal
+        /// Returns a dictionary of packages in the terminal
         /// </summary>
-        /// <returns>Returns a list of packages in the terminal</returns>
+        /// <returns>Returns a dictionary of packages in the terminal</returns>
         public List<Package> GetPackagesInTerminal()
         {
             return PackagesToSendOut;
         }
         /// <summary>
-        /// Prints out the packageName of all thee package objects in the terminal
+        /// Prints out the name of all thee package objects in the terminal
         /// </summary>
         public void PrintPackageList()
         {
@@ -39,9 +42,9 @@ namespace Ware
             }
         }
         /// <summary>
-        /// Sends out a specific package and removes from list
+        /// Sends out a specific package and removes from dictionary
         /// </summary>
-        /// <param packageName="package">A package object</param>
+        /// <param name="package">A package object</param>
         public void SendPackage(Package package)
         {
 
@@ -63,6 +66,26 @@ namespace Ware
             } 
 
         }
+        private void AddToQueue()
+        {
+            foreach(Package p in PackagesToSendOut) 
+            {
+                PackagesToSendOutQueue.Enqueue(p);
+            }
+            PackagesToSendOut.Clear();
+        }
+
+        public void SendAllPackages()
+        {
+            AddToQueue();
+            while(PackagesToSendOutQueue.Count > 0)
+            {
+                PackagesToSendOutQueue.Dequeue();
+            }
+            
+        }
+
+
         /// <summary>
         /// Clears all the packages in terminal
         /// </summary>

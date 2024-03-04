@@ -9,13 +9,13 @@ namespace Ware
     /// Create a package
     /// </summary>
     /// <param name="packageName">Name of the package</param>
-    /// <param name="goodsType">Package goodsType type</param>
-    /// <param name="packageHeightCm">packageHeightCm of the package in cm</param>
-    /// <param name="packageWidthCm">packageWidthCm of the package i cm.</param>
+    /// <param name="goodsType">Package goods type</param>
+    /// <param name="packageHeightCm">height of the package in cm</param>
+    /// <param name="packageWidthCm">width of the package i cm.</param>
     public class Package(string packageName = "Undefined", string goodsType = "Undefined", double packageHeightCm = 0, double packageWidthCm = 0) : IPackage
     {
-        private string packageId = GenerateId(), packageName = packageName, goodsType = goodsType;
-        private double packageHeightCm = packageHeightCm, packageWidthCm = packageWidthCm;
+        private string packageId = GenerateId(), name = packageName, goods = goodsType;
+        private double height = packageHeightCm, width = packageWidthCm;
 
         /// <summary>
         /// Generates an ID for the package
@@ -45,43 +45,43 @@ namespace Ware
         }
 
         /// <summary>
-        /// Gets the package packageName
+        /// Gets the package name
         /// </summary>
-        /// <returns>packageName</returns>
+        /// <returns>name</returns>
         public string Name
         {
-            get { return packageName; }
-            set { packageName = value; }
+            get { return name; }
+            set { name = value; }
         }
 
         /// <summary>
-        /// Gets the package goodsType type
+        /// Gets the package goods type
         /// </summary>
-        /// <returns>goodsType</returns>
+        /// <returns>goods</returns>
         public string Goods
         {
-            get { return goodsType; }
-            set { goodsType = value; }
+            get { return goods; }
+            set { goods = value; }
         }
 
         /// <summary>
-        /// Gets the package packageWidthCm
+        /// Gets the package width
         /// </summary>
-        /// <returns>packageWidthCm</returns>
+        /// <returns>width</returns>
         public double Width
         {
-            get { return packageWidthCm; }
-            set { packageWidthCm = value; }
+            get { return width; }
+            set { width = value; }
         }
 
         /// <summary>
-        /// Gets the package packageHeightCm
+        /// Gets the package height
         /// </summary>
-        /// <returns>packageHeightCm</returns>
+        /// <returns>height</returns>
         public double Height
         {
-            get { return packageHeightCm; }
-            set { packageHeightCm = value; }
+            get { return height; }
+            set { height = value; }
         }
 
     }

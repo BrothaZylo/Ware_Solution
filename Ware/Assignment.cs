@@ -9,17 +9,17 @@ namespace Ware
     /// <summary>
     /// Creates an assignment
     /// </summary>
-    /// <param packageName="assignment">Name of the assignment</param>
+    /// <param name="assignment">Name of the assignment</param>
     public class Assignment(string assignment = "Undefined")  : IAssignment
     {
-        private string assignment = assignment;
+        private string task = assignment;
         private string description = "";
         private DateTime completionTime = new(2024, 03, 3, 0, 0, 0);
 
         /// <summary>
         /// Adds a description to the assignment if needed.
         /// </summary>
-        /// <param packageName="adddescription">Describes the assignment</param>
+        /// <param name="adddescription">Describes the assignment</param>
         public void AddDescription(string adddescription)
         {
             Description = adddescription;
@@ -56,8 +56,8 @@ namespace Ware
         /// </summary>
         public string Task
         {
-            get { return assignment; }
-            set { assignment = value; }
+            get { return task; }
+            set { task = value; }
         }
 
         /// <summary>

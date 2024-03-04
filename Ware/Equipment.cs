@@ -9,8 +9,8 @@ namespace Ware
     /// <summary>
     /// Creates an equipment or machinery.
     /// </summary>
-    /// <param packageName="name"></param>
-    /// <param packageName="quantity"></param>
+    /// <param name="name"></param>
+    /// <param name="quantity"></param>
     public class Equipment(string name = "Undefined", int quantity = 0) : IEquipment
     {
         private readonly List<CrewList.AccessLevel> equipment = [];
@@ -20,7 +20,7 @@ namespace Ware
         /// <summary>
         /// Adds permission locks behind set
         /// </summary>
-        /// <param packageName="accessLevel">Enum access level</param>
+        /// <param name="accessLevel">Enum access level</param>
         public void AddAccessLevel(CrewList.AccessLevel accessLevel)
         {
             equipment.Add(accessLevel);
@@ -29,7 +29,7 @@ namespace Ware
         /// <summary>
         /// Checks if a person has access to use equipment
         /// </summary>
-        /// <param packageName="person">object person</param>
+        /// <param name="person">object person</param>
         /// <returns>True or false</returns>
         public bool HasAccess(Person person)
         {
@@ -46,7 +46,7 @@ namespace Ware
         /// <summary>
         /// Itterative soluton for foreach :() console writes all the accesses.
         /// </summary>
-        /// <param packageName="sname">packageName of the key of EquipmentList dict</param>
+        /// <param name="sname">name of the key of EquipmentList dict</param>
         /// <returns>null</returns>
         public CrewList.AccessLevel? GetAccessLevelPrint(string sname)
         {
@@ -63,7 +63,7 @@ namespace Ware
         /// <summary>
         /// Deletes the equipment access for set enum.
         /// </summary>
-        /// <param packageName="accessLevel">Enum CrewList.AccessLevel</param>
+        /// <param name="accessLevel">Enum CrewList.AccessLevel</param>
         public void DeleteAccessLevel(CrewList.AccessLevel accessLevel)
         {
             equipment.Remove(accessLevel);
