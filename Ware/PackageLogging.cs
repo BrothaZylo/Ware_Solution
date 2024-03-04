@@ -22,8 +22,8 @@ namespace Ware
         /// AddPackageLog() will check if the package already exist. If it dont then it will add the package as a key and its location and when it got there
         /// if it already exists will the new location and when it got there be added to the package
         /// </summary>
-        /// <param name="packageId">This is the id of the package object</param>
-        /// <param name="action">This is the action preformed</param>
+        /// <param packageName="packageId">This is the id of the package object</param>
+        /// <param packageName="action">This is the action preformed</param>
         /// <returns>returns that the package has been logged</returns>
         public string AddPackageLog(string packageId, string action)
         {
@@ -69,7 +69,7 @@ namespace Ware
         /// <summary>
         /// Finds package history of a single package
         /// </summary>
-        /// <param name="id">package id</param>
+        /// <param packageName="id">package id</param>
         /// <returns>a stringbuilder that contains the log of the package asked for</returns>
         public StringBuilder TrackPackage(string id)
         {

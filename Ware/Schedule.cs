@@ -43,7 +43,7 @@ namespace Ware
         }
         /// <summary>
         /// When PrepareDictionary is called will it create a dictionary called calender and add the days monday-sunday
-        /// as keys inside the dictionary with an empty dictionary as its value
+        /// as keys inside the dictionary with an empty list as its value
         /// visc. “Creating Dictionaries with Pre-Defined Keys C#.” Stack Overflow, 2024,
         /// stackoverflow.com/questions/26160503/creating-dictionaries-with-pre-defined-keys-c-sharp.
         /// Author visc
@@ -61,12 +61,12 @@ namespace Ware
         /// <summary>
         /// Checks for which day the package is coming in and adds package and time to the calender
         /// </summary>
-        /// <param name="day">What day the package is coming</param>
-        /// <param name="package">The package being delivered</param>
-        /// <param name="deliveryTime">The date and time it will arrive </param>
-        /// <param name="pickupTime">The date and time it will be picked up </param>
+        /// <param packageName="day">What day the package is coming</param>
+        /// <param packageName="package">The package being delivered</param>
+        /// <param packageName="deliveryTime">The date and time it will arrive </param>
+        /// <param packageName="pickupTime">The date and time it will be picked up </param>
         /// Steve. “Adding Items to a List in a Dictionary.” Stack Overflow, 2024,
-        /// stackoverflow.com/questions/14991688/adding-items-to-a-dictionary-in-a-dictionary.
+        /// stackoverflow.com/questions/14991688/adding-items-to-a-list-in-a-dictionary.
         /// Author Steve
         public void AddPackage(string singleOrRepeating, DayOfWeek day, Package package, DateTime pickupTime)
         {
@@ -126,7 +126,7 @@ namespace Ware
         /// Joe. “How to Get the Integer Value of Day of Week.” Stack Overflow, 2024,
         /// stackoverflow.com/questions/9199080/how-to-get-the-integer-value-of-day-of-week.
         /// </summary>
-        /// <param name="day">Day of week</param>
+        /// <param packageName="day">Day of week</param>
         /// <returns>Return a bool that tells if the day contains anything</returns>
         public bool CheckDay(DayOfWeek day)
         {
@@ -135,9 +135,9 @@ namespace Ware
             return calender.ContainsKey((DaysOfWeek)day) && calender[(DaysOfWeek)day].Any();
         }
         /// <summary>
-        /// Returns a dictionary of packages for the day asked for
+        /// Returns a list of packages for the day asked for
         /// </summary>
-        /// <param name="day">Day of week</param>
+        /// <param packageName="day">Day of week</param>
         /// <returns>returns the packages for the day asked for</returns>
         public List<(string, Package, DateTime)> GetPackageDay(DayOfWeek day)
         {

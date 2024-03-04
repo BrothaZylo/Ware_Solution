@@ -11,21 +11,20 @@ namespace Ware
     /// <summary>
     /// Preconfig of the storageunits which will later be used to create shelves.
     /// </summary>
-    /// <param name="goodsType">This will be the name of the storage unit, and what type of goods can be placed in this unit</param>
-    public class Storage(string goodsType = "Undefined") : IStorage
+    /// <param packageName="goodsType">This will be the packageName of the storage unit, and what type of goodsType can be placed in this unit</param>
+    public class Storage(string goodsType) : IStorage
     {
-        private readonly string shelfCategory = goodsType;
+        private readonly string goodsType = goodsType;
         private readonly List<ShelvesConfig> addShelves = [];
         private double timeFromReceivingDepartmentToStorage = 0, timeFromStoragetoTerminal = 0;
-        // Goods,(id,sizename,width,height,isEmpty)
         private readonly Dictionary<string, (string, string, double, double, bool)> yourStorageDict = [];
 
         /// <summary>
         /// Gets the goodstype of the shelf
         /// </summary>
-        public string ShelfCategory
+        public string GoodsType
         {
-            get { return shelfCategory; }
+            get { return goodsType; }
         }
 
         /// <summary>
@@ -38,7 +37,7 @@ namespace Ware
             {
                 for (int k = 0; k < j.TotalUnitsAvailable; k++)
                 {
-                    yourStorageDict.Add(shelfCategory + "ShelfID: " + StorageCounter, ("PackageID: Empty", "Type of storage: " + j.SizeName, j.MaxWidthCm, j.MaxHeightCm, false));
+                    yourStorageDict.Add(goodsType + "ShelfID: " + StorageCounter, ("PackageID: Empty", "Type of storage: " + j.SizeName, j.MaxWidthCm, j.MaxHeightCm, false));
                     StorageCounter++;
                 }
             }
@@ -47,7 +46,7 @@ namespace Ware
         /// <summary>
         /// Places the package in the storagehouse if the size and goodstype fits the slot.
         /// </summary>
-        /// <param name="package">A Package</param>
+        /// <param packageName="package">A Package</param>
         /// <returns>An option to know if its in storage or got placed in the storage</returns>
         public string? PlacePackage(Package package)
         {
@@ -55,7 +54,7 @@ namespace Ware
             double packagesizeh = package.Height;
             foreach (KeyValuePair<string, (string, string, double, double, bool)> i in yourStorageDict)
             {
-                if (shelfCategory == package.Goods)
+                if (goodsType == package.Goods)
                 {
                     if (i.Value.Item1 == package.PackageId)
                     {
@@ -78,7 +77,7 @@ namespace Ware
         /// <summary>
         /// inputting the packageId will remove the package from the shelf its placed.
         /// </summary>
-        /// <param name="packageId">A Package</param>
+        /// <param packageName="packageId">A Package</param>
         /// <returns>it will return the packageId if it finds the packackage, else it will return null</returns>
         public string? MovePackageById(string packageId)
         {
@@ -96,7 +95,7 @@ namespace Ware
         /// <summary>
         /// Moves the package from the shelf and returns it in package format.
         /// </summary>
-        /// <param name="package">A package</param>
+        /// <param packageName="package">A package</param>
         /// <returns>if it finds the package it will return the package, else it will return a null</returns>
         public Package? MovePackage(Package package)
         {
@@ -113,19 +112,23 @@ namespace Ware
         /// <summary>
         /// Moves the package from the shelf and returns it in package format.
         /// </summary>
-        /// <param name="package">A package</param>
-        /// <param name="terminal">The Terminal where the package will be sent out</param>
+        /// <param packageName="package">A package</param>
+        /// <param packageName="terminal">The Terminal where the package will be sent out</param>
         /// <returns>if it finds the package it will return the package, else it will return null</returns>
         public void MovePackageToTerminal(Package package, Terminal terminal)
         {
+            int counter = 0;
             foreach (KeyValuePair<string, (string, string, double, double, bool)> i in yourStorageDict)
             {
                 if (i.Value.Item1 == package.PackageId)
                 {
                     yourStorageDict[i.Key] = ("PackageID: Empty", i.Value.Item2, i.Value.Item3, i.Value.Item4, false);
                     terminal.AddPackage(package);
+                    counter++;                
                 }
             }
+            Console.WriteLine(counter);
+            
         }
 
 
@@ -151,7 +154,7 @@ namespace Ware
         /// <summary>
         /// Entering the storage unit's id will find the shelf content.
         /// </summary>
-        /// <param name="shelfNumber">ShelfID number</param>
+        /// <param packageName="shelfNumber">ShelfID number</param>
         /// <returns>Returns the shelf number else, it will return Does not exist</returns>
         public string GetStorageNameById(int shelfNumber)
         {
@@ -171,7 +174,7 @@ namespace Ware
         /// <summary>
         /// It will find the shelf where the packageId is located.
         /// </summary>
-        /// <param name="packageId">A package</param>
+        /// <param packageName="packageId">A package</param>
         /// <returns>Returns the section of set package id is located, else returns nothing</returns>
         public string FindPackageSectionById(string packageId)
         {
@@ -189,7 +192,7 @@ namespace Ware
         /// <summary>
         /// Finds the package location by using the id
         /// </summary>
-        /// <param name="packageId">A package</param>
+        /// <param packageName="packageId">A package</param>
         /// <returns>The shelf its placed at, else will return Does not exist</returns>
         public string FindPackageById(string packageId)
         {
@@ -207,7 +210,7 @@ namespace Ware
         /// <summary>
         /// It checks if the spot is taken by another package
         /// </summary>
-        /// <param name="storageName">Name of storage</param>
+        /// <param packageName="storageName">Name of storage</param>
         /// <returns>returns true if taken, else false</returns>
         public bool IsSpotTaken(string storageName)
         {
@@ -224,7 +227,7 @@ namespace Ware
         /// <summary>
         /// Checks if package type is the same as the one in the storage unit
         /// </summary>
-        /// <param name="package">class package object</param>
+        /// <param packageName="package">class package object</param>
         /// <returns>returns true if package type is the same as the one in the storage unit, else false</returns>
         public bool IsSameTypeOfGoods(Package package)
         {
@@ -293,7 +296,7 @@ namespace Ware
             /// </summary>
             public int TotalUnitsAvailable { get; set; }
             /// <summary>
-            /// Max width for x amount of units
+            /// Max packageWidthCm for x amount of units
             /// </summary>
             public double MaxWidthCm { get; set; }
             /// <summary>
@@ -301,13 +304,7 @@ namespace Ware
             /// </summary>
             public double MaxHeightCm { get; set; }
         }
-        /// <summary>
-        /// Custom unit can be added to the storage
-        /// </summary>
-        /// <param name="sizeName">Size of the shelf</param>
-        /// <param name="totalUntsAvailable">Total units/shelves </param>
-        /// <param name="maxHeightCm">Height of the unit/Shelf</param>
-        /// <param name="maxWidthCm">Width if the unit/shelf</param>
+
         public void AddUnit(string sizeName, int totalUntsAvailable, double maxHeightCm, double maxWidthCm)
         {
             addShelves.Add(new() { SizeName = sizeName, TotalUnitsAvailable = totalUntsAvailable, MaxHeightCm = maxHeightCm, MaxWidthCm = maxWidthCm });
@@ -316,11 +313,11 @@ namespace Ware
         /// <summary>
         /// Prints the diffrent Size configs for each size created.
         /// </summary>
-        public void UnitSpecsPrint()
+        public void SizeConfigPrint()
         {
             foreach (Storage.ShelvesConfig Item in addShelves)
             {
-                Console.WriteLine("StorageName: " + Item.SizeName + " TotalUnits: " + Item.TotalUnitsAvailable + " Max Length CM: " + Item.MaxHeightCm + " Max width CM: " + Item.MaxWidthCm);
+                Console.WriteLine("StorageName: " + Item.SizeName + " TotalUnits: " + Item.TotalUnitsAvailable + " Max Length CM: " + Item.MaxHeightCm + " Max packageWidthCm CM: " + Item.MaxWidthCm);
             }
         }
     }

@@ -6,24 +6,15 @@ namespace Ware
     /// <summary>
     /// The reception of the packages and the times it takes are handled here.
     /// </summary>
-    public class ReceivingDepartment : IReceivingDepartment
+    public class ReceivingDepartment() : IReceivingDepartment
     {
         private readonly List<Package> receivedPackages = [];
         private readonly List<Package> allPackages = [];
 
-        public delegate void PackageAddedToRecevingDepartmentHandler(object o, PackageEventArgs args);
-        public event PackageAddedToRecevingDepartmentHandler PackageAddedToReceivingDepartment;
-
-
-        public delegate void AllPackagesSentToStorageHandler(object o, PackageEventArgs args);
-        public event AllPackagesSentToStorageHandler AllPackagesSentToStorage;
-
-
-
         /// <summary>
-        /// The package is received and added to the dictionary of received packages.
+        /// The package is received and added to the list of received packages.
         /// </summary>
-        /// <param name="package">The name of the package being received.</param>
+        /// <param packageName="package">The packageName of the package being received.</param>
         public void AddPackage(Package package)
         {
             if (receivedPackages.Contains(package))
@@ -32,12 +23,10 @@ namespace Ware
             }
             receivedPackages.Add(package);
             allPackages.Add(package);
-            PackageAddedToReceivingDepartment?.Invoke(this, new PackageEventArgs(package));
-
         }
 
         /// <summary>
-        /// Sends the first package in the dictionary to storage then removes it from the dictionary.
+        /// Sends the first package in the list to storage then removes it from the list.
         /// </summary>
         public void SendFirstPackageToStorage(Storage storageConfiguration)
         {
@@ -53,7 +42,7 @@ namespace Ware
                 {
                     storageConfiguration.PlacePackage(firstPackage);
                     receivedPackages.RemoveAt(0);
-                    Console.WriteLine($"Package {firstPackage.PackageId} was sent to the warehouse and removed from the receiving dictionary.");
+                    Console.WriteLine($"Package {firstPackage.PackageId} was sent to the warehouse and removed from the receiving list.");
                 }
 
                 if (!storageConfiguration.IsSameTypeOfGoods(firstPackage))
@@ -63,7 +52,6 @@ namespace Ware
             }
 
         }
-
 
         /// <summary>
         /// Sends all packages to storage.
@@ -83,15 +71,12 @@ namespace Ware
                 {
                     storageConfiguration.PlacePackage(receivedPackages[i]);
                     receivedPackages.RemoveAt(i);
-
                 }
             }
-            AllPackagesSentToStorage?.Invoke(this, new PackageEventArgs(null, storageConfiguration));
-
         }
 
         /// <summary>
-        /// Prints the dictionary of all received packages.
+        /// Prints the list of all received packages.
         /// </summary>
         public void GetAllPackagePrint() 
         {
@@ -112,17 +97,17 @@ namespace Ware
         }
 
         /// <summary>
-        /// Returns a dictionary of all recivived packages
+        /// Returns a list of all recivived packages
         /// </summary>
-        /// <returns>Returns a dictionary of all recivived packages</returns>
+        /// <returns>Returns a list of all recivived packages</returns>
         public List<Package> GetPackageList()
         {
             return receivedPackages;
         }
         /// <summary>
-        /// Returns a dictionary of all AllPackages
+        /// Returns a list of all AllPackages
         /// </summary>
-        /// <returns>Returns a dictionary of all AllPackages</returns>
+        /// <returns>Returns a list of all AllPackages</returns>
         public List<Package> GetAllPackages()
         {
             return allPackages;

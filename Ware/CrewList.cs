@@ -48,7 +48,7 @@ namespace Ware
         /// <summary>
         /// Adds a member to the crew.
         /// </summary>
-        /// <param name="person">Person object</param>
+        /// <param packageName="person">Person object</param>
         public void AddCrewMember(Person person)
         {
             dictionary.Add(person.Name, person.AccessLevel);
@@ -57,7 +57,7 @@ namespace Ware
         /// <summary>
         /// Removes a crewmember
         /// </summary>
-        /// <param name="person">Person object you want removed</param>
+        /// <param packageName="person">Person object you want removed</param>
         public void RemoveCrewMember(Person person)
         {
             dictionary.Remove(person.Name);

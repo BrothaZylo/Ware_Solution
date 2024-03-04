@@ -17,7 +17,7 @@ namespace Ware
         /// <summary>
         /// Adds equipment from Equipment class to a collective place.
         /// </summary>
-        /// <param name="equipment">name of equipment object</param>
+        /// <param packageName="equipment">packageName of equipment object</param>
         public void AddEquipment(Equipment equipment)
         {
             allEquipmentList.Add(equipment);
@@ -27,7 +27,7 @@ namespace Ware
         /// <summary>
         /// Removes equipment
         /// </summary>
-        /// <param name="equipment">equipment class</param>
+        /// <param packageName="equipment">equipment class</param>
         public void RemoveEquipment(Equipment equipment)
         {
             allEquipment.Remove(equipment.Name);

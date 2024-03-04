@@ -19,7 +19,7 @@ namespace Ware
         /// <summary>
         /// Exception for storage errors.
         /// </summary>
-        /// <param name="message"></param>
+        /// <param packageName="message"></param>
         public StorageException(string message)
         : base(message) { }
     }

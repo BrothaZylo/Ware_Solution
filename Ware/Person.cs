@@ -10,9 +10,9 @@ namespace Ware
     /// <summary>
     /// Creates a person
     /// </summary>
-    /// <param name="name">Name of person</param>
-    /// <param name="age">Age of person</param>
-    /// <param name="accessLevel">Position / permissions of the person</param>
+    /// <param packageName="name">Name of person</param>
+    /// <param packageName="age">Age of person</param>
+    /// <param packageName="accessLevel">Position / permissions of the person</param>
     public class Person(string name = "Unknown", int age = 0, CrewList.AccessLevel accessLevel = CrewList.AccessLevel.OTHERS) : IPerson
     {
         private string name = name;
@@ -23,7 +23,7 @@ namespace Ware
         /// <summary>
         /// Adds an object Assignment to the person.
         /// </summary>
-        /// <param name="assignment">object assignment</param>
+        /// <param packageName="assignment">object assignment</param>
         public void AddAssignment(Assignment assignment)
         {
             assignments.Add(assignment);
@@ -32,7 +32,7 @@ namespace Ware
         /// <summary>
         /// Removes an assignment from a person.
         /// </summary>
-        /// <param name="assignment">object assignment</param>
+        /// <param packageName="assignment">object assignment</param>
         public void RemoveAssignment(Assignment assignment)
         {
             assignments.Remove(assignment);
@@ -59,7 +59,7 @@ namespace Ware
         }
 
         /// <summary>
-        /// Getter setter for name.
+        /// Getter setter for packageName.
         /// </summary>
         public string Name
         {

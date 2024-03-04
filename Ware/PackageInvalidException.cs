@@ -20,7 +20,7 @@ namespace Ware
         /// <summary>
         /// Exceptions for package errors with custom catch message.
         /// </summary>
-        /// <param name="message">Custom message for exception interception</param>
+        /// <param packageName="message">Custom message for exception interception</param>
         public PackageInvalidException(string message)
         : base(message) { }
     }
