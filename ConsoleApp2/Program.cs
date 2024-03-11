@@ -46,7 +46,8 @@ namespace ConsoleApp2
             storage.PlacePackageAutomatic(package7);
             Console.WriteLine();
             storage.GetAllStorageInformationPrint();
-
+            Console.WriteLine();
+            storage.UnitShelfsPrint();
 
             //----------------------------------------------------------//
             //-----------------------Simulation-------------------------//

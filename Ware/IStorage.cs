@@ -8,7 +8,7 @@ namespace Ware
 {
     internal interface IStorage
     {
-        void UnitSpecsPrint();
+        void UnitShelfsPrint();
 
         void Build();
 

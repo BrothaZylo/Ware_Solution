@@ -406,7 +406,7 @@ namespace Ware
         /// <summary>
         /// Prints the diffrent Size configs for each size created.
         /// </summary>
-        public void UnitSpecsPrint()
+        public void UnitShelfsPrint()
         {
             foreach (Storage.ShelvesConfig Item in addShelves)
             {

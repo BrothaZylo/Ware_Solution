@@ -102,16 +102,6 @@ namespace Ware
         }
 
         /// <summary>
-        /// Finds the time it takes from when recieved to it enters the storage.
-        /// </summary>
-        /// <returns>Represents the estimated time it took to get to storage.</returns>
-        public string TravelTimeToStorage(Storage storageConfiguration) 
-        {
-            string time = "Estimated time to storage in seconds: ";
-            return time+= storageConfiguration.TimeDeliveryToStorageSeconds;
-        }
-
-        /// <summary>
         /// Returns a dictionary of all recivived packages
         /// </summary>
         /// <returns>Returns a dictionary of all recivived packages</returns>
