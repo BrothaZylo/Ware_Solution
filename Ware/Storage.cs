@@ -184,14 +184,19 @@ namespace Ware
         /// <returns>it will return the packageId if it finds the packackage, else it will return null</returns>
         public Package? MovePackageById(string packageId)
         {
+            Package? tmp = null;
             foreach (KeyValuePair<string, (Package?, string, double, double, bool)> i in yourStorageDict)
             {
                 if (i.Value.Item1 is not null && i.Value.Item1.PackageId == packageId)
                 {
                     yourStorageDict[i.Key] = (null, i.Value.Item2, i.Value.Item3, i.Value.Item4, false);
                     //add event
-                    return i.Value.Item1;
+                    tmp = i.Value.Item1;
                 }
+            }
+            if(tmp != null)
+            {
+                return tmp;
             }
             throw new PackageInvalidException(" Package with ID not found: "+packageId);
         }
