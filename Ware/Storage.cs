@@ -203,14 +203,20 @@ namespace Ware
         /// <returns>if it finds the package it will return the package, else it will return a null</returns>
         public Package? MovePackage(Package package)
         {
+            int foundPackageCounter = 0;
             foreach(KeyValuePair<string, (Package?, string, double, double, bool)> i in yourStorageDict)
             {
                 if (i.Value.Item1 == package)
                 {
                     yourStorageDict[i.Key] = (null, i.Value.Item2, i.Value.Item3, i.Value.Item4, false);
-                    return package;
+                    foundPackageCounter++;
                 }
             }
+            if (foundPackageCounter != 0)
+            {
+                return package;
+            }
+
             throw new PackageInvalidException(" Package with ID not found: " + package.Name);
         }
 
