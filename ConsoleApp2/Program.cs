@@ -37,8 +37,8 @@ namespace ConsoleApp2
 
             Storage storage = new(refrigerated);
             storage.AddShelf("Big", 11, 100, 100);
-            storage.AddShelf("gg", 4, 33, 33);
-            storage.AddShelf("eeee", 2, 63, 63);
+            storage.AddShelf("Tiny", 4, 33, 33);
+            storage.AddShelf("Mid", 2, 63, 63);
 
             storage.Build();
             storage.GetAllStorageInformationPrint();
