@@ -69,15 +69,15 @@ namespace Ware
 
                 if (goods == "Dry")
                 {
-                    Dry.AddUnit("Autosized", 3, height + 10, width + 10);
+                    Dry.AddShelf("Autosized", 3, height + 10, width + 10);
                 }
                 if (goods == "Refrigerated")
                 {
-                    Refrigerated.AddUnit("Autosized", 3, height + 10, width + 10);
+                    Refrigerated.AddShelf("Autosized", 3, height + 10, width + 10);
                 }
                 if (goods == "Dangerous")
                 {
-                    Dangerous.AddUnit("Autosized", 3, height + 10, width + 10);
+                    Dangerous.AddShelf("Autosized", 3, height + 10, width + 10);
                 }
             }
         }

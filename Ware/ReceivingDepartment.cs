@@ -51,7 +51,7 @@ namespace Ware
                 Package firstPackage = receivedPackages[0];
                 if (storageConfiguration.IsSameTypeOfGoods(firstPackage))
                 {
-                    storageConfiguration.PlacePackage(firstPackage);
+                    storageConfiguration.PlacePackageAutomatic(firstPackage);
                     receivedPackages.RemoveAt(0);
                     Console.WriteLine($"Package {firstPackage.PackageId} was sent to the warehouse and removed from the receiving dictionary.");
                 }
@@ -81,7 +81,7 @@ namespace Ware
                 Package package = receivedPackages[i];
                 if (storageConfiguration.IsSameTypeOfGoods(receivedPackages[i]))
                 {
-                    storageConfiguration.PlacePackage(receivedPackages[i]);
+                    storageConfiguration.PlacePackageAutomatic(receivedPackages[i]);
                     receivedPackages.RemoveAt(i);
 
                 }
