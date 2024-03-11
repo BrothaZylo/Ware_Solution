@@ -12,15 +12,16 @@ namespace Ware
 
         void Build();
 
-        string PlacePackage(Package package);
+        void PlacePackage(Package package);
 
-        string MovePackageById(string packageid);
+        Package? MovePackageById(string packageid);
 
         Package? MovePackage(Package package);
+
         void MovePackageToTerminal(Package package, Terminal terminal);
 
         void GetAllStorageInformationPrint();
-        Dictionary<string, (string, string, double, double, bool)> GetAllStorageInformationAsDictionary();
+        Dictionary<string, (Package?, string, double, double, bool)> GetAllStorageInformationAsDictionary();
 
         string GetStorageNameById(int shelfnumber);
 

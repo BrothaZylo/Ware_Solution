@@ -18,7 +18,7 @@ namespace Ware
         private readonly List<ShelvesConfig> addShelves = [];
         private double timeFromReceivingDepartmentToStorage = 0, timeFromStoragetoTerminal = 0;
         // Goods,(id,sizename,width,height,isEmpty)
-        private readonly Dictionary<string, (string, string, double, double, bool)> yourStorageDict = [];
+        private readonly Dictionary<string, (Package?, string, double, double, bool)> yourStorageDict = [];
 
         /// <summary>
         /// Gets the goodstype of the shelf
@@ -38,7 +38,7 @@ namespace Ware
             {
                 for (int k = 0; k < j.TotalUnitsAvailable; k++)
                 {
-                    yourStorageDict.Add(goodsType + "ShelfID: " + StorageCounter, ("PackageID: Empty", "Type of storage: " + j.SizeName, j.MaxWidthCm, j.MaxHeightCm, false));
+                    yourStorageDict.Add(goodsType + "ShelfID: " + StorageCounter, (null , j.SizeName, j.MaxWidthCm, j.MaxHeightCm, false));
                     StorageCounter++;
                 }
             }
@@ -49,30 +49,29 @@ namespace Ware
         /// </summary>
         /// <param name="package">A Package</param>
         /// <returns>An option to know if its in storage or got placed in the storage</returns>
-        public string? PlacePackage(Package package)
+        public void PlacePackage(Package package)
         {
             double packagesizew = package.Width;
             double packagesizeh = package.Height;
-            foreach (KeyValuePair<string, (string, string, double, double, bool)> i in yourStorageDict)
+            foreach (KeyValuePair<string, (Package?, string, double, double, bool)> i in yourStorageDict)
             {
                 if (goodsType == package.Goods)
                 {
-                    if (i.Value.Item1 == package.PackageId)
+                    if (i.Value.Item1 == package)
                     {
-                        throw new PackageInvalidException("No matching Id found: " + package.PackageId);
-                        break;
+                        throw new PackageInvalidException("No matching Id found: " + package);
                     }
                     if (i.Value.Item5 == false)
                     {
                         if (packagesizew < i.Value.Item3 && packagesizeh < i.Value.Item4)
                         {
-                            yourStorageDict[i.Key] = (package.PackageId, i.Value.Item2, i.Value.Item3, i.Value.Item4, true);
-                            return "Package was placed in: " + i.Key;
+                            yourStorageDict[i.Key] = (package, i.Value.Item2, i.Value.Item3, i.Value.Item4, true);
+                            // blir plasser i i.key
+                            break;
                         }
                     }
                 }
             }
-            return null;
         }
 
         /// <summary>
@@ -80,14 +79,14 @@ namespace Ware
         /// </summary>
         /// <param name="packageId">A Package</param>
         /// <returns>it will return the packageId if it finds the packackage, else it will return null</returns>
-        public string? MovePackageById(string packageId)
+        public Package? MovePackageById(string packageId)
         {
-            foreach (KeyValuePair<string, (string, string, double, double, bool)> i in yourStorageDict)
+            foreach (KeyValuePair<string, (Package?, string, double, double, bool)> i in yourStorageDict)
             {
-                if (i.Value.Item1 == packageId)
+                if (i.Value.Item1 is not null && i.Value.Item1.PackageId == packageId)
                 {
-                    yourStorageDict[i.Key] = ("PackageID: Empty", i.Value.Item2, i.Value.Item3, i.Value.Item4, false);
-                    return packageId;
+                    yourStorageDict[i.Key] = (null, i.Value.Item2, i.Value.Item3, i.Value.Item4, false);
+                    return i.Value.Item1;
                 }
             }
             throw new PackageInvalidException(" Package with ID not found: "+packageId);
@@ -100,11 +99,11 @@ namespace Ware
         /// <returns>if it finds the package it will return the package, else it will return a null</returns>
         public Package? MovePackage(Package package)
         {
-            foreach(KeyValuePair<string, (string, string, double, double, bool)> i in yourStorageDict)
+            foreach(KeyValuePair<string, (Package?, string, double, double, bool)> i in yourStorageDict)
             {
-                if (i.Value.Item1 == package.PackageId)
+                if (i.Value.Item1 == package)
                 {
-                    yourStorageDict[i.Key] = ("PackageID: Empty", i.Value.Item2, i.Value.Item3, i.Value.Item4, false);
+                    yourStorageDict[i.Key] = (null, i.Value.Item2, i.Value.Item3, i.Value.Item4, false);
                     return package;
                 }
             }
@@ -118,11 +117,11 @@ namespace Ware
         /// <returns>if it finds the package it will return the package, else it will return null</returns>
         public void MovePackageToTerminal(Package package, Terminal terminal)
         {
-            foreach (KeyValuePair<string, (string, string, double, double, bool)> i in yourStorageDict)
+            foreach (KeyValuePair<string, (Package?, string, double, double, bool)> i in yourStorageDict)
             {
-                if (i.Value.Item1 == package.PackageId)
+                if (i.Value.Item1 == package)
                 {
-                    yourStorageDict[i.Key] = ("PackageID: Empty", i.Value.Item2, i.Value.Item3, i.Value.Item4, false);
+                    yourStorageDict[i.Key] = (null, i.Value.Item2, i.Value.Item3, i.Value.Item4, false);
                     terminal.AddPackage(package);
                 }
             }
@@ -134,16 +133,25 @@ namespace Ware
         /// </summary>
         public void GetAllStorageInformationPrint()
         {
-            foreach(KeyValuePair<string, (string, string, double, double, bool)> i in yourStorageDict)
+            foreach(KeyValuePair<string, (Package?, string, double, double, bool)> i in yourStorageDict)
             {
-                Console.WriteLine(i);
+                if(i.Value.Item1 == null)
+                {
+                    Console.WriteLine("["+i.Key + " | (Package ID: " + "Empty ) | " + "Size: "+i.Value.Item2 + " | Width: " + i.Value.Item3 + " | Height: " + i.Value.Item4+"]");
+                }
+                else
+                {
+                    Console.WriteLine("["+i.Key + " | (Package ID: " + i.Value.Item1.PackageId + ") | " + "Size: " + i.Value.Item2 + " | Width: " + i.Value.Item3 + " | Height: " + i.Value.Item4+"]");
+
+                }
+
             }
         }
         /// <summary>
         /// Returns the warehouse dictionary 
         /// </summary>
         /// <returns>warehouse dictionary </returns>
-        public Dictionary<string, (string, string, double, double, bool)> GetAllStorageInformationAsDictionary()
+        public Dictionary<string, (Package?, string, double, double, bool)> GetAllStorageInformationAsDictionary()
         {
             return yourStorageDict;
         }
@@ -155,7 +163,7 @@ namespace Ware
         /// <returns>Returns the shelf number else, it will return Does not exist</returns>
         public string GetStorageNameById(int shelfNumber)
         {
-            foreach(KeyValuePair<string, (string, string, double, double, bool)> i in yourStorageDict)
+            foreach(KeyValuePair<string, (Package?, string, double, double, bool)> i in yourStorageDict)
             {
                 string[] keysplit = i.Key.Split(':');
                 string key1 = keysplit[0];
@@ -176,9 +184,9 @@ namespace Ware
         public string FindPackageSectionById(string packageId)
         {
             string item = "";
-            foreach(KeyValuePair<string, (string, string, double, double, bool)> i in yourStorageDict)
+            foreach(KeyValuePair<string, (Package?, string, double, double, bool)> i in yourStorageDict)
             {
-                if (i.Value.Item1 == packageId)
+                if (i.Value.Item1 is not null && i.Value.Item1.PackageId == packageId)
                 {
                     item += i;
                 }
@@ -193,12 +201,11 @@ namespace Ware
         /// <returns>The shelf its placed at, else will return Does not exist</returns>
         public string FindPackageById(string packageId)
         {
-            string item = "Does not exist";
-            foreach (KeyValuePair<string, (string, string, double, double, bool)> i in yourStorageDict)
+            foreach (KeyValuePair<string, (Package?, string, double, double, bool)> item in yourStorageDict)
             {
-                if (i.Value.Item1 == packageId)
+                if (item.Value.Item1 is not null && item.Value.Item1.PackageId == packageId)
                 {
-                    return i.Key;
+                    return item.Key;
                 }
             }
             throw new PackageInvalidException(" Package with ID not found: " + packageId);
@@ -211,7 +218,7 @@ namespace Ware
         /// <returns>returns true if taken, else false</returns>
         public bool IsSpotTaken(string storageName)
         {
-            foreach(KeyValuePair<string, (string, string, double, double, bool)> i in yourStorageDict)
+            foreach(KeyValuePair<string, (Package?, string, double, double, bool)> i in yourStorageDict)
             {
                 if (i.Key == storageName)
                 {
@@ -228,7 +235,7 @@ namespace Ware
         /// <returns>returns true if package type is the same as the one in the storage unit, else false</returns>
         public bool IsSameTypeOfGoods(Package package)
         {
-            foreach (KeyValuePair<string, (string, string, double, double, bool)> i in yourStorageDict)
+            foreach (KeyValuePair<string, (Package?, string, double, double, bool)> i in yourStorageDict)
             {
                 string[] keysplit = i.Key.Split('S');
                 string key1 = keysplit[0];
