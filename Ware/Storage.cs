@@ -337,13 +337,13 @@ namespace Ware
         /// <summary>
         /// It checks if the spot is taken by another package
         /// </summary>
-        /// <param name="storageName">Name of storage</param>
+        /// <param name="shelfId">id of the space you want to check</param>
         /// <returns>returns true if taken, else false</returns>
-        public bool IsSpotTaken(string storageName)
+        public bool IsSpotTaken(string shelfId)
         {
             foreach(KeyValuePair<string, (Package?, string, double, double, bool)> i in yourStorageDict)
             {
-                if (i.Key == storageName)
+                if (i.Key == shelfId)
                 {
                     return i.Value.Item5;
                 }
