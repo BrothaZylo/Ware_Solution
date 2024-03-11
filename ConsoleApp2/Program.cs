@@ -19,6 +19,7 @@ namespace ConsoleApp2
             //----------------------------------------------------------//
             //--------------------Default packages----------------------//
             //----------------------------------------------------------//
+
             Package package1 = new("Chips", dry, 15, 3);
             Package package2 = new("Ost", dry, 14, 23);
 
@@ -34,7 +35,6 @@ namespace ConsoleApp2
             //----------------------Storage Build------------------------//
             //-----------------------------------------------------------//
 
-
             Storage storage = new(refrigerated);
             storage.AddShelf("Big", 11, 100, 100);
             storage.AddShelf("Tiny", 4, 33, 33);
@@ -44,7 +44,6 @@ namespace ConsoleApp2
             storage.GetAllStorageInformationPrint();
             storage.PlacePackageAutomatic(package1);
             storage.PlacePackageAutomatic(package7);
-
             Console.WriteLine();
             storage.GetAllStorageInformationPrint();
 

@@ -233,16 +233,20 @@ namespace Ware
         /// <returns>if it finds the package it will return the package, else it will return null</returns>
         public void MovePackageToTerminal(Package package, Terminal terminal)
         {
+            Package? tmp = null;
             foreach (KeyValuePair<string, (Package?, string, double, double, bool)> i in yourStorageDict)
             {
                 if (i.Value.Item1 == package)
                 {
                     yourStorageDict[i.Key] = (null, i.Value.Item2, i.Value.Item3, i.Value.Item4, false);
-                    terminal.AddPackage(package);
-                    //add excep
-                    //add event
+                    tmp = package;
                 }
             }
+            if (tmp != null)
+            {
+                terminal.AddPackage(tmp);
+            }
+            // add excep, event
         }
 
 
