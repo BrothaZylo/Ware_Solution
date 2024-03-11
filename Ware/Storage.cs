@@ -259,11 +259,11 @@ namespace Ware
             {
                 if(i.Value.Item1 == null)
                 {
-                    Console.WriteLine("["+i.Key + " | (Package ID: " + "Empty ) | " + "Size: "+i.Value.Item2 + " | Width: " + i.Value.Item3 + "cm | Height: " + i.Value.Item4+"cm]");
+                    Console.WriteLine("["+i.Key + " | (Package ID: " + "Empty ) | " + "(Size: "+i.Value.Item2 + ", Width: " + i.Value.Item3 + "cm, Height: " + i.Value.Item4+"cm)]");
                 }
                 else
                 {
-                    Console.WriteLine("["+i.Key + " | (Package ID: " + i.Value.Item1.PackageId + ") | " + "Size: " + i.Value.Item2 + " | Width: " + i.Value.Item3 + "cm | Height: " + i.Value.Item4+"cm]");
+                    Console.WriteLine("["+i.Key + " | (Package ID: " + i.Value.Item1.PackageId + ") | " + "(Size: " + i.Value.Item2 + ", Width: " + i.Value.Item3 + "cm, Height: " + i.Value.Item4+"cm)]");
                 }
             }
         }
