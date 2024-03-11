@@ -12,7 +12,7 @@ namespace Ware
     /// <param name="assignment">Name of the assignment</param>
     public class Assignment(string assignment = "Undefined")  : IAssignment
     {
-        private string task = assignment;
+        private string assignment = assignment;
         private string description = "";
         private DateTime completionTime = new(2024, 03, 3, 0, 0, 0);
 
@@ -56,8 +56,8 @@ namespace Ware
         /// </summary>
         public string Task
         {
-            get { return task; }
-            set { task = value; }
+            get { return assignment; }
+            set { assignment = value; }
         }
 
         /// <summary>

@@ -86,7 +86,7 @@ namespace Ware
 
                 }
             }
-            AllPackagesSentToStorage?.Invoke(this, new PackageEventArgs(null, storageConfiguration));
+            AllPackagesSentToStorage?.Invoke(this, new PackageEventArgs(storageConfiguration));
 
         }
 

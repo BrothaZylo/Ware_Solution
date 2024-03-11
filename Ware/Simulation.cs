@@ -231,7 +231,7 @@ namespace Ware
         */
         public static void OnAllPackagesSentToStorage(object o, PackageEventArgs args)
         {
-            Console.WriteLine($"Packages was sent from the the receiving department to storage {args.Storage.ShelfCategory}");
+            Console.WriteLine($"Packages was sent from the the receiving department to storage {args.Storage.GoodsType}");
         }
         private void SendPackagesToStorage()
         {
@@ -359,7 +359,7 @@ namespace Ware
         private void FromTerminalAndAway()
         {
             terminal.SendAllPackages();
-            PackageSentAway?.Invoke(this, new PackageEventArgs(null));
+            PackageSentAway?.Invoke(this, new PackageEventArgs());
         }
 
 

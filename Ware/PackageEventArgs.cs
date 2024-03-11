@@ -13,6 +13,14 @@ namespace Ware
         public Storage Storage { get; private set; }
         public Terminal Terminal { get; private set; }
 
+
+        public PackageEventArgs()
+        {
+        }
+        public PackageEventArgs(Storage storage)
+        {
+            Storage = storage;
+        }
         public PackageEventArgs(Package package)
         {
             Package = package;

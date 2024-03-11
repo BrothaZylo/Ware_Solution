@@ -14,7 +14,7 @@ namespace Ware
     /// <param name="goodsType">This will be the name of the storage unit, and what type of goods can be placed in this unit</param>
     public class Storage(string goodsType = "Undefined") : IStorage
     {
-        private readonly string shelfCategory = goodsType;
+        private readonly string goodsType = goodsType;
         private readonly List<ShelvesConfig> addShelves = [];
         private double timeFromReceivingDepartmentToStorage = 0, timeFromStoragetoTerminal = 0;
         // Goods,(id,sizename,width,height,isEmpty)
@@ -23,9 +23,9 @@ namespace Ware
         /// <summary>
         /// Gets the goodstype of the shelf
         /// </summary>
-        public string ShelfCategory
+        public string GoodsType
         {
-            get { return shelfCategory; }
+            get { return goodsType; }
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace Ware
             {
                 for (int k = 0; k < j.TotalUnitsAvailable; k++)
                 {
-                    yourStorageDict.Add(shelfCategory + "ShelfID: " + StorageCounter, ("PackageID: Empty", "Type of storage: " + j.SizeName, j.MaxWidthCm, j.MaxHeightCm, false));
+                    yourStorageDict.Add(goodsType + "ShelfID: " + StorageCounter, ("PackageID: Empty", "Type of storage: " + j.SizeName, j.MaxWidthCm, j.MaxHeightCm, false));
                     StorageCounter++;
                 }
             }
@@ -55,7 +55,7 @@ namespace Ware
             double packagesizeh = package.Height;
             foreach (KeyValuePair<string, (string, string, double, double, bool)> i in yourStorageDict)
             {
-                if (shelfCategory == package.Goods)
+                if (goodsType == package.Goods)
                 {
                     if (i.Value.Item1 == package.PackageId)
                     {

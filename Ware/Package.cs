@@ -14,8 +14,8 @@ namespace Ware
     /// <param name="packageWidthCm">width of the package i cm.</param>
     public class Package(string packageName = "Undefined", string goodsType = "Undefined", double packageHeightCm = 0, double packageWidthCm = 0) : IPackage
     {
-        private string packageId = GenerateId(), name = packageName, goods = goodsType;
-        private double height = packageHeightCm, width = packageWidthCm;
+        private string packageId = GenerateId(), packageName = packageName, goodsType = goodsType;
+        private double packageHeightCm = packageHeightCm, packageWidthCm = packageWidthCm;
 
         /// <summary>
         /// Generates an ID for the package
@@ -50,8 +50,8 @@ namespace Ware
         /// <returns>name</returns>
         public string Name
         {
-            get { return name; }
-            set { name = value; }
+            get { return packageName; }
+            set { packageName = value; }
         }
 
         /// <summary>
@@ -60,8 +60,8 @@ namespace Ware
         /// <returns>goods</returns>
         public string Goods
         {
-            get { return goods; }
-            set { goods = value; }
+            get { return goodsType; }
+            set { goodsType = value; }
         }
 
         /// <summary>
@@ -70,8 +70,8 @@ namespace Ware
         /// <returns>width</returns>
         public double Width
         {
-            get { return width; }
-            set { width = value; }
+            get { return packageWidthCm; }
+            set { packageWidthCm = value; }
         }
 
         /// <summary>
@@ -80,8 +80,8 @@ namespace Ware
         /// <returns>height</returns>
         public double Height
         {
-            get { return height; }
-            set { height = value; }
+            get { return packageHeightCm; }
+            set { packageHeightCm = value; }
         }
 
     }
