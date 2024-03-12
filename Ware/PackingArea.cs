@@ -57,7 +57,7 @@ namespace Ware
         {
             if (maxPackages < 1)
             {
-                throw new ArgumentException("The number of packages per pallet must be greater than 0.");
+                throw new NegativeNumberException("The number of packages per pallet must be greater than 0.");
             }
 
             maxPackagesPerPallet = maxPackages;
