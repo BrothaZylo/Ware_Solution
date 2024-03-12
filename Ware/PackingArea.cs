@@ -14,9 +14,9 @@ namespace Ware
         private List<Package> packagesOnPallet = new List<Package>();
         private int maxPackagesPerPallet;
 
-        public PackingArea(int maxPackagesPerPallet = 30)
+        public PackingArea(int maxPackages = 30)
         {
-            this.maxPackagesPerPallet = maxPackagesPerPallet;
+            maxPackagesPerPallet = maxPackages;
         }
 
         /// <summary>
