@@ -9,22 +9,13 @@ namespace Ware
     /// <summary>
     /// An area where packages are packed together into cardboard boxes.
     /// </summary>
-    public class KittingArea : IKittingArea
+    /// <param name="initialBoxCount">Total cardboard boxes available.</param>
+    /// <param name="maxPackagesPerBox">The total number of packages that can be placed in a box.</param>
+    public class KittingArea(int initialBoxCount = 20, int maxPackagesPerBox = 10) : IKittingArea
     {
         private List<Package> packagesInBox = new List<Package>();
-        private int totalBoxesAvailable;
-        private int maxPackagesPerBox;
-
-        /// <summary>
-        /// Uses new instance of KittingArea class.
-        /// </summary>
-        /// <param name="initialBoxCount">Total cardboard boxes available.</param>
-        /// <param name="maxPackagesPerBox">The total number of packages that can be placed in a box.</param>
-        public KittingArea(int initialBoxCount = 20, int maxPackagesPerBox = 10)
-        {
-            totalBoxesAvailable = initialBoxCount;
-            maxPackagesPerBox = maxPackagesPerBox;
-        }
+        private int totalBoxesAvailable = initialBoxCount;
+        private int maxPackagesPerBox = maxPackagesPerBox;
 
         /// <summary>
         /// Adds a package to the current cardboard box.
