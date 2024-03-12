@@ -180,12 +180,14 @@ namespace Ware
                     }
                     if (i.Value.Item5 == false)
                     {
-                        if (packagesizew < i.Value.Item3 && packagesizeh < i.Value.Item4)
+                        if (!(packagesizew < i.Value.Item3 && packagesizeh < i.Value.Item4))
                         {
-                            yourStorageDict[i.Key] = (package, i.Value.Item2, i.Value.Item3, i.Value.Item4, true);
-                            // blir plassert i i.key // add event , add excep
-                            break;
+                            throw new PackageInvalidException($"Package is too big. Package width: {packagesizew} - Shelf width {i.Value.Item3} Package height: {packagesizeh} | Shelf height {i.Value.Item4}");
+
                         }
+                        yourStorageDict[i.Key] = (package, i.Value.Item2, i.Value.Item3, i.Value.Item4, true);
+                        // blir plassert i i.key // add event , add excep
+                        break;
                     }
                 }
             }
@@ -260,6 +262,10 @@ namespace Ware
             {
                 terminal.AddPackage(tmp);
             }
+            if (tmp == null)
+            {
+                throw new PackageInvalidException($"The package {package.Name} was not found. Could not send it to terminal");
+            }
             // add excep, event
         }
 
@@ -309,7 +315,7 @@ namespace Ware
                 }
             }
             //add excep
-            return null;
+            throw new ArgumentException("The shelf number does not exist");
         }
 
 
