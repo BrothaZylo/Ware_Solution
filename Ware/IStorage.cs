@@ -24,7 +24,7 @@ namespace Ware
 
         Dictionary<string, (Package?, string, double, double, bool)> GetAllStorageInformationAsDictionary();
 
-        string? GetStorageNameById(int shelfnumber);
+        string? GetStorageNameById(string shelfnumber);
 
         string FindPackageSectionById(string packageid);
 
@@ -41,6 +41,8 @@ namespace Ware
         void RemovePackage(string shelfId1, string shelfId2);
 
         void RemovePackage(string shelfId);
+
+        void RemovePackage(Package package);
 
         void PlacePackage(Package package, string shelfId1, string shelfId2, string shelfId3);
 

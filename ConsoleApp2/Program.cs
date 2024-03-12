@@ -42,12 +42,14 @@ namespace ConsoleApp2
 
             storage.Build();
             storage.GetAllStorageInformationPrint();
-            storage.PlacePackageAutomatic(package1);
+            storage.PlacePackage(package6, "1,01", "1,02");
             storage.PlacePackageAutomatic(package7);
             Console.WriteLine();
             storage.GetAllStorageInformationPrint();
             Console.WriteLine();
-            storage.UnitShelfsPrint();
+            storage.RemovePackage(package6);
+            storage.GetAllStorageInformationPrint();
+
 
             //----------------------------------------------------------//
             //-----------------------Simulation-------------------------//

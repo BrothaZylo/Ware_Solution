@@ -56,7 +56,7 @@ namespace Ware
         {
             foreach(KeyValuePair<string, (Package?, string, double, double, bool)> item in yourStorageDict)
             {
-                if (item.Key == shelfId)
+                if (item.Key == GetStorageNameById(shelfId))
                 {
                     yourStorageDict[item.Key] = (package, item.Value.Item2, item.Value.Item3, item.Value.Item4, true);
                 }
@@ -73,7 +73,7 @@ namespace Ware
         {
             foreach (KeyValuePair<string, (Package?, string, double, double, bool)> item in yourStorageDict)
             {
-                if (item.Key == shelfId1 || item.Key == shelfId2)
+                if (item.Key == GetStorageNameById(shelfId1) || item.Key == GetStorageNameById(shelfId2))
                 {
                     yourStorageDict[item.Key] = (package, item.Value.Item2, item.Value.Item3, item.Value.Item4, true);
                 }
@@ -91,7 +91,7 @@ namespace Ware
         {
             foreach (KeyValuePair<string, (Package?, string, double, double, bool)> item in yourStorageDict)
             {
-                if (item.Key == shelfId1 || item.Key == shelfId2 || item.Key == shelfId3)
+                if (item.Key == GetStorageNameById(shelfId1) || item.Key == GetStorageNameById(shelfId2) || item.Key == GetStorageNameById(shelfId3))
                 {
                     yourStorageDict[item.Key] = (package, item.Value.Item2, item.Value.Item3, item.Value.Item4, true);
                 }
@@ -99,14 +99,29 @@ namespace Ware
         }
 
         /// <summary>
-        /// Removes a packages based on shelf id
+        /// Automatically removes all packages related to input.
+        /// </summary>
+        /// <param name="package">Package you want removed</param>
+        public void RemovePackage(Package package)
+        {
+            foreach (KeyValuePair<string, (Package?, string, double, double, bool)> i in yourStorageDict)
+            {
+                if (i.Value.Item1 == package)
+                {
+                    yourStorageDict[i.Key] = (null, i.Value.Item2, i.Value.Item3, i.Value.Item4, false);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Removes packages based on shelf id
         /// </summary>
         /// <param name="shelfId">The id of the space you want to remove a package from</param>
         public void RemovePackage(string shelfId)
         {
             foreach (KeyValuePair<string, (Package?, string, double, double, bool)> item in yourStorageDict)
             {
-                if (item.Key == shelfId)
+                if (item.Key == GetStorageNameById(shelfId))
                 {
                     yourStorageDict[item.Key] = (null, item.Value.Item2, item.Value.Item3, item.Value.Item4, true);
                 }
@@ -114,7 +129,7 @@ namespace Ware
         }
 
         /// <summary>
-        /// Removes a packages based on shelf id
+        /// Removes packages based on shelf id
         /// </summary>
         /// <param name="shelfId1">The id of the space you want to remove a package from</param>
         /// <param name="shelfId2">The id of the space you want to remove a package from</param>
@@ -122,7 +137,7 @@ namespace Ware
         {
             foreach (KeyValuePair<string, (Package?, string, double, double, bool)> item in yourStorageDict)
             {
-                if (item.Key == shelfId1 || item.Key == shelfId2)
+                if (item.Key == GetStorageNameById(shelfId1) || item.Key == GetStorageNameById(shelfId2))
                 {
                     yourStorageDict[item.Key] = (null, item.Value.Item2, item.Value.Item3, item.Value.Item4, true);
                 }
@@ -130,7 +145,7 @@ namespace Ware
         }
 
         /// <summary>
-        /// Removes a packages based on shelf id
+        /// Removes packages based on shelf id
         /// </summary>
         /// <param name="shelfId1">The id of the space you want to remove a package from</param>
         /// <param name="shelfId2">The id of the space you want to remove a package from</param>
@@ -139,7 +154,7 @@ namespace Ware
         {
             foreach (KeyValuePair<string, (Package?, string, double, double, bool)> item in yourStorageDict)
             {
-                if (item.Key == shelfId1 || item.Key == shelfId2 || item.Key == shelfId3)
+                if (item.Key == GetStorageNameById(shelfId1) || item.Key == GetStorageNameById(shelfId2) || item.Key == GetStorageNameById(shelfId3))
                 {
                     yourStorageDict[item.Key] = (null, item.Value.Item2, item.Value.Item3, item.Value.Item4, true);
                 }
@@ -281,7 +296,7 @@ namespace Ware
         /// </summary>
         /// <param name="shelfNumber">ShelfID number</param>
         /// <returns>Returns the shelf number else, it will return Does not exist</returns>
-        public string? GetStorageNameById(int shelfNumber)
+        public string? GetStorageNameById(string shelfNumber)
         {
             foreach(KeyValuePair<string, (Package?, string, double, double, bool)> i in yourStorageDict)
             {
@@ -296,6 +311,7 @@ namespace Ware
             //add excep
             return null;
         }
+
 
         /// <summary>
         /// It will find the shelf where the packageId is located.
