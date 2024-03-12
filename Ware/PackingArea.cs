@@ -9,15 +9,11 @@ namespace Ware
     /// <summary>
     /// Here's where the packages are packed on the pallets before shipment.
     /// </summary>
-    public class PackingArea : IPackingArea
+    public class PackingArea(int maxPackages = 30) : IPackingArea
     {
         private List<Package> packagesOnPallet = new List<Package>();
-        private int maxPackagesPerPallet;
+        private int maxPackagesPerPallet = maxPackages;
 
-        public PackingArea(int maxPackages = 30)
-        {
-            maxPackagesPerPallet = maxPackages;
-        }
 
         /// <summary>
         /// Adds a package to the pallet, if current one is full then it creats a new pallet.
