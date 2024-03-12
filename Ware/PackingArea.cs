@@ -9,7 +9,7 @@ namespace Ware
     /// <summary>
     /// Here's where the packages are packed on the pallets before shipment.
     /// </summary>
-    public class PackingArea
+    public class PackingArea : IPackingArea
     {
         private List<Package> packagesOnPallet = new List<Package>();
         private int maxPackagesPerPallet;
