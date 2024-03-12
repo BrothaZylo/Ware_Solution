@@ -41,10 +41,6 @@ namespace Ware
         /// </summary>
         public void SendFirstPackageToStorage(Storage storageConfiguration)
         {
-            if (receivedPackages.Count == 0)
-            {
-                throw new PackageInvalidException(" No packages to send to the storage: "+ storageConfiguration.ToString);
-            }
 
             if (receivedPackages.Count > 0)
             {
@@ -70,12 +66,6 @@ namespace Ware
         /// </summary>
         public void SendAllPackagesToStorage(Storage storageConfiguration)
         {
-            int pamount = receivedPackages.Count;
-            if (receivedPackages.Count == 0)
-            {
-                throw new PackageInvalidException("No packages to send to the storage."+ storageConfiguration);
-            }
-
             for (int i = receivedPackages.Count - 1; i >= 0; i--)
             {
                 Package package = receivedPackages[i];

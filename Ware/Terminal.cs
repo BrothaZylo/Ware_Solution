@@ -20,6 +20,10 @@ namespace Ware
         /// <param name="packages">A package object</param>
         public void AddPackage(Package packages)
         {
+            if (PackagesToSendOut.Contains(packages))
+            {
+                throw new PackageInvalidException("Package already excist in terminal");
+            }
             PackagesToSendOut.Add(packages);
         }
 
