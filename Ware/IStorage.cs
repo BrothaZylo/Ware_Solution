@@ -8,21 +8,23 @@ namespace Ware
 {
     internal interface IStorage
     {
-        void UnitSpecsPrint();
+        void UnitShelfsPrint();
 
         void Build();
 
-        string PlacePackage(Package package);
+        void PlacePackageAutomatic(Package package);
 
-        string MovePackageById(string packageid);
+        Package? MovePackageById(string packageid);
 
         Package? MovePackage(Package package);
+
         void MovePackageToTerminal(Package package, Terminal terminal);
 
         void GetAllStorageInformationPrint();
-        Dictionary<string, (string, string, double, double, bool)> GetAllStorageInformationAsDictionary();
 
-        string GetStorageNameById(int shelfnumber);
+        Dictionary<string, (Package?, string, double, double, bool)> GetAllStorageInformationAsDictionary();
+
+        string? GetStorageNameById(int shelfnumber);
 
         string FindPackageSectionById(string packageid);
 
@@ -32,6 +34,20 @@ namespace Ware
 
         bool IsSameTypeOfGoods(Package package);
 
-        void AddUnit(string sizeName, int totalUntsAvailable, double maxHeightCm, double maxWidthCm);
+        void AddShelf(string sizeName, int totalUntsAvailable, double maxHeightCm, double maxWidthCm);
+
+        void RemovePackage(string shelfId1, string shelfId2, string shelfId3);
+
+        void RemovePackage(string shelfId1, string shelfId2);
+
+        void RemovePackage(string shelfId);
+
+        void PlacePackage(Package package, string shelfId1, string shelfId2, string shelfId3);
+
+        void PlacePackage(Package package, string shelfId1, string shelfId2);
+
+        void PlacePackage(Package package, string shelfId);
+
+
     }
 }

@@ -69,15 +69,15 @@ namespace Ware
 
                 if (goods == "Dry")
                 {
-                    Dry.AddUnit("Autosized", 3, height + 10, width + 10);
+                    Dry.AddShelf("Autosized", 3, height + 10, width + 10);
                 }
                 if (goods == "Refrigerated")
                 {
-                    Refrigerated.AddUnit("Autosized", 3, height + 10, width + 10);
+                    Refrigerated.AddShelf("Autosized", 3, height + 10, width + 10);
                 }
                 if (goods == "Dangerous")
                 {
-                    Dangerous.AddUnit("Autosized", 3, height + 10, width + 10);
+                    Dangerous.AddShelf("Autosized", 3, height + 10, width + 10);
                 }
             }
         }
@@ -253,13 +253,13 @@ namespace Ware
 
         private void FromDryToTerminal()
         {
-            foreach (KeyValuePair<string, (string, string, double, double, bool)> a in Dry.GetAllStorageInformationAsDictionary())
+            foreach (KeyValuePair<string, (Package?, string, double, double, bool)> a in Dry.GetAllStorageInformationAsDictionary())
             {
                 try
                 {
                     foreach (Package package in simulationPackages)
                     {
-                        if (Dry.IsSameTypeOfGoods(package) && package.PackageId == a.Value.Item1)
+                        if (Dry.IsSameTypeOfGoods(package) && package == a.Value.Item1)
                         {
                             Dry.MovePackageToTerminal(package, terminal);
                             PackageSentToTerminal?.Invoke(this, new PackageEventArgs(package, package.PackageId));
@@ -274,13 +274,13 @@ namespace Ware
         }
         private void FromRefrigiratedToTerminal()
         {
-            foreach (KeyValuePair<string, (string, string, double, double, bool)> a in Refrigerated.GetAllStorageInformationAsDictionary())
+            foreach (KeyValuePair<string, (Package?, string, double, double, bool)> a in Refrigerated.GetAllStorageInformationAsDictionary())
             {
                 try
                 {
                     foreach (Package package in simulationPackages)
                     {
-                        if (Refrigerated.IsSameTypeOfGoods(package) && package.PackageId == a.Value.Item1)
+                        if (Refrigerated.IsSameTypeOfGoods(package) && package == a.Value.Item1)
                         {
                             Refrigerated.MovePackageToTerminal(package, terminal);
                             PackageSentToTerminal?.Invoke(this, new PackageEventArgs(package, package.PackageId));
@@ -295,13 +295,13 @@ namespace Ware
         }
         private void FromDangerousToTerminal()
         {
-            foreach (KeyValuePair<string, (string, string, double, double, bool)> a in Dangerous.GetAllStorageInformationAsDictionary())
+            foreach (KeyValuePair<string, (Package?, string, double, double, bool)> a in Dangerous.GetAllStorageInformationAsDictionary())
             {
                 try
                 {
                     foreach (Package package in simulationPackages)
                     {
-                        if (Dangerous.IsSameTypeOfGoods(package) && package.PackageId == a.Value.Item1)
+                        if (Dangerous.IsSameTypeOfGoods(package) && package == a.Value.Item1)
                         {
                             Dangerous.MovePackageToTerminal(package, terminal);
                             PackageSentToTerminal?.Invoke(this, new PackageEventArgs(package, package.PackageId));

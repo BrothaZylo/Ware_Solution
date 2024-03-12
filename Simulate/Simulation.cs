@@ -4,7 +4,7 @@ using Ware;
 
 
 Storage Refridgerated = new("Refridgerated");
-Refridgerated.AddUnit("Big", 15, 100, 100);
+Refridgerated.AddShelf("Big", 15, 100, 100);
 
 Package package1 = new("Milk", "Refridgerated", 10, 30);
 Package package2 = new("Eggs", "Refridgerated", 10, 30);
@@ -15,7 +15,7 @@ Package package3 = new("Fruit Juice", "Refridgerated", 10, 30);
 
 // Configuring the size of the electronic units
 Storage Electronics = new("Electronics");
-Electronics.AddUnit("Big", 15, 100, 100);
+Electronics.AddShelf("Big", 15, 100, 100);
 
 
 Package package4 = new("Speakers", "Electronics", 10, 30);
@@ -27,7 +27,7 @@ Package package6 = new("Laptop", "Electronics", 10, 30);
 
 // Configuring the size of the Dangerouos goods units
 Storage Dangerous = new("Dangerous");
-Dangerous.AddUnit("Big", 15, 100, 100);
+Dangerous.AddShelf("Big", 15, 100, 100);
 
 Package package7 = new("Propane tank", "Dangerous", 3, 5);
 Package package8 = new("Firework", "Dangerous", 3, 5);
@@ -40,7 +40,7 @@ Package package9 = new("You", "Dangerous", 3, 5);
 
 
 Storage DryGoods = new("Dry");
-DryGoods.AddUnit("Big", 15, 100, 100);
+DryGoods.AddShelf("Big", 15, 100, 100);
 
 
 Package package10 = new("1 tank", "Dry", 3, 5);

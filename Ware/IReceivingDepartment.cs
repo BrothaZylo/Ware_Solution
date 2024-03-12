@@ -12,8 +12,6 @@ namespace Ware
         void SendFirstPackageToStorage(Storage storageConfiguration);
         public void SendAllPackagesToStorage(Storage storageConfiguration);
         void GetAllPackagePrint();
-        string TravelTimeToStorage(Storage storageConfiguration);
-        //List<string> SendPackagesToWarehouse();
         List<Package> GetPackageList();
         List<Package> GetAllPackages();
 

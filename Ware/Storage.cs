@@ -16,9 +16,8 @@ namespace Ware
     {
         private readonly string goodsType = goodsType;
         private readonly List<ShelvesConfig> addShelves = [];
-        private double timeFromReceivingDepartmentToStorage = 0, timeFromStoragetoTerminal = 0;
-        // Goods,(id,sizename,width,height,isEmpty)
-        private readonly Dictionary<string, (string, string, double, double, bool)> yourStorageDict = [];
+        // Goods,(package,sizename,width,height,isEmpty bool)
+        private readonly Dictionary<string, (Package?, string, double, double, bool)> yourStorageDict = [];
 
         /// <summary>
         /// Gets the goodstype of the shelf
@@ -33,13 +32,116 @@ namespace Ware
         /// </summary>
         public void Build()
         {
-            int StorageCounter = 1;
-            foreach(Storage.ShelvesConfig j in addShelves)
+            double StorageCounter = 1.01;
+            double unitCounter = 0;
+            foreach (Storage.ShelvesConfig j in addShelves)
             {
                 for (int k = 0; k < j.TotalUnitsAvailable; k++)
                 {
-                    yourStorageDict.Add(goodsType + "ShelfID: " + StorageCounter, ("PackageID: Empty", "Type of storage: " + j.SizeName, j.MaxWidthCm, j.MaxHeightCm, false));
-                    StorageCounter++;
+                    yourStorageDict.Add(goodsType + "ShelfID: " + Math.Round(StorageCounter, 3), (null , j.SizeName, j.MaxWidthCm, j.MaxHeightCm, false));
+                    StorageCounter+=0.01;
+                }
+                StorageCounter = 1.01;
+                unitCounter += 1;
+                StorageCounter += unitCounter;
+            }
+        }
+
+        /// <summary>
+        /// Places a package in a storage manually
+        /// </summary>
+        /// <param name="package">The package you want to put in the shelf</param>
+        /// <param name="shelfId"> The id of the space you want to place it in</param>
+        public void PlacePackage(Package package, string shelfId)
+        {
+            foreach(KeyValuePair<string, (Package?, string, double, double, bool)> item in yourStorageDict)
+            {
+                if (item.Key == shelfId)
+                {
+                    yourStorageDict[item.Key] = (package, item.Value.Item2, item.Value.Item3, item.Value.Item4, true);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Places a package in a storage manually
+        /// </summary>
+        /// <param name="package">The package you want to put in the shelf</param>
+        /// <param name="shelfId1"> The id of the space you want to place it in</param>
+        /// <param name="shelfId2"> The id of the space you want to place it in</param>
+        public void PlacePackage(Package package, string shelfId1, string shelfId2)
+        {
+            foreach (KeyValuePair<string, (Package?, string, double, double, bool)> item in yourStorageDict)
+            {
+                if (item.Key == shelfId1 || item.Key == shelfId2)
+                {
+                    yourStorageDict[item.Key] = (package, item.Value.Item2, item.Value.Item3, item.Value.Item4, true);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Places a package in a storage manually
+        /// </summary>
+        /// <param name="package">The package you want to put in the shelf</param>
+        /// <param name="shelfId1"> The id of the space you want to place it in</param>
+        /// <param name="shelfId2"> The id of the space you want to place it in</param>
+        /// <param name="shelfId3"> The id of the space you want to place it in</param>
+        public void PlacePackage(Package package, string shelfId1, string shelfId2, string shelfId3)
+        {
+            foreach (KeyValuePair<string, (Package?, string, double, double, bool)> item in yourStorageDict)
+            {
+                if (item.Key == shelfId1 || item.Key == shelfId2 || item.Key == shelfId3)
+                {
+                    yourStorageDict[item.Key] = (package, item.Value.Item2, item.Value.Item3, item.Value.Item4, true);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Removes a packages based on shelf id
+        /// </summary>
+        /// <param name="shelfId">The id of the space you want to remove a package from</param>
+        public void RemovePackage(string shelfId)
+        {
+            foreach (KeyValuePair<string, (Package?, string, double, double, bool)> item in yourStorageDict)
+            {
+                if (item.Key == shelfId)
+                {
+                    yourStorageDict[item.Key] = (null, item.Value.Item2, item.Value.Item3, item.Value.Item4, true);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Removes a packages based on shelf id
+        /// </summary>
+        /// <param name="shelfId1">The id of the space you want to remove a package from</param>
+        /// <param name="shelfId2">The id of the space you want to remove a package from</param>
+        public void RemovePackage(string shelfId1, string shelfId2)
+        {
+            foreach (KeyValuePair<string, (Package?, string, double, double, bool)> item in yourStorageDict)
+            {
+                if (item.Key == shelfId1 || item.Key == shelfId2)
+                {
+                    yourStorageDict[item.Key] = (null, item.Value.Item2, item.Value.Item3, item.Value.Item4, true);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Removes a packages based on shelf id
+        /// </summary>
+        /// <param name="shelfId1">The id of the space you want to remove a package from</param>
+        /// <param name="shelfId2">The id of the space you want to remove a package from</param>
+        /// <param name="shelfId3">The id of the space you want to remove a package from</param>
+        public void RemovePackage(string shelfId1, string shelfId2, string shelfId3)
+        {
+            foreach (KeyValuePair<string, (Package?, string, double, double, bool)> item in yourStorageDict)
+            {
+                if (item.Key == shelfId1 || item.Key == shelfId2 || item.Key == shelfId3)
+                {
+                    yourStorageDict[item.Key] = (null, item.Value.Item2, item.Value.Item3, item.Value.Item4, true);
                 }
             }
         }
@@ -49,30 +151,29 @@ namespace Ware
         /// </summary>
         /// <param name="package">A Package</param>
         /// <returns>An option to know if its in storage or got placed in the storage</returns>
-        public string? PlacePackage(Package package)
+        public void PlacePackageAutomatic(Package package)
         {
             double packagesizew = package.Width;
             double packagesizeh = package.Height;
-            foreach (KeyValuePair<string, (string, string, double, double, bool)> i in yourStorageDict)
+            foreach (KeyValuePair<string, (Package?, string, double, double, bool)> i in yourStorageDict)
             {
                 if (goodsType == package.Goods)
                 {
-                    if (i.Value.Item1 == package.PackageId)
+                    if (i.Value.Item1 == package)
                     {
-                        throw new PackageInvalidException("No matching Id found: " + package.PackageId);
-                        break;
+                        throw new PackageInvalidException("No matching Id found: " + package);
                     }
                     if (i.Value.Item5 == false)
                     {
                         if (packagesizew < i.Value.Item3 && packagesizeh < i.Value.Item4)
                         {
-                            yourStorageDict[i.Key] = (package.PackageId, i.Value.Item2, i.Value.Item3, i.Value.Item4, true);
-                            return "Package was placed in: " + i.Key;
+                            yourStorageDict[i.Key] = (package, i.Value.Item2, i.Value.Item3, i.Value.Item4, true);
+                            // blir plassert i i.key // add event , add excep
+                            break;
                         }
                     }
                 }
             }
-            return null;
         }
 
         /// <summary>
@@ -80,15 +181,21 @@ namespace Ware
         /// </summary>
         /// <param name="packageId">A Package</param>
         /// <returns>it will return the packageId if it finds the packackage, else it will return null</returns>
-        public string? MovePackageById(string packageId)
+        public Package? MovePackageById(string packageId)
         {
-            foreach (KeyValuePair<string, (string, string, double, double, bool)> i in yourStorageDict)
+            Package? tmp = null;
+            foreach (KeyValuePair<string, (Package?, string, double, double, bool)> i in yourStorageDict)
             {
-                if (i.Value.Item1 == packageId)
+                if (i.Value.Item1 is not null && i.Value.Item1.PackageId == packageId)
                 {
-                    yourStorageDict[i.Key] = ("PackageID: Empty", i.Value.Item2, i.Value.Item3, i.Value.Item4, false);
-                    return packageId;
+                    yourStorageDict[i.Key] = (null, i.Value.Item2, i.Value.Item3, i.Value.Item4, false);
+                    //add event
+                    tmp = i.Value.Item1;
                 }
+            }
+            if(tmp != null)
+            {
+                return tmp;
             }
             throw new PackageInvalidException(" Package with ID not found: "+packageId);
         }
@@ -100,16 +207,23 @@ namespace Ware
         /// <returns>if it finds the package it will return the package, else it will return a null</returns>
         public Package? MovePackage(Package package)
         {
-            foreach(KeyValuePair<string, (string, string, double, double, bool)> i in yourStorageDict)
+            int foundPackageCounter = 0;
+            foreach(KeyValuePair<string, (Package?, string, double, double, bool)> i in yourStorageDict)
             {
-                if (i.Value.Item1 == package.PackageId)
+                if (i.Value.Item1 == package)
                 {
-                    yourStorageDict[i.Key] = ("PackageID: Empty", i.Value.Item2, i.Value.Item3, i.Value.Item4, false);
-                    return package;
+                    yourStorageDict[i.Key] = (null, i.Value.Item2, i.Value.Item3, i.Value.Item4, false);
+                    foundPackageCounter++;
                 }
             }
+            if (foundPackageCounter != 0)
+            {
+                return package;
+            }
+
             throw new PackageInvalidException(" Package with ID not found: " + package.Name);
         }
+
         /// <summary>
         /// Moves the package from the shelf and returns it in package format.
         /// </summary>
@@ -118,14 +232,20 @@ namespace Ware
         /// <returns>if it finds the package it will return the package, else it will return null</returns>
         public void MovePackageToTerminal(Package package, Terminal terminal)
         {
-            foreach (KeyValuePair<string, (string, string, double, double, bool)> i in yourStorageDict)
+            Package? tmp = null;
+            foreach (KeyValuePair<string, (Package?, string, double, double, bool)> i in yourStorageDict)
             {
-                if (i.Value.Item1 == package.PackageId)
+                if (i.Value.Item1 == package)
                 {
-                    yourStorageDict[i.Key] = ("PackageID: Empty", i.Value.Item2, i.Value.Item3, i.Value.Item4, false);
-                    terminal.AddPackage(package);
+                    yourStorageDict[i.Key] = (null, i.Value.Item2, i.Value.Item3, i.Value.Item4, false);
+                    tmp = package;
                 }
             }
+            if (tmp != null)
+            {
+                terminal.AddPackage(tmp);
+            }
+            // add excep, event
         }
 
 
@@ -134,16 +254,24 @@ namespace Ware
         /// </summary>
         public void GetAllStorageInformationPrint()
         {
-            foreach(KeyValuePair<string, (string, string, double, double, bool)> i in yourStorageDict)
+            foreach(KeyValuePair<string, (Package?, string, double, double, bool)> i in yourStorageDict)
             {
-                Console.WriteLine(i);
+                if(i.Value.Item1 == null)
+                {
+                    Console.WriteLine("["+i.Key + " | (Package ID: " + "Empty ) | " + "(Size: "+i.Value.Item2 + ", Width: " + i.Value.Item3 + "cm, Height: " + i.Value.Item4+"cm)]");
+                }
+                else
+                {
+                    Console.WriteLine("["+i.Key + " | (Package ID: " + i.Value.Item1.PackageId + ") | " + "(Size: " + i.Value.Item2 + ", Width: " + i.Value.Item3 + "cm, Height: " + i.Value.Item4+"cm)]");
+                }
             }
         }
+
         /// <summary>
         /// Returns the warehouse dictionary 
         /// </summary>
         /// <returns>warehouse dictionary </returns>
-        public Dictionary<string, (string, string, double, double, bool)> GetAllStorageInformationAsDictionary()
+        public Dictionary<string, (Package?, string, double, double, bool)> GetAllStorageInformationAsDictionary()
         {
             return yourStorageDict;
         }
@@ -153,9 +281,9 @@ namespace Ware
         /// </summary>
         /// <param name="shelfNumber">ShelfID number</param>
         /// <returns>Returns the shelf number else, it will return Does not exist</returns>
-        public string GetStorageNameById(int shelfNumber)
+        public string? GetStorageNameById(int shelfNumber)
         {
-            foreach(KeyValuePair<string, (string, string, double, double, bool)> i in yourStorageDict)
+            foreach(KeyValuePair<string, (Package?, string, double, double, bool)> i in yourStorageDict)
             {
                 string[] keysplit = i.Key.Split(':');
                 string key1 = keysplit[0];
@@ -165,7 +293,8 @@ namespace Ware
                     return yournumber;
                 }
             }
-            return "Does not exist";
+            //add excep
+            return null;
         }
 
         /// <summary>
@@ -176,11 +305,12 @@ namespace Ware
         public string FindPackageSectionById(string packageId)
         {
             string item = "";
-            foreach(KeyValuePair<string, (string, string, double, double, bool)> i in yourStorageDict)
+            foreach(KeyValuePair<string, (Package?, string, double, double, bool)> i in yourStorageDict)
             {
-                if (i.Value.Item1 == packageId)
+                if (i.Value.Item1 is not null && i.Value.Item1.PackageId == packageId)
                 {
                     item += i;
+                    return item;
                 }
             }
             throw new PackageInvalidException(" Package with ID not found: " + packageId);
@@ -193,12 +323,11 @@ namespace Ware
         /// <returns>The shelf its placed at, else will return Does not exist</returns>
         public string FindPackageById(string packageId)
         {
-            string item = "Does not exist";
-            foreach (KeyValuePair<string, (string, string, double, double, bool)> i in yourStorageDict)
+            foreach (KeyValuePair<string, (Package?, string, double, double, bool)> item in yourStorageDict)
             {
-                if (i.Value.Item1 == packageId)
+                if (item.Value.Item1 is not null && item.Value.Item1.PackageId == packageId)
                 {
-                    return i.Key;
+                    return item.Key;
                 }
             }
             throw new PackageInvalidException(" Package with ID not found: " + packageId);
@@ -207,13 +336,13 @@ namespace Ware
         /// <summary>
         /// It checks if the spot is taken by another package
         /// </summary>
-        /// <param name="storageName">Name of storage</param>
+        /// <param name="shelfId">id of the space you want to check</param>
         /// <returns>returns true if taken, else false</returns>
-        public bool IsSpotTaken(string storageName)
+        public bool IsSpotTaken(string shelfId)
         {
-            foreach(KeyValuePair<string, (string, string, double, double, bool)> i in yourStorageDict)
+            foreach(KeyValuePair<string, (Package?, string, double, double, bool)> i in yourStorageDict)
             {
-                if (i.Key == storageName)
+                if (i.Key == shelfId)
                 {
                     return i.Value.Item5;
                 }
@@ -228,7 +357,7 @@ namespace Ware
         /// <returns>returns true if package type is the same as the one in the storage unit, else false</returns>
         public bool IsSameTypeOfGoods(Package package)
         {
-            foreach (KeyValuePair<string, (string, string, double, double, bool)> i in yourStorageDict)
+            foreach (KeyValuePair<string, (Package?, string, double, double, bool)> i in yourStorageDict)
             {
                 string[] keysplit = i.Key.Split('S');
                 string key1 = keysplit[0];
@@ -238,45 +367,6 @@ namespace Ware
                 }
             }
             return false;
-        }
-
-        /// <summary>
-        /// Gets the time it takes from ReceivingDeportment to Storage
-        /// </summary>
-        public double TimeReceivingToStorageMinutes
-        {
-            get { return timeFromReceivingDepartmentToStorage / 60; }
-            set { timeFromReceivingDepartmentToStorage = value; }
-        }
-
-        /// <summary>
-        /// Finds the time it takes from storage to terminal based on config.
-        /// </summary>
-        /// <returns>x amount of time, else 0</returns>
-        public double TimeStorageToTerminalMinutes
-        {
-            get { return timeFromStoragetoTerminal / 60; }
-            set { timeFromStoragetoTerminal = value; }
-        }
-
-        /// <summary>
-        /// It will find the time from Delivery To storageunit based from the config and converts it into seconds
-        /// </summary>
-        /// <returns>Get Time Delivery To Storage Seconds</returns>
-        public double TimeDeliveryToStorageSeconds
-        {
-            get { return timeFromReceivingDepartmentToStorage; }
-            set { timeFromReceivingDepartmentToStorage = value; }
-        }
-
-        /// <summary>
-        /// Finds the time it takes from storage to terminal based on config and converts it into seconds.
-        /// </summary>
-        /// <returns>Time Storage To Terminal Seconds</returns>
-        public double TimeStorageToTerminalSeconds
-        {
-            get { return timeFromStoragetoTerminal; }
-            set { timeFromStoragetoTerminal = value; }
         }
 
         /// <summary>
@@ -308,7 +398,7 @@ namespace Ware
         /// <param name="totalUntsAvailable">Total units/shelves </param>
         /// <param name="maxHeightCm">Height of the unit/Shelf</param>
         /// <param name="maxWidthCm">Width if the unit/shelf</param>
-        public void AddUnit(string sizeName, int totalUntsAvailable, double maxHeightCm, double maxWidthCm)
+        public void AddShelf(string sizeName, int totalUntsAvailable, double maxHeightCm, double maxWidthCm)
         {
             addShelves.Add(new() { SizeName = sizeName, TotalUnitsAvailable = totalUntsAvailable, MaxHeightCm = maxHeightCm, MaxWidthCm = maxWidthCm });
         }
@@ -316,7 +406,7 @@ namespace Ware
         /// <summary>
         /// Prints the diffrent Size configs for each size created.
         /// </summary>
-        public void UnitSpecsPrint()
+        public void UnitShelfsPrint()
         {
             foreach (Storage.ShelvesConfig Item in addShelves)
             {
