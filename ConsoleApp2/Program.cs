@@ -42,7 +42,11 @@ namespace ConsoleApp2
 
             storage.Build();
             storage.GetAllStorageInformationPrint();
+
+
             storage.PlacePackage(package6, "1,01", "1,02");
+
+
             storage.PlacePackageAutomatic(package7);
             Console.WriteLine();
             storage.GetAllStorageInformationPrint();
@@ -50,6 +54,19 @@ namespace ConsoleApp2
             storage.RemovePackage(package6);
             storage.GetAllStorageInformationPrint();
 
+            //----------------------------------------------------------//
+            //----------------------Access Level------------------------//
+            //----------------------------------------------------------//
+
+            Person karl = new("Karl Oogus", 45,CrewList.AccessLevel.EMPLOYEE);
+            Equipment forklift = new("forklift", 2);
+            Equipment highvaluegoods = new("High Value Goods Door", 1);
+            forklift.AddAccessLevel(CrewList.AccessLevel.CEO);
+
+            forklift.GetAccessLevelPrint("forklift");
+            highvaluegoods.AddAccessLevel(CrewList.AccessLevel.EMPLOYEE);
+            bool x = forklift.HasAccess(karl);
+            Console.WriteLine(x);
 
             //----------------------------------------------------------//
             //-----------------------Simulation-------------------------//

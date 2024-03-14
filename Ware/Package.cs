@@ -6,16 +6,31 @@ using System.Xml.Linq;
 namespace Ware
 {
     /// <summary>
-    /// Create a package
+    /// Creating packages
     /// </summary>
-    /// <param name="packageName">Name of the package</param>
-    /// <param name="goodsType">Package goods type</param>
-    /// <param name="packageHeightCm">height of the package in cm</param>
-    /// <param name="packageWidthCm">width of the package i cm.</param>
-    public class Package(string packageName = "Undefined", string goodsType = "Undefined", double packageHeightCm = 0, double packageWidthCm = 0) : IPackage
+    public class Package : IPackage
     {
-        private string packageId = GenerateId(), packageName = packageName, goodsType = goodsType;
-        private double packageHeightCm = packageHeightCm, packageWidthCm = packageWidthCm;
+        private string name, goods;
+        private double heightCm, widthCm;
+        string packageId = GenerateId();
+        /// <summary>
+        /// Create a package
+        /// </summary>
+        /// <param name="packageName">Name of the package</param>
+        /// <param name="goodsType">Package goods type</param>
+        /// <param name="packageHeightCm">height of the package in cm</param>
+        /// <param name="packageWidthCm">width of the package in cm.</param>
+        public Package(string packageName = "Undefined", string goodsType = "Undefined", double packageHeightCm = 1, double packageWidthCm = 1)
+        {
+            name = packageName;
+            goods = goodsType;
+            if(packageHeightCm < 0 || packageWidthCm < 0)
+            {
+                throw new NegativeNumberException();
+            }
+            heightCm = packageHeightCm;
+            widthCm = packageWidthCm;
+        }
 
         /// <summary>
         /// Generates an ID for the package
@@ -50,8 +65,8 @@ namespace Ware
         /// <returns>name</returns>
         public string Name
         {
-            get { return packageName; }
-            set { packageName = value; }
+            get { return name; }
+            set { name = value; }
         }
 
         /// <summary>
@@ -60,8 +75,8 @@ namespace Ware
         /// <returns>goods</returns>
         public string Goods
         {
-            get { return goodsType; }
-            set { goodsType = value; }
+            get { return goods; }
+            set { goods = value; }
         }
 
         /// <summary>
@@ -70,8 +85,8 @@ namespace Ware
         /// <returns>width</returns>
         public double Width
         {
-            get { return packageWidthCm; }
-            set { packageWidthCm = value; }
+            get { return widthCm; }
+            set { widthCm = value; }
         }
 
         /// <summary>
@@ -80,10 +95,9 @@ namespace Ware
         /// <returns>height</returns>
         public double Height
         {
-            get { return packageHeightCm; }
-            set { packageHeightCm = value; }
+            get { return heightCm; }
+            set { heightCm = value; }
         }
 
     }
-
 }
