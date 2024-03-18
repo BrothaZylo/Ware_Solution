@@ -14,18 +14,15 @@ namespace Ware
     /// <param name="goodsType">This will be the name of the storage unit, and what type of goods can be placed in this unit</param>
     public class Storage(string goodsType = "Undefined") : IStorage
     {
-        private readonly string goodsType = goodsType;
         private readonly List<ShelvesConfig> addShelves = [];
         // Goods,(package,sizename,width,height,isEmpty bool)
         private readonly Dictionary<string, (Package?, string, double, double, bool)> yourStorageDict = [];
+        private string goodsType = goodsType;
+        private bool northAccess = true;
+        private bool eastAccess = true;
+        private bool southAccess = true;
+        private bool westAccess = true;
 
-        /// <summary>
-        /// Gets the goodstype of the shelf
-        /// </summary>
-        public string GoodsType
-        {
-            get { return goodsType; }
-        }
 
         /// <summary>
         /// Creates the Storageunit based on instructions from the config and constructor.
@@ -405,6 +402,67 @@ namespace Ware
                 }
             }
             return false;
+        }
+
+
+        /// <summary>
+        /// Sets the directions of accesspoint to the storage. True if can access.
+        /// </summary>
+        /// <param name="north">Bool</param>
+        /// <param name="east">Bool</param>
+        /// <param name="south">Bool</param>
+        /// <param name="west">Bool</param>
+        public void SetAccessDirection(bool north, bool east, bool south, bool west)
+        {
+            northAccess = north;
+            southAccess = south;
+            westAccess = west;
+            eastAccess = east;
+        }
+
+        /// <summary>
+        /// Check if you can access the storage from the north side.
+        /// </summary>
+        public bool NorthAccess
+        {
+            get { return northAccess; }
+            set { northAccess = value; }
+        }
+
+        /// <summary>
+        /// Check if you can access the storage from the south side.
+        /// </summary>
+        public bool SouthAccess
+        {
+            get { return southAccess; }
+            set { southAccess = value; }
+        }
+
+        /// <summary>
+        /// Check if you can access the storage from the east side
+        /// </summary>
+        public bool EastAccess
+        {
+            get { return eastAccess; }
+            set { eastAccess = value; }
+        }
+
+        /// <summary>
+        /// Check if you can access the storage from the west side
+        /// </summary>
+        public bool WestAccess
+        {
+            get { return westAccess; }
+            set { westAccess = value; }
+        }
+
+        /// <summary>
+        /// Gets the goodstype of the shelf
+        /// </summary>
+        public string GoodsType
+        {
+            get { return goodsType; }
+            set { goodsType = value; }
         }
 
         /// <summary>
