@@ -14,7 +14,7 @@ namespace Ware
     /// <param name="goodsType">This will be the name of the storage unit, and what type of goods can be placed in this unit</param>
     public class Storage(string goodsType = "Undefined") : IStorage
     {
-        private readonly List<ShelvesConfig> addShelves = [];
+        private readonly List<ShelvesAdd> addShelves = [];
         // Goods,(package,sizename,width,height,isEmpty bool)
         private readonly Dictionary<string, (Package?, string, double, double, bool)> yourStorageDict = [];
         private string goodsType = goodsType;
@@ -31,7 +31,7 @@ namespace Ware
         {
             double StorageCounter = 1.01;
             double unitCounter = 0;
-            foreach (Storage.ShelvesConfig j in addShelves)
+            foreach (Storage.ShelvesAdd j in addShelves)
             {
                 for (int k = 0; k < j.TotalUnitsAvailable; k++)
                 {
@@ -406,7 +406,7 @@ namespace Ware
 
 
         /// <summary>
-        /// Sets the directions of accesspoint to the storage. True if can access.
+        /// Sets the directions of accesspoint to the storage collectivly. True if can access, else false.
         /// </summary>
         /// <param name="north">Bool</param>
         /// <param name="east">Bool</param>
@@ -468,7 +468,7 @@ namespace Ware
         /// <summary>
         /// Configures diffrent sizes that a complete Warehouse storageunit contains.
         /// </summary>
-        private class ShelvesConfig
+        private class ShelvesAdd
         {
             /// <summary>
             /// Name of the size for x amount of units
@@ -504,7 +504,7 @@ namespace Ware
         /// </summary>
         public void UnitShelfsPrint()
         {
-            foreach (Storage.ShelvesConfig Item in addShelves)
+            foreach (Storage.ShelvesAdd Item in addShelves)
             {
                 Console.WriteLine("StorageName: " + Item.SizeName + " TotalUnits: " + Item.TotalUnitsAvailable + " Max Length CM: " + Item.MaxHeightCm + " Max width CM: " + Item.MaxWidthCm);
             }
