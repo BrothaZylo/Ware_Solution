@@ -348,6 +348,22 @@ namespace Ware
             }
             throw new PackageInvalidException(" Package with ID not found: " + packageId);
         }
+        /// <summary>
+        /// Finds the package location by using the package id
+        /// </summary>
+        /// <param name="packageId">id of the package</param>
+        /// <returns>Which shelf it is in,the package and the size of the shelf</returns>
+        public Package? FindPackage(string packageId)
+        {
+            foreach (KeyValuePair<string, (Package?, string, double, double, bool)> item in yourStorageDict)
+            {
+                if (item.Value.Item1 is not null && item.Value.Item1.PackageId == packageId)
+                {
+                    return item.Value.Item1;
+                }
+            }
+            return null; 
+        }
 
         /// <summary>
         /// It checks if the spot is taken by another package

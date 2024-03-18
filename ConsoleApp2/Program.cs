@@ -39,7 +39,22 @@ namespace ConsoleApp2
             storage.AddShelf("Big", 11, 100, 100);
             storage.AddShelf("Tiny", 4, 33, 33);
             storage.AddShelf("Mid", 2, 63, 63);
+            Storage storage2 = new(dry);
+            storage2.AddShelf("Big", 11, 100, 100);
+            storage2.AddShelf("Tiny", 4, 33, 33);
+            storage2.AddShelf("Mid", 2, 63, 63);
+            storage.Build();
+            storage2.Build();
 
+            storage.PlacePackageAutomatic(package6);
+            storage.PlacePackageAutomatic(package7);
+
+            storage2.PlacePackageAutomatic(package1);
+            storage2.PlacePackageAutomatic(package2);
+
+
+
+            /*
             storage.Build();
             storage.GetAllStorageInformationPrint();
             storage.PlacePackage(package6, "1,01", "1,02");
@@ -48,7 +63,17 @@ namespace ConsoleApp2
             storage.GetAllStorageInformationPrint();
             Console.WriteLine();
             storage.RemovePackage(package6);
-            storage.GetAllStorageInformationPrint();
+            storage.GetAllStorageInformationPrint();*/
+
+            Aisle reol = new Aisle("Refri");
+
+            reol.AddStorage(storage);
+            reol.AddStorage(storage2);
+
+
+            reol.GetPackagesInAislesPrint();
+            //reol.GetPackagesInAislesPrint();
+            Console.WriteLine(reol.GetPackageFromAisle(package2));
 
 
             //----------------------------------------------------------//
