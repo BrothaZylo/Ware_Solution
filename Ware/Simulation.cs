@@ -37,17 +37,7 @@ namespace Ware
         // Raise the event
 
 
-        
-        public delegate void PackageReceivedHandler(object o, PackageEventArgs args);
-        public event PackageReceivedHandler PackageReceieved;
 
-
-
-        public delegate void PackageSentToTerminalHandler(object o, PackageEventArgs args);
-        public event PackageSentToTerminalHandler PackageSentToTerminal;
-
-        public delegate void PackageSentAwayHandler(object o, PackageEventArgs args);
-        public event PackageSentAwayHandler PackageSentAway;
 
                
 
@@ -126,7 +116,6 @@ namespace Ware
                     if (package.Goods == "Dry")
                     {
                         receiving.AddPackage(package);
-                        receiving.PackageAdded += OnPackageReceieved;
                     }
                 }
                 return;
@@ -139,7 +128,6 @@ namespace Ware
                     if (package.Goods == "Dangerous")
                     {
                         receiving.AddPackage(package);
-                        receiving.PackageAdded += OnPackageReceieved;
                     }
                 }
                 return;
@@ -152,7 +140,6 @@ namespace Ware
                     if (package.Goods == "Refrigirated")
                     {
                         receiving.AddPackage(package);
-                        receiving.PackageAdded += OnPackageReceieved;
                     }
                 }
                 return;
@@ -260,7 +247,6 @@ namespace Ware
                         if (Dry.IsSameTypeOfGoods(package) && package == a.Value.Item1)
                         {
                             Dry.MovePackageToTerminal(package, terminal);
-                            PackageSentToTerminal?.Invoke(this, new PackageEventArgs(package, package.PackageId));
                         }
                     }
                 }
@@ -281,7 +267,6 @@ namespace Ware
                         if (Refrigerated.IsSameTypeOfGoods(package) && package == a.Value.Item1)
                         {
                             Refrigerated.MovePackageToTerminal(package, terminal);
-                            PackageSentToTerminal?.Invoke(this, new PackageEventArgs(package, package.PackageId));
                         }
                     }
                 }
@@ -302,7 +287,6 @@ namespace Ware
                         if (Dangerous.IsSameTypeOfGoods(package) && package == a.Value.Item1)
                         {
                             Dangerous.MovePackageToTerminal(package, terminal);
-                            PackageSentToTerminal?.Invoke(this, new PackageEventArgs(package, package.PackageId));
                         }
                     }
                 }
@@ -357,7 +341,6 @@ namespace Ware
         private void FromTerminalAndAway()
         {
             terminal.SendAllPackages();
-            PackageSentAway?.Invoke(this, new PackageEventArgs());
         }
 
 

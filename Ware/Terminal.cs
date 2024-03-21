@@ -34,7 +34,7 @@ namespace Ware
             }
             PackagesToSendOut.Add(packages);
 
-            PackageAdded?.Invoke(this, new PackageEventArgs(packages));
+            PackageAdded?.Invoke(packages, new PackageEventArgs(packages));
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace Ware
                 if (PackagesToSendOut.Contains(package))
                 {
                     PackagesToSendOut.Remove(p);
-                    PackageSent?.Invoke(this, new PackageEventArgs(package));
+                    PackageSent?.Invoke(p, new PackageEventArgs(package));
                     break;
                 }
             }
@@ -96,10 +96,8 @@ namespace Ware
             while(PackagesToSendOutQueue.Count > 0)
             {
                 Package package = PackagesToSendOutQueue.Dequeue();
-                PackageSent?.Invoke(this, new PackageEventArgs(package));
+                PackageSent?.Invoke(package, new PackageEventArgs(package));
             }
-            AllPackagesSent?.Invoke(this, EventArgs.Empty);
-            
         }
 
 

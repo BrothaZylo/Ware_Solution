@@ -23,6 +23,9 @@ namespace Ware
         private bool southAccess = true;
         private bool westAccess = true;
 
+        public event EventHandler<PackageEventArgs> PackageAdded;
+        public event EventHandler<PackageEventArgs> PackageSent;
+
 
         /// <summary>
         /// Creates the Storageunit based on instructions from the config and constructor.
