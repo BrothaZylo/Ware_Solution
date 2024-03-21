@@ -11,7 +11,7 @@ namespace Ware
     /// </summary>
     public class Pallet(int maxPackages = 30) : IPallet
     {
-        private List<Package> packagesOnPallet = new List<Package>();
+        public List<Package> packagesOnPallet = new List<Package>();
         private int maxPackagesPerPallet = maxPackages;
 
 

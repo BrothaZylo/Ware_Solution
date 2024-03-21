@@ -46,29 +46,16 @@ namespace ConsoleApp2
             storage2.AddShelf("Mid", 2, 63, 63);
             storage.Build();
             storage2.Build();
-            /*
+
             storage.PlacePackageAutomatic(package6);
             storage.PlacePackageAutomatic(package7);
 
             storage2.PlacePackageAutomatic(package1);
             storage2.PlacePackageAutomatic(package2);
 
-            */
-
-            /*
-            storage.Build();
-            storage.GetAllStorageInformationPrint();
-
-
-            storage.PlacePackage(package6, "1,01", "1,02");
-
-
-            storage.PlacePackageAutomatic(package7);
-            Console.WriteLine();
             storage.GetAllStorageInformationPrint();
             Console.WriteLine();
-            storage.RemovePackage(package6);
-            storage.GetAllStorageInformationPrint();*/
+            storage2.GetAllStorageInformationPrint();
 
             Aisle reol = new Aisle("Refri");
 
@@ -79,11 +66,11 @@ namespace ConsoleApp2
             reol.GetPackagesInAislesPrint();
             //reol.GetPackagesInAislesPrint();
             Console.WriteLine(reol.GetPackageFromAisle(package2));
-
+  
             //----------------------------------------------------------//
             //----------------------Access Level------------------------//
             //----------------------------------------------------------//
-
+            /*
             Person karl = new("Karl Oogus", 45, CrewList.AccessLevel.EMPLOYEE);
             Equipment forklift = new("forklift", 2);
             Equipment highvaluegoods = new("High Value Goods Door", 1);
@@ -93,6 +80,7 @@ namespace ConsoleApp2
             highvaluegoods.AddAccessLevel(CrewList.AccessLevel.EMPLOYEE);
             bool x = forklift.HasAccess(karl);
             Console.WriteLine(x);
+            */
 
             //----------------------------------------------------------//
             //-----------------------Simulation-------------------------//
@@ -109,9 +97,7 @@ namespace ConsoleApp2
             sim.AddPackage(package6);
             sim.AddPackage(package7);
             sim.Run();
-            */
 
-           
             ReceivingDepartment receivingDepartment = new ReceivingDepartment();
 
             receivingDepartment.PackageAdded += ReceivingDepartmentAddPackage;
@@ -133,7 +119,7 @@ namespace ConsoleApp2
         {
             Console.WriteLine($"All Packages Sent from recevingdepartment to Storage");
         }
-
+        */
             /* Terminal event handler 
                         Terminal terminal = new Terminal();
                         terminal.PackageAdded += TerminalPackageAdded;
@@ -170,5 +156,7 @@ namespace ConsoleApp2
 
         }
     }
+
+}
 
 
