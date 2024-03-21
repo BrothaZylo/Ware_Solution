@@ -126,7 +126,7 @@ namespace Ware
                     if (package.Goods == "Dry")
                     {
                         receiving.AddPackage(package);
-                        receiving.PackageAddedToReceivingDepartment += OnPackageReceieved;
+                        receiving.PackageAdded += OnPackageReceieved;
                     }
                 }
                 return;
@@ -139,7 +139,7 @@ namespace Ware
                     if (package.Goods == "Dangerous")
                     {
                         receiving.AddPackage(package);
-                        receiving.PackageAddedToReceivingDepartment += OnPackageReceieved;
+                        receiving.PackageAdded += OnPackageReceieved;
                     }
                 }
                 return;
@@ -152,7 +152,7 @@ namespace Ware
                     if (package.Goods == "Refrigirated")
                     {
                         receiving.AddPackage(package);
-                        receiving.PackageAddedToReceivingDepartment += OnPackageReceieved;
+                        receiving.PackageAdded += OnPackageReceieved;
                     }
                 }
                 return;
@@ -237,8 +237,6 @@ namespace Ware
         {
             try
             {
-                receiving.AllPackagesSentToStorage += OnAllPackagesSentToStorage;
-
                 receiving.SendAllPackagesToStorage(Dry);
                 receiving.SendAllPackagesToStorage(Dangerous);
                 receiving.SendAllPackagesToStorage(Refrigerated);

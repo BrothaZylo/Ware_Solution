@@ -1,4 +1,5 @@
 // See https://aka.ms/new-console-template for more information
+using System.Runtime.CompilerServices;
 using Ware;
 namespace ConsoleApp2
 {
@@ -45,14 +46,14 @@ namespace ConsoleApp2
             storage2.AddShelf("Mid", 2, 63, 63);
             storage.Build();
             storage2.Build();
-
+            /*
             storage.PlacePackageAutomatic(package6);
             storage.PlacePackageAutomatic(package7);
 
             storage2.PlacePackageAutomatic(package1);
             storage2.PlacePackageAutomatic(package2);
 
-
+            */
 
             /*
             storage.Build();
@@ -83,7 +84,7 @@ namespace ConsoleApp2
             //----------------------Access Level------------------------//
             //----------------------------------------------------------//
 
-            Person karl = new("Karl Oogus", 45,CrewList.AccessLevel.EMPLOYEE);
+            Person karl = new("Karl Oogus", 45, CrewList.AccessLevel.EMPLOYEE);
             Equipment forklift = new("forklift", 2);
             Equipment highvaluegoods = new("High Value Goods Door", 1);
             forklift.AddAccessLevel(CrewList.AccessLevel.CEO);
@@ -110,20 +111,64 @@ namespace ConsoleApp2
             sim.Run();
             */
 
+           
+            ReceivingDepartment receivingDepartment = new ReceivingDepartment();
+
+            receivingDepartment.PackageAdded += ReceivingDepartmentAddPackage;
+            receivingDepartment.AllPackagesSentToStorage += ReceivingDeapartmentSendAllPackages;
+
+
+            receivingDepartment.AddPackage(package1);
+            receivingDepartment.AddPackage(package2);
+
+            receivingDepartment.SendAllPackagesToStorage(storage2);
+
+        }
+        private static void ReceivingDepartmentAddPackage(object sender, PackageEventArgs e)
+        {
+            Console.WriteLine($"Package was added to Receving department: {e.Package.Name}");
         }
 
+        private static void ReceivingDeapartmentSendAllPackages(object sender, EventArgs e)
+        {
+            Console.WriteLine($"All Packages Sent from recevingdepartment to Storage");
+        }
+
+            /* Terminal event handler 
+                        Terminal terminal = new Terminal();
+                        terminal.PackageAdded += TerminalPackageAdded;
+                        terminal.PackageSent += TerminalPackageSent;
+                        terminal.AllPackagesSent += TerminalAllPackagesSent;
+
+                        terminal.AddPackage(package1);
+                        terminal.AddPackage(package2);
+                        terminal.AddPackage(package3);
+                        terminal.AddPackage(package4);
+
+                        terminal.SendAllPackages();
+
+                    }
+                    private static void TerminalPackageAdded(object sender, PackageEventArgs e)
+                    {
+                        Console.WriteLine($"Package was added to Terminal: {e.Package.Name}");
+                    }
+
+                    private static void TerminalPackageSent(object sender, PackageEventArgs e)
+                    {
+                        Console.WriteLine($"Package was sent from Terminal: {e.Package.Name}");
+                    }
+
+                    private static void TerminalAllPackagesSent(object sender, EventArgs e)
+                    {
+                        Console.WriteLine("All packages sent from Terminal.");
+                    }
+
+            */
 
 
 
 
-
-
-
-
-
-
-
-
+        }
     }
 
-}
+

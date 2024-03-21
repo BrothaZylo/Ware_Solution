@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,6 +15,13 @@ namespace Ware
         public List<Package> PackagesToSendOut = new List<Package>();
         public Queue<Package> PackagesToSendOutQueue = new Queue<Package>();
 
+
+        // EVents
+        public event EventHandler<PackageEventArgs> PackageAdded;
+        public event EventHandler<PackageEventArgs> PackageSent;
+        public event EventHandler AllPackagesSent;
+
+
         /// <summary>
         /// This will add a package to a dictionary which are the packages at the terminal
         /// </summary>
@@ -25,6 +33,8 @@ namespace Ware
                 throw new PackageInvalidException("Package already excist in terminal");
             }
             PackagesToSendOut.Add(packages);
+
+            PackageAdded?.Invoke(this, new PackageEventArgs(packages));
         }
 
         /// <summary>
@@ -59,6 +69,7 @@ namespace Ware
                 if (PackagesToSendOut.Contains(package))
                 {
                     PackagesToSendOut.Remove(p);
+                    PackageSent?.Invoke(this, new PackageEventArgs(package));
                     break;
                 }
             }
@@ -84,8 +95,10 @@ namespace Ware
             AddToQueue();
             while(PackagesToSendOutQueue.Count > 0)
             {
-                PackagesToSendOutQueue.Dequeue();
+                Package package = PackagesToSendOutQueue.Dequeue();
+                PackageSent?.Invoke(this, new PackageEventArgs(package));
             }
+            AllPackagesSent?.Invoke(this, EventArgs.Empty);
             
         }
 

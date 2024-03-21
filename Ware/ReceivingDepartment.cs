@@ -11,12 +11,8 @@ namespace Ware
         private readonly List<Package> receivedPackages = [];
         private readonly List<Package> allPackages = [];
 
-        public delegate void PackageAddedToRecevingDepartmentHandler(object o, PackageEventArgs args);
-        public event PackageAddedToRecevingDepartmentHandler PackageAddedToReceivingDepartment;
-
-
-        public delegate void AllPackagesSentToStorageHandler(object o, PackageEventArgs args);
-        public event AllPackagesSentToStorageHandler AllPackagesSentToStorage;
+        public event EventHandler<PackageEventArgs> PackageAdded;
+        public event EventHandler AllPackagesSentToStorage;
 
 
 
@@ -32,7 +28,7 @@ namespace Ware
             }
             receivedPackages.Add(package);
             allPackages.Add(package);
-            PackageAddedToReceivingDepartment?.Invoke(this, new PackageEventArgs(package));
+            PackageAdded?.Invoke(this, new PackageEventArgs(package));
 
         }
 
