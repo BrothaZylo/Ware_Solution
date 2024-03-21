@@ -8,6 +8,10 @@ namespace Ware
 {
     internal interface IPalletStorage
     {
+        public void BuildStorage();
+        void PlacePallet(Pallet pallet, string shelfId);
+        void PrintAllPalletStorageInformation();
+        void AddShelf(string sizeName, int totalUnitsAvailable);
 
     }
 }
