@@ -12,6 +12,6 @@ namespace Ware
         void PlacePallet(Pallet pallet, string shelfId);
         void PrintAllPalletStorageInformation();
         void AddShelf(string sizeName, int totalUnitsAvailable);
-
+        void RemovePallet(string shelfId);
     }
 }

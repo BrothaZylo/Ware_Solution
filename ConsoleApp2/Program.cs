@@ -47,16 +47,38 @@ namespace ConsoleApp2
             storage.Build();
             storage2.Build();
 
-            storage.PlacePackageAutomatic(package6);
-            storage.PlacePackageAutomatic(package7);
+            //------------------------------------------------------------//
+            //---------------------- Pallets Setup -----------------------//
+            //------------------------------------------------------------//
 
-            storage2.PlacePackageAutomatic(package1);
-            storage2.PlacePackageAutomatic(package2);
+            Pallet pallet1 = new Pallet();
+            pallet1.AddPackageToPallet(package3);
+            pallet1.AddPackageToPallet(package4);
+            pallet1.AddPackageToPallet(package5);
 
-            storage.GetAllStorageInformationPrint();
-            Console.WriteLine();
-            storage2.GetAllStorageInformationPrint();
+            Pallet pallet2 = new Pallet();
+            pallet2.AddPackageToPallet(package1);
+            pallet2.AddPackageToPallet(package2);
 
+            PalletStorage palletStorage = new PalletStorage();
+            palletStorage.AddShelf("Big", 3);
+            palletStorage.BuildStorage();
+
+            try
+            {
+                palletStorage.PlacePallet(pallet1, "Shelf-1");
+                palletStorage.PlacePallet(pallet2, "Shelf-2");
+
+                palletStorage.PrintAllPalletStorageInformation();
+            }
+            catch (Exception message)
+            {
+                Console.WriteLine($"An error occurred: {message.Message}");
+            }
+
+
+
+            /*
             Aisle reol = new Aisle("Refri");
 
             reol.AddStorage(storage);
@@ -66,7 +88,8 @@ namespace ConsoleApp2
             reol.GetPackagesInAislesPrint();
             //reol.GetPackagesInAislesPrint();
             Console.WriteLine(reol.GetPackageFromAisle(package2));
-  
+            */
+
             //----------------------------------------------------------//
             //----------------------Access Level------------------------//
             //----------------------------------------------------------//
