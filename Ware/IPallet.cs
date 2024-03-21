@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ware
 {
-    internal interface IPackingArea
+    internal interface IPallet
     {
         void AddPackageToPallet(Package package);
         bool IsPalletFull();
