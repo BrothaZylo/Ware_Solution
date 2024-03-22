@@ -13,12 +13,12 @@ namespace Ware
     /// <param name="name">Name of person</param>
     /// <param name="age">Age of person</param>
     /// <param name="accessLevel">Position / permissions of the person</param>
-    public class Person(string name = "Unknown", int age = 0, CrewList.AccessLevel accessLevel = CrewList.AccessLevel.OTHERS) : IPerson
+    public class Person(string name = "Unknown", int age = 0, AccessLevel accessLevel = AccessLevel.OTHERS) : IPerson
     {
         private string name = name;
         private int age = age;
         private readonly List<Assignment> assignments = [];
-        private CrewList.AccessLevel accessLevel = accessLevel;
+        private AccessLevel accessLevel = accessLevel;
 
         /// <summary>
         /// Adds an object Assignment to the person.
@@ -79,7 +79,7 @@ namespace Ware
         /// <summary>
         /// Getter setter accesslevel of a person
         /// </summary>
-        public CrewList.AccessLevel AccessLevel
+        public AccessLevel AccessLevel
         {
             get { return accessLevel; }
             set { accessLevel = value; }
