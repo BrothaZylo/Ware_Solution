@@ -13,11 +13,11 @@ namespace Ware
 
 
         public delegate void PackageEventHandler(Package package, Storage storage);
-        public event PackageEventHandler PackageSentEvent;
+        public event PackageEventHandler PackageEvent;
 
         protected virtual void RaisePackageEvent(Package package, Storage storage)
         {
-            PackageSentEvent?.Invoke(package, storage);
+            PackageEvent?.Invoke(package, storage);
         }
 
 

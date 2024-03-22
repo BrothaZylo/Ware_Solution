@@ -67,7 +67,7 @@ namespace ConsoleApp2
             //-----------------------------------------------------------//
 
             ReceivingDepartment receivingDepartment = new();
-            receivingDepartment.PackageSentEvent += Package_p;
+            receivingDepartment.PackageEvent += Package_p;
             receivingDepartment.AddPackage(package7);
             receivingDepartment.AddPackage(package5);
             receivingDepartment.AddPackage(package1);
