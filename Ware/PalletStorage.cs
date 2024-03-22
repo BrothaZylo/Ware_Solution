@@ -11,8 +11,12 @@ namespace Ware
     /// </summary>
     public class PalletStorage : IPalletStorage
     {
-        private readonly Dictionary<string, (Pallet?,string, bool)> palletStorageDict = new();
+        private readonly Dictionary<string, (List<Pallet>, string, bool)> palletStorageDict = new();
         private readonly List<ShelvesConfig> shelvesConfigs = new();
+        private bool northAccess = true;
+        private bool eastAccess = true;
+        private bool southAccess = true;
+        private bool westAccess = true;
 
         /// <summary>
         /// Builds the storage layout based on the configured shelves.
@@ -25,7 +29,7 @@ namespace Ware
                 for (int i = 0; i < shelf.TotalUnitsAvailable; i++)
                 {
                     string shelfId = "Shelf-" + shelfNumber;
-                    palletStorageDict.Add(shelfId, (null, shelf.SizeName, false));
+                    palletStorageDict.Add(shelfId, (new List<Pallet>(new Pallet[shelf.Floors]), shelf.SizeName, false));
                     shelfNumber++;
                 }
             }
@@ -39,25 +43,28 @@ namespace Ware
         /// <exception cref="InvalidOperationException">Thrown when the shelf is already occupied.</exception>
         /// <exception cref="KeyNotFoundException">Thrown when the shelf id does not exist.</exception>
 
-        public void PlacePallet(Pallet pallet, string shelfId)
+        public void PlacePallet(Pallet pallet, string shelfId, int floor)
         {
-            bool shelfNotFound = true;
-
             if (palletStorageDict.ContainsKey(shelfId))
             {
-                shelfNotFound = false;
-                (Pallet?, string, bool) shelf = palletStorageDict[shelfId];
-                if (shelf.Item3 == false)
+                (List<Pallet> pallets, string sizeName, bool isOccupied) = palletStorageDict[shelfId];
+
+                if (floor < 0 || floor > pallets.Count - 1)
                 {
-                    palletStorageDict[shelfId] = (pallet, shelf.Item2, true);
+                    throw new IndexOutOfRangeException("Invalid floor number.");
                 }
-                else if (shelf.Item3 == true)
+
+                if (pallets[floor] == null)
                 {
-                    throw new InvalidOperationException("Shelf is already occupied.");
+                    pallets[floor] = pallet;
+                    palletStorageDict[shelfId] = (pallets, sizeName, pallets.Contains(null) ? false : true);
+                }
+                else
+                {
+                    throw new InvalidOperationException("The specified floor is already occupied.");
                 }
             }
-
-            if (shelfNotFound)
+            else
             {
                 throw new KeyNotFoundException("Shelf ID does not exist.");
             }
@@ -67,16 +74,26 @@ namespace Ware
         /// Removes a pallet from a shelf.
         /// </summary>
         /// <param name="shelfId">The id of the shelf from which the pallet should be removed.</param>
-        /// <exception cref="InvalidOperationException">Thrown when the pallet is not found or the shelf is already empty.</exception>
-        public void RemovePallet(string shelfId)
+        /// <param name="floor">The floor number on the shelf from which the pallet should be removed.</param>
+        /// <exception cref="InvalidOperationException">Thrown when the floor is empty.</exception>
+        /// <exception cref="KeyNotFoundException">Used when the shelf ID does not exist in the storage.</exception>
+        public void RemovePallet(string shelfId, int floor)
         {
-            if (palletStorageDict.ContainsKey(shelfId) && palletStorageDict[shelfId].Item3)
+            if (palletStorageDict.ContainsKey(shelfId))
             {
-                palletStorageDict[shelfId] = (null, palletStorageDict[shelfId].Item2, false);
+                (List<Pallet> pallets, string sizeName, bool _) = palletStorageDict[shelfId];
+
+                if (floor < 0 || floor > pallets.Count - 1)
+                {
+                    throw new InvalidOperationException("Pallet not found or invalid floor specified.");
+                }
+
+                pallets[floor] = null;
+                palletStorageDict[shelfId] = (pallets, sizeName, pallets.Any(p => p != null));
             }
             else
             {
-                throw new InvalidOperationException("Pallet not found or shelf is already empty.");
+                throw new KeyNotFoundException("Shelf ID does not exist.");
             }
         }
 
@@ -85,18 +102,65 @@ namespace Ware
         /// </summary>
         public void PrintAllPalletStorageInformation()
         {
-            foreach (KeyValuePair<string, (Pallet?, string, bool)> item in palletStorageDict)
+            foreach (KeyValuePair<string, (List<Pallet>, string, bool)> item in palletStorageDict)
             {
-                if (item.Value.Item1 == null)
+                string shelfInfo = item.Key + " | (Size: " + item.Value.Item2 + ") | Floors: ";
+                for (int i = 0; i < item.Value.Item1.Count; i++)
                 {
-                    Console.WriteLine($"[{item.Key} | (Pallet: Empty) | (Size: {item.Value.Item2})]");
+                    shelfInfo += $"[{i}: " + (item.Value.Item1[i] != null ? $"{item.Value.Item1[i].packagesOnPallet.Count} packages" : "Empty") + "]";
                 }
-                else
-                {
-                    int packageCount = item.Value.Item1.packagesOnPallet.Count;
-                    Console.WriteLine($"[{item.Key} | (Pallet: {packageCount} packages) | (Size: {item.Value.Item2})]");
-                }
+                Console.WriteLine(shelfInfo);
             }
+        }
+        /// <summary>
+        /// Sets the directions of accesspoint to the storage collectivly. True if can access, else false.
+        /// </summary>
+        /// <param name="north">Bool</param>
+        /// <param name="east">Bool</param>
+        /// <param name="south">Bool</param>
+        /// <param name="west">Bool</param>
+        public void SetAccessDirection(bool north, bool east, bool south, bool west)
+        {
+            northAccess = north;
+            southAccess = south;
+            westAccess = west;
+            eastAccess = east;
+        }
+
+        /// <summary>
+        /// Check if you can access the storage from the north side.
+        /// </summary>
+        public bool NorthAccess
+        {
+            get { return northAccess; }
+            set { northAccess = value; }
+        }
+
+        /// <summary>
+        /// Check if you can access the storage from the south side.
+        /// </summary>
+        public bool SouthAccess
+        {
+            get { return southAccess; }
+            set { southAccess = value; }
+        }
+
+        /// <summary>
+        /// Check if you can access the storage from the east side
+        /// </summary>
+        public bool EastAccess
+        {
+            get { return eastAccess; }
+            set { eastAccess = value; }
+        }
+
+        /// <summary>
+        /// Check if you can access the storage from the west side
+        /// </summary>
+        public bool WestAccess
+        {
+            get { return westAccess; }
+            set { westAccess = value; }
         }
 
         /// <summary>
@@ -104,10 +168,12 @@ namespace Ware
         /// </summary>
         /// <param name="sizeName">The name representing the size of the shelf.</param>
         /// <param name="totalUnitsAvailable">The total number of units available on the shelf.</param>
+        /// <param name="Floors">Number of floors per shelf.</param>
         private class ShelvesConfig
         {
             public string SizeName { get; set; }
             public int TotalUnitsAvailable { get; set; }
+            public int Floors { get; set; }
         }
 
         /// <summary>
@@ -115,9 +181,11 @@ namespace Ware
         /// </summary>
         /// <param name="sizeName">The name representing the size of the shelf.</param>
         /// <param name="totalUnitsAvailable">The total number of units that the shelf has space for.</param>
-        public void AddShelf(string sizeName, int totalUnitsAvailable)
+        /// <param name="Floors">Number of floors per shelf.</param>
+        public void AddShelf(string sizeName, int totalUnitsAvailable, int floors)
         {
-            shelvesConfigs.Add(new ShelvesConfig { SizeName = sizeName, TotalUnitsAvailable = totalUnitsAvailable });
+            shelvesConfigs.Add(new ShelvesConfig { SizeName = sizeName, TotalUnitsAvailable = totalUnitsAvailable, Floors = floors });
         }
+
     }
 }

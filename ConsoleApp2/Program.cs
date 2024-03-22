@@ -47,6 +47,7 @@ namespace ConsoleApp2
             storage.Build();
             storage2.Build();
 
+
             //------------------------------------------------------------//
             //---------------------- Pallets Setup -----------------------//
             //------------------------------------------------------------//
@@ -60,14 +61,21 @@ namespace ConsoleApp2
             pallet2.AddPackageToPallet(package1);
             pallet2.AddPackageToPallet(package2);
 
+            Pallet pallet3 = new Pallet();
+            pallet3.AddPackageToPallet(package6);
+            pallet3.AddPackageToPallet(package7);
+
             PalletStorage palletStorage = new PalletStorage();
-            palletStorage.AddShelf("Big", 3);
+            palletStorage.AddShelf("Tiny", 3, 4);
+            // 3 shelves og 4 floors.
+
             palletStorage.BuildStorage();
 
             try
             {
-                palletStorage.PlacePallet(pallet1, "Shelf-1");
-                palletStorage.PlacePallet(pallet2, "Shelf-2");
+                palletStorage.PlacePallet(pallet1, "Shelf-1", 0);
+                palletStorage.PlacePallet(pallet2, "Shelf-1", 1);
+                palletStorage.PlacePallet(pallet3, "Shelf-2", 3);
 
                 palletStorage.PrintAllPalletStorageInformation();
             }

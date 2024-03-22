@@ -9,9 +9,11 @@ namespace Ware
     internal interface IPalletStorage
     {
         public void BuildStorage();
-        void PlacePallet(Pallet pallet, string shelfId);
+        void PlacePallet(Pallet pallet, string shelfId, int floor);
+        void RemovePallet(string shelfId, int floor);
         void PrintAllPalletStorageInformation();
-        void AddShelf(string sizeName, int totalUnitsAvailable);
-        void RemovePallet(string shelfId);
+        void AddShelf(string sizeName, int totalUnitsAvailable, int floors);
+        void SetAccessDirection(bool north, bool east, bool south, bool west);
+
     }
 }
