@@ -15,7 +15,7 @@ namespace Ware
         public delegate void PackageEventHandler(Package package, Storage storage);
         public event PackageEventHandler PackageSentEvent;
 
-        protected virtual void RaisePackageSentEvent(Package package, Storage storage)
+        protected virtual void RaisePackageEvent(Package package, Storage storage)
         {
             PackageSentEvent?.Invoke(package, storage);
         }
@@ -72,7 +72,7 @@ namespace Ware
                 Package package = receivedPackages[i];
                 if (storageConfiguration.IsSameTypeOfGoods(receivedPackages[i]))
                 {
-                    RaisePackageSentEvent(package, storageConfiguration);
+                    RaisePackageEvent(package, storageConfiguration);
                     storageConfiguration.PlacePackageAutomatic(receivedPackages[i]);
                     receivedPackages.RemoveAt(i);
                 }
