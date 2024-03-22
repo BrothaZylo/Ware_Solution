@@ -35,7 +35,7 @@ namespace Ware
         /// <param name="person">Person using the equipment</param>
         public void StopUsingEquipment(Person person)
         {
-            person.IsUsingEquipment = "none";
+            person.IsUsingEquipment = "";
             usages.Add("" + person.Name + " stopped using " + name + " " + DateTime.Now);
         }
 

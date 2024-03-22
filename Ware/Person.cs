@@ -19,7 +19,7 @@ namespace Ware
         private int age = age;
         private readonly List<Assignment> assignments = [];
         private AccessLevel accessLevel = accessLevel;
-        private string isUsingEquipment;
+        private string isUsingEquipment = "";
 
         /// <summary>
         /// Adds an object Assignment to the person.
