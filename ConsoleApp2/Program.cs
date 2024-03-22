@@ -5,7 +5,9 @@ namespace ConsoleApp2
 {
     internal class Program
     {
-
+        //------------------------------------------------------------//
+        //---------------------Usefull functions----------------------//
+        //------------------------------------------------------------//
         static Package ObjCreate(string name, string goodstype, double wid, double heig)
         {
             return new Package(name, goodstype, wid, heig);
@@ -61,7 +63,7 @@ namespace ConsoleApp2
             storage2.Build();
 
             //-----------------------------------------------------------//
-            //-----------------------Testing Area------------------------//
+            //--------------------------Events---------------------------//
             //-----------------------------------------------------------//
 
             ReceivingDepartment receivingDepartment = new();
