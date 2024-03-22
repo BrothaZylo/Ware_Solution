@@ -19,6 +19,7 @@ namespace Ware
         private int age = age;
         private readonly List<Assignment> assignments = [];
         private AccessLevel accessLevel = accessLevel;
+        private string isUsingEquipment;
 
         /// <summary>
         /// Adds an object Assignment to the person.
@@ -56,6 +57,15 @@ namespace Ware
             {
                 Console.WriteLine(assignment);
             }
+        }
+
+        /// <summary>
+        /// Checks if the user is using an equipment
+        /// </summary>
+        public string IsUsingEquipment
+        {
+            get { return isUsingEquipment; }
+            set { isUsingEquipment = value; }
         }
 
         /// <summary>

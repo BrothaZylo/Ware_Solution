@@ -25,6 +25,7 @@ namespace Ware
         /// <param name="person">Person that is going to use it</param>
         public void UseEquipment(Person person)
         {
+            person.IsUsingEquipment = name;
             usages.Add(""+person.Name+" started using "+name +" "+DateTime.Now);
         }
 
@@ -34,6 +35,7 @@ namespace Ware
         /// <param name="person">Person using the equipment</param>
         public void StopUsingEquipment(Person person)
         {
+            person.IsUsingEquipment = "none";
             usages.Add("" + person.Name + " stopped using " + name + " " + DateTime.Now);
         }
 
