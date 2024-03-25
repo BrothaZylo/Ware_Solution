@@ -24,9 +24,9 @@ namespace Ware
         {
             name = packageName;
             goods = goodsType;
-            if(packageHeightCm < 0 || packageWidthCm < 0)
+            if(packageHeightCm <= 0 || packageWidthCm <= 0)
             {
-                throw new NegativeNumberException();
+                throw new NegativeNumberException("Package height or width cannot be 0 or lower");
             }
             heightCm = packageHeightCm;
             widthCm = packageWidthCm;

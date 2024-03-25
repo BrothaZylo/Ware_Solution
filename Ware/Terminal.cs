@@ -16,10 +16,14 @@ namespace Ware
         public Queue<Package> PackagesToSendOutQueue = new Queue<Package>();
 
 
-        // EVents
-        public event EventHandler<PackageEventArgs> PackageAdded;
-        public event EventHandler<PackageEventArgs> PackageSent;
-        public event EventHandler AllPackagesSent;
+        //Events
+        public delegate void PackageEventHandler(Package package);
+        public event PackageEventHandler PackageEvent;
+
+        protected virtual void RaisePackageEvent(Package package)
+        {
+            PackageEvent?.Invoke(package);
+        }
 
 
         /// <summary>
@@ -34,7 +38,7 @@ namespace Ware
             }
             PackagesToSendOut.Add(packages);
 
-            PackageAdded?.Invoke(this, new PackageEventArgs(packages));
+            RaisePackageEvent(packages);
         }
 
         /// <summary>
@@ -69,7 +73,7 @@ namespace Ware
                 if (PackagesToSendOut.Contains(package))
                 {
                     PackagesToSendOut.Remove(p);
-                    PackageSent?.Invoke(this, new PackageEventArgs(package));
+                    RaisePackageEvent(package);
                     break;
                 }
             }
@@ -96,10 +100,8 @@ namespace Ware
             while(PackagesToSendOutQueue.Count > 0)
             {
                 Package package = PackagesToSendOutQueue.Dequeue();
-                PackageSent?.Invoke(this, new PackageEventArgs(package));
+                RaisePackageEvent(package);
             }
-            AllPackagesSent?.Invoke(this, EventArgs.Empty);
-            
         }
 
 

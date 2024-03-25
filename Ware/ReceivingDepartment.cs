@@ -11,8 +11,14 @@ namespace Ware
         private readonly List<Package> receivedPackages = [];
         private readonly List<Package> allPackages = [];
 
-        public event EventHandler<PackageEventArgs> PackageAdded;
-        public event EventHandler AllPackagesSentToStorage;
+
+        public delegate void PackageEventHandler(Package package, Storage storage);
+        public event PackageEventHandler PackageEvent;
+
+        protected virtual void RaisePackageEvent(Package package, Storage storage)
+        {
+            PackageEvent?.Invoke(package, storage);
+        }
 
 
 
@@ -28,8 +34,7 @@ namespace Ware
             }
             receivedPackages.Add(package);
             allPackages.Add(package);
-            PackageAdded?.Invoke(this, new PackageEventArgs(package));
-
+            //PackageAdded.Invoke(package, new PackageEventArgs(package));
         }
 
         /// <summary>
@@ -67,13 +72,11 @@ namespace Ware
                 Package package = receivedPackages[i];
                 if (storageConfiguration.IsSameTypeOfGoods(receivedPackages[i]))
                 {
+                    RaisePackageEvent(package, storageConfiguration);
                     storageConfiguration.PlacePackageAutomatic(receivedPackages[i]);
                     receivedPackages.RemoveAt(i);
-
                 }
             }
-            AllPackagesSentToStorage?.Invoke(this, new PackageEventArgs(storageConfiguration));
-
         }
 
         /// <summary>
