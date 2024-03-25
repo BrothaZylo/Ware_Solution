@@ -17,33 +17,7 @@ namespace Ware
         /// <summary>
         /// Job / access / position
         /// </summary>
-        public enum AccessLevel
-        {
-            CEO,
-            HR,
-            ADMINISTRATOR,
-            DAILYLEADER,
-            MANAGER,
-            EMPLOYEE,
-            JANITOR,
-            VISITOR,
-            OPERATOR,
-            STOWER,
-            PICKER,
-            PACKER,
-            SENDER,
-            CONTROLLER,
-            AMBASSADOR,
-            TECHNICAL,
-            SUPPORT,
-            DRIVER,
-            OTHERS,
-            EXTRA1,
-            EXTRA2,
-            EXTRA3,
-            EXTRA4,
-            EXTRA5,
-        }
+
 
         /// <summary>
         /// Adds a member to the crew.
@@ -68,7 +42,7 @@ namespace Ware
         /// </summary>
         public void CrewListPrint()
         {
-            foreach(KeyValuePair<string, CrewList.AccessLevel> item in dictionary)
+            foreach(KeyValuePair<string, AccessLevel> item in dictionary)
             {
                 Console.WriteLine(item.Key + " - " + item.Value);
             }

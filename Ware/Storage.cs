@@ -23,6 +23,32 @@ namespace Ware
         private bool southAccess = true;
         private bool westAccess = true;
 
+        //Slett disse :D
+        public event EventHandler<PackageEventArgs> PackageAdded;
+        public event EventHandler<PackageEventArgs> PackageSent;
+
+        //Events
+        //Legg til flere om nødvendig
+        public delegate void PackageEventHandler(Package package);
+        public delegate void PackageEventHandler2(Package package, Storage storage);
+        public delegate void PackageEventHandler3(Package package, Terminal terminal);
+        public event PackageEventHandler PackageEvent;
+        public event PackageEventHandler2 PackageAddedEvent;
+        public event PackageEventHandler3 PackageSendTerminalEvent;
+
+        protected virtual void RaisePackageSentEvent(Package package, Storage storage)
+        {
+            PackageAddedEvent?.Invoke(package, storage);
+        }
+        protected virtual void RaisePackageSentEvent(Package package, Terminal terminal)
+        {
+            PackageSendTerminalEvent?.Invoke(package, terminal);
+        }
+        protected virtual void RaisePackageEvent(Package package)
+        {
+            PackageEvent?.Invoke(package);
+        }
+
 
         /// <summary>
         /// Creates the Storageunit based on instructions from the config and constructor.

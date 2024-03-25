@@ -5,6 +5,20 @@ namespace ConsoleApp2
 {
     internal class Program
     {
+        //------------------------------------------------------------//
+        //---------------------Usefull functions----------------------//
+        //------------------------------------------------------------//
+        static Package ObjCreate(string name, string goodstype, double wid, double heig)
+        {
+            return new Package(name, goodstype, wid, heig);
+        }
+
+        static void Package_p(Package package, Storage storage)
+        {
+            Console.WriteLine(package.PackageId+ " was sent to: "+ storage.GoodsType);
+            Environment.Exit(0);
+        }
+
         static void Main(string[] args)
         {
             //------------------------------------------------------------//
@@ -38,11 +52,12 @@ namespace ConsoleApp2
             storage.AddShelf("Big", 11, 100, 100);
             storage.AddShelf("Tiny", 4, 33, 33);
             storage.AddShelf("Mid", 2, 63, 63);
+            storage.Build();
+
             Storage storage2 = new(dry);
             storage2.AddShelf("Big", 11, 100, 100);
             storage2.AddShelf("Tiny", 4, 33, 33);
             storage2.AddShelf("Mid", 2, 63, 63);
-            storage.Build();
             storage2.Build();
 
             //-----------------------------------------------------------//
@@ -69,13 +84,12 @@ namespace ConsoleApp2
             highvaluegoods.AddAccessLevel(CrewList.AccessLevel.EMPLOYEE);
             bool x = forklift.HasAccess(karl);
             Console.WriteLine(x);
-            */
-
+            /
             //----------------------------------------------------------//
             //-----------------------Simulation-------------------------//
             //----------------------------------------------------------//
 
-            /*
+            /
             Simulation sim = new(30);
 
             sim.AddPackage(package1);
@@ -86,66 +100,11 @@ namespace ConsoleApp2
             sim.AddPackage(package6);
             sim.AddPackage(package7);
             sim.Run();
-
-            ReceivingDepartment receivingDepartment = new ReceivingDepartment();
-
-            receivingDepartment.PackageAdded += ReceivingDepartmentAddPackage;
-            receivingDepartment.AllPackagesSentToStorage += ReceivingDeapartmentSendAllPackages;
-
-
-            receivingDepartment.AddPackage(package1);
-            receivingDepartment.AddPackage(package2);
-
-            receivingDepartment.SendAllPackagesToStorage(storage2);
-
-        }
-        private static void ReceivingDepartmentAddPackage(object sender, PackageEventArgs e)
-        {
-            Console.WriteLine($"Package was added to Receving department: {e.Package.Name}");
-        }
-
-        private static void ReceivingDeapartmentSendAllPackages(object sender, EventArgs e)
-        {
-            Console.WriteLine($"All Packages Sent from recevingdepartment to Storage");
-        }
-        */
-            /* Terminal event handler 
-                        Terminal terminal = new Terminal();
-                        terminal.PackageAdded += TerminalPackageAdded;
-                        terminal.PackageSent += TerminalPackageSent;
-                        terminal.AllPackagesSent += TerminalAllPackagesSent;
-
-                        terminal.AddPackage(package1);
-                        terminal.AddPackage(package2);
-                        terminal.AddPackage(package3);
-                        terminal.AddPackage(package4);
-
-                        terminal.SendAllPackages();
-
-                    }
-                    private static void TerminalPackageAdded(object sender, PackageEventArgs e)
-                    {
-                        Console.WriteLine($"Package was added to Terminal: {e.Package.Name}");
-                    }
-
-                    private static void TerminalPackageSent(object sender, PackageEventArgs e)
-                    {
-                        Console.WriteLine($"Package was sent from Terminal: {e.Package.Name}");
-                    }
-
-                    private static void TerminalAllPackagesSent(object sender, EventArgs e)
-                    {
-                        Console.WriteLine("All packages sent from Terminal.");
-                    }
-
             */
-
-
 
 
         }
     }
-
 }
 
 

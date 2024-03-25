@@ -8,11 +8,12 @@ namespace Ware
 {
     internal interface IEquipment
     {
+        void UseEquipment(Person person);
+        void StopUsingEquipment(Person person);
+        List<string> UsageHistory();
         void AccessLevelPrint();
-        void AddAccessLevel(CrewList.AccessLevel accessLevel);
-        void DeleteAccessLevel(CrewList.AccessLevel accessLevel);
-        CrewList.AccessLevel? GetAccessLevelPrint(string sname);
-
-
+        void AddAccessLevel(AccessLevel accessLevel);
+        void DeleteAccessLevel(AccessLevel accessLevel);
+        AccessLevel? GetAccessLevelPrint(string sname);
     }
 }
