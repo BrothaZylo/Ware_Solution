@@ -15,9 +15,14 @@ namespace Ware
         public ReceivingDepartment ReceivingDepartment{ get; private set; }
         public Storage Storage { get; private set; }
         public Terminal Terminal { get; private set; }
+        public string PackageId { get; private set; }
 
         public PackageEventArgs()
         {
+        }
+        public PackageEventArgs(string packageId)
+        {
+            PackageId = packageId;
         }
 
         public PackageEventArgs(Storage storage)

@@ -12,5 +12,7 @@ namespace Ware
         List<Package> GetPackagesInTerminal();
         void ClearPackages();
 
+        void SendAllPackages();
+
     }
 }

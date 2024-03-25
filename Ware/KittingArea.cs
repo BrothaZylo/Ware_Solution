@@ -18,6 +18,16 @@ namespace Ware
         private int maxPackagesPerBox = maxPackagesPerBox;
 
         /// <summary>
+        /// Used for AddPackageToBox(Package package)
+        /// </summary>
+        public event EventHandler<PackageEventArgs>? PackageAddToBoxEvent;
+
+        private void RaisePackageAddToBoxEvent(Package package)
+        {
+            PackageAddToBoxEvent?.Invoke(this, new PackageEventArgs(package));
+        }
+
+        /// <summary>
         /// Adds a package to the current cardboard box.
         /// </summary>
         /// <param name="package">The package that gets added to the box.</param>
@@ -33,7 +43,7 @@ namespace Ware
             {
                 PrepareNewBox();
             }
-
+            RaisePackageAddToBoxEvent(package);
             packagesInBox.Add(package);
         }
 
@@ -98,6 +108,24 @@ namespace Ware
         public int BoxesRemaining()
         {
             return totalBoxesAvailable;
+        }
+
+        /// <summary>
+        /// Amount of boxes available for kitting
+        /// </summary>
+        public int TotalBoxesAvailable
+        {
+            get { return totalBoxesAvailable; }
+            set { totalBoxesAvailable = value; }
+        }
+
+        /// <summary>
+        /// Max amount of max boxes available
+        /// </summary>
+        public int MaxPackagesPerBox
+        {
+            get { return maxPackagesPerBox; }
+            set { maxPackagesPerBox = value; }
         }
     }
 }

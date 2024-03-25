@@ -29,7 +29,7 @@ namespace Ware
         /// <summary>
         /// message value
         /// </summary>
-        public string? Text { get; set; }
+        public string? EquipmentName { get; private set; }
 
         /// <summary>
         /// Empty events args
@@ -70,6 +70,17 @@ namespace Ware
         }
 
         /// <summary>
+        /// Equipment event containing Equipment and Accesslevel objects
+        /// </summary>
+        /// <param name="equipmentName">name of equipment</param>
+        /// <param name="accessLevel">Accesslevel enum</param>
+        public EquipmentEventArgs(string equipmentName, AccessLevel? accessLevel)
+        {
+            EquipmentName = equipmentName;
+            AccessLevel = accessLevel;
+        }
+
+        /// <summary>
         /// Equipment event containing Equipment and Person objects
         /// </summary>
         /// <param name="equipment">Equipment object</param>
@@ -89,6 +100,17 @@ namespace Ware
         public EquipmentEventArgs(Person? person)
         {
             Person = person;
+        }
+
+        /// <summary>
+        /// Equipment event containing person object and equipment name
+        /// </summary>
+        /// <param name="person">Person object</param>
+        /// <param name="equipmentName">string value of Equipment name</param>
+        public EquipmentEventArgs(Person? person, string equipmentName)
+        {
+            Person = person;
+            EquipmentName = equipmentName;
         }
 
         /// <summary>

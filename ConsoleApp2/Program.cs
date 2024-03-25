@@ -47,7 +47,7 @@ namespace ConsoleApp2
             //----------------------Storage Build------------------------//
             //-----------------------------------------------------------//
 
-            Storage storage = new(refrigerated, "A");
+            Storage storage = new(refrigerated, "Uteliggeer");
             storage.AddShelf("Big", 11, 100, 100);
             storage.AddShelf("Tiny", 4, 33, 33);
             storage.AddShelf("Mid", 2, 63, 63);
@@ -58,6 +58,7 @@ namespace ConsoleApp2
             storage2.AddShelf("Tiny", 4, 33, 33);
             storage2.AddShelf("Mid", 2, 63, 63);
             storage2.Build();
+            storage.GetAllStorageInformationPrint();
             //-----------------------------------------------------------//
             //--------------------------Events---------------------------//
             //-----------------------------------------------------------//
