@@ -30,6 +30,8 @@ namespace Ware
 
         string FindPackageById(string packageid);
 
+        string? FindPackagePlacement(Package package);
+
         bool IsSpotTaken(string storagename);
 
         bool IsSameTypeOfGoods(Package package);

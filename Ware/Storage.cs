@@ -5,6 +5,7 @@ using System.Reflection.Metadata.Ecma335;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace Ware
 {
@@ -12,11 +13,13 @@ namespace Ware
     /// Preconfig of the storageunits which will later be used to create shelves.
     /// </summary>
     /// <param name="goodsType">This will be the name of the storage unit, and what type of goods can be placed in this unit</param>
-    public class Storage(string goodsType = "Undefined") : IStorage
+    /// <param name="uniqueStorageId"></param>
+    public class Storage(string goodsType, string uniqueStorageId) : IStorage
     {
         private readonly List<ShelvesAdd> addShelves = [];
         // Goods,(package,sizename,width,height,isEmpty bool)
         private readonly Dictionary<string, (Package?, string, double, double, bool)> yourStorageDict = [];
+        private string uniqueId = uniqueStorageId;
         private string goodsType = goodsType;
         private bool northAccess = true;
         private bool eastAccess = true;
@@ -55,17 +58,17 @@ namespace Ware
         /// </summary>
         public void Build()
         {
-            double StorageCounter = 1.01;
+            double StorageCounter = 101;
             double unitCounter = 0;
             foreach (Storage.ShelvesAdd j in addShelves)
             {
                 for (int k = 0; k < j.TotalUnitsAvailable; k++)
                 {
-                    yourStorageDict.Add(goodsType + "ShelfID: " + Math.Round(StorageCounter, 3), (null , j.SizeName, j.MaxWidthCm, j.MaxHeightCm, false));
-                    StorageCounter+=0.01;
+                    yourStorageDict.Add(goodsType + "ShelfID: " +uniqueId+ Math.Round(StorageCounter, 3), (null , j.SizeName, j.MaxWidthCm, j.MaxHeightCm, false));
+                    StorageCounter+=1;
                 }
-                StorageCounter = 1.01;
-                unitCounter += 1;
+                StorageCounter = 101;
+                unitCounter += 100;
                 StorageCounter += unitCounter;
             }
         }
@@ -381,7 +384,7 @@ namespace Ware
         /// Finds the package location by using the package id
         /// </summary>
         /// <param name="packageId">id of the package</param>
-        /// <returns>Which shelf it is in,the package and the size of the shelf</returns>
+        /// <returns>Package object</returns>
         public Package? FindPackage(string packageId)
         {
             foreach (KeyValuePair<string, (Package?, string, double, double, bool)> item in yourStorageDict)
@@ -392,6 +395,26 @@ namespace Ware
                 }
             }
             return null; 
+        }
+
+        /// <summary>
+        /// Finds the number of the unit the package is placed.
+        /// </summary>
+        /// <param name="package">Package object you want to search for</param>
+        /// <returns>Unique id placement of package</returns>
+        public string? FindPackagePlacement(Package package)
+        {
+            foreach (KeyValuePair<string, (Package?, string, double, double, bool)> item in yourStorageDict)
+            {
+                string[] keysplit = item.Key.Split(':');
+                string key1 = keysplit[1];
+                string yournumber = key1.Trim();
+                if (item.Value.Item1 == package)
+                {
+                    return yournumber;
+                }
+            }
+            return null;
         }
 
         /// <summary>
@@ -489,6 +512,15 @@ namespace Ware
         {
             get { return goodsType; }
             set { goodsType = value; }
+        }
+
+        /// <summary>
+        /// Storageunit identifyer
+        /// </summary>
+        public string UniqueId
+        {
+            get { return uniqueId; }
+            set { uniqueId = value; }
         }
 
         /// <summary>

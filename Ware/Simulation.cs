@@ -17,9 +17,9 @@ namespace Ware
     {
         private readonly int seconds = seconds;
         private readonly List<Package> simulationPackages = [];
-        private static readonly Storage Dry = new("Dry");
-        private static readonly Storage Refrigerated = new("Refrigerated");
-        private static readonly Storage Dangerous = new("Dangerous");
+        private static readonly Storage Dry = new("Dry", "A");
+        private static readonly Storage Refrigerated = new("Refrigerated", "B");
+        private static readonly Storage Dangerous = new("Dangerous", "C");
 
         private readonly PackageLogging packageLogging = new();
         private ReceivingDepartment receiving = new();
