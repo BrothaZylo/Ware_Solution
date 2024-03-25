@@ -72,8 +72,8 @@ namespace ConsoleApp2
 
             storage.GetAllStorageInformationPrint();
             Console.WriteLine(storage.GetStorageNameById("A101"));
-            Console.WriteLine(storage.FindPackagePlacement(package7));
-            Console.WriteLine(storage.FindPackageSectionById(package7.PackageId));
+            Console.WriteLine(storage.GetPackagePlacement(package7));
+            Console.WriteLine(storage.GetPackageSectionById(package7.PackageId));
 
             //------------------------------------------------------------//
             //---------------------- Pallets Setup -----------------------//

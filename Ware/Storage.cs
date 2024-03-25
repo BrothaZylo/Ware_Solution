@@ -350,7 +350,7 @@ namespace Ware
         /// </summary>
         /// <param name="packageId">A package</param>
         /// <returns>Returns the section of set package id is located, else returns nothing</returns>
-        public string FindPackageSectionById(string packageId)
+        public string GetPackageSectionById(string packageId)
         {
             string item = "";
             foreach(KeyValuePair<string, (Package?, string, double, double, bool)> i in yourStorageDict)
@@ -369,7 +369,7 @@ namespace Ware
         /// </summary>
         /// <param name="packageId">A package</param>
         /// <returns>The shelf its placed at, else will return Does not exist</returns>
-        public string FindPackageById(string packageId)
+        public string GetPackageById(string packageId)
         {
             foreach (KeyValuePair<string, (Package?, string, double, double, bool)> item in yourStorageDict)
             {
@@ -385,7 +385,7 @@ namespace Ware
         /// </summary>
         /// <param name="packageId">id of the package</param>
         /// <returns>Package object</returns>
-        public Package? FindPackage(string packageId)
+        public Package? GetPackage(string packageId)
         {
             foreach (KeyValuePair<string, (Package?, string, double, double, bool)> item in yourStorageDict)
             {
@@ -402,7 +402,7 @@ namespace Ware
         /// </summary>
         /// <param name="package">Package object you want to search for</param>
         /// <returns>Unique id placement of package</returns>
-        public string? FindPackagePlacement(Package package)
+        public string? GetPackagePlacement(Package package)
         {
             foreach (KeyValuePair<string, (Package?, string, double, double, bool)> item in yourStorageDict)
             {
