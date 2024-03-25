@@ -30,9 +30,7 @@ namespace ConsoleApp2
 
             Package package6 = new("Cream", refrigerated, 84, 43);
             Package package7 = new("Ice", refrigerated, 18, 39);
-
-
-            //-----------------------------------------------------------//
+//-----------------------------------------------------------//
             //----------------------Storage Build------------------------//
             //-----------------------------------------------------------//
 
@@ -47,57 +45,18 @@ namespace ConsoleApp2
             storage.Build();
             storage2.Build();
 
+            //-----------------------------------------------------------//
+            //--------------------------Events---------------------------//
+            //-----------------------------------------------------------//
 
-            //------------------------------------------------------------//
-            //---------------------- Pallets Setup -----------------------//
-            //------------------------------------------------------------//
-
-            Pallet pallet1 = new Pallet();
-            pallet1.AddPackageToPallet(package3);
-            pallet1.AddPackageToPallet(package4);
-            pallet1.AddPackageToPallet(package5);
-
-            Pallet pallet2 = new Pallet();
-            pallet2.AddPackageToPallet(package1);
-            pallet2.AddPackageToPallet(package2);
-
-            Pallet pallet3 = new Pallet();
-            pallet3.AddPackageToPallet(package6);
-            pallet3.AddPackageToPallet(package7);
-
-            PalletStorage palletStorage = new PalletStorage();
-            palletStorage.AddShelf("Tiny", 3, 4);
-
-            palletStorage.BuildStorage();
-
-            try
-            {
-                palletStorage.PlacePallet(pallet1, "Shelf-1", 0);
-                palletStorage.PlacePallet(pallet2, "Shelf-1", 1);
-                palletStorage.PlacePallet(pallet3, "Shelf-2", 3);
-
-                palletStorage.PrintAllPalletStorageInformation();
-            }
-            catch (Exception message)
-            {
-                Console.WriteLine($"An error occurred: {message.Message}");
-            }
-
-
-
-            /*
-            Aisle reol = new Aisle("Refri");
-
-            reol.AddStorage(storage);
-            reol.AddStorage(storage2);
-
-
-            reol.GetPackagesInAislesPrint();
-            //reol.GetPackagesInAislesPrint();
-            Console.WriteLine(reol.GetPackageFromAisle(package2));
-            */
-
-            //----------------------------------------------------------//
+            ReceivingDepartment receivingDepartment = new();
+            receivingDepartment.PackageEvent += Package_p;
+            receivingDepartment.AddPackage(package7);
+            receivingDepartment.AddPackage(package5);
+            receivingDepartment.AddPackage(package1);
+            receivingDepartment.AddPackage(package2);
+            receivingDepartment.SendAllPackagesToStorage(storage);
+//----------------------------------------------------------//
             //----------------------Access Level------------------------//
             //----------------------------------------------------------//
             /*
