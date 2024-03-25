@@ -27,6 +27,11 @@ namespace Ware
         public AccessLevel? AccessLevel { get; private set; }
 
         /// <summary>
+        /// message value
+        /// </summary>
+        public string? Text { get; set; }
+
+        /// <summary>
         /// Empty events args
         /// </summary>
         public EquipmentEventArgs()
