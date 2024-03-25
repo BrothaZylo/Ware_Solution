@@ -83,18 +83,25 @@ namespace ConsoleApp2
 
             palletStorage.BuildStorage();
 
-            try
-            {
-                palletStorage.PlacePallet(pallet1, "Shelf-1", 0);
-                palletStorage.PlacePallet(pallet2, "Shelf-1", 1);
-                palletStorage.PlacePallet(pallet3, "Shelf-2", 3);
+            Console.WriteLine("Pallets in storage");
+            palletStorage.PlacePalletAutomatic(pallet1);
+            palletStorage.PlacePalletAutomatic(pallet2);
+            palletStorage.PlacePallet(pallet3, "Shelf-3", 0);
+            palletStorage.PrintAllPalletStorageInformation();
 
-                palletStorage.PrintAllPalletStorageInformation();
-            }
-            catch (Exception message)
-            {
-                Console.WriteLine($"An error occurred: {message.Message}");
-            }
+            Terminal terminal = new Terminal();
+
+            palletStorage.SendPalletToTerminal("Shelf-1", 0, terminal);
+            palletStorage.SendPalletToTerminalAutomatic(pallet3, terminal);
+      
+
+            Console.WriteLine("\nPallets 1 and 3 sent to terminal");
+            palletStorage.PrintAllPalletStorageInformation();
+
+            Console.WriteLine("\nPallets in terminal");
+            terminal.PrintPalletInformation();
+
+
 
             //-----------------------------------------------------------//
             //--------------------------Events---------------------------//

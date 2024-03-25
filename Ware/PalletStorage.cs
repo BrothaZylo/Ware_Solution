@@ -39,7 +39,7 @@ namespace Ware
         /// Places a pallet onto a shelf in the storage.
         /// </summary>
         /// <param name="pallet">The pallet to be placed.</param>
-        /// <param name="shelfId">The id for the shelf where the pallet should be placed.</param>
+        /// <param name="shelfId">Id of the shelf, used like this "Shelf-1" where X is the shelf.</param>
         /// <exception cref="InvalidOperationException">Thrown when the shelf is already occupied.</exception>
         /// <exception cref="KeyNotFoundException">Thrown when the shelf id does not exist.</exception>
 
@@ -69,6 +69,31 @@ namespace Ware
                 throw new KeyNotFoundException("Shelf ID does not exist.");
             }
         }
+
+        /// <summary>
+        /// Places the pallets automatic in an empty spot.
+        /// </summary>
+        /// <param name="pallet">The pallet that's going to be placed automatic</param>
+        /// <exception cref="InvalidOperationException">Thrown when there's no space left in the storage.</exception>
+        public void PlacePalletAutomatic(Pallet pallet)
+        {
+            foreach (KeyValuePair<string, (List<Pallet>, string, bool)> shelfEntry in palletStorageDict)
+            {
+                (List<Pallet> palletsOnShelf, string sizeName, bool isOccupied) = shelfEntry.Value;
+                for (int floor = 0; floor < palletsOnShelf.Count; floor++)
+                {
+                    if (palletsOnShelf[floor] == null)
+                    {
+                        palletsOnShelf[floor] = pallet;
+                        palletStorageDict[shelfEntry.Key] = (palletsOnShelf, shelfEntry.Value.Item2, true);
+                        return;
+                    }
+                }
+            }
+
+            throw new InvalidOperationException("No empty space available for the pallet.");
+        }
+
 
         /// <summary>
         /// Removes a pallet from a shelf.
@@ -102,23 +127,108 @@ namespace Ware
         /// </summary>
         public void PrintAllPalletStorageInformation()
         {
-            foreach (KeyValuePair<string, (List<Pallet>, string, bool)> item in palletStorageDict)
+            foreach (KeyValuePair<string, (List<Pallet>, string, bool)> shelfEntry in palletStorageDict)
             {
-                string shelfInfo = item.Key + " | (Size: " + item.Value.Item2 + ") | Floors: ";
-                for (int i = 0; i < item.Value.Item1.Count; i++)
+                int shelfNumber = int.Parse(shelfEntry.Key.Split('-')[1]) - 1;
+                char shelfLetter = (char)('A' + shelfNumber);
+
+                for (int i = 0; i < shelfEntry.Value.Item1.Count; i++)
                 {
-                    shelfInfo += $"[{i}: " + (item.Value.Item1[i] != null ? $"{item.Value.Item1[i].packagesOnPallet.Count} packages" : "Empty") + "]";
+                    string floorLabel = $"{shelfLetter}{i + 1}";
+                    string floorStatus = shelfEntry.Value.Item1[i] != null ? $"{shelfEntry.Value.Item1[i].packagesOnPallet.Count} packages" : "Empty";
+                    Console.WriteLine($"[Shelf-{shelfNumber + 1} | Floor : {floorLabel} | {floorStatus} | Size: {shelfEntry.Value.Item2}]");
                 }
-                Console.WriteLine(shelfInfo);
             }
         }
+
         /// <summary>
-        /// Sets the directions of accesspoint to the storage collectivly. True if can access, else false.
+        /// Sends all packages from a specified pallet to the terminal and clears the pallet.
         /// </summary>
-        /// <param name="north">Bool</param>
-        /// <param name="east">Bool</param>
-        /// <param name="south">Bool</param>
-        /// <param name="west">Bool</param>
+        /// <param name="shelfId">The shelf id where the pallet is.</param>
+        /// <param name="floor">The floor number on the shelf where the pallet is.</param>
+        /// <param name="terminal">The terminal to which the pallets are being sent to.</param>
+        /// <exception cref="KeyNotFoundException">Used when the specified shelf id does not exist.</exception>
+        /// <exception cref="InvalidOperationException">If there's no pallet on the specified floor or if the floor number is invalid.</exception>
+        public void SendPalletToTerminal(string shelfId, int floor, Terminal terminal)
+        {
+            if (!palletStorageDict.ContainsKey(shelfId))
+            {
+                throw new KeyNotFoundException("Shelf ID does not exist.");
+            }
+
+            (List<Pallet> pallets, string sizeName, bool isOccupied) = palletStorageDict[shelfId];
+
+            if (floor < 0 || floor >= pallets.Count)
+            {
+                throw new InvalidOperationException("Invalid floor number.");
+            }
+
+            Pallet pallet = pallets[floor];
+            if (pallet == null)
+            {
+                throw new InvalidOperationException("No pallet found on the specified floor.");
+            }
+            terminal.AddPallet(pallet);
+            pallets[floor] = null;
+            palletStorageDict[shelfId] = (pallets, sizeName, pallets.Any(p => p != null));
+        }
+
+        /// <summary>
+        /// Sends pallets to the terminal automatic.
+        /// </summary>
+        /// <param name="pallet">The pallet that is being sent to the terminal.</param>
+        /// <param name="terminal">The terminal which where the pallet is being sent to.</param>
+        /// <exception cref="InvalidOperationException">Thrown when the pallet is not found in the storage.</exception>
+        public void SendPalletToTerminalAutomatic(Pallet pallet, Terminal terminal)
+        {
+            bool palletFound = false;
+
+            foreach (KeyValuePair<string, (List<Pallet>, string, bool)> shelfEntry in palletStorageDict)
+            {
+                List<Pallet> palletsOnShelf = shelfEntry.Value.Item1;
+                string sizeName = shelfEntry.Value.Item2;
+                bool isOccupied = false;
+
+                for (int floor = 0; floor < palletsOnShelf.Count; floor++)
+                {
+                    if (palletsOnShelf[floor] == pallet)
+                    {
+                        terminal.AddPallet(pallet);
+                        palletsOnShelf[floor] = null;
+                        palletFound = true;
+                    }
+                }
+
+                foreach (Pallet remainingPallet in palletsOnShelf)
+                {
+                    if (remainingPallet != null)
+                    {
+                        isOccupied = true;
+                        break;
+                    }
+                }
+                
+                if (palletFound)
+                {
+                    palletStorageDict[shelfEntry.Key] = (palletsOnShelf, sizeName, isOccupied);
+                    break;
+                }
+            }
+
+            if (!palletFound)
+            {
+                throw new InvalidOperationException("Pallet not found in storage.");
+            }
+        }
+
+
+        /// <summary>
+        /// Sets the direction of access points to the storage.
+        /// </summary>
+        /// <param name="north">If set to true, access from the north side is allowed.</param>
+        /// <param name="east">If set to true, access from the east side is allowed.</param>
+        /// <param name="south">If set to true, access from the south side is allowed.</param>
+        /// <param name="west">If set to true, access from the west side is allowed.</param>
         public void SetAccessDirection(bool north, bool east, bool south, bool west)
         {
             northAccess = north;
@@ -164,7 +274,7 @@ namespace Ware
         }
 
         /// <summary>
-        /// Configures a new shelf within the pallet storage.
+        /// Configuration of a shelf within the pallet storage system.
         /// </summary>
         /// <param name="sizeName">The name representing the size of the shelf.</param>
         /// <param name="totalUnitsAvailable">The total number of units available on the shelf.</param>
