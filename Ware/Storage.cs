@@ -35,6 +35,7 @@ namespace Ware
         public delegate void PackageEventHandler(Package package);
         public delegate void PackageEventHandler2(Package package, Storage storage);
         public delegate void PackageEventHandler3(Package package, Terminal terminal);
+
         public event PackageEventHandler PackageEvent;
         public event PackageEventHandler2 PackageAddedEvent;
         public event PackageEventHandler3 PackageSendTerminalEvent;

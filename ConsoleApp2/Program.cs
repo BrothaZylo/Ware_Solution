@@ -13,9 +13,9 @@ namespace ConsoleApp2
             return new Package(name, goodstype, wid, heig);
         }
 
-        static void Package_p(Package package, Storage storage)
+        static void Package_p(object? sender, PackageEventArgs e)
         {
-            Console.WriteLine(package.PackageId+ " was sent to: "+ storage.GoodsType);
+            Console.WriteLine(e.Package.PackageId+ " was sent to: "+ e.Storage.GoodsType);
         }
 
         static void Main(string[] args)
@@ -63,17 +63,13 @@ namespace ConsoleApp2
             //-----------------------------------------------------------//
 
             ReceivingDepartment receivingDepartment = new();
-            receivingDepartment.PackageEvent += Package_p;
+            receivingDepartment.SendAllPackageEvent += Package_p;
             receivingDepartment.AddPackage(package7);
             receivingDepartment.AddPackage(package5);
             receivingDepartment.AddPackage(package1);
             receivingDepartment.AddPackage(package2);
             receivingDepartment.SendAllPackagesToStorage(storage);
 
-            storage.GetAllStorageInformationPrint();
-            Console.WriteLine(storage.GetStorageNameById("A101"));
-            Console.WriteLine(storage.GetPackagePlacement(package7));
-            Console.WriteLine(storage.GetPackageSectionById(package7.PackageId));
 
             //------------------------------------------------------------//
             //---------------------- Pallets Setup -----------------------//

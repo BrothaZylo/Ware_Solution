@@ -11,16 +11,35 @@ namespace Ware
         private readonly List<Package> receivedPackages = [];
         private readonly List<Package> allPackages = [];
 
+        /// <summary>
+        /// Event for SendAllPackagesToStorage(Storage storageConfiguration)
+        /// </summary>
+        public event EventHandler<PackageEventArgs> SendAllPackageEvent;
 
-        public delegate void PackageEventHandler(Package package, Storage storage);
-        public event PackageEventHandler PackageEvent;
+        /// <summary>
+        /// Event for AddPackage(Package package)
+        /// </summary>
+        public event EventHandler<PackageEventArgs> PackageAddedEvent;
 
-        protected virtual void RaisePackageEvent(Package package, Storage storage)
+        /// <summary>
+        /// Event for SendFirstPackageToStorage(Storage storageConfiguration)
+        /// </summary>
+        public event EventHandler<PackageEventArgs> SendFirstPackageEvent;
+
+        private void RaiseSendAllPackageEvent(Package package, Storage storage)
         {
-            PackageEvent?.Invoke(package, storage);
+            SendAllPackageEvent?.Invoke(this, new PackageEventArgs(package, storage));
         }
 
+        private void RaiseAddPackageEvent(Package package)
+        {
+            PackageAddedEvent?.Invoke(this, new PackageEventArgs(package));
+        }
 
+        private void RaiseSendFirstPackageEvent(Package package)
+        {
+            SendFirstPackageEvent?.Invoke(this, new PackageEventArgs(package));
+        }
 
         /// <summary>
         /// The package is received and added to the dictionary of received packages.
@@ -34,7 +53,7 @@ namespace Ware
             }
             receivedPackages.Add(package);
             allPackages.Add(package);
-            //PackageAdded.Invoke(package, new PackageEventArgs(package));
+            RaiseAddPackageEvent(package);
         }
 
         /// <summary>
@@ -49,8 +68,9 @@ namespace Ware
                 if (storageConfiguration.IsSameTypeOfGoods(firstPackage))
                 {
                     storageConfiguration.PlacePackageAutomatic(firstPackage);
+                    RaiseSendFirstPackageEvent(firstPackage);
                     receivedPackages.RemoveAt(0);
-                    Console.WriteLine($"Package {firstPackage.PackageId} was sent to the warehouse and removed from the receiving dictionary.");
+                    //Console.WriteLine($"Package {firstPackage.PackageId} was sent to the warehouse and removed from the receiving dictionary.");
                 }
 
                 if (!storageConfiguration.IsSameTypeOfGoods(firstPackage))
@@ -72,7 +92,7 @@ namespace Ware
                 Package package = receivedPackages[i];
                 if (storageConfiguration.IsSameTypeOfGoods(receivedPackages[i]))
                 {
-                    RaisePackageEvent(package, storageConfiguration);
+                    RaiseSendAllPackageEvent(package, storageConfiguration);
                     storageConfiguration.PlacePackageAutomatic(receivedPackages[i]);
                     receivedPackages.RemoveAt(i);
                 }

@@ -15,8 +15,6 @@ namespace Ware
         public ReceivingDepartment ReceivingDepartment{ get; private set; }
         public Storage Storage { get; private set; }
         public Terminal Terminal { get; private set; }
-        public PackageEventArgs(string text) { Text = text; }
-        public string Text {  get; set; }
 
         public PackageEventArgs()
         {
