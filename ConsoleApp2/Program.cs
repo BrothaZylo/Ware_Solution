@@ -44,9 +44,7 @@ namespace ConsoleApp2
 
             Package package6 = new("Cream", refrigerated, 84, 43);
             Package package7 = new("Ice", refrigerated, 18, 39);
-
-
-            //-----------------------------------------------------------//
+//-----------------------------------------------------------//
             //----------------------Storage Build------------------------//
             //-----------------------------------------------------------//
 
@@ -73,10 +71,7 @@ namespace ConsoleApp2
             receivingDepartment.AddPackage(package1);
             receivingDepartment.AddPackage(package2);
             receivingDepartment.SendAllPackagesToStorage(storage);
-
-
-
-            //----------------------------------------------------------//
+//----------------------------------------------------------//
             //----------------------Access Level------------------------//
             //----------------------------------------------------------//
             /*
@@ -89,12 +84,12 @@ namespace ConsoleApp2
             highvaluegoods.AddAccessLevel(CrewList.AccessLevel.EMPLOYEE);
             bool x = forklift.HasAccess(karl);
             Console.WriteLine(x);
-            */
+            /
             //----------------------------------------------------------//
             //-----------------------Simulation-------------------------//
             //----------------------------------------------------------//
 
-            /*
+            /
             Simulation sim = new(30);
 
             sim.AddPackage(package1);
