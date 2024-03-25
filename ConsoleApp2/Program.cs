@@ -67,7 +67,6 @@ namespace ConsoleApp2
 
             PalletStorage palletStorage = new PalletStorage();
             palletStorage.AddShelf("Tiny", 3, 4);
-            // 3 shelves og 4 floors.
 
             palletStorage.BuildStorage();
 
