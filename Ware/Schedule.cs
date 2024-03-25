@@ -17,6 +17,15 @@ namespace Ware
     public class Schedule : ISchedule
     {
         /// <summary>
+        /// Used for AddPackage(string singleOrRepeating, DayOfWeek day, Package package, DateTime pickupTime)
+        /// </summary>
+        public event EventHandler<PackageEventArgs>? PackageAddEvent;
+
+        private void RaisePackageAddEvent(Package package)
+        {
+            PackageAddEvent?.Invoke(this, new PackageEventArgs(package));
+        }
+        /// <summary>
         /// Creates an enum containing the days sunday to saturday that will be used as keys for the calender/dictionary
         /// </summary>
         public enum DaysOfWeek
@@ -73,6 +82,7 @@ namespace Ware
             if (calender.ContainsKey((DaysOfWeek)day))
             {
                 calender[(DaysOfWeek)day].Add((singleOrRepeating, package, pickupTime));  
+                RaisePackageAddEvent(package);
             }
         }
         /// <summary>

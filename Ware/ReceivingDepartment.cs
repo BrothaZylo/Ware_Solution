@@ -70,7 +70,7 @@ namespace Ware
                     storageConfiguration.PlacePackageAutomatic(firstPackage);
                     RaiseSendFirstPackageEvent(firstPackage);
                     receivedPackages.RemoveAt(0);
-                    //Console.WriteLine($"Package {firstPackage.PackageId} was sent to the warehouse and removed from the receiving dictionary.");
+                    //Console.WriteLine($"Package {firstPackage.Text} was sent to the warehouse and removed from the receiving dictionary.");
                 }
 
                 if (!storageConfiguration.IsSameTypeOfGoods(firstPackage))

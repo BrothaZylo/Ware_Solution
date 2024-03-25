@@ -65,7 +65,7 @@ namespace Ware
         public void UseEquipment(Person person)
         {
             RaiseEquipmentUseEvent(person, name);
-            person.IsUsingEquipment = name;
+            person.CurrentlyUsingEquipment = name;
             usages.Add(""+person.Name+" started using "+name +" "+DateTime.Now);
         }
         
@@ -75,8 +75,8 @@ namespace Ware
         /// <param name="person">Person using the equipment</param>
         public void StopUsingEquipment(Person person)
         {
-            RaiseEquipmentStopUseEvent(person, name);
-            person.IsUsingEquipment = "";
+            RaiseEquipmentStopUseEvent(person, Name);
+            person.CurrentlyUsingEquipment = "";
             usages.Add("" + person.Name + " stopped using " + name + " " + DateTime.Now);
         }
 
@@ -96,7 +96,7 @@ namespace Ware
         public void AddAccessLevel(AccessLevel accessLevel)
         {
             equipment.Add(accessLevel);
-            RaiseAccessLevelAddEvent(name, accessLevel);
+            RaiseAccessLevelAddEvent(Name, accessLevel);
         }
 
         /// <summary>

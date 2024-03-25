@@ -26,34 +26,45 @@ namespace Ware
         private bool southAccess = true;
         private bool westAccess = true;
 
-        //Slett disse :D
-        public event EventHandler<PackageEventArgs> PackageAdded;
-        public event EventHandler<PackageEventArgs> PackageSent;
 
-        //Events
-        //Legg til flere om nødvendig
-        public delegate void PackageEventHandler(Package package);
-        public delegate void PackageEventHandler2(Package package, Storage storage);
-        public delegate void PackageEventHandler3(Package package, Terminal terminal);
+        /// <summary>
+        /// Used for PlacePackage(args) and PlacePackageAutomatic(Package package)
+        /// </summary>
+        public event EventHandler<PackageEventArgs>? PackagePlacedEvent;
 
-        public event PackageEventHandler PackageEvent;
-        public event PackageEventHandler2 PackageAddedEvent;
-        public event PackageEventHandler3 PackageSendTerminalEvent;
+        /// <summary>
+        /// Used for RemovePackage(args)
+        /// </summary>
+        public event EventHandler<PackageEventArgs>? RemovePackageEvent;
 
-        protected virtual void RaisePackageSentEvent(Package package, Storage storage)
+        /// <summary>
+        /// Used for MovePackage(Package package)
+        /// </summary>
+        public event EventHandler<PackageEventArgs>? MovePackageEvent;
+
+        /// <summary>
+        /// Used for MovePackageToTerminal(Package package, Terminal terminal)
+        /// </summary>
+        public event EventHandler<PackageEventArgs>? MovePackageToTerminalEvent;
+
+        private void RaisePackagePlacedEvent(Package package, string storageUniqueId)
         {
-            PackageAddedEvent?.Invoke(package, storage);
-        }
-        protected virtual void RaisePackageSentEvent(Package package, Terminal terminal)
-        {
-            PackageSendTerminalEvent?.Invoke(package, terminal);
-        }
-        protected virtual void RaisePackageEvent(Package package)
-        {
-            PackageEvent?.Invoke(package);
+            PackagePlacedEvent?.Invoke(this, new PackageEventArgs(package, storageUniqueId));
         }
 
+        private void RaiseRemovePackageEvent(Package package, string storageUniqueId)
+        {
+            RemovePackageEvent?.Invoke(this, new PackageEventArgs(package, storageUniqueId));
+        }
 
+        private void RaiseMovePackageEvent(Package package, string storageUniqueId)
+        {
+            MovePackageEvent?.Invoke(this, new PackageEventArgs(package, storageUniqueId));
+        }
+        private void RaiseMovePackageToTerminalEvent(Package package, Terminal terminal)
+        {
+            MovePackageToTerminalEvent?.Invoke(this, new PackageEventArgs(package, terminal));
+        }
         /// <summary>
         /// Creates the Storageunit based on instructions from the config and constructor.
         /// </summary>
@@ -85,6 +96,7 @@ namespace Ware
             {
                 if (item.Key == GetStorageNameById(shelfId))
                 {
+                    RaisePackagePlacedEvent(package, UniqueId);
                     yourStorageDict[item.Key] = (package, item.Value.Item2, item.Value.Item3, item.Value.Item4, true);
                 }
             }
@@ -102,6 +114,7 @@ namespace Ware
             {
                 if (item.Key == GetStorageNameById(shelfId1) || item.Key == GetStorageNameById(shelfId2))
                 {
+                    RaisePackagePlacedEvent(package, UniqueId);
                     yourStorageDict[item.Key] = (package, item.Value.Item2, item.Value.Item3, item.Value.Item4, true);
                 }
             }
@@ -120,6 +133,7 @@ namespace Ware
             {
                 if (item.Key == GetStorageNameById(shelfId1) || item.Key == GetStorageNameById(shelfId2) || item.Key == GetStorageNameById(shelfId3))
                 {
+                    RaisePackagePlacedEvent(package, UniqueId);
                     yourStorageDict[item.Key] = (package, item.Value.Item2, item.Value.Item3, item.Value.Item4, true);
                 }
             }
@@ -136,6 +150,7 @@ namespace Ware
                 if (i.Value.Item1 == package)
                 {
                     yourStorageDict[i.Key] = (null, i.Value.Item2, i.Value.Item3, i.Value.Item4, false);
+                    RaiseRemovePackageEvent(package, UniqueId);
                 }
             }
         }
@@ -150,6 +165,10 @@ namespace Ware
             {
                 if (item.Key == GetStorageNameById(shelfId))
                 {
+                    if (item.Value.Item1 != null)
+                    {
+                        RaiseRemovePackageEvent(item.Value.Item1, UniqueId);
+                    }
                     yourStorageDict[item.Key] = (null, item.Value.Item2, item.Value.Item3, item.Value.Item4, true);
                 }
             }
@@ -166,6 +185,10 @@ namespace Ware
             {
                 if (item.Key == GetStorageNameById(shelfId1) || item.Key == GetStorageNameById(shelfId2))
                 {
+                    if (item.Value.Item1 != null)
+                    {
+                        RaiseRemovePackageEvent(item.Value.Item1, UniqueId);
+                    }
                     yourStorageDict[item.Key] = (null, item.Value.Item2, item.Value.Item3, item.Value.Item4, true);
                 }
             }
@@ -183,6 +206,10 @@ namespace Ware
             {
                 if (item.Key == GetStorageNameById(shelfId1) || item.Key == GetStorageNameById(shelfId2) || item.Key == GetStorageNameById(shelfId3))
                 {
+                    if (item.Value.Item1 != null)
+                    {
+                        RaiseRemovePackageEvent(item.Value.Item1, UniqueId);
+                    }
                     yourStorageDict[item.Key] = (null, item.Value.Item2, item.Value.Item3, item.Value.Item4, true);
                 }
             }
@@ -213,7 +240,7 @@ namespace Ware
 
                         }
                         yourStorageDict[i.Key] = (package, i.Value.Item2, i.Value.Item3, i.Value.Item4, true);
-                        // blir plassert i i.key // add event , add excep
+                        RaisePackagePlacedEvent(package, UniqueId);
                         break;
                     }
                 }
@@ -262,6 +289,7 @@ namespace Ware
             }
             if (foundPackageCounter != 0)
             {
+                RaiseMovePackageEvent(package, UniqueId);
                 return package;
             }
 
@@ -287,6 +315,7 @@ namespace Ware
             }
             if (tmp != null)
             {
+                RaiseMovePackageToTerminalEvent(tmp, terminal);
                 terminal.AddPackage(tmp);
             }
             if (tmp == null)
