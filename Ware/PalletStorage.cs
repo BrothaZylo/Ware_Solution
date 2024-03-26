@@ -341,16 +341,6 @@ namespace Ware
             set { storageName = value; }
         }
 
-        /// <summary>
-        /// Adds a new shelf configuration to the storage system.
-        /// </summary>
-        /// <param name="sizeName">The name representing the size of the shelf.</param>
-        /// <param name="totalUnitsAvailable">The total number of units that the shelf has space for.</param>
-        /// <param name="Floors">Number of floors per shelf.</param>
-        public void AddShelf(string sizeName, int totalUnitsAvailable, int floors)
-        {
-            shelvesConfigs.Add(new ShelvesConfig { SizeName = sizeName, TotalUnitsAvailable = totalUnitsAvailable, Floors = floors });
-        }
 
         /// <summary>
         /// Configuration of a shelf within the pallet storage system.
@@ -363,6 +353,17 @@ namespace Ware
             public string SizeName { get; set; }
             public int TotalUnitsAvailable { get; set; }
             public int Floors { get; set; }
+        }
+
+        /// <summary>
+        /// Adds a new shelf configuration to the storage system.
+        /// </summary>
+        /// <param name="sizeName">The name representing the size of the shelf.</param>
+        /// <param name="totalUnitsAvailable">The total number of units that the shelf has space for.</param>
+        /// <param name="Floors">Number of floors per shelf.</param>
+        public void AddShelf(string sizeName, int totalUnitsAvailable, int floors)
+        {
+            shelvesConfigs.Add(new ShelvesConfig { SizeName = sizeName, TotalUnitsAvailable = totalUnitsAvailable, Floors = floors });
         }
     }
 }

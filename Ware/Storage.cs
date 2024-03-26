@@ -525,18 +525,6 @@ namespace Ware
         }
 
         /// <summary>
-        /// Custom unit can be added to the storage
-        /// </summary>
-        /// <param name="sizeName">Size of the shelf</param>
-        /// <param name="totalUntsAvailable">Total units/shelves </param>
-        /// <param name="maxHeightCm">Height of the unit/Shelf</param>
-        /// <param name="maxWidthCm">Width if the unit/shelf</param>
-        public void AddShelf(string sizeName, int totalUntsAvailable, double maxHeightCm, double maxWidthCm)
-        {
-            addShelves.Add(new() { SizeName = sizeName, TotalUnitsAvailable = totalUntsAvailable, MaxHeightCm = maxHeightCm, MaxWidthCm = maxWidthCm });
-        }
-
-        /// <summary>
         /// Prints the diffrent Size configs for each size created.
         /// </summary>
         public void UnitShelfsPrint()
@@ -608,6 +596,18 @@ namespace Ware
             /// Max Height for x amount of units
             /// </summary>
             public double MaxHeightCm { get; set; }
+        }
+
+        /// <summary>
+        /// Custom unit can be added to the storage
+        /// </summary>
+        /// <param name="sizeName">Size of the shelf</param>
+        /// <param name="totalUntsAvailable">Total units/shelves </param>
+        /// <param name="maxHeightCm">Height of the unit/Shelf</param>
+        /// <param name="maxWidthCm">Width if the unit/shelf</param>
+        public void AddShelf(string sizeName, int totalUntsAvailable, double maxHeightCm, double maxWidthCm)
+        {
+            addShelves.Add(new() { SizeName = sizeName, TotalUnitsAvailable = totalUntsAvailable, MaxHeightCm = maxHeightCm, MaxWidthCm = maxWidthCm });
         }
     }
 }
