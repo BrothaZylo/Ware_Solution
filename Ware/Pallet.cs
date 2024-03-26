@@ -23,6 +23,16 @@ namespace Ware
         {
             AddPackageToPalletEvent?.Invoke(this, new PackageEventArgs(package));
         }
+
+        public int PackagesInPallet()
+        {
+            return packagesOnPallet.Count;
+        }
+
+        public List<Package> GetPackagesOnPallet()
+        {
+            return packagesOnPallet;
+        }
         /// <summary>
         /// Adds a package to the pallet, if current one is full then it creats a new pallet.
         /// </summary>

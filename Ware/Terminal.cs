@@ -30,6 +30,12 @@ namespace Ware
         /// </summary>
         public event EventHandler<PackageEventArgs>? PackageSendEvent;
 
+        public event EventHandler<PalletEventArgs>? PalletAddEvent;
+
+        private void RaisePalletAddEvent(Pallet pallet)
+        {
+            PalletAddEvent?.Invoke(this, new PalletEventArgs(pallet));
+        }
         private void RaisePackageSendAllEvent(Package package)
         {
             PackageSendAllEvent?.Invoke(this, new PackageEventArgs(package));
@@ -64,11 +70,9 @@ namespace Ware
         /// <param name="pallet">The pallet to add to the terminal.</param>
         public void AddPallet(Pallet pallet)
         {
+            List<Package> packages = pallet.GetPackagesOnPallet();
             PalletsInTerminal.Add(pallet);
-            foreach (Package package in pallet.packagesOnPallet)
-            {
-                RaisePackageEvent(package);
-            }
+            RaisePalletAddEvent(pallet);
         }
 
         /// <summary>
@@ -95,10 +99,11 @@ namespace Ware
         /// </summary>
         public void PrintPalletInformation()
         {
-            foreach (Pallet pallet in PalletsInTerminal)
+            foreach (Pallet item in PalletsInTerminal)
             {
-                Console.WriteLine($"Pallet with {pallet.packagesOnPallet.Count} packages.");
-                foreach (Package package in pallet.packagesOnPallet)
+                List<Package> packages = item.GetPackagesOnPallet();
+                Console.WriteLine($"Pallet with {item.PackagesInPallet} packages.");
+                foreach (Package package in packages)
                 {
                     Console.WriteLine($"Package: {package.Name}");
                 }

@@ -154,7 +154,7 @@ namespace Ware
                     for (int posIndex = 0; posIndex < floor.Count; posIndex++)
                     {
                         Pallet pallet = floor[posIndex];
-                        string positionStatus = pallet != null ? $"{pallet.packagesOnPallet.Count} packages" : "Empty";
+                        string positionStatus = pallet != null ? $"{pallet.PackagesInPallet} packages" : "Empty";
                         Console.WriteLine($"[{shelfId} | Floor : {floorIndex + 1} | Position: {posIndex + 1} | {positionStatus} | Size: {sizeName}]");
                     }
                 }
