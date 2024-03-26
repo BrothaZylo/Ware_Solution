@@ -110,17 +110,17 @@ namespace ConsoleApp2
 
             TimeEstimate t = new TimeEstimate();
             Console.WriteLine("\n");
-            t.SetTimeStorage(storage, 1, 5, 10);
-            t.SetTimeStorage(storage, 6, 8, 20);
-            t.GetStorageTimeprint();
+            t.SetTimeStorageGetPackage(storage, 1, 5, 10);
+            t.SetTimeStorageGetPackage(storage, 6, 8, 20);
+            t.GetStorageTimeToGetPackagePrint();
 
             Console.WriteLine("\n");
-            t.SetTimeStorage(storage2, 1, 6, 20);
-            t.SetTimeStorage(storage2, 7, 9, 30);
-            t.GetStorageTimeprint();
+            t.SetTimeStorageGetPackage(storage2, 1, 6, 20);
+            t.SetTimeStorageGetPackage(storage2, 7, 9, 30);
+            t.GetStorageTimeToGetPackagePrint();
 
             Console.WriteLine("\n");
-            t.GetStorageTimeShelvesDictionary(storage2);
+            t.GetStorageTimeToGetPackageDictionary(storage2);
 
             //-----------------------------------------------------------//
             //--------------------------Events---------------------------//
