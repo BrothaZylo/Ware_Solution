@@ -7,6 +7,9 @@ using System.Xml.Linq;
 
 namespace Ware
 {
+    /// <summary>
+    /// A class for making an aisle for pallets
+    /// </summary>
     public class PalletAisle : IPalletAisle
     {
         private string name;
@@ -25,9 +28,11 @@ namespace Ware
             PalletStorageRemoveEvent?.Invoke(this, new StorageEventArgs(palletStorage));
         }
 
-
-
-
+        /// <summary>
+        /// Constructor for making an aisle with a name and a empty list of PalletStorage
+        /// </summary>
+        /// <param name="aisleName">Name of the aisle</param>
+        /// <exception cref="ArgumentException"></exception>
         public PalletAisle(string aisleName)
         {
             if (string.IsNullOrEmpty(aisleName))
@@ -37,11 +42,22 @@ namespace Ware
             name = aisleName;
             palletAisle = new List<PalletStorage>();
         }
+
+
+        /// <summary>
+        /// Adds a PalletStorage to the PalletAisle
+        /// </summary>
+        /// <param name="palletStorage">A PalletStorage</param>
         public void AddPalletStorage(PalletStorage palletStorage)
         {
             palletAisle.Add(palletStorage);
             RaisePalletStorageAddEvent(palletStorage);
         }
+
+        /// <summary>
+        /// Removes a palletStorage from the PalletAisle
+        /// </summary>
+        /// <param name="palletStorage">A PalletAisle</param>
         public void RemovePalletStorage(PalletStorage palletStorage)
         {
             if (palletAisle.Contains(palletStorage))
@@ -49,6 +65,10 @@ namespace Ware
                 palletAisle.Remove(palletStorage);
             }
         }
+
+        /// <summary>
+        /// Prints out the palletstorages
+        /// </summary>
         public void GetAllPalletPrints()
         {
             foreach(PalletStorage palletStorage in palletAisle)
