@@ -8,11 +8,11 @@ namespace Ware
 {
     internal interface IPalletAisle
     {
-        public void AddPalletStorage(PalletStorage palletStorage);
+        void AddPalletStorage(PalletStorage palletStorage);
 
-        public void RemovePalletStorage(PalletStorage palletStorage);
+        void RemovePalletStorage(PalletStorage palletStorage);
 
-        public void GetAllPalletPrints();
+        void GetAllPalletPrints();
 
     }
 }
