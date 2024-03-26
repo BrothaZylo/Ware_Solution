@@ -22,7 +22,7 @@ namespace Ware
         /// <param name="fromShelf">What floor to start</param>
         /// <param name="toShelf">What florr to stop</param>
         /// <param name="timeSeconds">Amount of time it takes to get something from fromshelf-toshelf</param>
-        public void SetTimeStorage(Storage storage, int fromShelf, int toShelf, int timeSeconds)
+        public void SetTimeStorageGetPackage(Storage storage, int fromShelf, int toShelf, int timeSeconds)
         {
             if (!storageTime.TryGetValue(storage, out List<SubTimerCollection>? value))
             {
@@ -38,7 +38,7 @@ namespace Ware
         /// </summary>
         /// <param name="storage">Storage you want info from</param>
         /// <returns>a dict containing storage timers</returns>
-        public Dictionary<Storage, List<SubTimerCollection>> GetStorageTimeShelvesDictionary(Storage storage)
+        public Dictionary<Storage, List<SubTimerCollection>> GetStorageTimeToGetPackageDictionary(Storage storage)
         {
             Dictionary<Storage, List<SubTimerCollection>> tmp = [];
             foreach(KeyValuePair<Storage, List<SubTimerCollection>> item in storageTime)
@@ -54,7 +54,7 @@ namespace Ware
         /// <summary>
         /// Console prints time for storage
         /// </summary>
-        public void GetStorageTimeprint()
+        public void GetStorageTimeToGetPackagePrint()
         {
             foreach (KeyValuePair<Storage, List<SubTimerCollection>> item in storageTime)
             {
