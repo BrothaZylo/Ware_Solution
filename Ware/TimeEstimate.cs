@@ -8,6 +8,9 @@ using static Ware.TimeEstimate;
 
 namespace Ware
 {
+    /// <summary>
+    /// Set timers for "events"
+    /// </summary>
     public class TimeEstimate
     {
         private readonly Dictionary<Storage, List<SubTimer>> storageTime = [];
@@ -31,10 +34,10 @@ namespace Ware
         }
 
         /// <summary>
-        /// 
+        /// Gets time it takes to get something from the storrage selected
         /// </summary>
-        /// <param name="storage"></param>
-        /// <returns></returns>
+        /// <param name="storage">Storage you want info from</param>
+        /// <returns>a dict containing storage timers</returns>
         public Dictionary<Storage, List<SubTimer>> GetStorageTimeShelvesDictionary(Storage storage)
         {
             Dictionary<Storage, List<SubTimer>> tmp = [];
