@@ -58,11 +58,56 @@ namespace ConsoleApp2
             storage2.AddShelf("Tiny", 4, 33, 33);
             storage2.AddShelf("Mid", 2, 63, 63);
             storage2.Build();
-            storage.GetAllStorageInformationPrint();
+
+
+
+            //------------------------------------------------------------//
+            //---------------------- Pallets Setup -----------------------//
+            //------------------------------------------------------------//
+
+            Pallet pallet1 = new Pallet();
+            pallet1.AddPackageToPallet(package3);
+            pallet1.AddPackageToPallet(package4);
+            pallet1.AddPackageToPallet(package5);
+
+            Pallet pallet2 = new Pallet();
+            pallet2.AddPackageToPallet(package1);
+            pallet2.AddPackageToPallet(package2);
+
+            Pallet pallet3 = new Pallet();
+            pallet3.AddPackageToPallet(package6);
+            pallet3.AddPackageToPallet(package7);
+
+            PalletStorage palletStorage = new PalletStorage();
+            palletStorage.AddShelf("Tiny", 2, 3);
+            palletStorage.AddShelf("Mid", 3, 4);
+
+            palletStorage.BuildStorage();
+
+            Console.WriteLine("pallets placed in storage");
+            palletStorage.PlacePalletAutomatic(pallet1);
+            palletStorage.PlacePalletAutomatic(pallet2);
+            palletStorage.PlacePallet(pallet3, "Shelf-2", 1, 1);
+            palletStorage.PrintAllPalletStorageInformation();
+
+            Terminal terminal = new Terminal();
+
+            palletStorage.SendPalletToTerminalAutomatic(pallet1, terminal);
+            palletStorage.SendPalletToTerminal("Shelf-2", 1, 1, terminal);
+
+            Console.WriteLine("\npallet 1 and 3 sent to terminal but ont pallet 2");
+            palletStorage.PrintAllPalletStorageInformation();
+
+            Console.WriteLine("\ncurrent pallets in terminal");
+            terminal.PrintPalletInformation();
+
+
+
             //-----------------------------------------------------------//
             //--------------------------Events---------------------------//
             //-----------------------------------------------------------//
 
+            /*
             ReceivingDepartment receivingDepartment = new();
             receivingDepartment.SendAllPackageEvent += Package_p;
             receivingDepartment.AddPackage(package7);
@@ -70,6 +115,10 @@ namespace ConsoleApp2
             receivingDepartment.AddPackage(package1);
             receivingDepartment.AddPackage(package2);
             receivingDepartment.SendAllPackagesToStorage(storage);
+
+            */
+
+
 
 
             //------------------------------------------------------------//
@@ -107,6 +156,7 @@ namespace ConsoleApp2
                 Console.WriteLine($"An error occurred: {message.Message}");
             }
             */
+
             //----------------------------------------------------------//
             //----------------------Access Level------------------------//
             //----------------------------------------------------------//

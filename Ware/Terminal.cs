@@ -12,8 +12,10 @@ namespace Ware
     /// </summary>
     public class Terminal : ITerminal
     {
-        private readonly List<Package> PackagesToSendOut = [];
-        private readonly Queue<Package> PackagesToSendOutQueue = new();
+        private readonly List<Package> PackagesToSendOut = new List<Package>();
+        private readonly Queue<Package> PackagesToSendOutQueue = new Queue<Package>();
+        private readonly List<Pallet> PalletsInTerminal = new List<Pallet>();
+
 
         /// <summary>
         /// Uses by SendAllPackages()
@@ -57,6 +59,19 @@ namespace Ware
         }
 
         /// <summary>
+        /// Adds a pallet to the terminal.
+        /// </summary>
+        /// <param name="pallet">The pallet to add to the terminal.</param>
+        public void AddPallet(Pallet pallet)
+        {
+            PalletsInTerminal.Add(pallet);
+            foreach (Package package in pallet.packagesOnPallet)
+            {
+                RaisePackageEvent(package);
+            }
+        }
+
+        /// <summary>
         /// Returns a dictionary of packages in the terminal
         /// </summary>
         /// <returns>Returns a dictionary of packages in the terminal</returns>
@@ -74,6 +89,22 @@ namespace Ware
                 Console.WriteLine(p.Name);
             }
         }
+
+        /// <summary>
+        /// Prints all information of the pallets in the terminal.
+        /// </summary>
+        public void PrintPalletInformation()
+        {
+            foreach (Pallet pallet in PalletsInTerminal)
+            {
+                Console.WriteLine($"Pallet with {pallet.packagesOnPallet.Count} packages.");
+                foreach (Package package in pallet.packagesOnPallet)
+                {
+                    Console.WriteLine($"Package: {package.Name}");
+                }
+            }
+        }
+
         /// <summary>
         /// Sends out a specific package and removes from dictionary
         /// </summary>
