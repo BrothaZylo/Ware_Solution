@@ -104,7 +104,7 @@ namespace ConsoleApp2
             TimeEstimate t = new TimeEstimate();
             t.SetTimeStorage(storage, 1, 5, 10);
             t.SetTimeStorage(storage, 6, 8, 20);
-            t.prnt();
+            t.GetStorageTimeprint();
 
             //-----------------------------------------------------------//
             //--------------------------Events---------------------------//
