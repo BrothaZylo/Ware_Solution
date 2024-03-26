@@ -143,7 +143,7 @@ namespace Ware
         /// </summary>
         public void PrintAllPalletStorageInformation()
         {
-            foreach (KeyValuePair<string, (List<List<Pallet>>, string, bool)> shelfEntry in palletStorageDict)
+            foreach (var shelfEntry in palletStorageDict)
             {
                 string shelfId = shelfEntry.Key;
                 (List<List<Pallet>> floors, string sizeName, _) = shelfEntry.Value;
@@ -153,8 +153,8 @@ namespace Ware
                     List<Pallet> floor = floors[floorIndex];
                     for (int posIndex = 0; posIndex < floor.Count; posIndex++)
                     {
-                        Pallet pallet = floor[posIndex];
-                        string positionStatus = pallet != null ? $"{pallet.PackagesInPallet} packages" : "Empty";
+                        Pallet? pallet = floor[posIndex];
+                        string positionStatus = pallet != null ? $"{pallet.PackagesInPallet()} packages" : "Empty";
                         Console.WriteLine($"[{shelfId} | Floor : {floorIndex + 1} | Position: {posIndex + 1} | {positionStatus} | Size: {sizeName}]");
                     }
                 }

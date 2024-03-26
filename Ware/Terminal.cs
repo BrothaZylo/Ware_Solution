@@ -99,11 +99,11 @@ namespace Ware
         /// </summary>
         public void PrintPalletInformation()
         {
-            foreach (Pallet item in PalletsInTerminal)
+            foreach (var pallet in PalletsInTerminal)
             {
-                List<Package> packages = item.GetPackagesOnPallet();
-                Console.WriteLine($"Pallet with {item.PackagesInPallet} packages.");
-                foreach (Package package in packages)
+                int packageCount = pallet.PackagesInPallet();
+                Console.WriteLine($"Pallet with {packageCount} packages.");
+                foreach (var package in pallet.GetPackagesOnPallet())
                 {
                     Console.WriteLine($"Package: {package.Name}");
                 }

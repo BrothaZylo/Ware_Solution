@@ -11,7 +11,7 @@ namespace Ware
     /// </summary>
     public class Pallet(int maxPackages = 30) : IPallet
     {
-        private readonly List<Package> packagesOnPallet = [];
+        private readonly List<Package> packagesOnPallet = new List<Package>();
         private int maxPackagesPerPallet = maxPackages;
 
         /// <summary>
@@ -76,6 +76,15 @@ namespace Ware
             }
 
             maxPackagesPerPallet = maxPackages;
+        }
+        public IReadOnlyList<Package> PackagesOnPallet
+        {
+            get { return packagesOnPallet.AsReadOnly(); }
+        }
+
+        public int MaxPackagesPerPallet
+        {
+            get { return maxPackagesPerPallet; }
         }
     }
 }
