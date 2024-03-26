@@ -9,13 +9,13 @@ namespace Ware
     internal interface IPalletStorage
     {
         void BuildStorage();
-        void PlacePallet(Pallet pallet, string shelfId, int floor);
+        void PlacePallet(Pallet pallet, string shelfId, int floor, int position);
         void PlacePalletAutomatic(Pallet pallet);
-        void RemovePallet(string shelfId, int floor);
+        void RemovePallet(string shelfId, int floor, int position);
         void PrintAllPalletStorageInformation();
-        void SendPalletToTerminal(string shelfId, int floor, Terminal terminal);
+        void SendPalletToTerminal(string shelfId, int floor, int position, Terminal terminal);
         void SendPalletToTerminalAutomatic(Pallet pallet, Terminal terminal);
-        void AddShelf(string sizeName, int totalUnitsAvailable, int floors);
+        void AddShelf(string sizeName, int palletsPerFloor, int floors);
         void SetAccessDirection(bool north, bool east, bool south, bool west);
 
     }

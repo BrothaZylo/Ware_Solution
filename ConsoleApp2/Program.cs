@@ -79,26 +79,26 @@ namespace ConsoleApp2
             pallet3.AddPackageToPallet(package7);
 
             PalletStorage palletStorage = new PalletStorage();
-            palletStorage.AddShelf("Tiny", 3, 4);
+            palletStorage.AddShelf("Tiny", 2, 3);
+            palletStorage.AddShelf("Mid", 3, 4);
 
             palletStorage.BuildStorage();
 
-            Console.WriteLine("Pallets in storage");
+            Console.WriteLine("pallets placed in storage");
             palletStorage.PlacePalletAutomatic(pallet1);
             palletStorage.PlacePalletAutomatic(pallet2);
-            palletStorage.PlacePallet(pallet3, "Shelf-3", 0);
+            palletStorage.PlacePallet(pallet3, "Shelf-2", 1, 1);
             palletStorage.PrintAllPalletStorageInformation();
 
             Terminal terminal = new Terminal();
 
-            palletStorage.SendPalletToTerminal("Shelf-1", 0, terminal);
-            palletStorage.SendPalletToTerminalAutomatic(pallet3, terminal);
-      
+            palletStorage.SendPalletToTerminalAutomatic(pallet1, terminal);
+            palletStorage.SendPalletToTerminal("Shelf-2", 1, 1, terminal);
 
-            Console.WriteLine("\nPallets 1 and 3 sent to terminal");
+            Console.WriteLine("\npallet 1 and 3 sent to terminal but ont pallet 2");
             palletStorage.PrintAllPalletStorageInformation();
 
-            Console.WriteLine("\nPallets in terminal");
+            Console.WriteLine("\ncurrent pallets in terminal");
             terminal.PrintPalletInformation();
 
 
