@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Ware
 {
-    internal interface IAisle
+    public interface IAisle
     {
-        public void AddStorage(Storage storage);
-        public void removeStorage(Storage storage);
-        public void GetPackagesInAislesPrint();
-        public string FindPackage(Package package);
+        void AddStorage(Storage storage);
+        void removeStorage(Storage storage);
+        void GetPackagesInAislesPrint();
+        string? FindPackage(Package package);
 
     }
 }
