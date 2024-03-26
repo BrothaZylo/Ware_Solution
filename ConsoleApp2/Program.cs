@@ -107,6 +107,15 @@ namespace ConsoleApp2
             t.SetTimeStorage(storage, 6, 8, 20);
             t.GetStorageTimeprint();
 
+            ReceivingDepartment receivingDepartment = new ReceivingDepartment();
+            receivingDepartment.AddPackage(package6);
+            receivingDepartment.SendAllPackagesToStorage(storage);
+
+            Aisle aisle = new Aisle("Kjøl");
+            aisle.AddStorage(storage);
+            aisle.FindPackage(package6);
+
+
             //-----------------------------------------------------------//
             //--------------------------Events---------------------------//
             //-----------------------------------------------------------//

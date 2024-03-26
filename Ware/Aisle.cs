@@ -58,19 +58,20 @@ namespace Ware
         /// </summary>
         /// <param name="package">A package object</param>
         /// <returns>Returns a string that tells what storage the package is located at</returns>
-        public string? GetPackageFromAisle(Package package)
+        public string FindPackage(Package package)
         {
             foreach (Storage item in storages)
             {
+                item.GetAllStorageInformationPrint();
                 if (item.GetPackage(package.PackageId) == package)
                 {
                     return item.GetPackageSectionById(package.PackageId);
                 }
-
             }
             return null;
         }
-        
+
+
 
         /// <summary>
         /// Getter and setter for aisle name

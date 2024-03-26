@@ -389,8 +389,10 @@ namespace Ware
             {
                 if (i.Value.Item1 is not null && i.Value.Item1.PackageId == packageId)
                 {
-                    item += i;
-                    return item;
+                    string shelfID = i.Key;
+                    string packageName = i.Value.Item1.Name;
+                    string ShelfDetails = $"[{shelfID}: {packageName}, {i.Value.Item2}, {i.Value.Item3}, {i.Value.Item4}, {i.Value.Item5}]";
+                    return ShelfDetails;
                 }
             }
             throw new PackageInvalidException(" Package with ID not found: " + packageId);
