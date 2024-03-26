@@ -148,7 +148,7 @@ namespace Ware
         /// </summary>
         public void PrintAllPalletStorageInformation()
         {
-            foreach (var shelfEntry in palletStorageDict)
+            foreach (KeyValuePair<string, (List<List<Pallet>>, string, bool)> shelfEntry in palletStorageDict)
             {
                 string shelfId = shelfEntry.Key;
                 (List<List<Pallet>> floors, string sizeName, _) = shelfEntry.Value;
@@ -165,7 +165,49 @@ namespace Ware
                 }
             }
         }
+        /// <summary>
+        /// Prints information about the packages stored on a specific pallet located at the given shelf, floor, and position.
+        /// </summary>
+        /// <param name="shelfId">The id of the shelf where the pallet is located.</param>
+        /// <param name="floor">The floor location on the specified shelf where the pallet is located.</param>
+        /// <param name="position">The position on the floor where the pallet is located.</param>
+        public void PrintPalletInformation(string shelfId, int floor, int position)
+        {
+            if (!palletStorageDict.TryGetValue(shelfId, out (List<List<Pallet>>, string, bool) shelfInfo))
 
+            {
+                Console.WriteLine("Shelf ID does not exist.");
+                return;
+            }
+
+            (List<List<Pallet>> floors, string sizeName, bool isOccupied) = shelfInfo;
+
+            if (floor < 0 || floor >= floors.Count)
+            {
+                Console.WriteLine("Invalid floor number.");
+                return;
+            }
+
+            if (position < 0 || position >= floors[floor].Count)
+            {
+                Console.WriteLine("Invalid position on floor.");
+                return;
+            }
+
+            Pallet pallet = floors[floor][position];
+            if (pallet == null)
+            {
+                Console.WriteLine("No pallet found at the specified position.");
+                return;
+            }
+
+            int packageCount = pallet.PackagesInPallet();
+            Console.WriteLine($"Pallet with {packageCount} packages.");
+            foreach (Package package in pallet.GetPackagesOnPallet())
+            {
+                Console.WriteLine($"Package: {package.Name}");
+            }
+        }
 
         /// <summary>
         /// Sends all packages from a specified pallet to the terminal and clears the pallet.

@@ -97,6 +97,8 @@ namespace ConsoleApp2
             palletStorage.PlacePalletAutomatic(pallet2);
             palletStorage.PlacePallet(pallet3, "Shelf-2", 1, 1);
             palletStorage.PrintAllPalletStorageInformation();
+            Console.WriteLine("\nThe packages in pallet in Shelf-2 at Floor: 2 Position: 2");
+            palletStorage.PrintPalletInformation("Shelf-2", 1, 1);
 
             Console.WriteLine("\nsecond pallet storage");
             palletStorage1.PrintAllPalletStorageInformation();
@@ -104,7 +106,6 @@ namespace ConsoleApp2
             Terminal terminal = new Terminal();
 
             palletStorage.SendPalletToTerminalAutomatic(pallet1, terminal);
-            palletStorage.SendPalletToTerminal("Shelf-2", 1, 1, terminal);
 
             Console.WriteLine("\npallet 1 and 3 sent to terminal but ont pallet 2");
             palletStorage.PrintAllPalletStorageInformation();
