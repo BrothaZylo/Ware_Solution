@@ -17,6 +17,10 @@ namespace ConsoleApp2
         {
             Console.WriteLine(e.Package.PackageId+ " was sent to: "+ e.Storage.GoodsType);
         }
+        static void Storage_P(object? sender, StorageEventArgs e)
+        {
+            Console.WriteLine();
+        }
 
         static void Main(string[] args)
         {
@@ -118,6 +122,18 @@ namespace ConsoleApp2
             Console.WriteLine("\n");
             t.GetStorageTimeToGetPackageDictionary(storage);
 
+            ReceivingDepartment receivingDepartment = new ReceivingDepartment();
+            receivingDepartment.AddPackage(package6);
+            receivingDepartment.SendAllPackagesToStorage(storage);
+
+            Aisle aisle = new Aisle("Kjøl");
+            aisle.AddStorage(storage);
+            aisle.FindPackage(package6);
+            aisle.removeStorage(storage);
+
+            PalletAisle palletAisle = new PalletAisle("pallet");
+            palletAisle.AddPalletStorage(palletStorage);
+            palletAisle.GetAllPalletPrints();
             //-----------------------------------------------------------//
             //--------------------------Events---------------------------//
             //-----------------------------------------------------------//
