@@ -12,20 +12,36 @@ namespace Ware
     /// </summary>
     public class Terminal : ITerminal
     {
-        public List<Package> PackagesToSendOut = new List<Package>();
-        public Queue<Package> PackagesToSendOutQueue = new Queue<Package>();
-        public List<Pallet> PalletsInTerminal = new List<Pallet>();
+        private readonly List<Package> PackagesToSendOut = new List<Package>();
+        private readonly Queue<Package> PackagesToSendOutQueue = new Queue<Package>();
+        private readonly List<Pallet> PalletsInTerminal = new List<Pallet>();
 
 
-        //Events
-        public delegate void PackageEventHandler(Package package);
-        public event PackageEventHandler PackageEvent;
+        /// <summary>
+        /// Uses by SendAllPackages()
+        /// </summary>
+        public event EventHandler<PackageEventArgs>? PackageSendAllEvent;
+        /// <summary>
+        /// Used by AddPackage(Package packages)
+        /// </summary>
+        public event EventHandler<PackageEventArgs>? PackageAddEvent;
+        /// <summary>
+        /// SendPackage(Package package)
+        /// </summary>
+        public event EventHandler<PackageEventArgs>? PackageSendEvent;
 
-        protected virtual void RaisePackageEvent(Package package)
+        private void RaisePackageSendAllEvent(Package package)
         {
-            PackageEvent?.Invoke(package);
+            PackageSendAllEvent?.Invoke(this, new PackageEventArgs(package));
         }
-
+        private void RaisePackageAddEvent(Package package)
+        {
+            PackageAddEvent?.Invoke(this, new PackageEventArgs(package));
+        }
+        private void RaisePackageSendEvent(Package package)
+        {
+            PackageSendEvent?.Invoke(this, new PackageEventArgs(package));
+        }
 
         /// <summary>
         /// This will add a package to a dictionary which are the packages at the terminal
@@ -39,7 +55,7 @@ namespace Ware
             }
             PackagesToSendOut.Add(packages);
 
-            RaisePackageEvent(packages);
+            RaisePackageAddEvent(packages);
         }
 
         /// <summary>
@@ -103,7 +119,7 @@ namespace Ware
                 if (PackagesToSendOut.Contains(package))
                 {
                     PackagesToSendOut.Remove(p);
-                    RaisePackageEvent(package);
+                    RaisePackageSendEvent(package);
                     break;
                 }
             }
@@ -124,13 +140,16 @@ namespace Ware
             PackagesToSendOut.Clear();
         }
 
+        /// <summary>
+        /// Sends all the packages out
+        /// </summary>
         public void SendAllPackages()
         {
             AddToQueue();
             while(PackagesToSendOutQueue.Count > 0)
             {
                 Package package = PackagesToSendOutQueue.Dequeue();
-                RaisePackageEvent(package);
+                RaisePackageSendAllEvent(package);
             }
         }
 

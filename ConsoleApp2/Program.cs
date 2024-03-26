@@ -13,10 +13,9 @@ namespace ConsoleApp2
             return new Package(name, goodstype, wid, heig);
         }
 
-        static void Package_p(Package package, Storage storage)
+        static void Package_p(object? sender, PackageEventArgs e)
         {
-            Console.WriteLine(package.PackageId + " was sent to: " + storage.GoodsType);
-            Environment.Exit(0);
+            Console.WriteLine(e.Package.PackageId+ " was sent to: "+ e.Storage.GoodsType);
         }
 
         static void Main(string[] args)
@@ -48,17 +47,18 @@ namespace ConsoleApp2
             //----------------------Storage Build------------------------//
             //-----------------------------------------------------------//
 
-            Storage storage = new(refrigerated);
+            Storage storage = new(refrigerated, "Uteliggeer");
             storage.AddShelf("Big", 11, 100, 100);
             storage.AddShelf("Tiny", 4, 33, 33);
             storage.AddShelf("Mid", 2, 63, 63);
             storage.Build();
 
-            Storage storage2 = new(dry);
+            Storage storage2 = new(dry, "B");
             storage2.AddShelf("Big", 11, 100, 100);
             storage2.AddShelf("Tiny", 4, 33, 33);
             storage2.AddShelf("Mid", 2, 63, 63);
             storage2.Build();
+
 
 
             //------------------------------------------------------------//
@@ -109,12 +109,52 @@ namespace ConsoleApp2
 
             /*
             ReceivingDepartment receivingDepartment = new();
-            receivingDepartment.PackageEvent += Package_p;
+            receivingDepartment.SendAllPackageEvent += Package_p;
             receivingDepartment.AddPackage(package7);
             receivingDepartment.AddPackage(package5);
             receivingDepartment.AddPackage(package1);
             receivingDepartment.AddPackage(package2);
             receivingDepartment.SendAllPackagesToStorage(storage);
+
+            */
+
+
+
+
+            //------------------------------------------------------------//
+            //---------------------- Pallets Setup -----------------------//
+            //------------------------------------------------------------//
+            /*
+            Pallet pallet1 = new Pallet();
+            pallet1.AddPackageToPallet(package3);
+            pallet1.AddPackageToPallet(package4);
+            pallet1.AddPackageToPallet(package5);
+
+            Pallet pallet2 = new Pallet();
+            pallet2.AddPackageToPallet(package1);
+            pallet2.AddPackageToPallet(package2);
+
+            Pallet pallet3 = new Pallet();
+            pallet3.AddPackageToPallet(package6);
+            pallet3.AddPackageToPallet(package7);
+
+            PalletStorage palletStorage = new PalletStorage();
+            palletStorage.AddShelf("Tiny", 3, 4);
+
+            palletStorage.BuildStorage();
+
+            try
+            {
+                palletStorage.PlacePallet(pallet1, "Shelf-1", 0);
+                palletStorage.PlacePallet(pallet2, "Shelf-1", 1);
+                palletStorage.PlacePallet(pallet3, "Shelf-2", 3);
+
+                palletStorage.PrintAllPalletStorageInformation();
+            }
+            catch (Exception message)
+            {
+                Console.WriteLine($"An error occurred: {message.Message}");
+            }
             */
 
             //----------------------------------------------------------//

@@ -14,5 +14,7 @@ namespace Ware
         void PrintPalletInformation();
         void ClearPackages();
 
+        void SendAllPackages();
+
     }
 }

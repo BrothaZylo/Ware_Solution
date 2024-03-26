@@ -15,11 +15,21 @@ namespace Ware
         public ReceivingDepartment ReceivingDepartment{ get; private set; }
         public Storage Storage { get; private set; }
         public Terminal Terminal { get; private set; }
-        public PackageEventArgs(string text) { Text = text; }
-        public string Text {  get; set; }
+        public string Text { get; private set; }
+        public string StorageUniqueId { get; private set; }
 
         public PackageEventArgs()
         {
+        }
+
+        public PackageEventArgs(Package package, string storageUniqueId)
+        {
+            Package = package;
+            StorageUniqueId = storageUniqueId;
+        }
+        public PackageEventArgs(string text)
+        {
+            Text = text;
         }
 
         public PackageEventArgs(Storage storage)
@@ -28,11 +38,6 @@ namespace Ware
         }
 
         public PackageEventArgs(Package package)
-        {
-            Package = package;
-        }
-
-        public PackageEventArgs(Package package, string? id)
         {
             Package = package;
         }

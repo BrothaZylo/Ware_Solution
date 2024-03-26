@@ -13,13 +13,34 @@ namespace Ware
     /// <param name="name">Name of person</param>
     /// <param name="age">Age of person</param>
     /// <param name="accessLevel">Position / permissions of the person</param>
-    public class Person(string name = "Unknown", int age = 0, AccessLevel accessLevel = AccessLevel.OTHERS) : IPerson
+    public class Person(string name, int age, AccessLevel accessLevel) : IPerson
     {
         private string name = name;
         private int age = age;
         private readonly List<Assignment> assignments = [];
         private AccessLevel accessLevel = accessLevel;
-        private string isUsingEquipment = "";
+        private string currentlyUsingEquipment = "";
+        //add excep age
+
+        /// <summary>
+        /// Used for AddAssignment(Assignment assignment)
+        /// </summary>
+        public event EventHandler<AssignmentEventArgs>? AddAssignmentEvent;
+
+        /// <summary>
+        /// Used for RemoveAssignment(Assignment assignment)
+        /// </summary>
+        public event EventHandler<AssignmentEventArgs>? RemoveAssignmentEvent;
+
+        private void RaiseAddAssignmentEvent(Assignment assignment, string personName)
+        {
+            AddAssignmentEvent?.Invoke(this, new AssignmentEventArgs(assignment, personName));
+        }
+
+        private void RaiseRemoveAssignmentEvent(Assignment assignment, string personName)
+        {
+            RemoveAssignmentEvent?.Invoke(this, new AssignmentEventArgs(assignment, personName));
+        }
 
         /// <summary>
         /// Adds an object Assignment to the person.
@@ -28,6 +49,7 @@ namespace Ware
         public void AddAssignment(Assignment assignment)
         {
             assignments.Add(assignment);
+            RaiseAddAssignmentEvent(assignment, Name);
         }
 
         /// <summary>
@@ -37,6 +59,7 @@ namespace Ware
         public void RemoveAssignment(Assignment assignment)
         {
             assignments.Remove(assignment);
+            RaiseRemoveAssignmentEvent(assignment, Name);
         }
 
         /// <summary>
@@ -62,10 +85,10 @@ namespace Ware
         /// <summary>
         /// Checks if the user is using an equipment
         /// </summary>
-        public string IsUsingEquipment
+        public string CurrentlyUsingEquipment
         {
-            get { return isUsingEquipment; }
-            set { isUsingEquipment = value; }
+            get { return currentlyUsingEquipment; }
+            set { currentlyUsingEquipment = value; }
         }
 
         /// <summary>

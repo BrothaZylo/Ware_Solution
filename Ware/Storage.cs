@@ -5,6 +5,7 @@ using System.Reflection.Metadata.Ecma335;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace Ware
 {
@@ -12,60 +13,74 @@ namespace Ware
     /// Preconfig of the storageunits which will later be used to create shelves.
     /// </summary>
     /// <param name="goodsType">This will be the name of the storage unit, and what type of goods can be placed in this unit</param>
-    public class Storage(string goodsType = "Undefined") : IStorage
+    /// <param name="uniqueStorageId"></param>
+    public class Storage(string goodsType, string uniqueStorageId) : IStorage
     {
         private readonly List<ShelvesAdd> addShelves = [];
         // Goods,(package,sizename,width,height,isEmpty bool)
         private readonly Dictionary<string, (Package?, string, double, double, bool)> yourStorageDict = [];
+        private string uniqueId = uniqueStorageId;
         private string goodsType = goodsType;
         private bool northAccess = true;
         private bool eastAccess = true;
         private bool southAccess = true;
         private bool westAccess = true;
 
-        //Slett disse :D
-        public event EventHandler<PackageEventArgs> PackageAdded;
-        public event EventHandler<PackageEventArgs> PackageSent;
 
-        //Events
-        //Legg til flere om nødvendig
-        public delegate void PackageEventHandler(Package package);
-        public delegate void PackageEventHandler2(Package package, Storage storage);
-        public delegate void PackageEventHandler3(Package package, Terminal terminal);
-        public event PackageEventHandler PackageEvent;
-        public event PackageEventHandler2 PackageAddedEvent;
-        public event PackageEventHandler3 PackageSendTerminalEvent;
+        /// <summary>
+        /// Used for PlacePackage(args) and PlacePackageAutomatic(Package package)
+        /// </summary>
+        public event EventHandler<PackageEventArgs>? PackagePlacedEvent;
 
-        protected virtual void RaisePackageSentEvent(Package package, Storage storage)
+        /// <summary>
+        /// Used for RemovePackage(args)
+        /// </summary>
+        public event EventHandler<PackageEventArgs>? RemovePackageEvent;
+
+        /// <summary>
+        /// Used for MovePackage(Package package)
+        /// </summary>
+        public event EventHandler<PackageEventArgs>? MovePackageEvent;
+
+        /// <summary>
+        /// Used for MovePackageToTerminal(Package package, Terminal terminal)
+        /// </summary>
+        public event EventHandler<PackageEventArgs>? MovePackageToTerminalEvent;
+
+        private void RaisePackagePlacedEvent(Package package, string storageUniqueId)
         {
-            PackageAddedEvent?.Invoke(package, storage);
-        }
-        protected virtual void RaisePackageSentEvent(Package package, Terminal terminal)
-        {
-            PackageSendTerminalEvent?.Invoke(package, terminal);
-        }
-        protected virtual void RaisePackageEvent(Package package)
-        {
-            PackageEvent?.Invoke(package);
+            PackagePlacedEvent?.Invoke(this, new PackageEventArgs(package, storageUniqueId));
         }
 
+        private void RaiseRemovePackageEvent(Package package, string storageUniqueId)
+        {
+            RemovePackageEvent?.Invoke(this, new PackageEventArgs(package, storageUniqueId));
+        }
 
+        private void RaiseMovePackageEvent(Package package, string storageUniqueId)
+        {
+            MovePackageEvent?.Invoke(this, new PackageEventArgs(package, storageUniqueId));
+        }
+        private void RaiseMovePackageToTerminalEvent(Package package, Terminal terminal)
+        {
+            MovePackageToTerminalEvent?.Invoke(this, new PackageEventArgs(package, terminal));
+        }
         /// <summary>
         /// Creates the Storageunit based on instructions from the config and constructor.
         /// </summary>
         public void Build()
         {
-            double StorageCounter = 1.01;
+            double StorageCounter = 101;
             double unitCounter = 0;
             foreach (Storage.ShelvesAdd j in addShelves)
             {
                 for (int k = 0; k < j.TotalUnitsAvailable; k++)
                 {
-                    yourStorageDict.Add(goodsType + "ShelfID: " + Math.Round(StorageCounter, 3), (null , j.SizeName, j.MaxWidthCm, j.MaxHeightCm, false));
-                    StorageCounter+=0.01;
+                    yourStorageDict.Add(goodsType + "ShelfID: " +uniqueId+ Math.Round(StorageCounter, 3), (null , j.SizeName, j.MaxWidthCm, j.MaxHeightCm, false));
+                    StorageCounter+=1;
                 }
-                StorageCounter = 1.01;
-                unitCounter += 1;
+                StorageCounter = 101;
+                unitCounter += 100;
                 StorageCounter += unitCounter;
             }
         }
@@ -81,6 +96,7 @@ namespace Ware
             {
                 if (item.Key == GetStorageNameById(shelfId))
                 {
+                    RaisePackagePlacedEvent(package, UniqueId);
                     yourStorageDict[item.Key] = (package, item.Value.Item2, item.Value.Item3, item.Value.Item4, true);
                 }
             }
@@ -98,6 +114,7 @@ namespace Ware
             {
                 if (item.Key == GetStorageNameById(shelfId1) || item.Key == GetStorageNameById(shelfId2))
                 {
+                    RaisePackagePlacedEvent(package, UniqueId);
                     yourStorageDict[item.Key] = (package, item.Value.Item2, item.Value.Item3, item.Value.Item4, true);
                 }
             }
@@ -116,6 +133,7 @@ namespace Ware
             {
                 if (item.Key == GetStorageNameById(shelfId1) || item.Key == GetStorageNameById(shelfId2) || item.Key == GetStorageNameById(shelfId3))
                 {
+                    RaisePackagePlacedEvent(package, UniqueId);
                     yourStorageDict[item.Key] = (package, item.Value.Item2, item.Value.Item3, item.Value.Item4, true);
                 }
             }
@@ -132,6 +150,7 @@ namespace Ware
                 if (i.Value.Item1 == package)
                 {
                     yourStorageDict[i.Key] = (null, i.Value.Item2, i.Value.Item3, i.Value.Item4, false);
+                    RaiseRemovePackageEvent(package, UniqueId);
                 }
             }
         }
@@ -146,6 +165,10 @@ namespace Ware
             {
                 if (item.Key == GetStorageNameById(shelfId))
                 {
+                    if (item.Value.Item1 != null)
+                    {
+                        RaiseRemovePackageEvent(item.Value.Item1, UniqueId);
+                    }
                     yourStorageDict[item.Key] = (null, item.Value.Item2, item.Value.Item3, item.Value.Item4, true);
                 }
             }
@@ -162,6 +185,10 @@ namespace Ware
             {
                 if (item.Key == GetStorageNameById(shelfId1) || item.Key == GetStorageNameById(shelfId2))
                 {
+                    if (item.Value.Item1 != null)
+                    {
+                        RaiseRemovePackageEvent(item.Value.Item1, UniqueId);
+                    }
                     yourStorageDict[item.Key] = (null, item.Value.Item2, item.Value.Item3, item.Value.Item4, true);
                 }
             }
@@ -179,6 +206,10 @@ namespace Ware
             {
                 if (item.Key == GetStorageNameById(shelfId1) || item.Key == GetStorageNameById(shelfId2) || item.Key == GetStorageNameById(shelfId3))
                 {
+                    if (item.Value.Item1 != null)
+                    {
+                        RaiseRemovePackageEvent(item.Value.Item1, UniqueId);
+                    }
                     yourStorageDict[item.Key] = (null, item.Value.Item2, item.Value.Item3, item.Value.Item4, true);
                 }
             }
@@ -209,7 +240,7 @@ namespace Ware
 
                         }
                         yourStorageDict[i.Key] = (package, i.Value.Item2, i.Value.Item3, i.Value.Item4, true);
-                        // blir plassert i i.key // add event , add excep
+                        RaisePackagePlacedEvent(package, UniqueId);
                         break;
                     }
                 }
@@ -258,6 +289,7 @@ namespace Ware
             }
             if (foundPackageCounter != 0)
             {
+                RaiseMovePackageEvent(package, UniqueId);
                 return package;
             }
 
@@ -283,6 +315,7 @@ namespace Ware
             }
             if (tmp != null)
             {
+                RaiseMovePackageToTerminalEvent(tmp, terminal);
                 terminal.AddPackage(tmp);
             }
             if (tmp == null)
@@ -347,7 +380,7 @@ namespace Ware
         /// </summary>
         /// <param name="packageId">A package</param>
         /// <returns>Returns the section of set package id is located, else returns nothing</returns>
-        public string FindPackageSectionById(string packageId)
+        public string GetPackageSectionById(string packageId)
         {
             string item = "";
             foreach(KeyValuePair<string, (Package?, string, double, double, bool)> i in yourStorageDict)
@@ -366,7 +399,7 @@ namespace Ware
         /// </summary>
         /// <param name="packageId">A package</param>
         /// <returns>The shelf its placed at, else will return Does not exist</returns>
-        public string FindPackageById(string packageId)
+        public string GetPackageById(string packageId)
         {
             foreach (KeyValuePair<string, (Package?, string, double, double, bool)> item in yourStorageDict)
             {
@@ -381,8 +414,8 @@ namespace Ware
         /// Finds the package location by using the package id
         /// </summary>
         /// <param name="packageId">id of the package</param>
-        /// <returns>Which shelf it is in,the package and the size of the shelf</returns>
-        public Package? FindPackage(string packageId)
+        /// <returns>Package object</returns>
+        public Package? GetPackage(string packageId)
         {
             foreach (KeyValuePair<string, (Package?, string, double, double, bool)> item in yourStorageDict)
             {
@@ -392,6 +425,26 @@ namespace Ware
                 }
             }
             return null; 
+        }
+
+        /// <summary>
+        /// Finds the number of the unit the package is placed.
+        /// </summary>
+        /// <param name="package">Package object you want to search for</param>
+        /// <returns>Unique id placement of package</returns>
+        public string? GetPackagePlacement(Package package)
+        {
+            foreach (KeyValuePair<string, (Package?, string, double, double, bool)> item in yourStorageDict)
+            {
+                string[] keysplit = item.Key.Split(':');
+                string key1 = keysplit[1];
+                string yournumber = key1.Trim();
+                if (item.Value.Item1 == package)
+                {
+                    return yournumber;
+                }
+            }
+            return null;
         }
 
         /// <summary>
@@ -489,6 +542,15 @@ namespace Ware
         {
             get { return goodsType; }
             set { goodsType = value; }
+        }
+
+        /// <summary>
+        /// Storageunit identifyer
+        /// </summary>
+        public string UniqueId
+        {
+            get { return uniqueId; }
+            set { uniqueId = value; }
         }
 
         /// <summary>

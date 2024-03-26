@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,22 +21,62 @@ namespace Ware
         private readonly List<string> usages = [];
 
         /// <summary>
+        /// Used for UseEquipment(Person person)
+        /// </summary>
+        public event EventHandler<EquipmentEventArgs>? EquipmentUseEvent;
+
+        /// <summary>
+        /// Used for StopUsingEquipment(Person person)
+        /// </summary>
+        public event EventHandler<EquipmentEventArgs>? EquipmentStopUseEvent;
+
+        /// <summary>
+        /// Use for AddAccessLevel(AccessLevel accessLevel)
+        /// </summary>
+        public event EventHandler<EquipmentEventArgs>? AccessLevelAddEvent;
+
+        /// <summary>
+        /// Used for DeleteAccessLevel(AccessLevel accessLevel)
+        /// </summary>
+        public event EventHandler<EquipmentEventArgs>? AccessLevelDeleteEvent;
+
+        private void RaiseEquipmentUseEvent(Person person, string equipmentName)
+        {
+            EquipmentUseEvent?.Invoke(this, new EquipmentEventArgs(person, equipmentName));
+        }
+        private void RaiseEquipmentStopUseEvent(Person person, string equipmentName)
+        {
+            EquipmentStopUseEvent?.Invoke(this, new EquipmentEventArgs(person, equipmentName));
+        }
+        private void RaiseAccessLevelAddEvent(string equipmentName, AccessLevel accessLevel)
+        {
+            AccessLevelAddEvent?.Invoke(this, new EquipmentEventArgs(equipmentName, accessLevel));
+        }
+
+        private void RaiseAccessLevelDeleteEvent(string equipmentName, AccessLevel accessLevel)
+        {
+            AccessLevelDeleteEvent?.Invoke(this, new EquipmentEventArgs(equipmentName, accessLevel));
+        }
+
+        /// <summary>
         /// Use the equipment, this does not check if the user has the correct accesslevel
         /// </summary>
         /// <param name="person">Person that is going to use it</param>
         public void UseEquipment(Person person)
         {
-            person.IsUsingEquipment = name;
+            RaiseEquipmentUseEvent(person, name);
+            person.CurrentlyUsingEquipment = name;
             usages.Add(""+person.Name+" started using "+name +" "+DateTime.Now);
         }
-
+        
         /// <summary>
         /// When a person stops using an equipment
         /// </summary>
         /// <param name="person">Person using the equipment</param>
         public void StopUsingEquipment(Person person)
         {
-            person.IsUsingEquipment = "";
+            RaiseEquipmentStopUseEvent(person, Name);
+            person.CurrentlyUsingEquipment = "";
             usages.Add("" + person.Name + " stopped using " + name + " " + DateTime.Now);
         }
 
@@ -55,6 +96,7 @@ namespace Ware
         public void AddAccessLevel(AccessLevel accessLevel)
         {
             equipment.Add(accessLevel);
+            RaiseAccessLevelAddEvent(Name, accessLevel);
         }
 
         /// <summary>
@@ -64,6 +106,7 @@ namespace Ware
         public void DeleteAccessLevel(AccessLevel accessLevel)
         {
             equipment.Remove(accessLevel);
+            RaiseAccessLevelDeleteEvent(Name, accessLevel);
         }
 
         /// <summary>

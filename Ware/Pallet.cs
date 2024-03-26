@@ -11,10 +11,18 @@ namespace Ware
     /// </summary>
     public class Pallet(int maxPackages = 30) : IPallet
     {
-        public List<Package> packagesOnPallet = new List<Package>();
+        private readonly List<Package> packagesOnPallet = [];
         private int maxPackagesPerPallet = maxPackages;
 
+        /// <summary>
+        /// Used for AddPackageToPallet(Package package)
+        /// </summary>
+        public event EventHandler<PackageEventArgs>? AddPackageToPalletEvent;
 
+        private void RaiseAddPackageToPalltEvent(Package package)
+        {
+            AddPackageToPalletEvent?.Invoke(this, new PackageEventArgs(package));
+        }
         /// <summary>
         /// Adds a package to the pallet, if current one is full then it creats a new pallet.
         /// </summary>
@@ -25,6 +33,7 @@ namespace Ware
             {
                 ResetPallet();
             }
+            RaiseAddPackageToPalltEvent(package);
             packagesOnPallet.Add(package);
         }
 

@@ -62,9 +62,9 @@ namespace Ware
         {
             foreach (Storage item in storages)
             {
-                if (item.FindPackage(package.PackageId) == package)
+                if (item.GetPackage(package.PackageId) == package)
                 {
-                    return item.FindPackageSectionById(package.PackageId);
+                    return item.GetPackageSectionById(package.PackageId);
                 }
 
             }

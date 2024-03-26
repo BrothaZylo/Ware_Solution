@@ -26,9 +26,11 @@ namespace Ware
 
         string? GetStorageNameById(string shelfnumber);
 
-        string FindPackageSectionById(string packageid);
+        string GetPackageSectionById(string packageid);
 
-        string FindPackageById(string packageid);
+        string GetPackageById(string packageid);
+
+        string? GetPackagePlacement(Package package);
 
         bool IsSpotTaken(string storagename);
 
