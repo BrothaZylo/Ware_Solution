@@ -101,7 +101,10 @@ namespace ConsoleApp2
             Console.WriteLine("\ncurrent pallets in terminal");
             terminal.PrintPalletInformation();
 
-
+            TimeEstimate t = new TimeEstimate();
+            t.SetTimeStorage(storage, 1, 5, 10);
+            t.SetTimeStorage(storage, 6, 8, 20);
+            t.prnt();
 
             //-----------------------------------------------------------//
             //--------------------------Events---------------------------//

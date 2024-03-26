@@ -25,6 +25,7 @@ namespace Ware
         private bool eastAccess = true;
         private bool southAccess = true;
         private bool westAccess = true;
+        private int amountShelfs = 0;
 
 
         /// <summary>
@@ -82,6 +83,7 @@ namespace Ware
                 StorageCounter = 101;
                 unitCounter += 100;
                 StorageCounter += unitCounter;
+                amountShelfs++;
             }
         }
 
@@ -551,6 +553,14 @@ namespace Ware
         {
             get { return uniqueId; }
             set { uniqueId = value; }
+        }
+
+        /// <summary>
+        /// Amount of shelfs
+        /// </summary>
+        public int AmountShelfs
+        {
+            get ; set;
         }
 
         /// <summary>
