@@ -13,7 +13,7 @@ namespace Ware
     /// </summary>
     public class TimeEstimate
     {
-        private readonly Dictionary<Storage, List<SubTimer>> storageTime = [];
+        private readonly Dictionary<Storage, List<SubTimerCollection>> storageTime = [];
 
         /// <summary>
         /// Sets the time for how long it takes to get a package from the shelves
@@ -24,13 +24,13 @@ namespace Ware
         /// <param name="timeSeconds">Amount of time it takes to get something from fromshelf-toshelf</param>
         public void SetTimeStorage(Storage storage, int fromShelf, int toShelf, int timeSeconds)
         {
-            if (!storageTime.TryGetValue(storage, out List<SubTimer>? value))
+            if (!storageTime.TryGetValue(storage, out List<SubTimerCollection>? value))
             {
-                value = new List<SubTimer>();
+                value = new List<SubTimerCollection>();
                 storageTime[storage] = value;
             }
 
-            value.Add(new SubTimer { FromShelf = fromShelf, ToShelf = toShelf, TimeSeconds = timeSeconds });
+            value.Add(new SubTimerCollection { FromShelf = fromShelf, ToShelf = toShelf, TimeSeconds = timeSeconds });
         }
 
         /// <summary>
@@ -38,10 +38,10 @@ namespace Ware
         /// </summary>
         /// <param name="storage">Storage you want info from</param>
         /// <returns>a dict containing storage timers</returns>
-        public Dictionary<Storage, List<SubTimer>> GetStorageTimeShelvesDictionary(Storage storage)
+        public Dictionary<Storage, List<SubTimerCollection>> GetStorageTimeShelvesDictionary(Storage storage)
         {
-            Dictionary<Storage, List<SubTimer>> tmp = [];
-            foreach(KeyValuePair<Storage, List<SubTimer>> item in storageTime)
+            Dictionary<Storage, List<SubTimerCollection>> tmp = [];
+            foreach(KeyValuePair<Storage, List<SubTimerCollection>> item in storageTime)
             {
                 if (item.Key == storage)
                 {
@@ -56,10 +56,10 @@ namespace Ware
         /// </summary>
         public void GetStorageTimeprint()
         {
-            foreach (KeyValuePair<Storage, List<SubTimer>> item in storageTime)
+            foreach (KeyValuePair<Storage, List<SubTimerCollection>> item in storageTime)
             {
                 Console.WriteLine(item.Key.UniqueId+" Timers:");
-                foreach (SubTimer subTimer in item.Value)
+                foreach (SubTimerCollection subTimer in item.Value)
                 {
                     Console.WriteLine($"[From Shelf: {subTimer.FromShelf} To Shelf: {subTimer.ToShelf} | Time Estimate: {subTimer.TimeSeconds} seconds]");
                 }
@@ -69,7 +69,7 @@ namespace Ware
         /// <summary>
         /// Subclass for list inputs
         /// </summary>
-        public class SubTimer
+        public class SubTimerCollection
         {
             private int fromShelf;
             private int toShelf;
