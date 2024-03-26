@@ -14,16 +14,6 @@ namespace Ware
         private readonly List<Package> packagesOnPallet = new List<Package>();
         private int maxPackagesPerPallet = maxPackages;
 
-        /// <summary>
-        /// Used for AddPackageToPallet(Package package)
-        /// </summary>
-        public event EventHandler<PackageEventArgs>? AddPackageToPalletEvent;
-
-        private void RaiseAddPackageToPalltEvent(Package package)
-        {
-            AddPackageToPalletEvent?.Invoke(this, new PackageEventArgs(package));
-        }
-
         public int PackagesInPallet()
         {
             return packagesOnPallet.Count;
@@ -33,6 +23,17 @@ namespace Ware
         {
             return packagesOnPallet;
         }
+
+        public IReadOnlyList<Package> PackagesOnPallet
+        {
+            get { return packagesOnPallet.AsReadOnly(); }
+        }
+
+        public int MaxPackagesPerPallet
+        {
+            get { return maxPackagesPerPallet; }
+        }
+
         /// <summary>
         /// Adds a package to the pallet, if current one is full then it creats a new pallet.
         /// </summary>
@@ -45,14 +46,6 @@ namespace Ware
             }
             RaiseAddPackageToPalltEvent(package);
             packagesOnPallet.Add(package);
-        }
-
-        /// <summary>
-        /// Resets the pallet, clearing the current list of packages.
-        /// </summary>
-        private void ResetPallet()
-        {
-            packagesOnPallet.Clear();
         }
 
         /// <summary>
@@ -77,14 +70,23 @@ namespace Ware
 
             maxPackagesPerPallet = maxPackages;
         }
-        public IReadOnlyList<Package> PackagesOnPallet
+
+        /// <summary>
+        /// Resets the pallet, clearing the current list of packages.
+        /// </summary>
+        private void ResetPallet()
         {
-            get { return packagesOnPallet.AsReadOnly(); }
+            packagesOnPallet.Clear();
         }
 
-        public int MaxPackagesPerPallet
+        /// <summary>
+        /// Used for AddPackageToPallet(Package package)
+        /// </summary>
+        public event EventHandler<PackageEventArgs>? AddPackageToPalletEvent;
+
+        private void RaiseAddPackageToPalltEvent(Package package)
         {
-            get { return maxPackagesPerPallet; }
+            AddPackageToPalletEvent?.Invoke(this, new PackageEventArgs(package));
         }
     }
 }

@@ -21,44 +21,6 @@ namespace Ware
         private readonly List<string> usages = [];
 
         /// <summary>
-        /// Used for UseEquipment(Person person)
-        /// </summary>
-        public event EventHandler<EquipmentEventArgs>? EquipmentUseEvent;
-
-        /// <summary>
-        /// Used for StopUsingEquipment(Person person)
-        /// </summary>
-        public event EventHandler<EquipmentEventArgs>? EquipmentStopUseEvent;
-
-        /// <summary>
-        /// Use for AddAccessLevel(AccessLevel accessLevel)
-        /// </summary>
-        public event EventHandler<EquipmentEventArgs>? AccessLevelAddEvent;
-
-        /// <summary>
-        /// Used for DeleteAccessLevel(AccessLevel accessLevel)
-        /// </summary>
-        public event EventHandler<EquipmentEventArgs>? AccessLevelDeleteEvent;
-
-        private void RaiseEquipmentUseEvent(Person person, string equipmentName)
-        {
-            EquipmentUseEvent?.Invoke(this, new EquipmentEventArgs(person, equipmentName));
-        }
-        private void RaiseEquipmentStopUseEvent(Person person, string equipmentName)
-        {
-            EquipmentStopUseEvent?.Invoke(this, new EquipmentEventArgs(person, equipmentName));
-        }
-        private void RaiseAccessLevelAddEvent(string equipmentName, AccessLevel accessLevel)
-        {
-            AccessLevelAddEvent?.Invoke(this, new EquipmentEventArgs(equipmentName, accessLevel));
-        }
-
-        private void RaiseAccessLevelDeleteEvent(string equipmentName, AccessLevel accessLevel)
-        {
-            AccessLevelDeleteEvent?.Invoke(this, new EquipmentEventArgs(equipmentName, accessLevel));
-        }
-
-        /// <summary>
         /// Use the equipment, this does not check if the user has the correct accesslevel
         /// </summary>
         /// <param name="person">Person that is going to use it</param>
@@ -180,6 +142,44 @@ namespace Ware
         public string ToString()
         {
             return "\n" + Name + "\n" + Quantity + "\n";
+        }
+
+        /// <summary>
+        /// Used for UseEquipment(Person person)
+        /// </summary>
+        public event EventHandler<EquipmentEventArgs>? EquipmentUseEvent;
+
+        /// <summary>
+        /// Used for StopUsingEquipment(Person person)
+        /// </summary>
+        public event EventHandler<EquipmentEventArgs>? EquipmentStopUseEvent;
+
+        /// <summary>
+        /// Use for AddAccessLevel(AccessLevel accessLevel)
+        /// </summary>
+        public event EventHandler<EquipmentEventArgs>? AccessLevelAddEvent;
+
+        /// <summary>
+        /// Used for DeleteAccessLevel(AccessLevel accessLevel)
+        /// </summary>
+        public event EventHandler<EquipmentEventArgs>? AccessLevelDeleteEvent;
+
+        private void RaiseEquipmentUseEvent(Person person, string equipmentName)
+        {
+            EquipmentUseEvent?.Invoke(this, new EquipmentEventArgs(person, equipmentName));
+        }
+        private void RaiseEquipmentStopUseEvent(Person person, string equipmentName)
+        {
+            EquipmentStopUseEvent?.Invoke(this, new EquipmentEventArgs(person, equipmentName));
+        }
+        private void RaiseAccessLevelAddEvent(string equipmentName, AccessLevel accessLevel)
+        {
+            AccessLevelAddEvent?.Invoke(this, new EquipmentEventArgs(equipmentName, accessLevel));
+        }
+
+        private void RaiseAccessLevelDeleteEvent(string equipmentName, AccessLevel accessLevel)
+        {
+            AccessLevelDeleteEvent?.Invoke(this, new EquipmentEventArgs(equipmentName, accessLevel));
         }
     }
 }

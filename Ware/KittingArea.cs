@@ -18,16 +18,6 @@ namespace Ware
         private int maxPackagesPerBox = maxPackagesPerBox;
 
         /// <summary>
-        /// Used for AddPackageToBox(Package package)
-        /// </summary>
-        public event EventHandler<PackageEventArgs>? PackageAddToBoxEvent;
-
-        private void RaisePackageAddToBoxEvent(Package package)
-        {
-            PackageAddToBoxEvent?.Invoke(this, new PackageEventArgs(package));
-        }
-
-        /// <summary>
         /// Adds a package to the current cardboard box.
         /// </summary>
         /// <param name="package">The package that gets added to the box.</param>
@@ -45,21 +35,6 @@ namespace Ware
             }
             RaisePackageAddToBoxEvent(package);
             packagesInBox.Add(package);
-        }
-
-        /// <summary>
-        /// Prepares a new box by clearing the current box and reduces the available box count.
-        /// </summary>
-        /// <exception cref="InvalidOperationException">Thrown when there are no new boxes available to prepare.</exception>
-        private void PrepareNewBox()
-        {
-            if (totalBoxesAvailable < 1)
-            {
-                throw new InvalidOperationException("No new boxes available to prepare.");
-            }
-
-            packagesInBox.Clear();
-            totalBoxesAvailable--;
         }
 
         /// <summary>
@@ -126,6 +101,31 @@ namespace Ware
         {
             get { return maxPackagesPerBox; }
             set { maxPackagesPerBox = value; }
+        }
+
+        /// <summary>
+        /// Prepares a new box by clearing the current box and reduces the available box count.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">Thrown when there are no new boxes available to prepare.</exception>
+        private void PrepareNewBox()
+        {
+            if (totalBoxesAvailable < 1)
+            {
+                throw new InvalidOperationException("No new boxes available to prepare.");
+            }
+
+            packagesInBox.Clear();
+            totalBoxesAvailable--;
+        }
+
+        /// <summary>
+        /// Used for AddPackageToBox(Package package)
+        /// </summary>
+        public event EventHandler<PackageEventArgs>? PackageAddToBoxEvent;
+
+        private void RaisePackageAddToBoxEvent(Package package)
+        {
+            PackageAddToBoxEvent?.Invoke(this, new PackageEventArgs(package));
         }
     }
 }

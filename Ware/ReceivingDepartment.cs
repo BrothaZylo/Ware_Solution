@@ -12,36 +12,6 @@ namespace Ware
         private readonly List<Package> allPackages = [];
 
         /// <summary>
-        /// Event for SendAllPackagesToStorage(Storage storageConfiguration)
-        /// </summary>
-        public event EventHandler<PackageEventArgs> SendAllPackageEvent;
-
-        /// <summary>
-        /// Event for AddPackage(Package package)
-        /// </summary>
-        public event EventHandler<PackageEventArgs> PackageAddedEvent;
-
-        /// <summary>
-        /// Event for SendFirstPackageToStorage(Storage storageConfiguration)
-        /// </summary>
-        public event EventHandler<PackageEventArgs> SendFirstPackageEvent;
-
-        private void RaiseSendAllPackageEvent(Package package, Storage storage)
-        {
-            SendAllPackageEvent?.Invoke(this, new PackageEventArgs(package, storage));
-        }
-
-        private void RaiseAddPackageEvent(Package package)
-        {
-            PackageAddedEvent?.Invoke(this, new PackageEventArgs(package));
-        }
-
-        private void RaiseSendFirstPackageEvent(Package package)
-        {
-            SendFirstPackageEvent?.Invoke(this, new PackageEventArgs(package));
-        }
-
-        /// <summary>
         /// The package is received and added to the dictionary of received packages.
         /// </summary>
         /// <param name="package">The name of the package being received.</param>
@@ -125,6 +95,36 @@ namespace Ware
         public List<Package> GetAllPackages()
         {
             return allPackages;
+        }
+
+        /// <summary>
+        /// Event for SendAllPackagesToStorage(Storage storageConfiguration)
+        /// </summary>
+        public event EventHandler<PackageEventArgs> SendAllPackageEvent;
+
+        /// <summary>
+        /// Event for AddPackage(Package package)
+        /// </summary>
+        public event EventHandler<PackageEventArgs> PackageAddedEvent;
+
+        /// <summary>
+        /// Event for SendFirstPackageToStorage(Storage storageConfiguration)
+        /// </summary>
+        public event EventHandler<PackageEventArgs> SendFirstPackageEvent;
+
+        private void RaiseSendAllPackageEvent(Package package, Storage storage)
+        {
+            SendAllPackageEvent?.Invoke(this, new PackageEventArgs(package, storage));
+        }
+
+        private void RaiseAddPackageEvent(Package package)
+        {
+            PackageAddedEvent?.Invoke(this, new PackageEventArgs(package));
+        }
+
+        private void RaiseSendFirstPackageEvent(Package package)
+        {
+            SendFirstPackageEvent?.Invoke(this, new PackageEventArgs(package));
         }
 
     }

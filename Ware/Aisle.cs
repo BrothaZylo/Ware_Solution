@@ -7,29 +7,9 @@ using System.Threading.Tasks;
 namespace Ware
 {
     public class Aisle : IAisle
-
     {
         private string name;
         private List<Storage> storages;
-
-
-        public event EventHandler<StorageEventArgs>? StorageAddEvent;
-        public event EventHandler<StorageEventArgs>? StorageRemoveEvent;
-        public event EventHandler<StorageEventArgs>? PackageFoundEvent;
-
-
-        private void RaiseStorageAddEvent(Storage storage)
-        {
-            StorageAddEvent?.Invoke(this, new StorageEventArgs(storage));
-        }
-        private void RaiseStorageRemoveEvent(Storage storage)
-        {
-            StorageAddEvent?.Invoke(this, new StorageEventArgs(storage));
-        }
-        private void RaisePackageFoundEvent(Storage storage, Package package)
-        {
-            PackageFoundEvent?.Invoke(this, new StorageEventArgs(storage, package));
-        }
 
         public Aisle(string aisleName) 
         {
@@ -50,6 +30,7 @@ namespace Ware
             storages.Add(storage);
             RaiseStorageAddEvent(storage);
         }
+
         /// <summary>
         /// Removes a storage from the aisle
         /// </summary>
@@ -95,8 +76,6 @@ namespace Ware
             return null;
         }
 
-
-
         /// <summary>
         /// Getter and setter for aisle name
         /// </summary>
@@ -106,5 +85,22 @@ namespace Ware
             set { name = value; }
         }
 
+        public event EventHandler<StorageEventArgs>? StorageAddEvent;
+
+        public event EventHandler<StorageEventArgs>? StorageRemoveEvent;
+
+        public event EventHandler<StorageEventArgs>? PackageFoundEvent;
+        private void RaiseStorageAddEvent(Storage storage)
+        {
+            StorageAddEvent?.Invoke(this, new StorageEventArgs(storage));
+        }
+        private void RaiseStorageRemoveEvent(Storage storage)
+        {
+            StorageAddEvent?.Invoke(this, new StorageEventArgs(storage));
+        }
+        private void RaisePackageFoundEvent(Storage storage, Package package)
+        {
+            PackageFoundEvent?.Invoke(this, new StorageEventArgs(storage, package));
+        }
     }
 }

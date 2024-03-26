@@ -27,45 +27,6 @@ namespace Ware
         private bool westAccess = true;
         private int amountShelfs = 0;
 
-
-        /// <summary>
-        /// Used for PlacePackage(args) and PlacePackageAutomatic(Package package)
-        /// </summary>
-        public event EventHandler<PackageEventArgs>? PackagePlacedEvent;
-
-        /// <summary>
-        /// Used for RemovePackage(args)
-        /// </summary>
-        public event EventHandler<PackageEventArgs>? RemovePackageEvent;
-
-        /// <summary>
-        /// Used for MovePackage(Package package)
-        /// </summary>
-        public event EventHandler<PackageEventArgs>? MovePackageEvent;
-
-        /// <summary>
-        /// Used for MovePackageToTerminal(Package package, Terminal terminal)
-        /// </summary>
-        public event EventHandler<PackageEventArgs>? MovePackageToTerminalEvent;
-
-        private void RaisePackagePlacedEvent(Package package, string storageUniqueId)
-        {
-            PackagePlacedEvent?.Invoke(this, new PackageEventArgs(package, storageUniqueId));
-        }
-
-        private void RaiseRemovePackageEvent(Package package, string storageUniqueId)
-        {
-            RemovePackageEvent?.Invoke(this, new PackageEventArgs(package, storageUniqueId));
-        }
-
-        private void RaiseMovePackageEvent(Package package, string storageUniqueId)
-        {
-            MovePackageEvent?.Invoke(this, new PackageEventArgs(package, storageUniqueId));
-        }
-        private void RaiseMovePackageToTerminalEvent(Package package, Terminal terminal)
-        {
-            MovePackageToTerminalEvent?.Invoke(this, new PackageEventArgs(package, terminal));
-        }
         /// <summary>
         /// Creates the Storageunit based on instructions from the config and constructor.
         /// </summary>
@@ -327,7 +288,6 @@ namespace Ware
             // add excep, event
         }
 
-
         /// <summary>
         /// Prints the entire storage house shelf unit.
         /// </summary>
@@ -376,7 +336,6 @@ namespace Ware
             throw new ArgumentException("The shelf number does not exist");
         }
 
-
         /// <summary>
         /// It will find the shelf where the packageId is located.
         /// </summary>
@@ -414,6 +373,7 @@ namespace Ware
             }
             throw new PackageInvalidException(" Package with ID not found: " + packageId);
         }
+
         /// <summary>
         /// Finds the package location by using the package id
         /// </summary>
@@ -486,7 +446,6 @@ namespace Ware
             }
             return false;
         }
-
 
         /// <summary>
         /// Sets the directions of accesspoint to the storage collectivly. True if can access, else false.
@@ -566,28 +525,6 @@ namespace Ware
         }
 
         /// <summary>
-        /// Configures diffrent sizes that a complete Warehouse storageunit contains.
-        /// </summary>
-        private class ShelvesAdd
-        {
-            /// <summary>
-            /// Name of the size for x amount of units
-            /// </summary>
-            public required string SizeName { get; set; }
-            /// <summary>
-            /// Set the amount of units for set size in the unit
-            /// </summary>
-            public int TotalUnitsAvailable { get; set; }
-            /// <summary>
-            /// Max width for x amount of units
-            /// </summary>
-            public double MaxWidthCm { get; set; }
-            /// <summary>
-            /// Max Height for x amount of units
-            /// </summary>
-            public double MaxHeightCm { get; set; }
-        }
-        /// <summary>
         /// Custom unit can be added to the storage
         /// </summary>
         /// <param name="sizeName">Size of the shelf</param>
@@ -610,5 +547,67 @@ namespace Ware
             }
         }
 
+        /// <summary>
+        /// Used for PlacePackage(args) and PlacePackageAutomatic(Package package)
+        /// </summary>
+        public event EventHandler<PackageEventArgs>? PackagePlacedEvent;
+
+        /// <summary>
+        /// Used for RemovePackage(args)
+        /// </summary>
+        public event EventHandler<PackageEventArgs>? RemovePackageEvent;
+
+        /// <summary>
+        /// Used for MovePackage(Package package)
+        /// </summary>
+        public event EventHandler<PackageEventArgs>? MovePackageEvent;
+
+        /// <summary>
+        /// Used for MovePackageToTerminal(Package package, Terminal terminal)
+        /// </summary>
+        public event EventHandler<PackageEventArgs>? MovePackageToTerminalEvent;
+
+        private void RaisePackagePlacedEvent(Package package, string storageUniqueId)
+        {
+            PackagePlacedEvent?.Invoke(this, new PackageEventArgs(package, storageUniqueId));
+        }
+
+        private void RaiseRemovePackageEvent(Package package, string storageUniqueId)
+        {
+            RemovePackageEvent?.Invoke(this, new PackageEventArgs(package, storageUniqueId));
+        }
+
+        private void RaiseMovePackageEvent(Package package, string storageUniqueId)
+        {
+            MovePackageEvent?.Invoke(this, new PackageEventArgs(package, storageUniqueId));
+        }
+
+        private void RaiseMovePackageToTerminalEvent(Package package, Terminal terminal)
+        {
+            MovePackageToTerminalEvent?.Invoke(this, new PackageEventArgs(package, terminal));
+        }
+
+        /// <summary>
+        /// Configures diffrent sizes that a complete Warehouse storageunit contains.
+        /// </summary>
+        private class ShelvesAdd
+        {
+            /// <summary>
+            /// Name of the size for x amount of units
+            /// </summary>
+            public required string SizeName { get; set; }
+            /// <summary>
+            /// Set the amount of units for set size in the unit
+            /// </summary>
+            public int TotalUnitsAvailable { get; set; }
+            /// <summary>
+            /// Max width for x amount of units
+            /// </summary>
+            public double MaxWidthCm { get; set; }
+            /// <summary>
+            /// Max Height for x amount of units
+            /// </summary>
+            public double MaxHeightCm { get; set; }
+        }
     }
 }

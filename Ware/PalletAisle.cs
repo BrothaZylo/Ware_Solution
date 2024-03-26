@@ -18,16 +18,6 @@ namespace Ware
         public event EventHandler<StorageEventArgs>? PalletStorageAddEvent;
         public event EventHandler<StorageEventArgs>? PalletStorageRemoveEvent;
 
-
-        private void RaisePalletStorageAddEvent(PalletStorage palletStorage)
-        {
-            PalletStorageAddEvent?.Invoke(this, new StorageEventArgs(palletStorage));
-        }
-        private void RaiseStorageRemoveEvent(PalletStorage palletStorage)
-        {
-            PalletStorageRemoveEvent?.Invoke(this, new StorageEventArgs(palletStorage));
-        }
-
         /// <summary>
         /// Constructor for making an aisle with a name and a empty list of PalletStorage
         /// </summary>
@@ -42,7 +32,6 @@ namespace Ware
             name = aisleName;
             palletAisle = new List<PalletStorage>();
         }
-
 
         /// <summary>
         /// Adds a PalletStorage to the PalletAisle
@@ -77,6 +66,13 @@ namespace Ware
             }
         }
 
-
+        private void RaisePalletStorageAddEvent(PalletStorage palletStorage)
+        {
+            PalletStorageAddEvent?.Invoke(this, new StorageEventArgs(palletStorage));
+        }
+        private void RaiseStorageRemoveEvent(PalletStorage palletStorage)
+        {
+            PalletStorageRemoveEvent?.Invoke(this, new StorageEventArgs(palletStorage));
+        }
     }
 }

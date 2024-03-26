@@ -23,26 +23,6 @@ namespace Ware
         //add excep age
 
         /// <summary>
-        /// Used for AddAssignment(Assignment assignment)
-        /// </summary>
-        public event EventHandler<AssignmentEventArgs>? AddAssignmentEvent;
-
-        /// <summary>
-        /// Used for RemoveAssignment(Assignment assignment)
-        /// </summary>
-        public event EventHandler<AssignmentEventArgs>? RemoveAssignmentEvent;
-
-        private void RaiseAddAssignmentEvent(Assignment assignment, string personName)
-        {
-            AddAssignmentEvent?.Invoke(this, new AssignmentEventArgs(assignment, personName));
-        }
-
-        private void RaiseRemoveAssignmentEvent(Assignment assignment, string personName)
-        {
-            RemoveAssignmentEvent?.Invoke(this, new AssignmentEventArgs(assignment, personName));
-        }
-
-        /// <summary>
         /// Adds an object Assignment to the person.
         /// </summary>
         /// <param name="assignment">object assignment</param>
@@ -116,6 +96,26 @@ namespace Ware
         {
             get { return accessLevel; }
             set { accessLevel = value; }
+        }
+
+        /// <summary>
+        /// Used for AddAssignment(Assignment assignment)
+        /// </summary>
+        public event EventHandler<AssignmentEventArgs>? AddAssignmentEvent;
+
+        /// <summary>
+        /// Used for RemoveAssignment(Assignment assignment)
+        /// </summary>
+        public event EventHandler<AssignmentEventArgs>? RemoveAssignmentEvent;
+
+        private void RaiseAddAssignmentEvent(Assignment assignment, string personName)
+        {
+            AddAssignmentEvent?.Invoke(this, new AssignmentEventArgs(assignment, personName));
+        }
+
+        private void RaiseRemoveAssignmentEvent(Assignment assignment, string personName)
+        {
+            RemoveAssignmentEvent?.Invoke(this, new AssignmentEventArgs(assignment, personName));
         }
     }
 }

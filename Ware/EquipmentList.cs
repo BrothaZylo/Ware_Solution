@@ -55,6 +55,5 @@ namespace Ware
         {
             return allEquipment;
         }
-
     }
 }

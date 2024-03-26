@@ -123,6 +123,5 @@ namespace Ware
             Person = person;
             AccessLevel = accessLevel;
         }
-        
     }
 }

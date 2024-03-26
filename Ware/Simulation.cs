@@ -35,11 +35,7 @@ namespace Ware
         //Define delegate
         //Define an event based on the delegate
         // Raise the event
-
-
-
-
-               
+    
 
         /// <summary>
         /// Adds packages that will run in the simulation. Only add packages with the goodtype of Refrigerated, Dangerous or Dry.
@@ -49,27 +45,114 @@ namespace Ware
         {
             simulationPackages.Add(package);
         }
-        private void AddUnits()
-        {
-            for (int index = 0; index < simulationPackages.Count; index++)
-            {
-                double height = simulationPackages[index].Height;
-                double width = simulationPackages[index].Width;
-                string goods = simulationPackages[index].Goods;
 
-                if (goods == "Dry")
+        public void Run()
+        {
+            int start = 1;
+            int stop = seconds;
+            int delay = 1000;
+            int startDelay = 4000;
+
+            Console.WriteLine(" ---------------------");
+            Console.WriteLine("| Simulation starting  |");
+            Console.WriteLine("|      Loading...      |");
+            Console.WriteLine(" ---------------------\n\n");
+
+            CalculateAmountOfGoodsType();
+            AddUnits();
+            BuildStorages();
+            CreateSchedule();
+
+            Thread.Sleep(startDelay);
+            int randomDelay = RandomDelay();
+
+
+            while (start != stop)
+            {
+                if (start == CalculateSimulationTime(5))
                 {
-                    Dry.AddShelf("Autosized", 3, height + 10, width + 10);
+                    schedule.GetSchedule();
                 }
-                if (goods == "Refrigerated")
+                if (start == CalculateSimulationTime(10))
                 {
-                    Refrigerated.AddShelf("Autosized", 3, height + 10, width + 10);
+                    ReceivePackages();
                 }
-                if (goods == "Dangerous")
+
+                if (start == CalculateSimulationTime(15))
                 {
-                    Dangerous.AddShelf("Autosized", 3, height + 10, width + 10);
+                    SendPackagesToStorage();
                 }
+
+                if (start == CalculateSimulationTime(25))
+                {
+                    PrintStorages();
+                }
+                if (start == CalculateSimulationTime(30))
+                {
+                    FromStorageToTerminal();
+                }
+                if (start == CalculateSimulationTime(35))
+                {
+                    FromTerminalAndAway();
+                }
+                /***********************************/
+                if (start == CalculateSimulationTime(40))
+                {
+                    ReceivePackages();
+                }
+
+                if (start == CalculateSimulationTime(45))
+                {
+                    SendPackagesToStorage();
+                }
+
+                if (start == CalculateSimulationTime(50))
+                {
+                    PrintStorages();
+                }
+                if (start == CalculateSimulationTime(55))
+                {
+                    FromStorageToTerminal();
+                }
+                if (start == CalculateSimulationTime(60))
+                {
+                    FromTerminalAndAway();
+                }
+
+                /*********************/
+                if (start == CalculateSimulationTime(65 + randomDelay))
+                {
+                    ReceivePackages();
+                }
+
+                if (start == CalculateSimulationTime(70 + randomDelay))
+                {
+                    SendPackagesToStorage();
+                }
+
+                if (start == CalculateSimulationTime(75 + randomDelay))
+                {
+                    PrintStorages();
+                }
+                if (start == CalculateSimulationTime(80 + randomDelay))
+                {
+                    FromStorageToTerminal();
+                }
+
+                if (start == CalculateSimulationTime(81 + randomDelay))
+                {
+                    FromTerminalAndAway();
+                }
+
+                Console.WriteLine("\n---------------");
+                Console.WriteLine("TimeStamp: " + start);
+                Console.WriteLine("---------------\n");
+                Thread.Sleep(delay);
+                start++;
             }
+            Console.WriteLine("Simulation ended at: " + (stop) + " Seconds\n");
+
+            Console.WriteLine("The total delay was " + randomDelay + " seconds in this simulation ");
         }
 
         private static void BuildStorages()
@@ -97,12 +180,7 @@ namespace Ware
                 }
             }
         }
-        private static void OnPackageReceieved(object o, PackageEventArgs args)
-        {
-            Console.WriteLine($"Package {args.Package.Name} with Id: {args.Package.PackageId} was received");
-        }
-
-
+        
         private void ReceivePackages()
         {
           
@@ -216,10 +294,30 @@ namespace Ware
             }
         }
         */
-        public static void OnAllPackagesSentToStorage(object o, PackageEventArgs args)
+        
+        private void AddUnits()
         {
-            Console.WriteLine($"Packages was sent from the the receiving department to storage {args.Storage.GoodsType}");
+            for (int index = 0; index < simulationPackages.Count; index++)
+            {
+                double height = simulationPackages[index].Height;
+                double width = simulationPackages[index].Width;
+                string goods = simulationPackages[index].Goods;
+
+                if (goods == "Dry")
+                {
+                    Dry.AddShelf("Autosized", 3, height + 10, width + 10);
+                }
+                if (goods == "Refrigerated")
+                {
+                    Refrigerated.AddShelf("Autosized", 3, height + 10, width + 10);
+                }
+                if (goods == "Dangerous")
+                {
+                    Dangerous.AddShelf("Autosized", 3, height + 10, width + 10);
+                }
+            }
         }
+
         private void SendPackagesToStorage()
         {
             try
@@ -229,8 +327,8 @@ namespace Ware
                 receiving.SendAllPackagesToStorage(Refrigerated);
 
             }
-            catch (PackageInvalidException e) 
-            { 
+            catch (PackageInvalidException e)
+            {
                 Console.WriteLine(e);
             }
 
@@ -253,9 +351,10 @@ namespace Ware
                 catch (PackageInvalidException e)
                 {
                     Console.WriteLine(e);
-                }                
+                }
             }
         }
+
         private void FromRefrigiratedToTerminal()
         {
             foreach (KeyValuePair<string, (Package?, string, double, double, bool)> a in Refrigerated.GetAllStorageInformationAsDictionary())
@@ -276,6 +375,7 @@ namespace Ware
                 }
             }
         }
+
         private void FromDangerousToTerminal()
         {
             foreach (KeyValuePair<string, (Package?, string, double, double, bool)> a in Dangerous.GetAllStorageInformationAsDictionary())
@@ -296,12 +396,14 @@ namespace Ware
                 }
             }
         }
+
         private void FromStorageToTerminal()
         {
             FromDryToTerminal();
             FromRefrigiratedToTerminal();
             FromDangerousToTerminal();
         }
+
         private static void PrintStorages()
         {
             Dry.GetAllStorageInformationPrint();
@@ -310,7 +412,6 @@ namespace Ware
             Console.WriteLine();
             Dangerous.GetAllStorageInformationPrint();
         }
-
 
         private int CalculateSimulationTime(int percentageNumber)
         {
@@ -331,29 +432,29 @@ namespace Ware
 
         private void CreateSchedule()
         {
-            foreach(Package package in simulationPackages)
+            foreach (Package package in simulationPackages)
             {
                 Random rand = new();
                 int u = rand.Next(0, 30);
                 schedule.AddPackage("single", DayOfWeek.Monday, package, AutomaticTimeCreator(u));
             }
         }
+
         private void FromTerminalAndAway()
         {
             terminal.SendAllPackages();
         }
 
-
         private int RandomDelay()
         {
             Random r = new Random();
-            int randomNumber = r.Next(0,2);
+            int randomNumber = r.Next(0, 2);
             Console.WriteLine(randomNumber);
             if (randomNumber == 1)
             {
                 Console.WriteLine("Pick up has been delayed");
                 Random rr = new Random();
-                return rr.Next(5,10);
+                return rr.Next(5, 10);
 
             }
             return 0;
@@ -362,114 +463,14 @@ namespace Ware
         /// <summary>
         /// Starts the simulation with the added packages. 60 seconds recommended runtime.
         /// </summary>
-        public void Run()
+        public static void OnAllPackagesSentToStorage(object o, PackageEventArgs args)
         {
-            int start = 1;
-            int stop = seconds;
-            int delay = 1000;
-            int startDelay = 4000;
-
-            Console.WriteLine(" ---------------------");
-            Console.WriteLine("| Simulation starting  |");
-            Console.WriteLine("|      Loading...      |");
-            Console.WriteLine(" ---------------------\n\n");
-
-            CalculateAmountOfGoodsType();
-            AddUnits();
-            BuildStorages();
-            CreateSchedule();
-
-            Thread.Sleep(startDelay);
-            int randomDelay = RandomDelay();
-
-
-            while (start != stop)
-            {
-                if (start == CalculateSimulationTime(5))
-                {
-                    schedule.GetSchedule();
-                }
-                if (start == CalculateSimulationTime(10))
-                {
-                    ReceivePackages();
-                }
-
-                if (start == CalculateSimulationTime(15))
-                {
-                    SendPackagesToStorage();
-                }
-                                
-                if (start == CalculateSimulationTime(25))
-                {
-                    PrintStorages();
-                }
-                if (start == CalculateSimulationTime(30))
-                {
-                    FromStorageToTerminal();
-                }
-                if (start == CalculateSimulationTime(35))
-                {
-                    FromTerminalAndAway();
-                }
-                /***********************************/
-                if (start == CalculateSimulationTime(40))
-                {
-                    ReceivePackages();
-                }
-
-                if (start == CalculateSimulationTime(45))
-                {
-                    SendPackagesToStorage();
-                }
-
-                if (start == CalculateSimulationTime(50))
-                {
-                    PrintStorages();
-                }
-                if (start == CalculateSimulationTime(55))
-                {
-                    FromStorageToTerminal();
-                }
-                if (start == CalculateSimulationTime(60))
-                {
-                    FromTerminalAndAway();
-                }
-
-                /*********************/
-                if (start == CalculateSimulationTime(65 + randomDelay))
-                {
-                    ReceivePackages();
-                }
-
-                if (start == CalculateSimulationTime(70 + randomDelay))
-                {
-                    SendPackagesToStorage();
-                }
-
-                if (start == CalculateSimulationTime(75 + randomDelay))
-                {
-                    PrintStorages();
-                }
-                if (start == CalculateSimulationTime(80 + randomDelay))
-                {
-                    FromStorageToTerminal();
-                }
-
-                if (start == CalculateSimulationTime(81 + randomDelay))
-                {
-                    FromTerminalAndAway();
-                }
-
-                Console.WriteLine("\n---------------");
-                Console.WriteLine("TimeStamp: "+start);
-                Console.WriteLine("---------------\n");
-                Thread.Sleep(delay);
-                start++;
-            }
-            Console.WriteLine("Simulation ended at: " + (stop) + " Seconds\n");
-            
-            Console.WriteLine("The total delay was " + randomDelay + " seconds in this simulation ");
+            Console.WriteLine($"Packages was sent from the the receiving department to storage {args.Storage.GoodsType}");
         }
 
+        private static void OnPackageReceieved(object o, PackageEventArgs args)
+        {
+            Console.WriteLine($"Package {args.Package.Name} with Id: {args.Package.PackageId} was received");
+        }
     }
 }

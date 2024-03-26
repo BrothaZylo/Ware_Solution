@@ -23,6 +23,7 @@ namespace Ware
         {
             storageName = name;
         }
+
         /// <summary>
         /// Builds the storage layout based on the configured shelves.
         /// </summary>
@@ -50,7 +51,6 @@ namespace Ware
         /// <param name="shelfId">Id of the shelf, used like this "Shelf-1" where X is the shelf.</param>
         /// <exception cref="InvalidOperationException">Thrown when the shelf is already occupied.</exception>
         /// <exception cref="KeyNotFoundException">Thrown when the shelf id does not exist.</exception>
-
         public void PlacePallet(Pallet pallet, string shelfId, int floor, int position)
         {
             if (palletStorageDict.ContainsKey(shelfId))
@@ -111,7 +111,6 @@ namespace Ware
 
             throw new InvalidOperationException("No empty space available for the pallet.");
         }
-
 
         /// <summary>
         /// Removes a pallet from a shelf.
@@ -285,7 +284,6 @@ namespace Ware
             }
         }
 
-
         /// <summary>
         /// Sets the direction of access points to the storage.
         /// </summary>
@@ -344,6 +342,17 @@ namespace Ware
         }
 
         /// <summary>
+        /// Adds a new shelf configuration to the storage system.
+        /// </summary>
+        /// <param name="sizeName">The name representing the size of the shelf.</param>
+        /// <param name="totalUnitsAvailable">The total number of units that the shelf has space for.</param>
+        /// <param name="Floors">Number of floors per shelf.</param>
+        public void AddShelf(string sizeName, int totalUnitsAvailable, int floors)
+        {
+            shelvesConfigs.Add(new ShelvesConfig { SizeName = sizeName, TotalUnitsAvailable = totalUnitsAvailable, Floors = floors });
+        }
+
+        /// <summary>
         /// Configuration of a shelf within the pallet storage system.
         /// </summary>
         /// <param name="sizeName">The name representing the size of the shelf.</param>
@@ -355,17 +364,5 @@ namespace Ware
             public int TotalUnitsAvailable { get; set; }
             public int Floors { get; set; }
         }
-
-        /// <summary>
-        /// Adds a new shelf configuration to the storage system.
-        /// </summary>
-        /// <param name="sizeName">The name representing the size of the shelf.</param>
-        /// <param name="totalUnitsAvailable">The total number of units that the shelf has space for.</param>
-        /// <param name="Floors">Number of floors per shelf.</param>
-        public void AddShelf(string sizeName, int totalUnitsAvailable, int floors)
-        {
-            shelvesConfigs.Add(new ShelvesConfig { SizeName = sizeName, TotalUnitsAvailable = totalUnitsAvailable, Floors = floors });
-        }
-
     }
 }

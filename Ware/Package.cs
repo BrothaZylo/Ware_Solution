@@ -33,23 +33,6 @@ namespace Ware
         }
 
         /// <summary>
-        /// Generates an ID for the package
-        /// </summary>
-        /// <returns>Returns the package id</returns>
-        private static string GenerateId()
-        {
-            string selection = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz123456789";
-            char[] newid = new char[15];
-            for (int i = 0; i < 15; i++)
-            {
-                Random rand = new();
-                newid[i] = selection[rand.Next(selection.Length)];
-            }
-            string generatedid = new(newid);
-            return generatedid;
-        }
-
-        /// <summary>
         /// Gets the package id
         /// </summary>
         /// <returns>packageid</returns>
@@ -97,6 +80,23 @@ namespace Ware
         {
             get { return heightCm; }
             set { heightCm = value; }
+        }
+
+        /// <summary>
+        /// Generates an ID for the package
+        /// </summary>
+        /// <returns>Returns the package id</returns>
+        private static string GenerateId()
+        {
+            string selection = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz123456789";
+            char[] newid = new char[15];
+            for (int i = 0; i < 15; i++)
+            {
+                Random rand = new();
+                newid[i] = selection[rand.Next(selection.Length)];
+            }
+            string generatedid = new(newid);
+            return generatedid;
         }
 
     }
