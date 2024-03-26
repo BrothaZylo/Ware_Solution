@@ -17,7 +17,12 @@ namespace Ware
         private bool eastAccess = true;
         private bool southAccess = true;
         private bool westAccess = true;
+        private string storageName;
 
+        public PalletStorage(string name)
+        {
+            storageName = name;
+        }
         /// <summary>
         /// Builds the storage layout based on the configured shelves.
         /// </summary>
@@ -155,7 +160,7 @@ namespace Ware
                     {
                         Pallet? pallet = floor[posIndex];
                         string positionStatus = pallet != null ? $"{pallet.PackagesInPallet()} packages" : "Empty";
-                        Console.WriteLine($"[{shelfId} | Floor : {floorIndex + 1} | Position: {posIndex + 1} | {positionStatus} | Size: {sizeName}]");
+                        Console.WriteLine($"[{storageName} : {shelfId} | Floor : {floorIndex + 1} | Position: {posIndex + 1} | {positionStatus} | Size: {sizeName}]");
                     }
                 }
             }
@@ -288,6 +293,12 @@ namespace Ware
         {
             get { return westAccess; }
             set { westAccess = value; }
+        }
+
+        public string StorageName
+        {
+            get { return storageName;  }
+            set { storageName = value; }
         }
 
         /// <summary>
