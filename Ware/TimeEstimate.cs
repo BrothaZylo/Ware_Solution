@@ -20,18 +20,18 @@ namespace Ware
         /// Sets the time for how long it takes to get a package from the shelves
         /// </summary>
         /// <param name="storage">Unit you want to set timers to get packagees</param>
+        /// <param name="placeOrGetBox">PlaceOrGetBox enum</param>
         /// <param name="fromShelf">What floor to start</param>
         /// <param name="toShelf">What florr to stop</param>
         /// <param name="timeSeconds">Amount of time it takes to get something from fromshelf-toshelf</param>
-        public void SetTimeStorageGetPackage(Storage storage, int fromShelf, int toShelf, int timeSeconds)
+        public void SetTimeStorageGetPackage(Storage storage, PlaceOrGetBox placeOrGetBox,int fromShelf, int toShelf, int timeSeconds)
         {
             if (!storageTime.TryGetValue(storage, out List<SubTimerCollection>? value))
             {
                 value = new List<SubTimerCollection>();
                 storageTime[storage] = value;
             }
-
-            value.Add(new SubTimerCollection { FromShelf = fromShelf, ToShelf = toShelf, TimeSeconds = timeSeconds });
+            value.Add(new SubTimerCollection { PlaceOrGet = placeOrGetBox, FromShelf = fromShelf, ToShelf = toShelf, TimeSeconds = timeSeconds });
         }
 
         /// <summary>
@@ -98,11 +98,10 @@ namespace Ware
                 Console.WriteLine(item.Key.UniqueId+" Timers:");
                 foreach (SubTimerCollection subTimer in item.Value)
                 {
-                    Console.WriteLine($"[From Shelf: {subTimer.FromShelf} To Shelf: {subTimer.ToShelf} | Time Estimate: {subTimer.TimeSeconds} seconds]");
+                    Console.WriteLine($"[{subTimer.PlaceOrGet} | From Shelf: {subTimer.FromShelf} To Shelf: {subTimer.ToShelf} | Time Estimate: {subTimer.TimeSeconds} seconds]");
                 }
             }
         }
-
 
         /// <summary>
         /// Console prints time for PalletStorage
@@ -114,9 +113,24 @@ namespace Ware
                 Console.WriteLine(item.Key + " Timers:");
                 foreach (SubTimerCollection subTimer in item.Value)
                 {
-                    Console.WriteLine($"[From Shelf: {subTimer.FromShelf} To Shelf: {subTimer.ToShelf} | Time Estimate: {subTimer.TimeSeconds} seconds]");
+                    Console.WriteLine($"[{subTimer.PlaceOrGet} | From Shelf: {subTimer.FromShelf} To Shelf: {subTimer.ToShelf} | Time Estimate: {subTimer.TimeSeconds} seconds]");
                 }
             }
+        }
+
+        /// <summary>
+        /// Decides if you want to place or get a packagee/pallt
+        /// </summary>
+        public enum PlaceOrGetBox
+        {
+            /// <summary>
+            /// Get a pallet/packet
+            /// </summary>
+            PLACE,
+            /// <summary>
+            /// Places a pallet/packet
+            /// </summary>
+            GET,
         }
 
         /// <summary>
@@ -127,6 +141,16 @@ namespace Ware
             private int fromShelf;
             private int toShelf;
             private int timeSeconds;
+            private PlaceOrGetBox placeOrGetBox;
+
+            /// <summary>
+            /// enum PlaceOrGetBox
+            /// </summary>
+            public PlaceOrGetBox PlaceOrGet
+            {
+                get { return placeOrGetBox; } 
+                set {  placeOrGetBox = value; }
+            }
 
             /// <summary>
             /// Shelf number
