@@ -84,18 +84,19 @@ namespace Ware
         /// Sends out a specific package and removes from dictionary
         /// </summary>
         /// <param name="package">A package object</param>
-        public void SendPackage(Package package)
+        /// <returns>A package if the package was found, else null</returns>
+        public Package? SendPackage(Package package)
         {
 
             int numberOfPackages = PackagesToSendOut.Count;
 
-            foreach (Package p in PackagesToSendOut)
+            foreach (Package? p in PackagesToSendOut)
             {
                 if (PackagesToSendOut.Contains(package))
                 {
                     PackagesToSendOut.Remove(p);
                     RaisePackageSendEvent(package);
-                    break;
+                    return p;
                 }
             }
             int newCount = PackagesToSendOut.Count;
@@ -103,8 +104,8 @@ namespace Ware
             {
                 throw new PackageInvalidException("Package does not exist in terminal." );
             
-            } 
-
+            }
+            return null;
         }
 
         /// <summary>

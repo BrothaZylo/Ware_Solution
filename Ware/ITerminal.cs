@@ -16,7 +16,7 @@ namespace Ware
         void ClearPackages();
 
         void SendAllPackages();
-        void SendPackage(Package package);
+        Package? SendPackage(Package package);
 
 
 
