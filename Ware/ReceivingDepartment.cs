@@ -46,6 +46,13 @@ namespace Ware
             }
         }
 
+        /// <summary>
+        /// Sends a package to a storage.
+        /// </summary>
+        /// <param name="package">package you want to send</param>
+        /// <param name="storage">storage you want to sent it to</param>
+        /// <param name="shelfId1">where you want to place it - shelf unique id</param>
+        /// <param name="shelfId2">where you want to place it - shelf unique id</param>
         public void SendPackageToStorage(Package package, Storage storage, string shelfId1, string shelfId2)
         {
             foreach (Package item in receivedPackages)
@@ -60,6 +67,14 @@ namespace Ware
             }
         }
 
+        /// <summary>
+        /// Sends a package to a storage.
+        /// </summary>
+        /// <param name="package">package you want to send</param>
+        /// <param name="storage">storage you want to sent it to</param>
+        /// <param name="shelfId1">where you want to place it - shelf unique id</param>
+        /// <param name="shelfId2">where you want to place it - shelf unique id</param>
+        /// <param name="shelfId3">where you want to place it - shelf unique id</param>
         public void SendPackageToStorage(Package package, Storage storage, string shelfId1, string shelfId2, string shelfId3)
         {
             foreach (Package item in receivedPackages)
