@@ -63,12 +63,29 @@ namespace ConsoleApp2
             storage2.AddShelf("Mid", 2, 63, 63);
             storage2.Build();
 
+            //-----------------------------------------------------------//
+            //----------------------Receiving Build----------------------//
+            //-----------------------------------------------------------//
 
+            ReceivingDepartment rex = new();
+            rex.AddPackage(package1);
+            rex.AddPackage(package2);
+            rex.AddPackage(package6);
+
+            rex.SendPackageToStorage(package1, storage2, "B101");
+            storage2.GetAllStorageInformationPrint();
+            Dictionary<string, (Package?, string, double, double, bool)> s = storage2.GetAllStorageInformationAsDictionary();
+
+            Console.WriteLine(storage2.UniqueId);
+            foreach(string package in s.Keys)
+            {
+                Console.WriteLine(package);
+            }
 
             //------------------------------------------------------------//
             //---------------------- Pallets Setup -----------------------//
             //------------------------------------------------------------//
-
+            /*
             Pallet pallet1 = new Pallet();
             pallet1.AddPackageToPallet(package3);
             pallet1.AddPackageToPallet(package4);
@@ -135,6 +152,8 @@ namespace ConsoleApp2
             PalletAisle palletAisle = new PalletAisle("pallet");
             palletAisle.AddPalletStorage(palletStorage);
             palletAisle.GetAllPalletPrints();
+
+            */
             //-----------------------------------------------------------//
             //--------------------------Events---------------------------//
             //-----------------------------------------------------------//
