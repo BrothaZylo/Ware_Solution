@@ -16,8 +16,6 @@ namespace Ware
         private readonly Queue<Package> PackagesToSendOutQueue = new Queue<Package>();
         private readonly List<Pallet> PalletsInTerminal = new List<Pallet>();
 
-        
-
         /// <summary>
         /// This will add a package to a dictionary which are the packages at the terminal
         /// </summary>
@@ -69,11 +67,11 @@ namespace Ware
         /// </summary>
         public void PrintPalletInformation()
         {
-            foreach (var pallet in PalletsInTerminal)
+            foreach (Pallet pallet in PalletsInTerminal)
             {
                 int packageCount = pallet.PackagesInPallet();
                 Console.WriteLine($"Pallet with {packageCount} packages.");
-                foreach (var package in pallet.GetPackagesOnPallet())
+                foreach (Package package in pallet.GetPackagesOnPallet())
                 {
                     Console.WriteLine($"Package: {package.Name}");
                 }

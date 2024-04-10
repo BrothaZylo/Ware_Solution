@@ -6,6 +6,11 @@
     <Nullable>enable</Nullable>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <DocumentationFile></DocumentationFile>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageId>Kodekrigerne-Framework-1</PackageId>
+    <Title>Warehouse-Framework</Title>
+    <Authors>Stian, Tobias, Johannes</Authors>
+    <Description>A Warehouse framework</Description>
   </PropertyGroup>
 
 </Project>

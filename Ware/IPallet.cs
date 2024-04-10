@@ -11,5 +11,6 @@ namespace Ware
         void AddPackageToPallet(Package package);
         bool IsPalletFull();
         void SetMaxPackagesPerPallet(int maxPackages);
+        void PrintPalletInformation();
     }
 }
