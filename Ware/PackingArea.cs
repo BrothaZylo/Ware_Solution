@@ -10,8 +10,7 @@ namespace Ware
     public class PackingArea
     {
         private readonly List<Pallet> pallets = new List<Pallet>();
-        private readonly List<Package> unallocatedPackages = new List<Package>(); // Temporarily store packages here
-
+        private readonly List<Package> unallocatedPackages = new List<Package>();
         /// <summary>
         /// Stores a package in the packing area until it can be added to a pallet.
         /// </summary>
@@ -26,11 +25,6 @@ namespace Ware
         /// </summary>
         /// <param name="package">The package to add.</param>
         /// <param name="pallet">The pallet to add the package to.</param>
-        /// <remarks>
-        /// This method assumes that the package to be added is already in the unallocatedPackages list.
-        /// You may want to implement logic to check this or to remove the package from unallocatedPackages
-        /// when it's added to a pallet.
-        /// </remarks>
         public void AddToPallet(Package package, Pallet pallet)
         {
             if (!pallet.IsPalletFull())
