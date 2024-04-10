@@ -140,6 +140,19 @@ namespace Ware
         }
 
         /// <summary>
+        /// Sends out all the pallets in the terminal and clears them from the storage.
+        /// </summary>
+        public void SendOutPallets()
+        {
+            foreach (Pallet pallet in PalletsInTerminal)
+            {
+                Console.WriteLine($"Sending out pallet with {pallet.PackagesInPallet()} packages.");
+            }
+
+            PalletsInTerminal.Clear();
+        }
+
+        /// <summary>
         /// Uses by SendAllPackages()
         /// </summary>
         public event EventHandler<PackageEventArgs>? PackageSendAllEvent;

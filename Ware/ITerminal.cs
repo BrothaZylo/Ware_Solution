@@ -17,6 +17,7 @@ namespace Ware
 
         void SendAllPackages();
         Package? SendPackage(Package package);
+        void SendOutPallets();
 
 
 
