@@ -10,5 +10,6 @@ namespace Ware
     {
         void AddToPallet(Package package, Pallet pallet);
         void ReceivePackage(Package package);
+        void AllocatePackagesToPallets();
     }
 }
