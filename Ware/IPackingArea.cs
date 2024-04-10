@@ -8,8 +8,7 @@ namespace Ware
 {
     internal interface IPackingArea
     {
-        void AddToPallet(Package package, Pallet pallet);
         void ReceivePackage(Package package);
-        void AllocatePackagesToPallets();
+        void AddToPallet(Package package, Pallet pallet);
     }
 }

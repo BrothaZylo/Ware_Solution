@@ -5,76 +5,56 @@ using System.Text;
 using System.Threading.Tasks;
 using Ware;
 
-public class PackingArea
+namespace Ware
 {
-    private readonly List<Pallet> pallets = new List<Pallet>();
-    private readonly List<Package> unallocatedPackages = new List<Package>();
-
-    /// <summary>
-    /// Adds a package to a pallet. If the pallet is full a exception is thrown.
-    /// </summary>
-    /// <param name="package">The package to add.</param>
-    /// <param name="pallet">The pallet to add the package to.</param>
-    public void AddToPallet(Package package, Pallet pallet)
+    public class PackingArea
     {
-        if (!pallet.IsPalletFull())
+        private readonly List<Pallet> pallets = new List<Pallet>();
+        private readonly List<Package> unallocatedPackages = new List<Package>(); // Temporarily store packages here
+
+        /// <summary>
+        /// Stores a package in the packing area until it can be added to a pallet.
+        /// </summary>
+        /// <param name="package">The package to be stored.</param>
+        public void ReceivePackage(Package package)
         {
-            pallet.AddPackageToPallet(package);
-            RaiseAddToPalletEvent(package);
+            unallocatedPackages.Add(package);
         }
-        else
-        {
-            throw new InvalidOperationException("Pallet is full, can't add more packages.");
-        }
-    }
 
-    /// <summary>
-    /// Receives a package and stores it in the packing area storage.
-    /// </summary>
-    /// <param name="package">The package to be stored.</param>
-    public void ReceivePackage(Package package)
-    {
-        unallocatedPackages.Add(package);
-    }
-
-    /// <summary>
-    /// Allocates stored packages to pallets. Creates new pallets if necessary.
-    /// </summary>
-    public void AllocatePackagesToPallets()
-    {
-        foreach (Package package in unallocatedPackages)
+        /// <summary>
+        /// Adds a stored package to a specified pallet. Throws an exception if the pallet is full.
+        /// </summary>
+        /// <param name="package">The package to add.</param>
+        /// <param name="pallet">The pallet to add the package to.</param>
+        /// <remarks>
+        /// This method assumes that the package to be added is already in the unallocatedPackages list.
+        /// You may want to implement logic to check this or to remove the package from unallocatedPackages
+        /// when it's added to a pallet.
+        /// </remarks>
+        public void AddToPallet(Package package, Pallet pallet)
         {
-            Pallet? targetPallet = null;
-            for (int i = pallets.Count - 1; i >= 0; i--)
+            if (!pallet.IsPalletFull())
             {
-                if (!pallets[i].IsPalletFull())
-                {
-                    targetPallet = pallets[i];
-                    break;
-                }
+                pallet.AddPackageToPallet(package);
+                unallocatedPackages.Remove(package);
+                RaiseAddToPalletEvent(package);
             }
-
-            if (targetPallet == null)
+            else
             {
-                targetPallet = new Pallet();
-                pallets.Add(targetPallet);
+                throw new InvalidOperationException("Pallet is full, can't add more packages.");
             }
-
-            targetPallet.AddPackageToPallet(package);
         }
 
-        unallocatedPackages.Clear();
-    }
+        public IReadOnlyList<Pallet> Pallets
+        {
+            get { return pallets.AsReadOnly(); }
+        }
 
-    public IReadOnlyList<Pallet> Pallets
-    {
-        get { return pallets.AsReadOnly(); }
-    }
+        public event EventHandler<PackageEventArgs> PackageAddedToPallet;
 
-    public event EventHandler<PackageEventArgs> PackageAddedToPallet;
-
-    private void RaiseAddToPalletEvent(Package package)
-    {
-        PackageAddedToPallet?.Invoke(this, new PackageEventArgs(package));
+        private void RaiseAddToPalletEvent(Package package)
+        {
+            PackageAddedToPallet?.Invoke(this, new PackageEventArgs(package));
+        }
     }
 }
