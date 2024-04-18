@@ -1,4 +1,4 @@
-﻿using System;
+﻿    using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +22,11 @@ namespace Ware
         public PalletStorage(string name)
         {
             storageName = name;
+        }
+
+        public Dictionary<string, (List<List<Pallet>>, string, bool)> GetAllPalletsInStorage()
+        {
+            return palletStorageDict;
         }
 
         /// <summary>
@@ -335,6 +340,7 @@ namespace Ware
             set { westAccess = value; }
         }
 
+                
         public string StorageName
         {
             get { return storageName;  }
