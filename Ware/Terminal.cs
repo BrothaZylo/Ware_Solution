@@ -128,7 +128,7 @@ namespace Ware
         }
 
         /// <summary>
-        /// 
+        /// Transfers all packages from the send-out list to a queue and clears the list.
         /// </summary>
         private void AddToQueue()
         {
