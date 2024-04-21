@@ -11,6 +11,7 @@
     <Title>Warehouse-Framework</Title>
     <Authors>Stian, Tobias, Johannes</Authors>
     <Description>A Warehouse framework</Description>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
 </Project>

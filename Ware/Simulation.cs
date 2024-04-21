@@ -15,6 +15,7 @@ namespace Ware
     /// <param name="seconds">Seconds the simulation will run</param>
     public class Simulation(int seconds = 60) : ISimulation
     {
+
         private readonly int seconds = seconds;
         private readonly List<Package> simulationPackages = [];
         private static readonly Storage Dry = new("Dry", "A");
@@ -66,6 +67,15 @@ namespace Ware
             Thread.Sleep(startDelay);
             int randomDelay = RandomDelay();
 
+            /**********************Events*******/
+            receiving.PackageAddedEvent += OnPackageReceieved;
+            receiving.SendAllPackageEvent += OnAllPackagesSentToStorage;
+
+            Dry.MovePackageToTerminalEvent += OnPackageSentToTerminal;
+            Refrigerated.MovePackageToTerminalEvent += OnPackageSentToTerminal;
+            Dangerous.MovePackageToTerminalEvent += OnPackageSentToTerminal;
+
+            terminal.PackageSendEvent += OnPackageSentAway;
 
             while (start != stop)
             {
@@ -153,6 +163,11 @@ namespace Ware
             Console.WriteLine("Simulation ended at: " + (stop) + " Seconds\n");
 
             Console.WriteLine("The total delay was " + randomDelay + " seconds in this simulation ");
+        }
+
+        private void Receiving_SendAllPackageEvent(object? sender, PackageEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         private static void BuildStorages()
@@ -471,6 +486,14 @@ namespace Ware
         private static void OnPackageReceieved(object o, PackageEventArgs args)
         {
             Console.WriteLine($"Package {args.Package.Name} with Id: {args.Package.PackageId} was received");
+        }
+        private static void OnPackageSentToTerminal(object o, PackageEventArgs args)
+        {
+            Console.WriteLine($"Package {args.Package.Name} with Id: {args.Package.PackageId} was sent to Terminal");
+        }
+        private static void OnPackageSentAway(object o, PackageEventArgs args)
+        {
+            Console.WriteLine($"Package {args.Package.Name} with Id: {args.Package.PackageId} was sent out of Terminal");
         }
     }
 }

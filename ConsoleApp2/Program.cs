@@ -24,6 +24,8 @@ namespace ConsoleApp2
 
         static void Main(string[] args)
         {
+
+
             //------------------------------------------------------------//
             //----------------------Default values------------------------//
             //------------------------------------------------------------//
@@ -47,10 +49,13 @@ namespace ConsoleApp2
 
             Package package6 = new("Cream", refrigerated, 84, 43);
             Package package7 = new("Ice", refrigerated, 18, 39);
+
+
+
             //-----------------------------------------------------------//
             //----------------------Storage Build------------------------//
             //-----------------------------------------------------------//
-
+            /*
             Storage storage = new(refrigerated, "Uteliggeer");
             storage.AddShelf("Big", 11, 100, 100);
             storage.AddShelf("Tiny", 4, 33, 33);
@@ -66,7 +71,7 @@ namespace ConsoleApp2
             //-----------------------------------------------------------//
             //----------------------Receiving Build----------------------//
             //-----------------------------------------------------------//
-
+            
             ReceivingDepartment rex = new();
             rex.AddPackage(package1);
             rex.AddPackage(package2);
@@ -81,7 +86,7 @@ namespace ConsoleApp2
             {
                 Console.WriteLine(package);
             }
-
+            
             //------------------------------------------------------------//
             //---------------------- Pallets Setup -----------------------//
             //------------------------------------------------------------//
@@ -221,12 +226,13 @@ namespace ConsoleApp2
             highvaluegoods.AddAccessLevel(CrewList.AccessLevel.EMPLOYEE);
             bool x = forklift.HasAccess(karl);
             Console.WriteLine(x);
-            /
+            */
             //----------------------------------------------------------//
             //-----------------------Simulation-------------------------//
             //----------------------------------------------------------//
 
-            /
+
+            
             Simulation sim = new(30);
 
             sim.AddPackage(package1);
@@ -237,8 +243,6 @@ namespace ConsoleApp2
             sim.AddPackage(package6);
             sim.AddPackage(package7);
             sim.Run();
-            */
-
 
         }
     }
