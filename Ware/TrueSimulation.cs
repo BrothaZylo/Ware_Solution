@@ -119,14 +119,9 @@ namespace Ware
 
             while (RunTimeSeconds != 0)
             {
-                try
-                {
-                    ReceivePackage();
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.ToString());
-                }
+
+                ReceivePackage();
+
                 
                 Console.WriteLine("Runnng");
 
