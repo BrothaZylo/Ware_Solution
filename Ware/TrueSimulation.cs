@@ -127,10 +127,15 @@ namespace Ware
             }
         }
 
+        private void PathSelectorFromStorage()
+        {
+            //Terminal, kitting, packing
+            return;
+        }
+
         public void Run()
         {
             int delay = 1000;
-            int tmpDelay = 0;
             if (!CanRunSimulation())
             {
                 Console.WriteLine("Not Running");
@@ -142,7 +147,9 @@ namespace Ware
 
                 ReceivePackage();
                 SendFromReceivingToStorage();
-                
+                PathSelectorFromStorage();
+
+
                 Console.WriteLine("--------------");
                 Thread.Sleep(delay);
                 RunTimeSeconds--;

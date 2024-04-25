@@ -265,7 +265,7 @@ namespace ConsoleApp2
             storage2.Build();
 
             sim.AddReceivingDepartmentToSimulation(r1);
-            //sim.AddReceivingDepartmentToSimulation(r2);
+            sim.AddReceivingDepartmentToSimulation(r2);
 
             sim.AddPackageToSimulation(package1);
             sim.AddPackageToSimulation(package2);
