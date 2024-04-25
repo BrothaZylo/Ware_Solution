@@ -10,8 +10,9 @@ namespace Ware
     /// <summary>
     /// This is where the packages will leave the warehouse
     /// </summary>
-    public class Terminal : ITerminal
+    public class Terminal(string name) : ITerminal
     {
+        private string name = name;
         private readonly List<Package> PackagesToSendOut = new List<Package>();
         private readonly Queue<Package> PackagesToSendOutQueue = new Queue<Package>();
         private readonly List<Pallet> PalletsInTerminal = new List<Pallet>();
@@ -150,6 +151,15 @@ namespace Ware
             }
 
             PalletsInTerminal.Clear();
+        }
+
+        /// <summary>
+        /// Name of the termial
+        /// </summary>
+        public string Name
+        {
+            get { return name; }
+            set { name = value; }
         }
 
         /// <summary>

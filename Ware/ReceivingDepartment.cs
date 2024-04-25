@@ -28,6 +28,25 @@ namespace Ware
         }
 
         /// <summary>
+        /// Automatically places a package in a suitable spot
+        /// </summary>
+        /// <param name="package">Package you want send</param>
+        /// <param name="storage">Storag you want to send to</param>
+        public void SendPackageToStorageAutomatic(Package package, Storage storage)
+        {
+            foreach (Package item in receivedPackages)
+            {
+                if (item == package)
+                {
+                    storage.PlacePackageAutomatic(package);
+                    receivedPackages.Remove(item);
+                    RaiseSendPackageEvent(package, storage);
+                    return;
+                }
+            }
+        }
+
+        /// <summary>
         /// Sends a package to a storage.
         /// </summary>
         /// <param name="package">package you want to send</param>
@@ -95,7 +114,6 @@ namespace Ware
         /// </summary>
         public void SendFirstPackageToStorage(Storage storage)
         {
-
             if (receivedPackages.Count > 0)
             {
                 Package firstPackage = receivedPackages[0];

@@ -25,7 +25,7 @@ namespace Ware
         private readonly PackageLogging packageLogging = new();
         private ReceivingDepartment receiving = new("egg");
         private readonly Schedule schedule = new();
-        private readonly Terminal terminal = new();
+        private readonly Terminal terminal = new("term");
 
         private bool a = true;
         private bool b = true;

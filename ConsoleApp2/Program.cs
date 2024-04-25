@@ -47,8 +47,10 @@ namespace ConsoleApp2
             Package package4 = new("ebb", dangerous, 84, 43);
             Package package5 = new("eee", dangerous, 84, 43);
 
-            Package package6 = new("Cream", refrigerated, 84, 43);
-            Package package7 = new("Ice", refrigerated, 18, 39);
+            Package package6 = new("Cream", refrigerated, 12, 22);
+            Package package7 = new("Ice", refrigerated, 18, 12);
+            Package package8 = new("Eggs", refrigerated, 18, 12);
+            Package package9 = new("Big Moose", refrigerated, 18, 12);
 
 
 
@@ -248,13 +250,34 @@ namespace ConsoleApp2
             TrueSimulation sim = new(10);
             ReceivingDepartment r1 = new("Rec1");
             ReceivingDepartment r2 = new("Rec2");
+            Terminal terminal1 = new("Terminal1");
+
+            Storage storage1 = new(refrigerated, "A");
+            storage1.AddShelf("Big", 11, 100, 100);
+            storage1.AddShelf("Tiny", 4, 33, 33);
+            storage1.AddShelf("Mid", 5, 63, 63);
+            storage1.Build();
+
+            Storage storage2 = new(dry, "B");
+            storage2.AddShelf("Big", 11, 100, 100);
+            storage2.AddShelf("Tiny", 4, 33, 33);
+            storage2.AddShelf("Mid", 5, 63, 63);
+            storage2.Build();
+
             sim.AddReceivingDepartmentToSimulation(r1);
-            sim.AddReceivingDepartmentToSimulation(r2);
+            //sim.AddReceivingDepartmentToSimulation(r2);
+
             sim.AddPackageToSimulation(package1);
             sim.AddPackageToSimulation(package2);
-            sim.AddPackageToSimulation(package3);
-            sim.AddPackageToSimulation(package4);
-            sim.AddPackageToSimulation(package5);
+            sim.AddPackageToSimulation(package6);
+            sim.AddPackageToSimulation(package7);
+            sim.AddPackageToSimulation(package8);
+            sim.AddPackageToSimulation(package9);
+
+            sim.AddStorageToSimulation(storage1);
+            sim.AddStorageToSimulation(storage2);
+
+            sim.AddTerminalToSimulation(terminal1);
             sim.Run();
         }
     }

@@ -96,22 +96,42 @@ namespace Ware
 
         private void ReceivePackage()
         {
-
             for (int i = 0; i < receivingDepartments.Count; i++)
             {
                 if(packages.Count == 0)
                 {
                     return;
                 }
-                Console.WriteLine("" + receivingDepartments[i].Name + " received: " + packages[i].PackageId);
-                receivingDepartments[i].AddPackage(packages[i]);
-                packages.Remove(packages[i]);
+                Console.WriteLine("" + receivingDepartments[i].Name + " received: " + packages[0].PackageId);
+                receivingDepartments[i].AddPackage(packages[0]);
+                packages.Remove(packages[0]);
+            }
+        }
+
+        private void SendFromReceivingToStorage()
+        {
+            foreach (ReceivingDepartment item in receivingDepartments)
+            {
+                foreach(Package p in item.GetPackageList())
+                {
+                    foreach(Storage storage in storages)
+                    {
+                        if(storage.GoodsType == p.Goods)
+                        {
+                            item.SendPackageToStorageAutomatic(p, storage);
+                            Console.WriteLine(p.PackageId + " was sent to: " + storage.UniqueId);
+                        }
+                    }
+                    return;
+                }
             }
         }
 
         public void Run()
         {
-            if (CanRunSimulation())
+            int delay = 1000;
+            int tmpDelay = 0;
+            if (!CanRunSimulation())
             {
                 Console.WriteLine("Not Running");
                 return;
@@ -121,10 +141,10 @@ namespace Ware
             {
 
                 ReceivePackage();
-
+                SendFromReceivingToStorage();
                 
-                Console.WriteLine("Runnng");
-
+                Console.WriteLine("--------------");
+                Thread.Sleep(delay);
                 RunTimeSeconds--;
             }
         }
