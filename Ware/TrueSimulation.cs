@@ -96,27 +96,41 @@ namespace Ware
 
         private void ReceivePackage()
         {
-            if(packages.Count == 0)
+
+            for (int i = 0; i < receivingDepartments.Count; i++)
             {
-                return;
+                if(packages.Count == 0)
+                {
+                    return;
+                }
+                Console.WriteLine("" + receivingDepartments[i].Name + " received: " + packages[i].PackageId);
+                receivingDepartments[i].AddPackage(packages[i]);
+                packages.Remove(packages[i]);
             }
-            receivingDepartments[0].AddPackage(packages[0]);
         }
 
         public void Run()
         {
-            if (!CanRunSimulation())
+            if (CanRunSimulation())
             {
                 Console.WriteLine("Not Running");
                 return;
             }
-            bool isRunnng = true;
-            while (isRunnng)
+
+            while (RunTimeSeconds != 0)
             {
-                ReceivePackage();
+                try
+                {
+                    ReceivePackage();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.ToString());
+                }
+                
                 Console.WriteLine("Runnng");
 
-                isRunnng = false;
+                RunTimeSeconds--;
             }
         }
 

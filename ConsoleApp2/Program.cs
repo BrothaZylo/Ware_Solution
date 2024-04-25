@@ -246,6 +246,15 @@ namespace ConsoleApp2
             */
 
             TrueSimulation sim = new(10);
+            ReceivingDepartment r1 = new("Rec1");
+            ReceivingDepartment r2 = new("Rec2");
+            sim.AddReceivingDepartmentToSimulation(r1);
+            sim.AddReceivingDepartmentToSimulation(r2);
+            sim.AddPackageToSimulation(package1);
+            sim.AddPackageToSimulation(package2);
+            sim.AddPackageToSimulation(package3);
+            sim.AddPackageToSimulation(package4);
+            sim.AddPackageToSimulation(package5);
             sim.Run();
         }
     }

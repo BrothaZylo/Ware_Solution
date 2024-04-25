@@ -23,7 +23,7 @@ namespace Ware
         private static readonly Storage Dangerous = new("Dangerous", "C");
 
         private readonly PackageLogging packageLogging = new();
-        private ReceivingDepartment receiving = new();
+        private ReceivingDepartment receiving = new("egg");
         private readonly Schedule schedule = new();
         private readonly Terminal terminal = new();
 

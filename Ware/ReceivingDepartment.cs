@@ -6,8 +6,9 @@ namespace Ware
     /// <summary>
     /// The reception of the packages and the times it takes are handled here.
     /// </summary>
-    public class ReceivingDepartment : IReceivingDepartment
+    public class ReceivingDepartment(string name) : IReceivingDepartment
     {
+        private string name = name;
         private readonly List<Package> receivedPackages = [];
         private readonly List<Package> allPackages = [];
 
@@ -34,9 +35,9 @@ namespace Ware
         /// <param name="shelfId">where you want to place it - shelf unique id</param>
         public void SendPackageToStorage(Package package, Storage storage, string shelfId)
         {
-            foreach(Package item in receivedPackages)
+            foreach (Package item in receivedPackages)
             {
-                if(item == package)
+                if (item == package)
                 {
                     storage.PlacePackage(package, shelfId);
                     receivedPackages.Remove(item);
@@ -135,10 +136,10 @@ namespace Ware
         /// <summary>
         /// Prints the dictionary of all received packages.
         /// </summary>
-        public void GetAllPackagePrint() 
+        public void GetAllPackagePrint()
         {
-            foreach (Package package in receivedPackages) 
-            { 
+            foreach (Package package in receivedPackages)
+            {
                 Console.WriteLine(package);
             }
         }
@@ -159,6 +160,16 @@ namespace Ware
         {
             return allPackages;
         }
+        
+        /// <summary>
+        /// Name of ReceivingDepartment
+        /// </summary>
+        public string Name
+        {
+            get { return name; }
+            set { name = value; }
+        }
+
 
         /// <summary>
         /// Event for SendAllPackagesToStorage(Storage storage)
