@@ -59,15 +59,9 @@ namespace Ware
             Console.WriteLine("|      Loading...      |");
             Console.WriteLine(" ---------------------\n\n");
 
-            CalculateAmountOfGoodsType();
-            AddUnits();
-            BuildStorages();
-            CreateSchedule();
-
-            Thread.Sleep(startDelay);
-            int randomDelay = RandomDelay();
-
             /**********************Events*******/
+            schedule.PackageAddEvent += OnPackageAddedToSchedule;
+
             receiving.PackageAddedEvent += OnPackageReceieved;
             receiving.SendAllPackageEvent += OnAllPackagesSentToStorage;
 
@@ -76,6 +70,17 @@ namespace Ware
             Dangerous.MovePackageToTerminalEvent += OnPackageSentToTerminal;
 
             terminal.PackageSendEvent += OnPackageSentAway;
+
+
+            CalculateAmountOfGoodsType();
+            AddUnits();
+            BuildStorages();
+            CreateSchedule();
+
+            Thread.Sleep(startDelay);
+            int randomDelay = RandomDelay();
+
+
 
             while (start != stop)
             {
@@ -441,7 +446,7 @@ namespace Ware
             int sum = percentageRunSim * s / 100;
 
             DateTime day = DateTime.Now;
-            day.AddMinutes(sum);
+            day = day.AddMinutes(sum);
             return day;
         }
 
@@ -494,6 +499,10 @@ namespace Ware
         private static void OnPackageSentAway(object o, PackageEventArgs args)
         {
             Console.WriteLine($"Package {args.Package.Name} with Id: {args.Package.PackageId} was sent out of Terminal");
+        }
+        private static void OnPackageAddedToSchedule(object o, PackageEventArgs args)
+        {
+            Console.WriteLine($"Package {args.Package.Name} was added to schedule");
         }
     }
 }
