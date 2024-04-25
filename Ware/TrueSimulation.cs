@@ -18,6 +18,7 @@ namespace Ware
         private List<Equipment> equipments = new List<Equipment>();
         private List<KittingArea> kittingAreas = new List<KittingArea>();
         private List<PackingArea> packingAreas = new List<PackingArea>();
+        private List<ReceivingDepartment> receivingDepartments = new List<ReceivingDepartment>();   
 
         public TrueSimulation(int runTimeSeconds)
         {
@@ -31,6 +32,7 @@ namespace Ware
             equipments = [];
             kittingAreas = [];
             packingAreas = [];
+            receivingDepartments = [];
         }
 
         public void AddPackageToSimulation(Package package)
@@ -76,6 +78,46 @@ namespace Ware
         public void AddPackingAreaToSimulation(PackingArea packingArea)
         {
             packingAreas.Add(packingArea);
+        }
+
+        public void AddReceivingDepartmentToSimulation(ReceivingDepartment receivingDepartment)
+        {
+            receivingDepartments.Add(receivingDepartment);
+        }
+
+        private bool CanRunSimulation()
+        {
+            if(packages.Count == 0 || storages.Count == 0 || terminals.Count == 0 || receivingDepartments.Count == 0)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        private void ReceivePackage()
+        {
+            if(packages.Count == 0)
+            {
+                return;
+            }
+            receivingDepartments[0].AddPackage(packages[0]);
+        }
+
+        public void Run()
+        {
+            if (!CanRunSimulation())
+            {
+                Console.WriteLine("Not Running");
+                return;
+            }
+            bool isRunnng = true;
+            while (isRunnng)
+            {
+                ReceivePackage();
+                Console.WriteLine("Runnng");
+
+                isRunnng = false;
+            }
         }
 
     }

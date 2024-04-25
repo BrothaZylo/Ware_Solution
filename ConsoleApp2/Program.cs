@@ -232,7 +232,7 @@ namespace ConsoleApp2
             //----------------------------------------------------------//
 
 
-            
+            /*
             Simulation sim = new(30);
 
             sim.AddPackage(package1);
@@ -243,7 +243,10 @@ namespace ConsoleApp2
             sim.AddPackage(package6);
             sim.AddPackage(package7);
             sim.Run();
+            */
 
+            TrueSimulation sim = new(10);
+            sim.Run();
         }
     }
 }
