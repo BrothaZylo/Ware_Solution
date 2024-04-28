@@ -6,6 +6,7 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using static System.Collections.Specialized.BitVector32;
 
 namespace Ware
 {
