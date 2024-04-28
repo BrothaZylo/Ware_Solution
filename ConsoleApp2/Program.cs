@@ -291,7 +291,20 @@ namespace ConsoleApp2
             sim.AddStorageToSimulation(storage2);
 
             sim.AddTerminalToSimulation(terminal1);
-            sim.Run();
+            //sim.Run();
+
+
+            EquipmentDoor doorEquipment = new("hDoor", 1);
+            Person person = new("oga",32, AccessLevel.EXTRA1);
+            doorEquipment.AddAccessLevel(AccessLevel.EXTRA1);
+
+            EquipmentList equipmentList = new EquipmentList();
+            equipmentList.AddEquipment(doorEquipment);
+            Equipment equipment = new("eghg", 2);
+
+            StorageSmall storageSmall = new(dry, "dD");
+            storageSmall.AddShelf("Big", 11, 100, 100);
+            storageSmall.Build();
         }
     }
 }
