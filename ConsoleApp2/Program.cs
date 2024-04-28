@@ -41,14 +41,14 @@ namespace ConsoleApp2
             //----------------------------------------------------------//
 
             Package package1 = new("Chips", dry, 15, 3);
-            Package package2 = new("Ost", dry, 14, 23);
+            Package package2 = new("Ost", dry, 14, 2);
 
-            Package package3 = new("Moose", dangerous, 84, 43);
-            Package package4 = new("ebb", dangerous, 84, 43);
-            Package package5 = new("eee", dangerous, 84, 43);
+            Package package3 = new("Moose", dangerous, 8, 3);
+            Package package4 = new("ebb", dangerous, 8, 3);
+            Package package5 = new("eee", dangerous, 4, 3);
 
-            Package package6 = new("Cream", refrigerated, 84, 43);
-            Package package7 = new("Ice", refrigerated, 18, 39);
+            Package package6 = new("Cream", refrigerated, 8, 3);
+            Package package7 = new("Ice", refrigerated, 18, 9);
 
 
 
@@ -235,6 +235,8 @@ namespace ConsoleApp2
             
             Simulation sim = new(30);
 
+            sim.PackageAddedToSchedule += OnPackageAddedToSchedule;
+
             sim.AddPackage(package1);
             sim.AddPackage(package2);
             sim.AddPackage(package3);
@@ -244,6 +246,10 @@ namespace ConsoleApp2
             sim.AddPackage(package7);
             sim.Run();
 
+        }
+        private static void OnPackageAddedToSchedule(object o, PackageEventArgs args)
+        {
+            Console.WriteLine($"Package {args.Package.Name} was added to schedule");
         }
     }
 }
