@@ -247,10 +247,19 @@ namespace ConsoleApp2
             sim.Run();
             */
 
-            TrueSimulation sim = new(10);
+            TrueSimulation sim = new(25);
             ReceivingDepartment r1 = new("Rec1");
             ReceivingDepartment r2 = new("Rec2");
             Terminal terminal1 = new("Terminal1");
+            KittingArea k1 = new();
+            PackingArea p1 = new();
+            PackingArea p2 = new();
+
+
+            k1.SchedulePackageForKittingArea(package1);
+            p1.SchedulePackage(package7);
+            p1.SchedulePackage(package8);
+            p2.SchedulePackage(package9);
 
             Storage storage1 = new(refrigerated, "A");
             storage1.AddShelf("Big", 11, 100, 100);
@@ -264,9 +273,13 @@ namespace ConsoleApp2
             storage2.AddShelf("Mid", 5, 63, 63);
             storage2.Build();
 
-            sim.AddReceivingDepartmentToSimulation(r1);
-            sim.AddReceivingDepartmentToSimulation(r2);
 
+            sim.AddReceivingDepartmentToSimulation(r1);
+            //sim.AddReceivingDepartmentToSimulation(r2);
+
+            sim.AddPackingAreaToSimulation(p1);
+            sim.AddPackingAreaToSimulation(p2);
+            sim.AddKittingAreaToSimulation(k1);
             sim.AddPackageToSimulation(package1);
             sim.AddPackageToSimulation(package2);
             sim.AddPackageToSimulation(package6);

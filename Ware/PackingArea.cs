@@ -10,14 +10,25 @@ namespace Ware
     public class PackingArea
     {
         private readonly List<Pallet> pallets = new List<Pallet>();
-        private readonly List<Package> unallocatedPackages = new List<Package>();
+        private readonly List<Package> packagesInPackingArea = new List<Package>();
+        private List<Package> schedulePackagesForPackingArea = new List<Package>();
+
         /// <summary>
         /// Stores a package in the packing area until it can be added to a pallet.
         /// </summary>
         /// <param name="package">The package to be stored.</param>
         public void ReceivePackage(Package package)
         {
-            unallocatedPackages.Add(package);
+            packagesInPackingArea.Add(package);
+        }
+
+        /// <summary>
+        /// Plans where the package is going to go in the furture
+        /// </summary>
+        /// <param name="package">Package object</param>
+        public void SchedulePackage(Package package)
+        {
+            schedulePackagesForPackingArea.Add(package);
         }
 
         /// <summary>
@@ -30,13 +41,31 @@ namespace Ware
             if (!pallet.IsPalletFull())
             {
                 pallet.AddPackageToPallet(package);
-                unallocatedPackages.Remove(package);
+                packagesInPackingArea.Remove(package);
                 RaiseAddToPalletEvent(package);
             }
             else
             {
                 throw new InvalidOperationException("Pallet is full, can't add more packages.");
             }
+        }
+
+        /// <summary>
+        /// gets all the packages scheduled to go to PackingArea
+        /// </summary>
+        /// <returns>List of all scheduled packages</returns>
+        public List<Package> GetScheduledPackagesForPackingArea()
+        {
+            return schedulePackagesForPackingArea;
+        }
+
+        /// <summary>
+        /// Gets all the packages placed in PackingArea
+        /// </summary>
+        /// <returns>List of all the packages in PackingArea</returns>
+        public List<Package> GetPackagesInPackingArea()
+        {
+            return packagesInPackingArea;
         }
 
         public IReadOnlyList<Pallet> Pallets
