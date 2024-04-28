@@ -142,7 +142,7 @@ namespace Ware
                     return;
                 }
             }
-            //Terminal, kitting, packing
+
             if (kittingAreas.Count != 0 && packages.Count == 0 && packagesTmp.Count != 0)
             {
                 foreach (KittingArea area in kittingAreas)
@@ -235,8 +235,6 @@ namespace Ware
                     }
                 }
             }
-            
-
             return;
         }
 
