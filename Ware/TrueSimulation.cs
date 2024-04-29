@@ -329,6 +329,37 @@ namespace Ware
             }
         }
 
+        private void PalletStorageToTerminal()
+        {
+            foreach (Equipment equipment in equipments)
+            {
+                foreach (Person person in persons)
+                {
+                    if (equipment.HasAccess(person))
+                    {
+                        equipment.UseEquipment(person);
+                        foreach (PalletStorage palletStorage in palletStorages)
+                        {
+                            foreach(Pallet pallet in pallets)
+                            {
+                                foreach(Terminal terminal in terminals)
+                                {
+                                    /*
+                                    if(pallet == palletStorage.GetPallet(pallet))
+                                    {
+                                        palletStorage.SendPalletToTerminalAutomatic(pallet, terminal);
+                                    }
+                                    */
+                                    //ingen implementasjon
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         public void Run()
         {
             int delay = 1000;
@@ -340,15 +371,16 @@ namespace Ware
 
             while (RunTimeSeconds != 0)
             {
+                PalletStorageToTerminal();
                 PersonUseForkliftPlacePallet();
                 PackingAreaPalletCreation();
                 TerminalSendAway();
+                //from kitting -> Terminal -()ingen implementasjon
                 PathSelectorFromStorage();
                 SendFromReceivingToStorage();
                 ReceivePackage();
                 //Schedule
-                //from kitting -> Terminal -()ingen implementasjon
-                //Palletstorage -> Terminal
+
 
 
 
