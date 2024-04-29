@@ -11,7 +11,7 @@ namespace Ware
     {
         private readonly List<Pallet> pallets = new List<Pallet>();
         private readonly List<Package> packagesInPackingArea = new List<Package>();
-        private List<Package> schedulePackagesForPackingArea = new List<Package>();
+        private readonly List<Package> schedulePackagesForPackingArea = new List<Package>();
 
         /// <summary>
         /// Stores a package in the packing area until it can be added to a pallet.

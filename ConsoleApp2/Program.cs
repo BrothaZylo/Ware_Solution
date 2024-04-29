@@ -51,6 +51,8 @@ namespace ConsoleApp2
             Package package7 = new("Ice", refrigerated, 18, 12);
             Package package8 = new("Eggs", refrigerated, 18, 12);
             Package package9 = new("Big Moose", refrigerated, 18, 12);
+            Package package10 = new("Mini Moose", refrigerated, 18, 12);
+            Package package11 = new("Duck", refrigerated, 18, 12);
 
 
 
@@ -247,7 +249,7 @@ namespace ConsoleApp2
             sim.Run();
             */
 
-            TrueSimulation sim = new(25);
+            TrueSimulation sim = new(35);
             ReceivingDepartment r1 = new("Rec1");
             ReceivingDepartment r2 = new("Rec2");
             Terminal terminal1 = new("Terminal1");
@@ -258,7 +260,7 @@ namespace ConsoleApp2
 
             k1.SchedulePackageForKittingArea(package1);
             p1.SchedulePackage(package7);
-            p1.SchedulePackage(package8);
+            p1.SchedulePackage(package10);
             p2.SchedulePackage(package9);
 
             Storage storage1 = new(refrigerated, "A");
@@ -273,27 +275,51 @@ namespace ConsoleApp2
             storage2.AddShelf("Mid", 5, 63, 63);
             storage2.Build();
 
+            Pallet pallet1 = new();
+            pallet1.SchedulePackageToPack(package7);
+            pallet1.SchedulePackageToPack(package10);
+
+            EquipmentForklift equipmentForklift = new("Bigboy Lifter", 1);
+
+            PalletStorage palletStorage1 = new("storPallet");
+            palletStorage1.AddShelf("big", 15, 7);
+            palletStorage1.BuildStorage();
+
+            Person person = new("oga", 32, AccessLevel.OPERATOR);
+            equipmentForklift.AddAccessLevel(AccessLevel.OPERATOR);
+            /* Add To sim */
+
+            sim.AddPersonToSimulation(person);
+
+            sim.AddPalletStorageToSimulation(palletStorage1);
+
+            sim.AddEquipmentToSimulation(equipmentForklift);
+
+            sim.AddPalletToSimulation(pallet1);
 
             sim.AddReceivingDepartmentToSimulation(r1);
             //sim.AddReceivingDepartmentToSimulation(r2);
 
             sim.AddPackingAreaToSimulation(p1);
-            sim.AddPackingAreaToSimulation(p2);
+            //sim.AddPackingAreaToSimulation(p2);
             sim.AddKittingAreaToSimulation(k1);
+
             sim.AddPackageToSimulation(package1);
             sim.AddPackageToSimulation(package2);
             sim.AddPackageToSimulation(package6);
             sim.AddPackageToSimulation(package7);
             sim.AddPackageToSimulation(package8);
             sim.AddPackageToSimulation(package9);
+            sim.AddPackageToSimulation(package10);
+            sim.AddPackageToSimulation(package11);
 
             sim.AddStorageToSimulation(storage1);
             sim.AddStorageToSimulation(storage2);
 
             sim.AddTerminalToSimulation(terminal1);
-            //sim.Run();
+            sim.Run();
 
-
+            /*
             EquipmentDoor doorEquipment = new("hDoor", 1);
             Person person = new("oga",32, AccessLevel.EXTRA1);
             doorEquipment.AddAccessLevel(AccessLevel.EXTRA1);
@@ -305,6 +331,7 @@ namespace ConsoleApp2
             StorageSmall storageSmall = new(dry, "dD");
             storageSmall.AddShelf("Big", 11, 100, 100);
             storageSmall.Build();
+            */
         }
     }
 }

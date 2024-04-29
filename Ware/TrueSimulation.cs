@@ -159,15 +159,19 @@ namespace Ware
                             {
                                 foreach(Storage storage in storages)
                                 {
-                                    try
+                                    if (storage.GetPackage(item.PackageId) == item)
                                     {
-                                        area.AddPackageToKittingArea(storage.MovePackage(item));
-                                        Console.WriteLine($"{item.PackageId} {item.Name} was moved to {area}");
-                                        packagesTmp.Remove(item);
-                                        return;
-                                    } catch (Exception ex)
-                                    {
-                                        Console.WriteLine(ex);
+                                        try
+                                        {
+                                            area.AddPackageToKittingArea(storage.MovePackage(item));
+                                            Console.WriteLine($"{item.PackageId} {item.Name} was moved to {area}");
+                                            packagesTmp.Remove(item);
+                                            return;
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            Console.WriteLine(ex);
+                                        }
                                     }
                                 }
                             }
@@ -182,7 +186,6 @@ namespace Ware
                 {
                     if(packingArea.GetScheduledPackagesForPackingArea().Count == packingArea.GetPackagesInPackingArea().Count)
                     {
-                        Console.WriteLine("Cont packing");
                         continue;
                     }
                     for (int i = 0; i < packingArea.GetScheduledPackagesForPackingArea().Count ; i++)
@@ -193,16 +196,19 @@ namespace Ware
                             {
                                 foreach(Storage storage in storages)
                                 {
-                                    try
+                                    if (storage.GetPackage(item.PackageId) == item)
                                     {
-                                        packingArea.ReceivePackage(storage.MovePackage(item));
-                                        Console.WriteLine($"{item.PackageId} {item.Name} was moved to {packingArea}");
-                                        packagesTmp.Remove(item);
-                                        return;
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        Console.WriteLine(ex);
+                                        try
+                                        {
+                                            packingArea.ReceivePackage(storage.MovePackage(item));
+                                            Console.WriteLine($"{item.PackageId} {item.Name} was moved to {packingArea}");
+                                            packagesTmp.Remove(item);
+                                            return;
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            Console.WriteLine(ex);
+                                        }
                                     }
                                 }
                             }
@@ -217,25 +223,110 @@ namespace Ware
                 {
                     foreach(Package item in packagesTmp)
                     {
-                        try
+                        if (storage.GetPackage(item.PackageId) == item)
                         {
-                            Package curPackage = storage.MovePackage(item);
-                            if (curPackage == item)
+                            try
                             {
-                                terminal.AddPackage(curPackage);
-                                Console.WriteLine($"{curPackage.PackageId} {curPackage.Name} was sent to {terminal.Name}");
-                                packagesTmp.Remove(item);
-                                return;
+                                Package curPackage = storage.MovePackage(item);
+                                if (curPackage == item)
+                                {
+                                    terminal.AddPackage(curPackage);
+                                    Console.WriteLine($"{curPackage.PackageId} {curPackage.Name} was sent to {terminal.Name}");
+                                    packagesTmp.Remove(item);
+                                    return;
+                                }
                             }
-                        } catch (Exception ex)
-                        {
-                            Console.WriteLine(ex);
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(ex);
+                            }
                         }
-
                     }
                 }
             }
             return;
+        }
+
+        private void TerminalSendAway()
+        {
+            foreach (Terminal terminal in terminals)
+            {
+                if(terminal.GetPackagesInTerminal().Count != 0)
+                {
+                    Console.WriteLine($"{terminal.GetPackagesInTerminal()[0].PackageId} {terminal.GetPackagesInTerminal()[0].Name} was sent out of the {terminal.Name}");
+                    terminal.SendPackage(terminal.GetPackagesInTerminal()[0]);
+                }
+            }
+        }
+
+        private void PackingAreaPalletCreation()
+        {
+            int scheduledpackages = 0;
+            if(pallets.Count == 0)
+            {
+                return;
+            }
+            foreach (Pallet pallet in pallets)
+            {
+                if(pallet.GetScheduledPackages().Count != 0)
+                {
+                    scheduledpackages++;
+                }
+                if(pallet.GetScheduledPackages().Count == 0)
+                {
+                    continue;
+                }
+            }
+            if(scheduledpackages == 0)
+            {
+                return;
+            }
+
+            foreach(PackingArea packingArea in packingAreas)
+            {
+                foreach(Pallet pallet in pallets)
+                {
+                    foreach(Package scheduled in pallet.GetScheduledPackages())
+                    {
+                        for(int i = 0; i < packingArea.GetPackagesInPackingArea().Count; i++)
+                        {
+                            if (scheduled == packingArea.GetPackagesInPackingArea()[i])
+                            {
+                                packingArea.AddToPallet(scheduled, pallet);
+                                Console.WriteLine($"{scheduled.PackageId} {scheduled.Name} was placed in {pallet}");
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private void PersonUseForkliftPlacePallet()
+        {
+            foreach(Equipment equipment in equipments)
+            {
+                foreach(Person person in persons)
+                {
+                    if (equipment.HasAccess(person))
+                    {
+                        equipment.UseEquipment(person);
+                        foreach(PalletStorage palletStorage in palletStorages)
+                        {
+                            foreach(Pallet pallet in pallets)
+                            {
+                                if(pallet.GetScheduledPackages().Count == pallet.GetPackagesOnPallet().Count)
+                                {
+                                    palletStorage.PlacePalletAutomatic(pallet);
+                                    Console.WriteLine($"{pallet} was placed in {palletStorage.StorageName} by {person.Name} using {equipment.Name}");
+                                    pallets.Remove(pallet);
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         public void Run()
@@ -249,10 +340,16 @@ namespace Ware
 
             while (RunTimeSeconds != 0)
             {
+                PersonUseForkliftPlacePallet();
+                PackingAreaPalletCreation();
+                TerminalSendAway();
                 PathSelectorFromStorage();
                 SendFromReceivingToStorage();
                 ReceivePackage();
-                
+                //Schedule
+                //from kitting -> Terminal -()ingen implementasjon
+                //Palletstorage -> Terminal
+
 
 
                 Console.WriteLine("--------------");

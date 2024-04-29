@@ -13,10 +13,21 @@ namespace Ware
     {
         private readonly List<Package> packagesOnPallet = new List<Package>();
         private int maxPackagesPerPallet = maxPackages;
+        private List<Package> schedulePackagesIn = new List<Package>();
 
         public int PackagesInPallet()
         {
             return packagesOnPallet.Count;
+        }
+
+        public void SchedulePackageToPack(Package package)
+        {
+            schedulePackagesIn.Add(package);
+        }
+
+        public List<Package> GetScheduledPackages()
+        {
+            return schedulePackagesIn;
         }
 
         public List<Package> GetPackagesOnPallet()
