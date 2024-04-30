@@ -6,7 +6,6 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
-using static System.Collections.Specialized.BitVector32;
 
 namespace Ware
 {
@@ -153,12 +152,12 @@ namespace Ware
                 {
                     PrintStorages();
                 }
-                if (start == CalculateSimulationTime(80 + randomDelay))
+                if (start == CalculateSimulationTime(85 + randomDelay))
                 {
                     FromStorageToTerminal();
                 }
 
-                if (start == CalculateSimulationTime(81 + randomDelay))
+                if (start == CalculateSimulationTime(95 + randomDelay))
                 {
                     FromTerminalAndAway();
                 }
@@ -219,6 +218,7 @@ namespace Ware
                     {
                         receiving.AddPackage(package);
                         RaisePackageArrivedEvent(package);
+                        packageLogging.AddPackageLog(package.PackageId, "Arrived at receving department");
                     }
                 }
                 return;
@@ -232,6 +232,7 @@ namespace Ware
                     {
                         receiving.AddPackage(package);
                         RaisePackageArrivedEvent(package);
+                        packageLogging.AddPackageLog(package.PackageId, "Arrived at receving department");
 
                     }
                 }
@@ -246,6 +247,7 @@ namespace Ware
                     {
                         receiving.AddPackage(package);
                         RaisePackageArrivedEvent(package);
+                        packageLogging.AddPackageLog(package.PackageId, "Arrived at receving department");
 
                     }
                 }
