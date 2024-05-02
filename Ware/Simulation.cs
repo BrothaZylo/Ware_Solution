@@ -25,14 +25,14 @@ namespace Ware
         private readonly PackageLogging packageLogging = new();
         private ReceivingDepartment receiving = new();
         private readonly Schedule schedule = new();
-        private readonly Terminal terminal = new();
+        private readonly Terminal terminal = new("H022");
 
         private bool a = true;
         private bool b = true;
         private bool c = true;
 
         private int dry, refrigerated, dangerous;
-
+        private DayOfWeek dayOfWeek;
         //Define delegate
         //Define an event based on the delegate
         // Raise the event
@@ -74,7 +74,7 @@ namespace Ware
             terminal.PackageSendAllEvent += OnPackageSentAway;
             
 
-
+            
             CalculateAmountOfGoodsType();
             AddUnits();
             BuildStorages();

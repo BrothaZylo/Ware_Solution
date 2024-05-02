@@ -10,11 +10,14 @@ namespace Ware
     /// <summary>
     /// This is where the packages will leave the warehouse
     /// </summary>
-    public class Terminal : ITerminal
+    public class Terminal(string name) : ITerminal
     {
         private readonly List<Package> PackagesToSendOut = new List<Package>();
         private readonly Queue<Package> PackagesToSendOutQueue = new Queue<Package>();
         private readonly List<Pallet> PalletsInTerminal = new List<Pallet>();
+        private string name = name;
+
+
 
         /// <summary>
         /// This will add a package to a dictionary which are the packages at the terminal
