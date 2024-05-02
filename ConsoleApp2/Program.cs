@@ -24,6 +24,8 @@ namespace ConsoleApp2
 
         static void Main(string[] args)
         {
+
+
             //------------------------------------------------------------//
             //----------------------Default values------------------------//
             //------------------------------------------------------------//
@@ -39,18 +41,21 @@ namespace ConsoleApp2
             //----------------------------------------------------------//
 
             Package package1 = new("Chips", dry, 15, 3);
-            Package package2 = new("Ost", dry, 14, 23);
+            Package package2 = new("Ost", dry, 14, 2);
 
-            Package package3 = new("Moose", dangerous, 84, 43);
-            Package package4 = new("ebb", dangerous, 84, 43);
-            Package package5 = new("eee", dangerous, 84, 43);
+            Package package3 = new("Moose", dangerous, 8, 3);
+            Package package4 = new("ebb", dangerous, 8, 3);
+            Package package5 = new("eee", dangerous, 4, 3);
 
-            Package package6 = new("Cream", refrigerated, 84, 43);
-            Package package7 = new("Ice", refrigerated, 18, 39);
+            Package package6 = new("Cream", refrigerated, 8, 3);
+            Package package7 = new("Ice", refrigerated, 18, 9);
+
+
+
             //-----------------------------------------------------------//
             //----------------------Storage Build------------------------//
             //-----------------------------------------------------------//
-
+            /*
             Storage storage = new(refrigerated, "Uteliggeer");
             storage.AddShelf("Big", 11, 100, 100);
             storage.AddShelf("Tiny", 4, 33, 33);
@@ -63,12 +68,29 @@ namespace ConsoleApp2
             storage2.AddShelf("Mid", 2, 63, 63);
             storage2.Build();
 
+            //-----------------------------------------------------------//
+            //----------------------Receiving Build----------------------//
+            //-----------------------------------------------------------//
+            
+            ReceivingDepartment rex = new();
+            rex.AddPackage(package1);
+            rex.AddPackage(package2);
+            rex.AddPackage(package6);
 
+            rex.SendPackageToStorage(package1, storage2, "B101");
+            storage2.GetAllStorageInformationPrint();
+            Dictionary<string, (Package?, string, double, double, bool)> s = storage2.GetAllStorageInformationAsDictionary();
 
+            Console.WriteLine(storage2.UniqueId);
+            foreach(string package in s.Keys)
+            {
+                Console.WriteLine(package);
+            }
+            
             //------------------------------------------------------------//
             //---------------------- Pallets Setup -----------------------//
             //------------------------------------------------------------//
-
+            /*
             Pallet pallet1 = new Pallet();
             pallet1.AddPackageToPallet(package3);
             pallet1.AddPackageToPallet(package4);
@@ -137,6 +159,8 @@ namespace ConsoleApp2
             PalletAisle palletAisle = new PalletAisle("pallet");
             palletAisle.AddPalletStorage(palletStorage);
             palletAisle.GetAllPalletPrints();
+
+            */
             //-----------------------------------------------------------//
             //--------------------------Events---------------------------//
             //-----------------------------------------------------------//
@@ -204,13 +228,16 @@ namespace ConsoleApp2
             highvaluegoods.AddAccessLevel(CrewList.AccessLevel.EMPLOYEE);
             bool x = forklift.HasAccess(karl);
             Console.WriteLine(x);
-            /
+            */
             //----------------------------------------------------------//
             //-----------------------Simulation-------------------------//
             //----------------------------------------------------------//
 
-            /
+
+            
             Simulation sim = new(30);
+
+            sim.PackageAddedToSchedule += OnPackageAddedToSchedule;
 
             sim.AddPackage(package1);
             sim.AddPackage(package2);
@@ -220,9 +247,11 @@ namespace ConsoleApp2
             sim.AddPackage(package6);
             sim.AddPackage(package7);
             sim.Run();
-            */
 
-
+        }
+        private static void OnPackageAddedToSchedule(object o, PackageEventArgs args)
+        {
+            Console.WriteLine($"Package {args.Package.Name} was added to schedule");
         }
     }
 }

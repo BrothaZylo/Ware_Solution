@@ -1,4 +1,4 @@
-﻿using System;
+﻿    using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +19,22 @@ namespace Ware
         private bool westAccess = true;
         private string storageName;
 
+        /// <summary>
+        /// Initializes a new instance of the PalletStorage class.
+        /// </summary>
+        /// <param name="name">The name of the storage.</param>
         public PalletStorage(string name)
         {
             storageName = name;
+        }
+
+        /// <summary>
+        /// Gets all pallets stored in the storage.
+        /// </summary>
+        /// <returns>A dictionary containing all pallets and their data.</returns>
+        public Dictionary<string, (List<List<Pallet>>, string, bool)> GetAllPalletsInStorage()
+        {
+            return palletStorageDict;
         }
 
         /// <summary>
@@ -335,6 +348,7 @@ namespace Ware
             set { westAccess = value; }
         }
 
+                
         public string StorageName
         {
             get { return storageName;  }

@@ -72,6 +72,19 @@ namespace Ware
         }
 
         /// <summary>
+        /// Prints the information of each package on the pallet.
+        /// </summary>
+        public void PrintPalletInformation()
+        {
+            int packageCount = PackagesInPallet();
+            Console.WriteLine($"Pallet with {packageCount} packages:");
+            foreach (Package package in GetPackagesOnPallet())
+            {
+                Console.WriteLine($"Package: {package.Name}");
+            }
+        }
+
+        /// <summary>
         /// Resets the pallet, clearing the current list of packages.
         /// </summary>
         private void ResetPallet()

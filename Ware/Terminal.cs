@@ -10,13 +10,14 @@ namespace Ware
     /// <summary>
     /// This is where the packages will leave the warehouse
     /// </summary>
-    public class Terminal : ITerminal
+    public class Terminal(string name) : ITerminal
     {
         private readonly List<Package> PackagesToSendOut = new List<Package>();
         private readonly Queue<Package> PackagesToSendOutQueue = new Queue<Package>();
         private readonly List<Pallet> PalletsInTerminal = new List<Pallet>();
+        private string name = name;
 
-        
+
 
         /// <summary>
         /// This will add a package to a dictionary which are the packages at the terminal
@@ -69,11 +70,11 @@ namespace Ware
         /// </summary>
         public void PrintPalletInformation()
         {
-            foreach (var pallet in PalletsInTerminal)
+            foreach (Pallet pallet in PalletsInTerminal)
             {
                 int packageCount = pallet.PackagesInPallet();
                 Console.WriteLine($"Pallet with {packageCount} packages.");
-                foreach (var package in pallet.GetPackagesOnPallet())
+                foreach (Package package in pallet.GetPackagesOnPallet())
                 {
                     Console.WriteLine($"Package: {package.Name}");
                 }
@@ -84,18 +85,19 @@ namespace Ware
         /// Sends out a specific package and removes from dictionary
         /// </summary>
         /// <param name="package">A package object</param>
-        public void SendPackage(Package package)
+        /// <returns>A package if the package was found, else null</returns>
+        public Package? SendPackage(Package package)
         {
 
             int numberOfPackages = PackagesToSendOut.Count;
 
-            foreach (Package p in PackagesToSendOut)
+            foreach (Package? p in PackagesToSendOut)
             {
                 if (PackagesToSendOut.Contains(package))
                 {
                     PackagesToSendOut.Remove(p);
                     RaisePackageSendEvent(package);
-                    break;
+                    return p;
                 }
             }
             int newCount = PackagesToSendOut.Count;
@@ -103,8 +105,8 @@ namespace Ware
             {
                 throw new PackageInvalidException("Package does not exist in terminal." );
             
-            } 
-
+            }
+            return null;
         }
 
         /// <summary>
@@ -129,7 +131,7 @@ namespace Ware
         }
 
         /// <summary>
-        /// 
+        /// Transfers all packages from the send-out list to a queue and clears the list.
         /// </summary>
         private void AddToQueue()
         {
@@ -138,6 +140,19 @@ namespace Ware
                 PackagesToSendOutQueue.Enqueue(p);
             }
             PackagesToSendOut.Clear();
+        }
+
+        /// <summary>
+        /// Sends out all the pallets in the terminal and clears them from the storage.
+        /// </summary>
+        public void SendOutPallets()
+        {
+            foreach (Pallet pallet in PalletsInTerminal)
+            {
+                Console.WriteLine($"Sending out pallet with {pallet.PackagesInPallet()} packages.");
+            }
+
+            PalletsInTerminal.Clear();
         }
 
         /// <summary>

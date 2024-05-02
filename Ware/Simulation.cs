@@ -15,6 +15,7 @@ namespace Ware
     /// <param name="seconds">Seconds the simulation will run</param>
     public class Simulation(int seconds = 60) : ISimulation
     {
+
         private readonly int seconds = seconds;
         private readonly List<Package> simulationPackages = [];
         private static readonly Storage Dry = new("Dry", "A");
@@ -24,14 +25,14 @@ namespace Ware
         private readonly PackageLogging packageLogging = new();
         private ReceivingDepartment receiving = new();
         private readonly Schedule schedule = new();
-        private readonly Terminal terminal = new();
+        private readonly Terminal terminal = new("H022");
 
         private bool a = true;
         private bool b = true;
         private bool c = true;
 
         private int dry, refrigerated, dangerous;
-
+        private DayOfWeek dayOfWeek;
         //Define delegate
         //Define an event based on the delegate
         // Raise the event
@@ -58,6 +59,22 @@ namespace Ware
             Console.WriteLine("|      Loading...      |");
             Console.WriteLine(" ---------------------\n\n");
 
+            /**********************Events*******/
+            
+            
+            schedule.PackageAddEvent += OnPackageAddedToSchedule;
+
+            receiving.PackageAddedEvent += OnPackageReceieved;
+            receiving.SendAllPackageEvent += OnAllPackagesSentToStorage;
+
+            Dry.MovePackageToTerminalEvent += OnPackageSentToTerminal;
+            Refrigerated.MovePackageToTerminalEvent += OnPackageSentToTerminal;
+            Dangerous.MovePackageToTerminalEvent += OnPackageSentToTerminal;
+
+            terminal.PackageSendAllEvent += OnPackageSentAway;
+            
+
+            
             CalculateAmountOfGoodsType();
             AddUnits();
             BuildStorages();
@@ -65,6 +82,7 @@ namespace Ware
 
             Thread.Sleep(startDelay);
             int randomDelay = RandomDelay();
+
 
 
             while (start != stop)
@@ -134,12 +152,12 @@ namespace Ware
                 {
                     PrintStorages();
                 }
-                if (start == CalculateSimulationTime(80 + randomDelay))
+                if (start == CalculateSimulationTime(85 + randomDelay))
                 {
                     FromStorageToTerminal();
                 }
 
-                if (start == CalculateSimulationTime(81 + randomDelay))
+                if (start == CalculateSimulationTime(95 + randomDelay))
                 {
                     FromTerminalAndAway();
                 }
@@ -153,6 +171,11 @@ namespace Ware
             Console.WriteLine("Simulation ended at: " + (stop) + " Seconds\n");
 
             Console.WriteLine("The total delay was " + randomDelay + " seconds in this simulation ");
+        }
+
+        private void Receiving_SendAllPackageEvent(object? sender, PackageEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         private static void BuildStorages()
@@ -194,6 +217,8 @@ namespace Ware
                     if (package.Goods == "Dry")
                     {
                         receiving.AddPackage(package);
+                        RaisePackageArrivedEvent(package);
+                        packageLogging.AddPackageLog(package.PackageId, "Arrived at receving department");
                     }
                 }
                 return;
@@ -206,6 +231,9 @@ namespace Ware
                     if (package.Goods == "Dangerous")
                     {
                         receiving.AddPackage(package);
+                        RaisePackageArrivedEvent(package);
+                        packageLogging.AddPackageLog(package.PackageId, "Arrived at receving department");
+
                     }
                 }
                 return;
@@ -218,6 +246,9 @@ namespace Ware
                     if (package.Goods == "Refrigirated")
                     {
                         receiving.AddPackage(package);
+                        RaisePackageArrivedEvent(package);
+                        packageLogging.AddPackageLog(package.PackageId, "Arrived at receving department");
+
                     }
                 }
                 return;
@@ -325,6 +356,7 @@ namespace Ware
                 receiving.SendAllPackagesToStorage(Dry);
                 receiving.SendAllPackagesToStorage(Dangerous);
                 receiving.SendAllPackagesToStorage(Refrigerated);
+                RaiseAllPackageSentToStorageEvent();
 
             }
             catch (PackageInvalidException e)
@@ -345,6 +377,7 @@ namespace Ware
                         if (Dry.IsSameTypeOfGoods(package) && package == a.Value.Item1)
                         {
                             Dry.MovePackageToTerminal(package, terminal);
+                            RaisePackageStorageToTerminal(package);
                         }
                     }
                 }
@@ -366,6 +399,8 @@ namespace Ware
                         if (Refrigerated.IsSameTypeOfGoods(package) && package == a.Value.Item1)
                         {
                             Refrigerated.MovePackageToTerminal(package, terminal);
+                            RaisePackageStorageToTerminal(package);
+
                         }
                     }
                 }
@@ -387,6 +422,7 @@ namespace Ware
                         if (Dangerous.IsSameTypeOfGoods(package) && package == a.Value.Item1)
                         {
                             Dangerous.MovePackageToTerminal(package, terminal);
+                            RaisePackageStorageToTerminal(package);
                         }
                     }
                 }
@@ -426,7 +462,7 @@ namespace Ware
             int sum = percentageRunSim * s / 100;
 
             DateTime day = DateTime.Now;
-            day.AddMinutes(sum);
+            day = day.AddMinutes(sum);
             return day;
         }
 
@@ -437,12 +473,14 @@ namespace Ware
                 Random rand = new();
                 int u = rand.Next(0, 30);
                 schedule.AddPackage("single", DayOfWeek.Monday, package, AutomaticTimeCreator(u));
+                RaisePackageAddedToScheduleEvent(package);
             }
         }
 
         private void FromTerminalAndAway()
         {
             terminal.SendAllPackages();
+            RaiseAllPackagesSentOutOfTerminal();
         }
 
         private int RandomDelay()
@@ -472,5 +510,52 @@ namespace Ware
         {
             Console.WriteLine($"Package {args.Package.Name} with Id: {args.Package.PackageId} was received");
         }
+        private static void OnPackageSentToTerminal(object o, PackageEventArgs args)
+        {
+            Console.WriteLine($"Package {args.Package.Name} with Id: {args.Package.PackageId} was sent to Terminal");
+        }
+        private static void OnPackageSentAway(object o, PackageEventArgs args)
+        {
+            Console.WriteLine($"Package {args.Package.Name} with Id: {args.Package.PackageId} was sent out of Terminal");
+        }
+        private static void OnPackageAddedToSchedule(object o, PackageEventArgs args)
+        {
+            Console.WriteLine($"Package {args.Package.Name} was added to schedule");
+        }
+
+        // Events for GUI
+        public event EventHandler<PackageEventArgs>? PackageAddedToSchedule;
+
+        public event EventHandler<PackageEventArgs>? PackageArrivedAtReceiving;
+        
+        public event EventHandler? AllPackagesSentToStorage;
+
+        public event EventHandler<PackageEventArgs>? PackageFromStorageToTerminal;
+
+        public event EventHandler? SendAllPackageOutOfTerminal;
+
+
+        private void RaisePackageAddedToScheduleEvent(Package package)
+        {
+            PackageAddedToSchedule?.Invoke(this, new PackageEventArgs(package));
+        }
+        private void RaisePackageArrivedEvent(Package package)
+        {
+            PackageArrivedAtReceiving?.Invoke(this, new PackageEventArgs(package));
+        }
+        private void RaiseAllPackageSentToStorageEvent()
+        {
+            AllPackagesSentToStorage?.Invoke(this, EventArgs.Empty);
+        }
+        private void RaisePackageStorageToTerminal(Package package)
+        {
+            PackageFromStorageToTerminal?.Invoke(this, new PackageEventArgs(package));
+        }
+        private void RaiseAllPackagesSentOutOfTerminal()
+        {
+            SendAllPackageOutOfTerminal?.Invoke(this, EventArgs.Empty);
+        }
+
+
     }
 }
