@@ -32,8 +32,6 @@ namespace ConsoleApp2
             string dangerous = "Dangerous";
             string refrigerated = "Refrigerated";
 
-            Warehouse warehouse = new Warehouse();
-
 
 
             //----------------------------------------------------------//
@@ -42,8 +40,6 @@ namespace ConsoleApp2
 
             Package package1 = new("Chips", dry, 15, 3);
             Package package2 = new("Ost", dry, 14, 23);
-            warehouse.AddPackage(package1);
-            warehouse.AddPackage(package2);
 
             Package package3 = new("Moose", dangerous, 84, 43);
             Package package4 = new("ebb", dangerous, 84, 43);
@@ -60,14 +56,12 @@ namespace ConsoleApp2
             storage.AddShelf("Tiny", 4, 33, 33);
             storage.AddShelf("Mid", 2, 63, 63);
             storage.Build();
-            warehouse.AddStorage(storage);
 
             Storage storage2 = new(dry, "B");
             storage2.AddShelf("Big", 11, 100, 100);
             storage2.AddShelf("Tiny", 4, 33, 33);
             storage2.AddShelf("Mid", 2, 63, 63);
             storage2.Build();
-            warehouse.AddStorage(storage2);
 
             //-----------------------------------------------------------//
             //----------------------Receiving Build----------------------//
@@ -87,6 +81,16 @@ namespace ConsoleApp2
             {
                 Console.WriteLine(package);
             }
+
+
+            //------------------------------------------------------------//
+            //----------------------- Kitting Area -----------------------//
+            //------------------------------------------------------------//
+
+            KittingArea kittingArea = new KittingArea(1, 2);
+            kittingArea.AddPackageToBox(package1);
+            kittingArea.AddPackageToBox(package2);
+
 
             //------------------------------------------------------------//
             //---------------------- Pallets Setup -----------------------//
@@ -244,7 +248,6 @@ namespace ConsoleApp2
             sim.AddPackage(package7);
             sim.Run();
             */
-
 
         }
     }
