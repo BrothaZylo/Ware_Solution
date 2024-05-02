@@ -32,7 +32,6 @@ namespace Ware
         private bool c = true;
 
         private int dry, refrigerated, dangerous;
-        private DayOfWeek dayOfWeek;
         //Define delegate
         //Define an event based on the delegate
         // Raise the event
