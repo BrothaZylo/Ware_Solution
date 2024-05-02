@@ -1,5 +1,6 @@
 // See https://aka.ms/new-console-template for more information
 using System.Runtime.CompilerServices;
+using System.Runtime.ConstrainedExecution;
 using Ware;
 namespace ConsoleApp2
 {
@@ -54,7 +55,35 @@ namespace ConsoleApp2
             Package package10 = new("Mini Moose", refrigerated, 18, 12);
             Package package11 = new("Duck", refrigerated, 18, 12);
 
+            PackageLogging log1 = new();
 
+            Storage storage = new(refrigerated, "UDE");
+            storage.AddShelf("Big", 11, 100, 100);
+            storage.AddShelf("Tiny", 4, 33, 33);
+            storage.AddShelf("Mid", 2, 63, 63);
+            storage.Build();
+
+            log1.AddPackageLog(package8.PackageId, $"was sent to {storage.UniqueId}");
+            log1.AddPackageLog(package7.PackageId, "did nothing");
+
+            List<String> x = log1.TrackPackage(package8.PackageId);
+            foreach (String s in x) Console.Write(s);
+
+            log1.GetAllPackageLog();
+
+            foreach(KeyValuePair<string, List<(string, DateTime)>> info in log1.GetAllPackageLog())
+            {
+                Console.WriteLine(info.Key);
+            }
+
+            Person greg = new("Greg", 32, AccessLevel.PACKER);
+
+            Assignment task1 = new("Gå ut med søppla");
+
+            greg.AddAssignment(task1);
+            greg.RemoveAssignment(task1);
+
+            greg.GetAssignmentsList();
 
             //-----------------------------------------------------------//
             //----------------------Storage Build------------------------//
@@ -249,6 +278,7 @@ namespace ConsoleApp2
             sim.Run();
             */
 
+            /*
             TrueSimulation sim = new(35);
             ReceivingDepartment r1 = new("Rec1");
             ReceivingDepartment r2 = new("Rec2");
@@ -287,7 +317,7 @@ namespace ConsoleApp2
 
             Person person = new("oga", 32, AccessLevel.OPERATOR);
             equipmentForklift.AddAccessLevel(AccessLevel.OPERATOR);
-            /* Add To sim */
+            
 
             sim.AddPersonToSimulation(person);
 
@@ -318,7 +348,7 @@ namespace ConsoleApp2
 
             sim.AddTerminalToSimulation(terminal1);
             sim.Run();
-
+            */
             /*
             EquipmentDoor doorEquipment = new("hDoor", 1);
             Person person = new("oga",32, AccessLevel.EXTRA1);
