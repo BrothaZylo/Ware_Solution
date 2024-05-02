@@ -82,14 +82,16 @@ namespace ConsoleApp2
             pallet3.AddPackageToPallet(package6);
             pallet3.AddPackageToPallet(package7);
 
+            
+            
+
             PalletStorage palletStorage = new PalletStorage("Ebay");
             palletStorage.AddShelf("Tiny", 2, 3);
             palletStorage.AddShelf("Mid", 3, 4);
+            palletStorage.BuildStorage();
 
             PalletStorage palletStorage1 = new PalletStorage("Amazon");
             palletStorage1.AddShelf("Tiny", 2, 3);
-
-            palletStorage.BuildStorage();
             palletStorage1.BuildStorage();
 
             Console.WriteLine("pallets placed in storage");
