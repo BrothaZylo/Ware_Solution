@@ -103,6 +103,26 @@ namespace Ware.Scheduler
         }
 
         /// <summary>
+        /// Deletes a packages from the schedule
+        /// </summary>
+        /// <param name="package">Package object to delet</param>
+        public void DeletePackage(Package package)
+        {
+            foreach(KeyValuePair<DaysOfWeek, List<ScheduledPackage>> item in calender)
+            {
+                foreach (ScheduledPackage p in item.Value)
+                {
+                    if (p.Packages == package)
+                    {
+                        calender[item.Key].Remove(p);
+                        DeletePackage(package);
+                        return;
+                    }
+                }     
+            }
+        }
+
+        /// <summary>
         /// Simple print to see whats inside of the schedule
         /// </summary>
         public void PrintSchedule()

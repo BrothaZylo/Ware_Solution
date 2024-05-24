@@ -58,7 +58,7 @@ namespace ConsoleApp2
             Package package10 = new("Mini Moose", refrigerated, 18, 12);
             Package package11 = new("Duck", refrigerated, 18, 12);
 
-            /*
+            
             ScheduleRepeatingModule repeatingModule = new ScheduleRepeatingModule();
             repeatingModule.AddPackageWeekly(package1, "24.12.2024", DayOfWeek.Sunday, TransferType.Delivery);
             repeatingModule.AddPackageWeekly(package2, "22.12.2024", DayOfWeek.Sunday, TransferType.Receive);
@@ -73,11 +73,12 @@ namespace ConsoleApp2
 
             schedule.AddPackage(package10, "22.03.2024", DayOfWeek.Thursday, TransferType.Delivery);
 
-            Dictionary<DaysOfWeek, List<ScheduledPackage>> x = schedule.GetSchedule();
-
             schedule.PrintSchedule();
 
-            */
+            Console.WriteLine("-----");
+
+            schedule.DeletePackage(package9);
+            schedule.PrintSchedule();
 
             //-----------------------------------------------------------//
             //----------------------Storage Build------------------------//

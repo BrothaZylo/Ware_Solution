@@ -53,6 +53,26 @@ namespace Ware.Scheduler
         }
 
         /// <summary>
+        /// Deletes a packages from the module
+        /// </summary>
+        /// <param name="package">package object for deletion</param>
+        public void DeletePackage(Package package)
+        {
+            foreach (DayOfWeek day in Enum.GetValues(typeof(DaysOfWeek)))
+            {
+                foreach (ScheduledPackage item in repeatingPackages)
+                {
+                    if(item.Packages == package)
+                    {
+                        repeatingPackages.Remove(item);
+                        DeletePackage(package);
+                        return;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// Gets the list of all the packages scheduled
         /// </summary>
         /// <returns>A list of scheduled packages</returns>
