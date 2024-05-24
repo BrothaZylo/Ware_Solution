@@ -17,10 +17,8 @@ namespace Ware
         private readonly List<Pallet> PalletsInTerminal = new List<Pallet>();
         private string name = name;
 
-
-
         /// <summary>
-        /// This will add a package to a dictionary which are the packages at the terminal
+        /// This will add a package to a dictionary which are the packages at the terminal.
         /// </summary>
         /// <param name="packages">A package object</param>
         public void AddPackage(Package packages)
@@ -71,14 +69,14 @@ namespace Ware
         public void PrintPalletsInformation()
         {
             if(!PalletsInTerminal.Any())
-    {
+            {
                 Console.WriteLine($"There are no pallets in {name}.");
                 return;
             }
 
             foreach (Pallet pallet in PalletsInTerminal)
             {
-                int packageCount = pallet.PackagesInPallet();
+                int packageCount = pallet.PackagesOnPallet.Count;
                 Console.WriteLine($"Pallet with {packageCount} packages:");
                 foreach (Package package in pallet.GetPackagesOnPallet())
                 {

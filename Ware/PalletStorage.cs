@@ -133,7 +133,7 @@ namespace Ware
         {
             foreach (KeyValuePair<string, (List<Pallet>, string, bool)> entry in palletStorageDict)
             {
-                (List<Pallet>  shelfContent, string sizeName, _) = entry.Value;
+                (List<Pallet> shelfContent, string sizeName, _) = entry.Value;
                 string packages = shelfContent[0] != null
                     ? $"Packages: {string.Join(", ", shelfContent[0].GetPackagesOnPallet().Select(pkg => pkg.Name))}"
                     : "Empty";

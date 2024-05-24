@@ -96,19 +96,23 @@ namespace ConsoleApp2
             //------------------------------------------------------------//
             //---------------------- Pallets Setup -----------------------//
             //------------------------------------------------------------//
-
+            PackingArea packingArea = new PackingArea("Packing area");
+            packingArea.SendPackageToPackingArea(package3);
+            packingArea.SendPackageToPackingArea(package4);
+            //packingArea.SendPackageToPackingArea(package5);
+            
             Pallet pallet1 = new Pallet();
-            pallet1.AddPackageToPallet(package3);
-            pallet1.AddPackageToPallet(package4);
-            pallet1.AddPackageToPallet(package5);
+            packingArea.AddPackageOnPallet(package3, pallet1);
+            packingArea.AddPackageOnPallet(package4, pallet1);
+            packingArea.AddPackageOnPallet(package5, pallet1);
 
             Pallet pallet2 = new Pallet();
-            pallet2.AddPackageToPallet(package1);
-            pallet2.AddPackageToPallet(package2);
+            packingArea.AddPackageOnPallet(package1, pallet2);
+            packingArea.AddPackageOnPallet(package2, pallet2);
 
             Pallet pallet3 = new Pallet();
-            pallet3.AddPackageToPallet(package6);
-            pallet3.AddPackageToPallet(package7);
+            packingArea.AddPackageOnPallet(package6, pallet3);
+            packingArea.AddPackageOnPallet(package7, pallet3);
 
 
 
@@ -150,17 +154,17 @@ namespace ConsoleApp2
             palletStorage.SendPalletToTerminal(pallet1, terminal);
             palletStorage.SendPalletToTerminal(pallet3, terminal);
 
-            Console.WriteLine("\npallet 1 sent to terminal");
+            Console.WriteLine("\npallet 1 and 3 sent to terminal");
             palletStorage.PrintAllPalletStorageInformation();
 
             Console.WriteLine("\ncurrent pallets in terminal");
             terminal.PrintPalletsInformation();
 
-            Console.WriteLine("\ncurrent pallets in terminal");
+            Console.WriteLine("\nSend out pallet 1, current pallets in terminal");
             terminal.SendOutPallet(pallet1);
             terminal.PrintPalletsInformation();
 
-            Console.WriteLine("\ncurrent pallets in terminal after sending out");
+            Console.WriteLine("\nSend out all pallets, current pallets in terminal");
             terminal.SendOutPallets();
             terminal.PrintPalletsInformation();
 

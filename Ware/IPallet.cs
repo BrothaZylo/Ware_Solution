@@ -8,10 +8,9 @@ namespace Ware
 {
     internal interface IPallet
     {
+        IReadOnlyList<Package> PackagesOnPallet { get; }
         List<Package> GetPackagesOnPallet();
-        void AddPackageToPallet(Package package);
-        bool IsPalletFull();
-        void SetMaxPackagesPerPallet(int maxPackages);
-        void PrintPalletInformation();
+        void AddPackage(Package package);
+        void ClearPallet();
     }
 }
