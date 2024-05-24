@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace Ware
 {
-    public class Aisle
+    public class Aisle : IAisle
     {
         private string name;
         private List<Storage> storages;
-        private int storageIdCounter = 1;
 
         public Aisle(string aisleName) 
         {
@@ -21,6 +20,7 @@ namespace Ware
             name = aisleName;
             storages = new List<Storage>();
         }
+        
         /// <summary>
         /// Adds a storage to the aisle
         /// </summary>
@@ -28,7 +28,9 @@ namespace Ware
         public void AddStorage(Storage storage)
         {
             storages.Add(storage);
+            RaiseStorageAddEvent(storage);
         }
+
         /// <summary>
         /// Removes a storage from the aisle
         /// </summary>
@@ -38,6 +40,7 @@ namespace Ware
             if (storages.Contains(storage))
             {
                 storages.Remove(storage);
+                RaiseStorageRemoveEvent(storage);
             }
         }
 
@@ -58,19 +61,20 @@ namespace Ware
         /// </summary>
         /// <param name="package">A package object</param>
         /// <returns>Returns a string that tells what storage the package is located at</returns>
-        public string? GetPackageFromAisle(Package package)
+        public string FindPackage(Package package)
         {
             foreach (Storage item in storages)
             {
+                item.GetAllStorageInformationPrint();
                 if (item.GetPackage(package.PackageId) == package)
                 {
+                    RaisePackageFoundEvent(item, package);
                     return item.GetPackageSectionById(package.PackageId);
-                }
 
+                }
             }
             return null;
         }
-        
 
         /// <summary>
         /// Getter and setter for aisle name
@@ -81,5 +85,22 @@ namespace Ware
             set { name = value; }
         }
 
+        public event EventHandler<StorageEventArgs>? StorageAddEvent;
+
+        public event EventHandler<StorageEventArgs>? StorageRemoveEvent;
+
+        public event EventHandler<StorageEventArgs>? PackageFoundEvent;
+        private void RaiseStorageAddEvent(Storage storage)
+        {
+            StorageAddEvent?.Invoke(this, new StorageEventArgs(storage));
+        }
+        private void RaiseStorageRemoveEvent(Storage storage)
+        {
+            StorageAddEvent?.Invoke(this, new StorageEventArgs(storage));
+        }
+        private void RaisePackageFoundEvent(Storage storage, Package package)
+        {
+            PackageFoundEvent?.Invoke(this, new StorageEventArgs(storage, package));
+        }
     }
 }

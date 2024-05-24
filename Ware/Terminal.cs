@@ -10,38 +10,14 @@ namespace Ware
     /// <summary>
     /// This is where the packages will leave the warehouse
     /// </summary>
-    public class Terminal : ITerminal
+    public class Terminal(string name) : ITerminal
     {
         private readonly List<Package> PackagesToSendOut = new List<Package>();
         private readonly Queue<Package> PackagesToSendOutQueue = new Queue<Package>();
         private readonly List<Pallet> PalletsInTerminal = new List<Pallet>();
+        private string name = name;
 
 
-        /// <summary>
-        /// Uses by SendAllPackages()
-        /// </summary>
-        public event EventHandler<PackageEventArgs>? PackageSendAllEvent;
-        /// <summary>
-        /// Used by AddPackage(Package packages)
-        /// </summary>
-        public event EventHandler<PackageEventArgs>? PackageAddEvent;
-        /// <summary>
-        /// SendPackage(Package package)
-        /// </summary>
-        public event EventHandler<PackageEventArgs>? PackageSendEvent;
-
-        private void RaisePackageSendAllEvent(Package package)
-        {
-            PackageSendAllEvent?.Invoke(this, new PackageEventArgs(package));
-        }
-        private void RaisePackageAddEvent(Package package)
-        {
-            PackageAddEvent?.Invoke(this, new PackageEventArgs(package));
-        }
-        private void RaisePackageSendEvent(Package package)
-        {
-            PackageSendEvent?.Invoke(this, new PackageEventArgs(package));
-        }
 
         /// <summary>
         /// This will add a package to a dictionary which are the packages at the terminal
@@ -64,11 +40,9 @@ namespace Ware
         /// <param name="pallet">The pallet to add to the terminal.</param>
         public void AddPallet(Pallet pallet)
         {
+            List<Package> packages = pallet.GetPackagesOnPallet();
             PalletsInTerminal.Add(pallet);
-            foreach (Package package in pallet.packagesOnPallet)
-            {
-                RaisePackageEvent(package);
-            }
+            RaisePalletAddEvent(pallet);
         }
 
         /// <summary>
@@ -79,6 +53,7 @@ namespace Ware
         {
             return PackagesToSendOut;
         }
+
         /// <summary>
         /// Prints out the name of all thee package objects in the terminal
         /// </summary>
@@ -97,8 +72,9 @@ namespace Ware
         {
             foreach (Pallet pallet in PalletsInTerminal)
             {
-                Console.WriteLine($"Pallet with {pallet.packagesOnPallet.Count} packages.");
-                foreach (Package package in pallet.packagesOnPallet)
+                int packageCount = pallet.PackagesInPallet();
+                Console.WriteLine($"Pallet with {packageCount} packages.");
+                foreach (Package package in pallet.GetPackagesOnPallet())
                 {
                     Console.WriteLine($"Package: {package.Name}");
                 }
@@ -109,18 +85,19 @@ namespace Ware
         /// Sends out a specific package and removes from dictionary
         /// </summary>
         /// <param name="package">A package object</param>
-        public void SendPackage(Package package)
+        /// <returns>A package if the package was found, else null</returns>
+        public Package? SendPackage(Package package)
         {
 
             int numberOfPackages = PackagesToSendOut.Count;
 
-            foreach (Package p in PackagesToSendOut)
+            foreach (Package? p in PackagesToSendOut)
             {
                 if (PackagesToSendOut.Contains(package))
                 {
                     PackagesToSendOut.Remove(p);
                     RaisePackageSendEvent(package);
-                    break;
+                    return p;
                 }
             }
             int newCount = PackagesToSendOut.Count;
@@ -128,16 +105,8 @@ namespace Ware
             {
                 throw new PackageInvalidException("Package does not exist in terminal." );
             
-            } 
-
-        }
-        private void AddToQueue()
-        {
-            foreach(Package p in PackagesToSendOut) 
-            {
-                PackagesToSendOutQueue.Enqueue(p);
             }
-            PackagesToSendOut.Clear();
+            return null;
         }
 
         /// <summary>
@@ -153,13 +122,71 @@ namespace Ware
             }
         }
 
-
         /// <summary>
         /// Clears all the packages in terminal
         /// </summary>
         public void ClearPackages()
         {
             PackagesToSendOut.Clear();
+        }
+
+        /// <summary>
+        /// Transfers all packages from the send-out list to a queue and clears the list.
+        /// </summary>
+        private void AddToQueue()
+        {
+            foreach (Package p in PackagesToSendOut)
+            {
+                PackagesToSendOutQueue.Enqueue(p);
+            }
+            PackagesToSendOut.Clear();
+        }
+
+        /// <summary>
+        /// Sends out all the pallets in the terminal and clears them from the storage.
+        /// </summary>
+        public void SendOutPallets()
+        {
+            foreach (Pallet pallet in PalletsInTerminal)
+            {
+                Console.WriteLine($"Sending out pallet with {pallet.PackagesInPallet()} packages.");
+            }
+
+            PalletsInTerminal.Clear();
+        }
+
+        /// <summary>
+        /// Uses by SendAllPackages()
+        /// </summary>
+        public event EventHandler<PackageEventArgs>? PackageSendAllEvent;
+
+        /// <summary>
+        /// Used by AddPackage(Package packages)
+        /// </summary>
+        public event EventHandler<PackageEventArgs>? PackageAddEvent;
+
+        /// <summary>
+        /// SendPackage(Package package)
+        /// </summary>
+        public event EventHandler<PackageEventArgs>? PackageSendEvent;
+
+        public event EventHandler<PalletEventArgs>? PalletAddEvent;
+
+        private void RaisePalletAddEvent(Pallet pallet)
+        {
+            PalletAddEvent?.Invoke(this, new PalletEventArgs(pallet));
+        }
+        private void RaisePackageSendAllEvent(Package package)
+        {
+            PackageSendAllEvent?.Invoke(this, new PackageEventArgs(package));
+        }
+        private void RaisePackageAddEvent(Package package)
+        {
+            PackageAddEvent?.Invoke(this, new PackageEventArgs(package));
+        }
+        private void RaisePackageSendEvent(Package package)
+        {
+            PackageSendEvent?.Invoke(this, new PackageEventArgs(package));
         }
     }
 }

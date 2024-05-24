@@ -8,11 +8,13 @@ namespace Ware
 {
     internal interface IPalletStorage
     {
+        Dictionary<string, (List<List<Pallet>>, string, bool)> GetAllPalletsInStorage();
         void BuildStorage();
         void PlacePallet(Pallet pallet, string shelfId, int floor, int position);
         void PlacePalletAutomatic(Pallet pallet);
         void RemovePallet(string shelfId, int floor, int position);
         void PrintAllPalletStorageInformation();
+        void PrintPalletInformation(string shelfId, int floor, int position);
         void SendPalletToTerminal(string shelfId, int floor, int position, Terminal terminal);
         void SendPalletToTerminalAutomatic(Pallet pallet, Terminal terminal);
         void AddShelf(string sizeName, int palletsPerFloor, int floors);

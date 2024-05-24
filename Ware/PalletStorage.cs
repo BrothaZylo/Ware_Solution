@@ -1,4 +1,4 @@
-﻿using System;
+﻿    using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,6 +17,25 @@ namespace Ware
         private bool eastAccess = true;
         private bool southAccess = true;
         private bool westAccess = true;
+        private string storageName;
+
+        /// <summary>
+        /// Initializes a new instance of the PalletStorage class.
+        /// </summary>
+        /// <param name="name">The name of the storage.</param>
+        public PalletStorage(string name)
+        {
+            storageName = name;
+        }
+
+        /// <summary>
+        /// Gets all pallets stored in the storage.
+        /// </summary>
+        /// <returns>A dictionary containing all pallets and their data.</returns>
+        public Dictionary<string, (List<List<Pallet>>, string, bool)> GetAllPalletsInStorage()
+        {
+            return palletStorageDict;
+        }
 
         /// <summary>
         /// Builds the storage layout based on the configured shelves.
@@ -45,7 +64,6 @@ namespace Ware
         /// <param name="shelfId">Id of the shelf, used like this "Shelf-1" where X is the shelf.</param>
         /// <exception cref="InvalidOperationException">Thrown when the shelf is already occupied.</exception>
         /// <exception cref="KeyNotFoundException">Thrown when the shelf id does not exist.</exception>
-
         public void PlacePallet(Pallet pallet, string shelfId, int floor, int position)
         {
             if (palletStorageDict.ContainsKey(shelfId))
@@ -107,7 +125,6 @@ namespace Ware
             throw new InvalidOperationException("No empty space available for the pallet.");
         }
 
-
         /// <summary>
         /// Removes a pallet from a shelf.
         /// </summary>
@@ -153,14 +170,56 @@ namespace Ware
                     List<Pallet> floor = floors[floorIndex];
                     for (int posIndex = 0; posIndex < floor.Count; posIndex++)
                     {
-                        Pallet pallet = floor[posIndex];
-                        string positionStatus = pallet != null ? $"{pallet.packagesOnPallet.Count} packages" : "Empty";
-                        Console.WriteLine($"[{shelfId} | Floor : {floorIndex + 1} | Position: {posIndex + 1} | {positionStatus} | Size: {sizeName}]");
+                        Pallet? pallet = floor[posIndex];
+                        string positionStatus = pallet != null ? $"{pallet.PackagesInPallet()} packages" : "Empty";
+                        Console.WriteLine($"[{storageName} : {shelfId} | Floor : {floorIndex + 1} | Position: {posIndex + 1} | {positionStatus} | Size: {sizeName}]");
                     }
                 }
             }
         }
+        /// <summary>
+        /// Prints information about the packages stored on a specific pallet located at the given shelf, floor, and position.
+        /// </summary>
+        /// <param name="shelfId">The id of the shelf where the pallet is located.</param>
+        /// <param name="floor">The floor location on the specified shelf where the pallet is located.</param>
+        /// <param name="position">The position on the floor where the pallet is located.</param>
+        public void PrintPalletInformation(string shelfId, int floor, int position)
+        {
+            if (!palletStorageDict.TryGetValue(shelfId, out (List<List<Pallet>>, string, bool) shelfInfo))
 
+            {
+                Console.WriteLine("Shelf ID does not exist.");
+                return;
+            }
+
+            (List<List<Pallet>> floors, string sizeName, bool isOccupied) = shelfInfo;
+
+            if (floor < 0 || floor >= floors.Count)
+            {
+                Console.WriteLine("Invalid floor number.");
+                return;
+            }
+
+            if (position < 0 || position >= floors[floor].Count)
+            {
+                Console.WriteLine("Invalid position on floor.");
+                return;
+            }
+
+            Pallet pallet = floors[floor][position];
+            if (pallet == null)
+            {
+                Console.WriteLine("No pallet found at the specified position.");
+                return;
+            }
+
+            int packageCount = pallet.PackagesInPallet();
+            Console.WriteLine($"Pallet with {packageCount} packages.");
+            foreach (Package package in pallet.GetPackagesOnPallet())
+            {
+                Console.WriteLine($"Package: {package.Name}");
+            }
+        }
 
         /// <summary>
         /// Sends all packages from a specified pallet to the terminal and clears the pallet.
@@ -238,7 +297,6 @@ namespace Ware
             }
         }
 
-
         /// <summary>
         /// Sets the direction of access points to the storage.
         /// </summary>
@@ -290,6 +348,14 @@ namespace Ware
             set { westAccess = value; }
         }
 
+                
+        public string StorageName
+        {
+            get { return storageName;  }
+            set { storageName = value; }
+        }
+
+
         /// <summary>
         /// Configuration of a shelf within the pallet storage system.
         /// </summary>
@@ -313,6 +379,5 @@ namespace Ware
         {
             shelvesConfigs.Add(new ShelvesConfig { SizeName = sizeName, TotalUnitsAvailable = totalUnitsAvailable, Floors = floors });
         }
-
     }
 }

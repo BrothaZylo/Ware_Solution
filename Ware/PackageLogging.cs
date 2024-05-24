@@ -18,13 +18,6 @@ namespace Ware
         private Dictionary<string, List<(string, DateTime)>> PackageLog = new();
         private List<(string, DateTime)> LocationAndTime = new();
 
-        public event EventHandler<PackageEventArgs>? AddPackageLogEvent;
-
-        private void RaiseAddPackageLogEvent(string packageId)
-        {
-            AddPackageLogEvent?.Invoke(this, new PackageEventArgs(packageId));
-        }
-
         /// <summary>
         /// AddPackageLog() will check if the package already exist. If it dont then it will add the package as a key and its location and when it got there
         /// if it already exists will the new location and when it got there be added to the package
@@ -54,7 +47,6 @@ namespace Ware
             }
 
         }
-
 
         /// <summary>
         /// This will print out all the packages and where they have been and when they got there
@@ -100,6 +92,11 @@ namespace Ware
         return stringBuilder;
         }
 
+        public event EventHandler<PackageEventArgs>? AddPackageLogEvent;
 
+        private void RaiseAddPackageLogEvent(string packageId)
+        {
+            AddPackageLogEvent?.Invoke(this, new PackageEventArgs(packageId));
+        }
     }
 }

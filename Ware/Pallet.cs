@@ -11,18 +11,29 @@ namespace Ware
     /// </summary>
     public class Pallet(int maxPackages = 30) : IPallet
     {
-        private readonly List<Package> packagesOnPallet = [];
+        private readonly List<Package> packagesOnPallet = new List<Package>();
         private int maxPackagesPerPallet = maxPackages;
 
-        /// <summary>
-        /// Used for AddPackageToPallet(Package package)
-        /// </summary>
-        public event EventHandler<PackageEventArgs>? AddPackageToPalletEvent;
-
-        private void RaiseAddPackageToPalltEvent(Package package)
+        public int PackagesInPallet()
         {
-            AddPackageToPalletEvent?.Invoke(this, new PackageEventArgs(package));
+            return packagesOnPallet.Count;
         }
+
+        public List<Package> GetPackagesOnPallet()
+        {
+            return packagesOnPallet;
+        }
+
+        public IReadOnlyList<Package> PackagesOnPallet
+        {
+            get { return packagesOnPallet.AsReadOnly(); }
+        }
+
+        public int MaxPackagesPerPallet
+        {
+            get { return maxPackagesPerPallet; }
+        }
+
         /// <summary>
         /// Adds a package to the pallet, if current one is full then it creats a new pallet.
         /// </summary>
@@ -35,14 +46,6 @@ namespace Ware
             }
             RaiseAddPackageToPalltEvent(package);
             packagesOnPallet.Add(package);
-        }
-
-        /// <summary>
-        /// Resets the pallet, clearing the current list of packages.
-        /// </summary>
-        private void ResetPallet()
-        {
-            packagesOnPallet.Clear();
         }
 
         /// <summary>
@@ -66,6 +69,37 @@ namespace Ware
             }
 
             maxPackagesPerPallet = maxPackages;
+        }
+
+        /// <summary>
+        /// Prints the information of each package on the pallet.
+        /// </summary>
+        public void PrintPalletInformation()
+        {
+            int packageCount = PackagesInPallet();
+            Console.WriteLine($"Pallet with {packageCount} packages:");
+            foreach (Package package in GetPackagesOnPallet())
+            {
+                Console.WriteLine($"Package: {package.Name}");
+            }
+        }
+
+        /// <summary>
+        /// Resets the pallet, clearing the current list of packages.
+        /// </summary>
+        private void ResetPallet()
+        {
+            packagesOnPallet.Clear();
+        }
+
+        /// <summary>
+        /// Used for AddPackageToPallet(Package package)
+        /// </summary>
+        public event EventHandler<PackageEventArgs>? AddPackageToPalletEvent;
+
+        private void RaiseAddPackageToPalltEvent(Package package)
+        {
+            AddPackageToPalletEvent?.Invoke(this, new PackageEventArgs(package));
         }
     }
 }

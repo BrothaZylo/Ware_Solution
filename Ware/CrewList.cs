@@ -15,11 +15,6 @@ namespace Ware
         private readonly Dictionary<string, AccessLevel> dictionary = [];
 
         /// <summary>
-        /// Job / access / position
-        /// </summary>
-
-
-        /// <summary>
         /// Adds a member to the crew.
         /// </summary>
         /// <param name="person">Person object</param>
@@ -56,8 +51,5 @@ namespace Ware
         {
             return dictionary;
         }
-
-
-
     }
 }

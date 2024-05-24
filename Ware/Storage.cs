@@ -25,46 +25,8 @@ namespace Ware
         private bool eastAccess = true;
         private bool southAccess = true;
         private bool westAccess = true;
+        private int amountShelfs = 0;
 
-
-        /// <summary>
-        /// Used for PlacePackage(args) and PlacePackageAutomatic(Package package)
-        /// </summary>
-        public event EventHandler<PackageEventArgs>? PackagePlacedEvent;
-
-        /// <summary>
-        /// Used for RemovePackage(args)
-        /// </summary>
-        public event EventHandler<PackageEventArgs>? RemovePackageEvent;
-
-        /// <summary>
-        /// Used for MovePackage(Package package)
-        /// </summary>
-        public event EventHandler<PackageEventArgs>? MovePackageEvent;
-
-        /// <summary>
-        /// Used for MovePackageToTerminal(Package package, Terminal terminal)
-        /// </summary>
-        public event EventHandler<PackageEventArgs>? MovePackageToTerminalEvent;
-
-        private void RaisePackagePlacedEvent(Package package, string storageUniqueId)
-        {
-            PackagePlacedEvent?.Invoke(this, new PackageEventArgs(package, storageUniqueId));
-        }
-
-        private void RaiseRemovePackageEvent(Package package, string storageUniqueId)
-        {
-            RemovePackageEvent?.Invoke(this, new PackageEventArgs(package, storageUniqueId));
-        }
-
-        private void RaiseMovePackageEvent(Package package, string storageUniqueId)
-        {
-            MovePackageEvent?.Invoke(this, new PackageEventArgs(package, storageUniqueId));
-        }
-        private void RaiseMovePackageToTerminalEvent(Package package, Terminal terminal)
-        {
-            MovePackageToTerminalEvent?.Invoke(this, new PackageEventArgs(package, terminal));
-        }
         /// <summary>
         /// Creates the Storageunit based on instructions from the config and constructor.
         /// </summary>
@@ -82,6 +44,7 @@ namespace Ware
                 StorageCounter = 101;
                 unitCounter += 100;
                 StorageCounter += unitCounter;
+                amountShelfs++;
             }
         }
 
@@ -325,7 +288,6 @@ namespace Ware
             // add excep, event
         }
 
-
         /// <summary>
         /// Prints the entire storage house shelf unit.
         /// </summary>
@@ -374,7 +336,6 @@ namespace Ware
             throw new ArgumentException("The shelf number does not exist");
         }
 
-
         /// <summary>
         /// It will find the shelf where the packageId is located.
         /// </summary>
@@ -387,8 +348,10 @@ namespace Ware
             {
                 if (i.Value.Item1 is not null && i.Value.Item1.PackageId == packageId)
                 {
-                    item += i;
-                    return item;
+                    string shelfID = i.Key;
+                    string packageName = i.Value.Item1.Name;
+                    string ShelfDetails = $"[{shelfID}: {packageName}, {i.Value.Item2}, {i.Value.Item3}, {i.Value.Item4}, {i.Value.Item5}]";
+                    return ShelfDetails;
                 }
             }
             throw new PackageInvalidException(" Package with ID not found: " + packageId);
@@ -410,6 +373,7 @@ namespace Ware
             }
             throw new PackageInvalidException(" Package with ID not found: " + packageId);
         }
+
         /// <summary>
         /// Finds the package location by using the package id
         /// </summary>
@@ -483,7 +447,6 @@ namespace Ware
             return false;
         }
 
-
         /// <summary>
         /// Sets the directions of accesspoint to the storage collectivly. True if can access, else false.
         /// </summary>
@@ -554,6 +517,65 @@ namespace Ware
         }
 
         /// <summary>
+        /// Amount of shelfs
+        /// </summary>
+        public int AmountShelfs
+        {
+            get ; set;
+        }
+
+        /// <summary>
+        /// Prints the diffrent Size configs for each size created.
+        /// </summary>
+        public void UnitShelfsPrint()
+        {
+            foreach (Storage.ShelvesAdd Item in addShelves)
+            {
+                Console.WriteLine("StorageName: " + Item.SizeName + " TotalUnits: " + Item.TotalUnitsAvailable + " Max Length CM: " + Item.MaxHeightCm + " Max width CM: " + Item.MaxWidthCm);
+            }
+        }
+
+        /// <summary>
+        /// Used for PlacePackage(args) and PlacePackageAutomatic(Package package)
+        /// </summary>
+        public event EventHandler<PackageEventArgs>? PackagePlacedEvent;
+
+        /// <summary>
+        /// Used for RemovePackage(args)
+        /// </summary>
+        public event EventHandler<PackageEventArgs>? RemovePackageEvent;
+
+        /// <summary>
+        /// Used for MovePackage(Package package)
+        /// </summary>
+        public event EventHandler<PackageEventArgs>? MovePackageEvent;
+
+        /// <summary>
+        /// Used for MovePackageToTerminal(Package package, Terminal terminal)
+        /// </summary>
+        public event EventHandler<PackageEventArgs>? MovePackageToTerminalEvent;
+
+        private void RaisePackagePlacedEvent(Package package, string storageUniqueId)
+        {
+            PackagePlacedEvent?.Invoke(this, new PackageEventArgs(package, storageUniqueId));
+        }
+
+        private void RaiseRemovePackageEvent(Package package, string storageUniqueId)
+        {
+            RemovePackageEvent?.Invoke(this, new PackageEventArgs(package, storageUniqueId));
+        }
+
+        private void RaiseMovePackageEvent(Package package, string storageUniqueId)
+        {
+            MovePackageEvent?.Invoke(this, new PackageEventArgs(package, storageUniqueId));
+        }
+
+        private void RaiseMovePackageToTerminalEvent(Package package, Terminal terminal)
+        {
+            MovePackageToTerminalEvent?.Invoke(this, new PackageEventArgs(package, terminal));
+        }
+
+        /// <summary>
         /// Configures diffrent sizes that a complete Warehouse storageunit contains.
         /// </summary>
         private class ShelvesAdd
@@ -575,28 +597,17 @@ namespace Ware
             /// </summary>
             public double MaxHeightCm { get; set; }
         }
+
         /// <summary>
         /// Custom unit can be added to the storage
         /// </summary>
         /// <param name="sizeName">Size of the shelf</param>
-        /// <param name="totalUntsAvailable">Total units/shelves </param>
+        /// <param name="totalUnitsAvailable">Total units/shelves </param>
         /// <param name="maxHeightCm">Height of the unit/Shelf</param>
         /// <param name="maxWidthCm">Width if the unit/shelf</param>
-        public void AddShelf(string sizeName, int totalUntsAvailable, double maxHeightCm, double maxWidthCm)
+        public void AddShelf(string sizeName, int totalUnitsAvailable, double maxHeightCm, double maxWidthCm)
         {
-            addShelves.Add(new() { SizeName = sizeName, TotalUnitsAvailable = totalUntsAvailable, MaxHeightCm = maxHeightCm, MaxWidthCm = maxWidthCm });
+            addShelves.Add(new() { SizeName = sizeName, TotalUnitsAvailable = totalUnitsAvailable, MaxHeightCm = maxHeightCm, MaxWidthCm = maxWidthCm });
         }
-
-        /// <summary>
-        /// Prints the diffrent Size configs for each size created.
-        /// </summary>
-        public void UnitShelfsPrint()
-        {
-            foreach (Storage.ShelvesAdd Item in addShelves)
-            {
-                Console.WriteLine("StorageName: " + Item.SizeName + " TotalUnits: " + Item.TotalUnitsAvailable + " Max Length CM: " + Item.MaxHeightCm + " Max width CM: " + Item.MaxWidthCm);
-            }
-        }
-
     }
 }

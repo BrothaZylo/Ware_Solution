@@ -12,36 +12,6 @@ namespace Ware
         private readonly List<Package> allPackages = [];
 
         /// <summary>
-        /// Event for SendAllPackagesToStorage(Storage storageConfiguration)
-        /// </summary>
-        public event EventHandler<PackageEventArgs> SendAllPackageEvent;
-
-        /// <summary>
-        /// Event for AddPackage(Package package)
-        /// </summary>
-        public event EventHandler<PackageEventArgs> PackageAddedEvent;
-
-        /// <summary>
-        /// Event for SendFirstPackageToStorage(Storage storageConfiguration)
-        /// </summary>
-        public event EventHandler<PackageEventArgs> SendFirstPackageEvent;
-
-        private void RaiseSendAllPackageEvent(Package package, Storage storage)
-        {
-            SendAllPackageEvent?.Invoke(this, new PackageEventArgs(package, storage));
-        }
-
-        private void RaiseAddPackageEvent(Package package)
-        {
-            PackageAddedEvent?.Invoke(this, new PackageEventArgs(package));
-        }
-
-        private void RaiseSendFirstPackageEvent(Package package)
-        {
-            SendFirstPackageEvent?.Invoke(this, new PackageEventArgs(package));
-        }
-
-        /// <summary>
         /// The package is received and added to the dictionary of received packages.
         /// </summary>
         /// <param name="package">The name of the package being received.</param>
@@ -57,23 +27,86 @@ namespace Ware
         }
 
         /// <summary>
+        /// Sends a package to a storage.
+        /// </summary>
+        /// <param name="package">package you want to send</param>
+        /// <param name="storage">storage you want to sent it to</param>
+        /// <param name="shelfId">where you want to place it - shelf unique id</param>
+        public void SendPackageToStorage(Package package, Storage storage, string shelfId)
+        {
+            foreach(Package item in receivedPackages)
+            {
+                if(item == package)
+                {
+                    storage.PlacePackage(package, shelfId);
+                    receivedPackages.Remove(item);
+                    RaiseSendPackageEvent(package, storage);
+                    return;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Sends a package to a storage.
+        /// </summary>
+        /// <param name="package">package you want to send</param>
+        /// <param name="storage">storage you want to sent it to</param>
+        /// <param name="shelfId1">where you want to place it - shelf unique id</param>
+        /// <param name="shelfId2">where you want to place it - shelf unique id</param>
+        public void SendPackageToStorage(Package package, Storage storage, string shelfId1, string shelfId2)
+        {
+            foreach (Package item in receivedPackages)
+            {
+                if (item == package)
+                {
+                    storage.PlacePackage(package, shelfId1, shelfId2);
+                    receivedPackages.Remove(item);
+                    RaiseSendPackageEvent(package, storage);
+                    return;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Sends a package to a storage.
+        /// </summary>
+        /// <param name="package">package you want to send</param>
+        /// <param name="storage">storage you want to sent it to</param>
+        /// <param name="shelfId1">where you want to place it - shelf unique id</param>
+        /// <param name="shelfId2">where you want to place it - shelf unique id</param>
+        /// <param name="shelfId3">where you want to place it - shelf unique id</param>
+        public void SendPackageToStorage(Package package, Storage storage, string shelfId1, string shelfId2, string shelfId3)
+        {
+            foreach (Package item in receivedPackages)
+            {
+                if (item == package)
+                {
+                    storage.PlacePackage(package, shelfId1, shelfId2, shelfId3);
+                    receivedPackages.Remove(item);
+                    RaiseSendPackageEvent(package, storage);
+                    return;
+                }
+            }
+        }
+
+        /// <summary>
         /// Sends the first package in the dictionary to storage then removes it from the dictionary.
         /// </summary>
-        public void SendFirstPackageToStorage(Storage storageConfiguration)
+        public void SendFirstPackageToStorage(Storage storage)
         {
 
             if (receivedPackages.Count > 0)
             {
                 Package firstPackage = receivedPackages[0];
-                if (storageConfiguration.IsSameTypeOfGoods(firstPackage))
+                if (storage.IsSameTypeOfGoods(firstPackage))
                 {
-                    storageConfiguration.PlacePackageAutomatic(firstPackage);
+                    storage.PlacePackageAutomatic(firstPackage);
                     RaiseSendFirstPackageEvent(firstPackage);
                     receivedPackages.RemoveAt(0);
                     //Console.WriteLine($"Package {firstPackage.Text} was sent to the warehouse and removed from the receiving dictionary.");
                 }
 
-                if (!storageConfiguration.IsSameTypeOfGoods(firstPackage))
+                if (!storage.IsSameTypeOfGoods(firstPackage))
                 {
                     throw new PackageInvalidException(" First package doesn't match with storage type: " + firstPackage.Name);
                 }
@@ -127,5 +160,44 @@ namespace Ware
             return allPackages;
         }
 
+        /// <summary>
+        /// Event for SendAllPackagesToStorage(Storage storage)
+        /// </summary>
+        public event EventHandler<PackageEventArgs> SendAllPackageEvent;
+
+        /// <summary>
+        /// Event for AddPackage(Package package)
+        /// </summary>
+        public event EventHandler<PackageEventArgs> PackageAddedEvent;
+
+        /// <summary>
+        /// Event for SendFirstPackageToStorage(Storage storage)
+        /// </summary>
+        public event EventHandler<PackageEventArgs> SendFirstPackageEvent;
+
+        /// <summary>
+        /// Event for SendFirstPackageToStorage(Package package, Storage storage)
+        /// </summary>
+        public event EventHandler<PackageEventArgs> SendPackageEvent;
+
+        private void RaiseSendAllPackageEvent(Package package, Storage storage)
+        {
+            SendAllPackageEvent?.Invoke(this, new PackageEventArgs(package, storage));
+        }
+
+        private void RaiseAddPackageEvent(Package package)
+        {
+            PackageAddedEvent?.Invoke(this, new PackageEventArgs(package));
+        }
+
+        private void RaiseSendFirstPackageEvent(Package package)
+        {
+            SendFirstPackageEvent?.Invoke(this, new PackageEventArgs(package));
+        }
+
+        private void RaiseSendPackageEvent(Package package, Storage storage)
+        {
+            SendPackageEvent?.Invoke(this, new PackageEventArgs(package, storage));
+        }
     }
 }

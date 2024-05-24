@@ -8,10 +8,10 @@ namespace Ware
 {
     public interface IAisle
     {
-        public void AddStorage(Storage storage);
-        public void removeStorage(Storage storage);
-        public void GetPackagesInAislesPrint();
-        public string? GetPackageFromAisle(Package package);
+        void AddStorage(Storage storage);
+        void removeStorage(Storage storage);
+        void GetPackagesInAislesPrint();
+        string? FindPackage(Package package);
 
     }
 }
