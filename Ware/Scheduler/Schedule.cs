@@ -31,13 +31,20 @@ namespace Ware.Scheduler
         }
 
         private Dictionary<DaysOfWeek, List<ScheduledPackage>> calender;
-        private ScheduleRepeatingModule scheduleRepeating;
+        private readonly ScheduleRepeatingModule scheduleRepeating;
 
-        public Schedule(ScheduleRepeatingModule? repeatingDeliveries)
+        /// <summary>
+        /// Creates a schedule wich allows daily, weekly, time and TransferType of a package to be scheduled.
+        /// </summary>
+        /// <param name="transferPackages">Object of repeating transfer packages</param>
+        public Schedule(ScheduleRepeatingModule? transferPackages)
         {
-            scheduleRepeating = repeatingDeliveries;
             PrepareDictionary();
-            AddPackagesRModule();
+            if (transferPackages != null)
+            {
+                scheduleRepeating = transferPackages;
+                AddPackagesRModule();
+            }
         }
 
         /// <summary>
@@ -57,29 +64,71 @@ namespace Ware.Scheduler
             }
         }
 
-        public void AddPackage(Package package, string time, DayOfWeek day)
+        /// <summary>
+        /// Add a single package to the schedule
+        /// </summary>
+        /// <param name="package">Package object you want to add</param>
+        /// <param name="time">Timestamp feks: "11:35 - 24.05.2024"</param>
+        /// <param name="day">DayOfWeek enum</param>
+        /// <param name="transferType">TransferType enum, Delivery or Receive</param>
+        public void AddPackage(Package package, string time, DayOfWeek day, TransferType transferType)
         {
             if (calender.ContainsKey((DaysOfWeek)day))
             {
-                calender[(DaysOfWeek)day].Add(new ScheduledPackage(package, time, day));
-                Console.WriteLine(package.Name + " Added");
+                ScheduledPackage p = new ScheduledPackage(package, time, day);
+                p.TransferTypes = transferType;
+                calender[(DaysOfWeek)day].Add(p);
                 RaisePackageAddEvent(package);
             }
+        }
+
+        /// <summary>
+        /// Returns a dictionary of packages for the day asked for
+        /// </summary>
+        /// <param name="day">Day of week</param>
+        /// <returns>returns the packages for the day asked for</returns>
+        public List<ScheduledPackage> GetPackageDay(DayOfWeek day)
+        {
+            DaysOfWeek deliveryDay = (DaysOfWeek)(int)day;
+
+            return calender[deliveryDay];
         }
 
         private void AddPackagesRModule()
         {
             foreach (ScheduledPackage package in scheduleRepeating.GetModule())
             {
-                AddPackage(package.GetPackage, package.Time, package.Day);
+                AddPackage(package.Packages, package.Time, package.Day, package.TransferTypes);
             }
         }
 
+        /// <summary>
+        /// Simple print to see whats inside of the schedule
+        /// </summary>
+        public void PrintSchedule()
+        {
+            foreach (KeyValuePair<DaysOfWeek, List<ScheduledPackage>> y in calender)
+            {
+                Console.WriteLine(y.Key);
+                foreach (ScheduledPackage p in y.Value)
+                {
+                    Console.WriteLine(" - " + p.Packages.Name + " " + p.TransferTypes + " " + p.Time);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Returns the dictionary of the schedule
+        /// </summary>
+        /// <returns>Returns the dictionary of the schedule</returns>
         public Dictionary<DaysOfWeek, List<ScheduledPackage>> GetSchedule()
         {
             return calender;
         }
 
+        /// <summary>
+        /// When a package is added into the schedule
+        /// </summary>
         public event EventHandler<PackageEventArgs>? PackageAddEvent;
 
         private void RaisePackageAddEvent(Package package)

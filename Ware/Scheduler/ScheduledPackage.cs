@@ -11,6 +11,7 @@ namespace Ware.Scheduler
         private Package package;
         private string time;
         private DayOfWeek day;
+        private TransferType transferType;
 
         public ScheduledPackage(Package packageToSchedule, string timeSchedule, DayOfWeek dayOfWeek)
         {
@@ -19,7 +20,13 @@ namespace Ware.Scheduler
             day = dayOfWeek;
         }
 
-        public Package GetPackage
+        public TransferType TransferTypes
+        {
+            get { return transferType; }
+            set { transferType = value; }
+        }
+
+        public Package Packages
         {
             get { return package; }
             set { package = value; }
