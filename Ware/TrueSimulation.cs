@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Ware.Scheduler;
 
 namespace Ware
 {
     public class TrueSimulation
     {
-        private int RunTimeSeconds = 20;
+        private int runTimeInSeconds = 20;
         private List<Package> packages = new List<Package>();
         private List<Package> packagesTmp = new List<Package>();
         private List<Storage> storages = new List<Storage>();
@@ -20,10 +21,12 @@ namespace Ware
         private List<KittingArea> kittingAreas = new List<KittingArea>();
         private List<PackingArea> packingAreas = new List<PackingArea>();
         private List<ReceivingDepartment> receivingDepartments = new List<ReceivingDepartment>();   
+        private List<Schedule> schedules = new List<Schedule>();
+        private List<ScheduleRepeatingModule> scheduleRepeatingModules = new List<ScheduleRepeatingModule>();
 
         public TrueSimulation(int runTimeSeconds)
         {
-            RunTimeSeconds = runTimeSeconds;
+            runTimeInSeconds = runTimeSeconds;
             packages = [];
             storages = [];
             pallets = [];
@@ -35,6 +38,8 @@ namespace Ware
             packingAreas = [];
             receivingDepartments = [];
             packagesTmp = [];
+            schedules = [];
+            scheduleRepeatingModules = [];
         }
 
         public void AddPackageToSimulation(Package package)
@@ -85,6 +90,16 @@ namespace Ware
         public void AddReceivingDepartmentToSimulation(ReceivingDepartment receivingDepartment)
         {
             receivingDepartments.Add(receivingDepartment);
+        }
+
+        public void AddScheduleToSimulation(Schedule schedule)
+        {
+            schedules.Add(schedule);
+        }
+
+        public void AddRepeatingModulesToSimulation(ScheduleRepeatingModule scheduleRepeatingModule)
+        {
+            scheduleRepeatingModules.Add(scheduleRepeatingModule);
         }
 
         private bool CanRunSimulation()
@@ -360,6 +375,14 @@ namespace Ware
             }
         }
 
+        private void ScheduleCreation()
+        {
+            foreach(Schedule schedule in schedules)
+            {
+                //fix ;(
+            }
+        }
+
         public void Run()
         {
             int delay = 1000;
@@ -369,7 +392,7 @@ namespace Ware
                 return;
             }
 
-            while (RunTimeSeconds != 0)
+            while (runTimeInSeconds != 0)
             {
                 PalletStorageToTerminal();
                 PersonUseForkliftPlacePallet();
@@ -386,7 +409,7 @@ namespace Ware
 
                 Console.WriteLine("--------------");
                 Thread.Sleep(delay);
-                RunTimeSeconds--;
+                runTimeInSeconds--;
             }
         }
 
