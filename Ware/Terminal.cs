@@ -68,12 +68,18 @@ namespace Ware
         /// <summary>
         /// Prints all information of the pallets in the terminal.
         /// </summary>
-        public void PrintPalletInformation()
+        public void PrintPalletsInformation()
         {
+            if(!PalletsInTerminal.Any())
+    {
+                Console.WriteLine($"There are no pallets in {name}.");
+                return;
+            }
+
             foreach (Pallet pallet in PalletsInTerminal)
             {
                 int packageCount = pallet.PackagesInPallet();
-                Console.WriteLine($"Pallet with {packageCount} packages.");
+                Console.WriteLine($"Pallet with {packageCount} packages:");
                 foreach (Package package in pallet.GetPackagesOnPallet())
                 {
                     Console.WriteLine($"Package: {package.Name}");
@@ -143,16 +149,31 @@ namespace Ware
         }
 
         /// <summary>
-        /// Sends out all the pallets in the terminal and clears them from the storage.
+        /// Sends out a pallet in the terminal clears it from the terminal.
+        /// </summary>
+        /// <param name="pallet">The pallet being sent out.</param>
+        /// <exception cref="InvalidOperationException">Thrown when the pallet is not in the terminal.</exception>
+        public void SendOutPallet(Pallet pallet)
+        {
+            if (PalletsInTerminal.Contains(pallet))
+            {
+                PalletsInTerminal.Remove(pallet);
+            }
+            else
+            {
+                throw new InvalidOperationException("The specified pallet is not in the terminal.");
+            }
+        }
+
+        /// <summary>
+        /// Sends out all the pallets in the terminal and clears them from the terminal.
         /// </summary>
         public void SendOutPallets()
         {
-            foreach (Pallet pallet in PalletsInTerminal)
+            foreach (Pallet pallet in PalletsInTerminal.ToList())
             {
-                Console.WriteLine($"Sending out pallet with {pallet.PackagesInPallet()} packages.");
+                SendOutPallet(pallet);
             }
-
-            PalletsInTerminal.Clear();
         }
 
         /// <summary>
