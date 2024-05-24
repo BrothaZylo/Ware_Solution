@@ -6,6 +6,7 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using Ware.Scheduler;
 
 namespace Ware
 {
@@ -24,7 +25,7 @@ namespace Ware
 
         private readonly PackageLogging packageLogging = new();
         private ReceivingDepartment receiving = new("egg");
-        private readonly Schedule schedule = new();
+        //private readonly Schedule schedule = new();
         private readonly Terminal terminal = new("term");
 
         private bool a = true;
@@ -81,7 +82,7 @@ namespace Ware
             {
                 if (start == CalculateSimulationTime(5))
                 {
-                    schedule.GetSchedule();
+                    //schedule.GetSchedule();
                 }
                 if (start == CalculateSimulationTime(10))
                 {
@@ -451,7 +452,7 @@ namespace Ware
             {
                 Random rand = new();
                 int u = rand.Next(0, 30);
-                schedule.AddPackage("single", DayOfWeek.Monday, package, AutomaticTimeCreator(u));
+                //schedule.AddPackage("single", DayOfWeek.Monday, package, AutomaticTimeCreator(u));
             }
         }
 

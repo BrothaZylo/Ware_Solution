@@ -1,7 +1,10 @@
 // See https://aka.ms/new-console-template for more information
+using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Runtime.ConstrainedExecution;
 using Ware;
+using Ware.Scheduler;
+using static Ware.Scheduler.Schedule;
 namespace ConsoleApp2
 {
     internal class Program
@@ -55,35 +58,8 @@ namespace ConsoleApp2
             Package package10 = new("Mini Moose", refrigerated, 18, 12);
             Package package11 = new("Duck", refrigerated, 18, 12);
 
-            PackageLogging log1 = new();
 
-            Storage storage = new(refrigerated, "UDE");
-            storage.AddShelf("Big", 11, 100, 100);
-            storage.AddShelf("Tiny", 4, 33, 33);
-            storage.AddShelf("Mid", 2, 63, 63);
-            storage.Build();
 
-            log1.AddPackageLog(package8.PackageId, $"was sent to {storage.UniqueId}");
-            log1.AddPackageLog(package7.PackageId, "did nothing");
-
-            List<String> x = log1.TrackPackage(package8.PackageId);
-            foreach (String s in x) Console.Write(s);
-
-            log1.GetAllPackageLog();
-
-            foreach(KeyValuePair<string, List<(string, DateTime)>> info in log1.GetAllPackageLog())
-            {
-                Console.WriteLine(info.Key);
-            }
-
-            Person greg = new("Greg", 32, AccessLevel.PACKER);
-
-            Assignment task1 = new("Gå ut med søppla");
-
-            greg.AddAssignment(task1);
-            greg.RemoveAssignment(task1);
-
-            greg.GetAssignmentsList();
 
             //-----------------------------------------------------------//
             //----------------------Storage Build------------------------//
