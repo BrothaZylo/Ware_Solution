@@ -12,6 +12,9 @@ namespace Ware
         void AddToPallet(Package package, Pallet pallet);
         IReadOnlyList<Pallet> GetAllPallets();
         void RemovePackageFromPallet(Package package, Pallet pallet);
+        List<Package> GetScheduledPackagesForPackingArea();
+        List<Package> GetPackagesInPackingArea();
+
         void MovePackageToAnotherPallet(Package package, Pallet sourcePallet, Pallet targetPallet);
         event EventHandler<PackageEventArgs> PackageAddedToPallet;
     }

@@ -6,6 +6,7 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using Ware.Scheduler;
 
 namespace Ware
 {
@@ -23,19 +24,20 @@ namespace Ware
         private static readonly Storage Dangerous = new("Dangerous", "C");
 
         private readonly PackageLogging packageLogging = new();
-        private ReceivingDepartment receiving = new();
-        private readonly Schedule schedule = new();
-        private readonly Terminal terminal = new("H022");
+        private ReceivingDepartment receiving = new("egg");
+        //private readonly Schedule schedule = new();
+        private readonly Terminal terminal = new("term");
 
         private bool a = true;
         private bool b = true;
         private bool c = true;
 
         private int dry, refrigerated, dangerous;
+
         //Define delegate
         //Define an event based on the delegate
         // Raise the event
-    
+
 
         /// <summary>
         /// Adds packages that will run in the simulation. Only add packages with the goodtype of Refrigerated, Dangerous or Dry.
@@ -58,22 +60,6 @@ namespace Ware
             Console.WriteLine("|      Loading...      |");
             Console.WriteLine(" ---------------------\n\n");
 
-            /**********************Events*******/
-            
-            
-            schedule.PackageAddEvent += OnPackageAddedToSchedule;
-
-            receiving.PackageAddedEvent += OnPackageReceieved;
-            receiving.SendAllPackageEvent += OnAllPackagesSentToStorage;
-
-            Dry.MovePackageToTerminalEvent += OnPackageSentToTerminal;
-            Refrigerated.MovePackageToTerminalEvent += OnPackageSentToTerminal;
-            Dangerous.MovePackageToTerminalEvent += OnPackageSentToTerminal;
-
-            terminal.PackageSendAllEvent += OnPackageSentAway;
-            
-
-            
             CalculateAmountOfGoodsType();
             AddUnits();
             BuildStorages();
@@ -82,13 +68,21 @@ namespace Ware
             Thread.Sleep(startDelay);
             int randomDelay = RandomDelay();
 
+            /**********************Events*******/
+            receiving.PackageAddedEvent += OnPackageReceieved;
+            receiving.SendAllPackageEvent += OnAllPackagesSentToStorage;
 
+            Dry.MovePackageToTerminalEvent += OnPackageSentToTerminal;
+            Refrigerated.MovePackageToTerminalEvent += OnPackageSentToTerminal;
+            Dangerous.MovePackageToTerminalEvent += OnPackageSentToTerminal;
+
+            terminal.PackageSendEvent += OnPackageSentAway;
 
             while (start != stop)
             {
                 if (start == CalculateSimulationTime(5))
                 {
-                    schedule.GetSchedule();
+                    //schedule.GetSchedule();
                 }
                 if (start == CalculateSimulationTime(10))
                 {
@@ -151,12 +145,12 @@ namespace Ware
                 {
                     PrintStorages();
                 }
-                if (start == CalculateSimulationTime(85 + randomDelay))
+                if (start == CalculateSimulationTime(80 + randomDelay))
                 {
                     FromStorageToTerminal();
                 }
 
-                if (start == CalculateSimulationTime(95 + randomDelay))
+                if (start == CalculateSimulationTime(81 + randomDelay))
                 {
                     FromTerminalAndAway();
                 }
@@ -202,10 +196,10 @@ namespace Ware
                 }
             }
         }
-        
+
         private void ReceivePackages()
         {
-          
+
             Random rand = new Random();
 
             if (a)
@@ -216,8 +210,6 @@ namespace Ware
                     if (package.Goods == "Dry")
                     {
                         receiving.AddPackage(package);
-                        RaisePackageArrivedEvent(package);
-                        packageLogging.AddPackageLog(package.PackageId, "Arrived at receving department");
                     }
                 }
                 return;
@@ -230,9 +222,6 @@ namespace Ware
                     if (package.Goods == "Dangerous")
                     {
                         receiving.AddPackage(package);
-                        RaisePackageArrivedEvent(package);
-                        packageLogging.AddPackageLog(package.PackageId, "Arrived at receving department");
-
                     }
                 }
                 return;
@@ -245,9 +234,6 @@ namespace Ware
                     if (package.Goods == "Refrigirated")
                     {
                         receiving.AddPackage(package);
-                        RaisePackageArrivedEvent(package);
-                        packageLogging.AddPackageLog(package.PackageId, "Arrived at receving department");
-
                     }
                 }
                 return;
@@ -324,7 +310,7 @@ namespace Ware
             }
         }
         */
-        
+
         private void AddUnits()
         {
             for (int index = 0; index < simulationPackages.Count; index++)
@@ -355,7 +341,6 @@ namespace Ware
                 receiving.SendAllPackagesToStorage(Dry);
                 receiving.SendAllPackagesToStorage(Dangerous);
                 receiving.SendAllPackagesToStorage(Refrigerated);
-                RaiseAllPackageSentToStorageEvent();
 
             }
             catch (PackageInvalidException e)
@@ -376,7 +361,6 @@ namespace Ware
                         if (Dry.IsSameTypeOfGoods(package) && package == a.Value.Item1)
                         {
                             Dry.MovePackageToTerminal(package, terminal);
-                            RaisePackageStorageToTerminal(package);
                         }
                     }
                 }
@@ -398,8 +382,6 @@ namespace Ware
                         if (Refrigerated.IsSameTypeOfGoods(package) && package == a.Value.Item1)
                         {
                             Refrigerated.MovePackageToTerminal(package, terminal);
-                            RaisePackageStorageToTerminal(package);
-
                         }
                     }
                 }
@@ -421,7 +403,6 @@ namespace Ware
                         if (Dangerous.IsSameTypeOfGoods(package) && package == a.Value.Item1)
                         {
                             Dangerous.MovePackageToTerminal(package, terminal);
-                            RaisePackageStorageToTerminal(package);
                         }
                     }
                 }
@@ -461,7 +442,7 @@ namespace Ware
             int sum = percentageRunSim * s / 100;
 
             DateTime day = DateTime.Now;
-            day = day.AddMinutes(sum);
+            day.AddMinutes(sum);
             return day;
         }
 
@@ -471,15 +452,13 @@ namespace Ware
             {
                 Random rand = new();
                 int u = rand.Next(0, 30);
-                schedule.AddPackage("single", DayOfWeek.Monday, package, AutomaticTimeCreator(u));
-                RaisePackageAddedToScheduleEvent(package);
+                //schedule.AddPackage("single", DayOfWeek.Monday, package, AutomaticTimeCreator(u));
             }
         }
 
         private void FromTerminalAndAway()
         {
             terminal.SendAllPackages();
-            RaiseAllPackagesSentOutOfTerminal();
         }
 
         private int RandomDelay()
@@ -517,44 +496,5 @@ namespace Ware
         {
             Console.WriteLine($"Package {args.Package.Name} with Id: {args.Package.PackageId} was sent out of Terminal");
         }
-        private static void OnPackageAddedToSchedule(object o, PackageEventArgs args)
-        {
-            Console.WriteLine($"Package {args.Package.Name} was added to schedule");
-        }
-
-        // Events for GUI
-        public event EventHandler<PackageEventArgs>? PackageAddedToSchedule;
-
-        public event EventHandler<PackageEventArgs>? PackageArrivedAtReceiving;
-        
-        public event EventHandler? AllPackagesSentToStorage;
-
-        public event EventHandler<PackageEventArgs>? PackageFromStorageToTerminal;
-
-        public event EventHandler? SendAllPackageOutOfTerminal;
-
-
-        private void RaisePackageAddedToScheduleEvent(Package package)
-        {
-            PackageAddedToSchedule?.Invoke(this, new PackageEventArgs(package));
-        }
-        private void RaisePackageArrivedEvent(Package package)
-        {
-            PackageArrivedAtReceiving?.Invoke(this, new PackageEventArgs(package));
-        }
-        private void RaiseAllPackageSentToStorageEvent()
-        {
-            AllPackagesSentToStorage?.Invoke(this, EventArgs.Empty);
-        }
-        private void RaisePackageStorageToTerminal(Package package)
-        {
-            PackageFromStorageToTerminal?.Invoke(this, new PackageEventArgs(package));
-        }
-        private void RaiseAllPackagesSentOutOfTerminal()
-        {
-            SendAllPackageOutOfTerminal?.Invoke(this, EventArgs.Empty);
-        }
-
-
     }
 }

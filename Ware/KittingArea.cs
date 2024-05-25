@@ -14,8 +14,28 @@ namespace Ware
     public class KittingArea(int initialBoxCount = 20, int maxPackagesPerBox = 10) : IKittingArea
     {
         private List<Package> packagesInBox = new List<Package>();
+        private List<Package> packagesGoingToKittingArea = new List<Package>();
+        private List<Package> packagesInKittingArea = new List<Package>();
         private int totalBoxesAvailable = initialBoxCount;
         private int maxPackagesPerBox = maxPackagesPerBox;
+
+        /// <summary>
+        /// Indivates if a package is going to KittingArea
+        /// </summary>
+        /// <param name="package">package object you want to put in KittingArea</param>
+        public void SchedulePackageForKittingArea(Package package)
+        {
+            packagesGoingToKittingArea.Add(package);
+        }
+
+        /// <summary>
+        /// Packages located in KittingArea
+        /// </summary>
+        /// <param name="package">package object you want to put in KittingArea</param>
+        public void AddPackageToKittingArea(Package package)
+        {
+            packagesInKittingArea.Add(package);
+        }
 
         /// <summary>
         /// Adds a package to the current cardboard box.
@@ -33,8 +53,16 @@ namespace Ware
             {
                 PrepareNewBox();
             }
-            RaisePackageAddToBoxEvent(package);
-            packagesInBox.Add(package);
+            for (int i = 0; i < packagesInKittingArea.Count; i++)
+            {
+                if (packagesInKittingArea[i] == package)
+                {
+                    RaisePackageAddToBoxEvent(package);
+                    packagesInBox.Add(package);
+                    packagesInKittingArea.RemoveAt(i);
+                    return;
+                }
+            }
         }
 
         /// <summary>
@@ -77,6 +105,39 @@ namespace Ware
         }
 
         /// <summary>
+        /// Prepares a new box by clearing the current box and reduces the available box count.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">Thrown when there are no new boxes available to prepare.</exception>
+        private void PrepareNewBox()
+        {
+            if (totalBoxesAvailable < 1)
+            {
+                throw new InvalidOperationException("No new boxes available to prepare.");
+            }
+
+            packagesInBox.Clear();
+            totalBoxesAvailable--;
+        }
+
+        /// <summary>
+        /// Gets all the packages wich are scheduled to go to kitting area in Kitting Area
+        /// </summary>
+        /// <returns>List of all the packages in KittingArea</returns>
+        public List<Package> GetPackagesGoingToKittingArea()
+        {
+            return packagesGoingToKittingArea;
+        }
+
+        /// <summary>
+        /// Gets all the packages in Kitting Area
+        /// </summary>
+        /// <returns>List of all the packages in KittingArea</returns>
+        public List<Package> GetPackagesInKittingArea()
+        {
+            return packagesInKittingArea;
+        }
+
+        /// <summary>
         /// Gets the number of boxes remaining.
         /// </summary>
         /// <returns>The number of remaining boxes.</returns>
@@ -101,21 +162,6 @@ namespace Ware
         {
             get { return maxPackagesPerBox; }
             set { maxPackagesPerBox = value; }
-        }
-
-        /// <summary>
-        /// Prepares a new box by clearing the current box and reduces the available box count.
-        /// </summary>
-        /// <exception cref="InvalidOperationException">Thrown when there are no new boxes available to prepare.</exception>
-        private void PrepareNewBox()
-        {
-            if (totalBoxesAvailable < 1)
-            {
-                throw new InvalidOperationException("No new boxes available to prepare.");
-            }
-
-            packagesInBox.Clear();
-            totalBoxesAvailable--;
         }
 
         /// <summary>

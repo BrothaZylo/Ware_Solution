@@ -6,7 +6,6 @@ using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
-using static Ware.Schedule;
 
 namespace Ware
 {
@@ -63,16 +62,15 @@ namespace Ware
                 }
                 Console.WriteLine();
             }
-        
         }
         /// <summary>
         /// Finds package history of a single package
         /// </summary>
         /// <param name="id">package id</param>
         /// <returns>a stringbuilder that contains the log of the package asked for</returns>
-        public StringBuilder TrackPackage(string id)
+        public List<string> TrackPackage(string id)
         {
-        StringBuilder stringBuilder = new System.Text.StringBuilder();
+        List<string> packagesLog = [];
         bool packageExist = false;
         foreach (KeyValuePair<string, List<(string, DateTime)>> keys in PackageLog)
         {
@@ -81,7 +79,7 @@ namespace Ware
                 packageExist = true;
                 foreach ((string, DateTime) items in keys.Value)
                 {
-                    stringBuilder.Append($"PackageID : {keys.Key} {items.Item1} {items.Item2}\n");
+                    packagesLog.Add($"PackageID : {keys.Key} {items.Item1} {items.Item2}\n");
                 }
             }
         }
@@ -89,7 +87,16 @@ namespace Ware
         {
             throw new PackageInvalidException($"The package id: {id} could not be found in log");
         }    
-        return stringBuilder;
+        return packagesLog;
+        }
+
+        /// <summary>
+        /// Get all of the packagelogs
+        /// </summary>
+        /// <returns>A dictionary with all package logs</returns>
+        public Dictionary<string, List<(string, DateTime)>> GetAllPackageLog()
+        {
+            return PackageLog;
         }
 
         public event EventHandler<PackageEventArgs>? AddPackageLogEvent;

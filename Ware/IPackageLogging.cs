@@ -10,6 +10,7 @@ namespace Ware
     {
         public string AddPackageLog(string packageID, string action);
         public void LogsPrint();
-        public StringBuilder TrackPackage(string id);
+        public List<string> TrackPackage(string id);
+        public Dictionary<string, List<(string, DateTime)>> GetAllPackageLog();
     }
 }

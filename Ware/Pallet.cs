@@ -12,6 +12,7 @@ namespace Ware
     public class Pallet : IPallet
     {
         private readonly List<Package> packagesOnPallet = new List<Package>();
+        private List<Package> schedulePackagesIn = new List<Package>();
 
         /// <summary>
         /// Gets a list of pallets as ReadOnly currently managed by the packing area.
@@ -19,6 +20,16 @@ namespace Ware
         public IReadOnlyList<Package> PackagesOnPallet
         {
             get { return packagesOnPallet.AsReadOnly(); }
+        }
+
+        public void SchedulePackageToPack(Package package)
+        {
+            schedulePackagesIn.Add(package);
+        }
+
+        public List<Package> GetScheduledPackages()
+        {
+            return schedulePackagesIn;
         }
 
         /// <summary>

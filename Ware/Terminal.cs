@@ -12,10 +12,10 @@ namespace Ware
     /// </summary>
     public class Terminal(string name) : ITerminal
     {
+        private string name = name;
         private readonly List<Package> PackagesToSendOut = new List<Package>();
         private readonly Queue<Package> PackagesToSendOutQueue = new Queue<Package>();
         private readonly List<Pallet> PalletsInTerminal = new List<Pallet>();
-        private string name = name;
 
         /// <summary>
         /// This will add a package to a dictionary which are the packages at the terminal.
@@ -172,6 +172,15 @@ namespace Ware
             {
                 SendOutPallet(pallet);
             }
+        }
+
+        /// <summary>
+        /// Name of the termial
+        /// </summary>
+        public string Name
+        {
+            get { return name; }
+            set { name = value; }
         }
 
         /// <summary>
