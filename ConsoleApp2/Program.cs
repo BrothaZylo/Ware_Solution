@@ -128,7 +128,7 @@ namespace ConsoleApp2
             palletStorage.PrintAllPalletStorageInformation();
 
             Console.WriteLine("\nCheck if pallet in storage");
-            string foundShelf = palletStorage.GetPallet(pallet1);
+            Pallet? foundShelf = palletStorage.GetPallet(pallet1);
             if (foundShelf != null)
             {
                 Console.WriteLine($"Pallet found on shelf: {foundShelf}");
@@ -139,7 +139,7 @@ namespace ConsoleApp2
             }
 
             Console.WriteLine("\nCheck pallet not in storage");
-            string notFoundShelf = palletStorage.GetPallet(pallet2);
+            Pallet? notFoundShelf = palletStorage.GetPallet(pallet2);
             if (notFoundShelf != null)
             {
                 Console.WriteLine($"Pallet found on shelf: {notFoundShelf}");
