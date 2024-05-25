@@ -15,6 +15,7 @@ namespace Ware
     {
         private readonly List<Pallet> pallets = new List<Pallet>();
         private readonly List<Package> packagesInPackingArea = new List<Package>();
+        private readonly List<Package> schedulePackagesForPackingArea = new List<Package>();
         private int maxPackagesPerPallet = 30;
         private string areaName;
 
@@ -33,6 +34,15 @@ namespace Ware
         public PackingArea(string name)
         { 
             areaName = name;
+        }
+
+        /// <summary>
+        /// Plans where the package is going to go in the furture
+        /// </summary>
+        /// <param name="package">Package object</param>
+        public void SchedulePackage(Package package)
+        {
+            schedulePackagesForPackingArea.Add(package);
         }
 
         /// <summary>
@@ -105,6 +115,24 @@ namespace Ware
         {
             get { return areaName; }
             set { areaName = value; }
+        }
+
+        /// <summary>
+        /// gets all the packages scheduled to go to PackingArea
+        /// </summary>
+        /// <returns>List of all scheduled packages</returns>
+        public List<Package> GetScheduledPackagesForPackingArea()
+        {
+            return schedulePackagesForPackingArea;
+        }
+
+        /// <summary>
+        /// Gets all the packages placed in PackingArea
+        /// </summary>
+        /// <returns>List of all the packages in PackingArea</returns>
+        public List<Package> GetPackagesInPackingArea()
+        {
+            return packagesInPackingArea;
         }
 
         /// <summary>

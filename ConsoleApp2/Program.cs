@@ -101,7 +101,7 @@ namespace ConsoleApp2
             //----------------------Receiving Build----------------------//
             //-----------------------------------------------------------//
 
-            ReceivingDepartment rex = new();
+            ReceivingDepartment rex = new("Rec Depart");
             rex.AddPackage(package1);
             rex.AddPackage(package2);
             rex.AddPackage(package3);
@@ -154,28 +154,6 @@ namespace ConsoleApp2
             palletStorage.PlacePalletAutomatic(pallet1);
             palletStorage.PlacePallet(pallet3, "PalletStorage_1 : Shelf 005");
             palletStorage.PrintAllPalletStorageInformation();
-
-            Console.WriteLine("\nCheck if pallet in storage");
-            string foundShelf = palletStorage.GetPallet(pallet1);
-            if (foundShelf != null)
-            {
-                Console.WriteLine($"Pallet found on shelf: {foundShelf}");
-            }
-            else
-            {
-                Console.WriteLine("Pallet not found.");
-            }
-
-            Console.WriteLine("\nCheck pallet not in storage");
-            string notFoundShelf = palletStorage.GetPallet(pallet2);
-            if (notFoundShelf != null)
-            {
-                Console.WriteLine($"Pallet found on shelf: {notFoundShelf}");
-            }
-            else
-            {
-                Console.WriteLine("Pallet not found.");
-            }
 
             Terminal terminal = new Terminal("Terminal numba 1");
 

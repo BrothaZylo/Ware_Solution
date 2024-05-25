@@ -9,6 +9,8 @@ namespace Ware
     internal interface IPallet
     {
         IReadOnlyList<Package> PackagesOnPallet { get; }
+        void SchedulePackageToPack(Package package);
+        List<Package> GetScheduledPackages();
         List<Package> GetPackagesOnPallet();
         void AddPackage(Package package);
         void ClearPallet();

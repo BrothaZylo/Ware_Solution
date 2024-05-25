@@ -215,7 +215,7 @@ namespace Ware
                                     {
                                         try
                                         {
-                                            packingArea.ReceivePackage(storage.MovePackage(item));
+                                            packingArea.SendPackageToPackingArea(storage.MovePackage(item));
                                             Console.WriteLine($"{item.PackageId} {item.Name} was moved to {packingArea}");
                                             packagesTmp.Remove(item);
                                             return;
@@ -307,7 +307,7 @@ namespace Ware
                         {
                             if (scheduled == packingArea.GetPackagesInPackingArea()[i])
                             {
-                                packingArea.AddToPallet(scheduled, pallet);
+                                packingArea.AddPackageOnPallet(scheduled, pallet);
                                 Console.WriteLine($"{scheduled.PackageId} {scheduled.Name} was placed in {pallet}");
                                 return;
                             }
@@ -359,12 +359,11 @@ namespace Ware
                             {
                                 foreach(Terminal terminal in terminals)
                                 {
-                                    /*
+                                    
                                     if(pallet == palletStorage.GetPallet(pallet))
                                     {
-                                        palletStorage.SendPalletToTerminalAutomatic(pallet, terminal);
+                                        palletStorage.SendPalletToTerminal(pallet, terminal);
                                     }
-                                    */
                                     //ingen implementasjon
                                     return;
                                 }

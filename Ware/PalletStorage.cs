@@ -196,15 +196,15 @@ namespace Ware
         /// </summary>
         /// <param name="pallet">Specified pallet being checked.</param>
         /// <returns>returns null.</returns>
-        public string GetPallet(Pallet pallet)
+        public Pallet? GetPallet(Pallet pallet)
         {
             foreach (KeyValuePair<string, (List<Pallet>, string, bool)> entry in palletStorageDict)
             {
-                (List<Pallet> shelfContent, _, bool isOccupied) = entry.Value;
+                (List<Pallet> shelfContent, string sizename, bool isOccupied) = entry.Value;
 
-                if (isOccupied && shelfContent[0] == pallet)
+                if (isOccupied && shelfContent.Contains(pallet))
                 {
-                    return entry.Key;
+                    return pallet;
                 }
             }
 

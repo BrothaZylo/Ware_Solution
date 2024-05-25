@@ -16,7 +16,7 @@ namespace Ware
         void PrintAllPalletStorageInformation();
         void SendPalletToTerminal(Pallet pallet, Terminal terminal);
         void SendsAllPalletsToTerminal(Terminal terminal);
-        string GetPallet(Pallet pallet);
+        Pallet? GetPallet(Pallet pallet);
         void AddShelf(string sizeName, int totalUnitsAvailable);
         void SetAccessDirection(bool north, bool east, bool south, bool west);
 

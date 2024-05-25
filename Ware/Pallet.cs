@@ -12,6 +12,7 @@ namespace Ware
     public class Pallet : IPallet
     {
         private readonly List<Package> packagesOnPallet = new List<Package>();
+        private List<Package> schedulePackagesIn = new List<Package>();
 
         /// <summary>
         /// Gets a list of pallets as ReadOnly currently managed by the packing area.
