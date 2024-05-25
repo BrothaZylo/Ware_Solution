@@ -3,7 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Ware.Scheduler;
+using Ware.PackageLogs;
+using Ware.Persons;
+using Ware.Storages;
+using Ware.Packages;
+using Ware.Schedules;
+using Ware.Equipments;
 
 namespace Ware
 {

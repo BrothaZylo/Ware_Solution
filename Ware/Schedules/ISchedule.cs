@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Ware.Packages;
+using static Ware.Schedules.Schedule;
 
-namespace Ware
+namespace Ware.Schedules
 {
-    internal interface ISimulation
+    internal interface ISchedule
     {
-        void AddPackage(Package package);
-        void Run();
+
+
     }
 }

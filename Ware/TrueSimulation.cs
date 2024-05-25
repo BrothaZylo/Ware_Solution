@@ -1,9 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Ware.Scheduler;
+﻿using Ware.Packages;
+using Ware.Schedules;
+using Ware.Storages;
+using Ware.Persons;
+using Ware.Equipments;
+using Ware.ReceivingDepartments;
+using Ware.Terminals;
 
 namespace Ware
 {

@@ -3,8 +3,13 @@ using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Runtime.ConstrainedExecution;
 using Ware;
-using Ware.Scheduler;
-using static Ware.Scheduler.Schedule;
+using Ware.Equipments;
+using Ware.Packages;
+using Ware.Persons;
+using Ware.ReceivingDepartments;
+using Ware.Storages;
+using Ware.Terminals;
+using static Ware.Schedules.Schedule;
 namespace ConsoleApp2
 {
     internal class Program
