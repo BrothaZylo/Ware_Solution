@@ -83,28 +83,34 @@ namespace ConsoleApp2
             //-----------------------------------------------------------//
             //----------------------Storage Build------------------------//
             //-----------------------------------------------------------//
-            /*
+
             Storage storage = new(refrigerated, "Uteliggeer");
             storage.AddShelf("Big", 11, 100, 100);
             storage.AddShelf("Tiny", 4, 33, 33);
             storage.AddShelf("Mid", 2, 63, 63);
             storage.Build();
 
+            /*
             Storage storage2 = new(dry, "B");
             storage2.AddShelf("Big", 11, 100, 100);
             storage2.AddShelf("Tiny", 4, 33, 33);
             storage2.AddShelf("Mid", 2, 63, 63);
             storage2.Build();
-
+            */
             //-----------------------------------------------------------//
             //----------------------Receiving Build----------------------//
             //-----------------------------------------------------------//
-            
+
             ReceivingDepartment rex = new();
             rex.AddPackage(package1);
             rex.AddPackage(package2);
+            rex.AddPackage(package3);
+            rex.AddPackage(package4);
+            rex.AddPackage(package5);
             rex.AddPackage(package6);
+            rex.AddPackage(package7);
 
+            /*
             rex.SendPackageToStorage(package1, storage2, "B101");
             storage2.GetAllStorageInformationPrint();
             Dictionary<string, (Package?, string, double, double, bool)> s = storage2.GetAllStorageInformationAsDictionary();
@@ -114,63 +120,88 @@ namespace ConsoleApp2
             {
                 Console.WriteLine(package);
             }
-            
+            */
             //------------------------------------------------------------//
             //---------------------- Pallets Setup -----------------------//
             //------------------------------------------------------------//
-            /*
+            PackingArea packingArea = new PackingArea("Packing area");
+            packingArea.SendPackageToPackingArea(package3);
+            packingArea.SendPackageToPackingArea(package4);
+            //packingArea.SendPackageToPackingArea(package5);
+            
             Pallet pallet1 = new Pallet();
-            pallet1.AddPackageToPallet(package3);
-            pallet1.AddPackageToPallet(package4);
-            pallet1.AddPackageToPallet(package5);
+            packingArea.AddPackageOnPallet(package3, pallet1);
+            packingArea.AddPackageOnPallet(package4, pallet1);
+            packingArea.AddPackageOnPallet(package5, pallet1);
 
             Pallet pallet2 = new Pallet();
-            pallet2.AddPackageToPallet(package1);
-            pallet2.AddPackageToPallet(package2);
+            packingArea.AddPackageOnPallet(package1, pallet2);
+            packingArea.AddPackageOnPallet(package2, pallet2);
 
             Pallet pallet3 = new Pallet();
-            pallet3.AddPackageToPallet(package6);
-            pallet3.AddPackageToPallet(package7);
+            packingArea.AddPackageOnPallet(package6, pallet3);
+            packingArea.AddPackageOnPallet(package7, pallet3);
 
-            
-            
 
-            PalletStorage palletStorage = new PalletStorage("Ebay");
-            palletStorage.AddShelf("Tiny", 2, 3);
-            palletStorage.AddShelf("Mid", 3, 4);
+
+
+            PalletStorage palletStorage = new PalletStorage("PalletStorage_1");
+            palletStorage.AddShelf("Tiny", 3);
+            palletStorage.AddShelf("Mid", 4);
             palletStorage.BuildStorage();
-
-            PalletStorage palletStorage1 = new PalletStorage("Amazon");
-            palletStorage1.AddShelf("Tiny", 2, 3);
-            palletStorage1.BuildStorage();
 
             Console.WriteLine("pallets placed in storage");
             palletStorage.PlacePalletAutomatic(pallet1);
-            palletStorage.PlacePalletAutomatic(pallet2);
-            palletStorage.PlacePallet(pallet3, "Shelf-2", 1, 1);
+            palletStorage.PlacePallet(pallet3, "PalletStorage_1 : Shelf 005");
             palletStorage.PrintAllPalletStorageInformation();
-            Console.WriteLine("\nThe packages in pallet in Shelf-2 at Floor: 2 Position: 2");
-            palletStorage.PrintPalletInformation("Shelf-2", 1, 1);
 
-            Console.WriteLine("\nsecond pallet storage");
-            palletStorage1.PrintAllPalletStorageInformation();
+            Console.WriteLine("\nCheck if pallet in storage");
+            string foundShelf = palletStorage.GetPallet(pallet1);
+            if (foundShelf != null)
+            {
+                Console.WriteLine($"Pallet found on shelf: {foundShelf}");
+            }
+            else
+            {
+                Console.WriteLine("Pallet not found.");
+            }
 
-            Terminal terminal = new Terminal();
+            Console.WriteLine("\nCheck pallet not in storage");
+            string notFoundShelf = palletStorage.GetPallet(pallet2);
+            if (notFoundShelf != null)
+            {
+                Console.WriteLine($"Pallet found on shelf: {notFoundShelf}");
+            }
+            else
+            {
+                Console.WriteLine("Pallet not found.");
+            }
 
-            palletStorage.SendPalletToTerminalAutomatic(pallet1, terminal);
+            Terminal terminal = new Terminal("Terminal numba 1");
 
-            Console.WriteLine("\npallet 1 and 3 sent to terminal but ont pallet 2");
+            palletStorage.SendPalletToTerminal(pallet1, terminal);
+            palletStorage.SendPalletToTerminal(pallet3, terminal);
+
+            Console.WriteLine("\npallet 1 and 3 sent to terminal");
             palletStorage.PrintAllPalletStorageInformation();
 
             Console.WriteLine("\ncurrent pallets in terminal");
-            terminal.PrintPalletInformation();
+            terminal.PrintPalletsInformation();
 
+            Console.WriteLine("\nSend out pallet 1, current pallets in terminal");
+            terminal.SendOutPallet(pallet1);
+            terminal.PrintPalletsInformation();
+
+            Console.WriteLine("\nSend out all pallets, current pallets in terminal");
+            terminal.SendOutPallets();
+            terminal.PrintPalletsInformation();
+
+            /*
             TimeEstimate t = new TimeEstimate();
             Console.WriteLine("\n");
             t.SetTimeStorageGetPackage(storage, TimeEstimate.PlaceOrGetBox.GET, 1, 5, 10);
             t.SetTimeStorageGetPackage(storage, TimeEstimate.PlaceOrGetBox.PLACE, 6, 8, 20);
             t.GetStorageTimeToGetPackagePrint();
-
 
             Console.WriteLine("\n");
             t.GetStorageTimeToGetPackageDictionary(storage);
@@ -187,8 +218,8 @@ namespace ConsoleApp2
             PalletAisle palletAisle = new PalletAisle("pallet");
             palletAisle.AddPalletStorage(palletStorage);
             palletAisle.GetAllPalletPrints();
-
             */
+
             //-----------------------------------------------------------//
             //--------------------------Events---------------------------//
             //-----------------------------------------------------------//

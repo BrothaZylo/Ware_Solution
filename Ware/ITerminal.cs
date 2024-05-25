@@ -12,11 +12,11 @@ namespace Ware
         void AddPallet(Pallet pallet);
         List<Package> GetPackagesInTerminal();
         void PrintPackageList();
-        void PrintPalletInformation();
+        void PrintPalletsInformation();
         void ClearPackages();
-
         void SendAllPackages();
         Package? SendPackage(Package package);
+        void SendOutPallet(Pallet pallet);
         void SendOutPallets();
 
 

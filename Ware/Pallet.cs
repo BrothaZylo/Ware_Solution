@@ -9,15 +9,16 @@ namespace Ware
     /// <summary>
     /// Here's where the packages are packed on the pallets before shipment.
     /// </summary>
-    public class Pallet(int maxPackages = 30) : IPallet
+    public class Pallet : IPallet
     {
         private readonly List<Package> packagesOnPallet = new List<Package>();
-        private int maxPackagesPerPallet = maxPackages;
-        private List<Package> schedulePackagesIn = new List<Package>();
 
-        public int PackagesInPallet()
+        /// <summary>
+        /// Gets a list of pallets as ReadOnly currently managed by the packing area.
+        /// </summary>
+        public IReadOnlyList<Package> PackagesOnPallet
         {
-            return packagesOnPallet.Count;
+            get { return packagesOnPallet.AsReadOnly(); }
         }
 
         public void SchedulePackageToPack(Package package)
@@ -30,75 +31,27 @@ namespace Ware
             return schedulePackagesIn;
         }
 
+        /// <summary>
+        /// Gets a list of pallets currently managed by the packing area.
+        /// </summary>
         public List<Package> GetPackagesOnPallet()
         {
             return packagesOnPallet;
         }
 
-        public IReadOnlyList<Package> PackagesOnPallet
-        {
-            get { return packagesOnPallet.AsReadOnly(); }
-        }
-
-        public int MaxPackagesPerPallet
-        {
-            get { return maxPackagesPerPallet; }
-        }
-
         /// <summary>
-        /// Adds a package to the pallet, if current one is full then it creats a new pallet.
+        /// Adds a package to the pallet.
         /// </summary>
         /// <param name="package">The package to be added.</param>
-        public void AddPackageToPallet(Package package)
+        public void AddPackage(Package package)
         {
-            if (packagesOnPallet.Count + 1 > maxPackagesPerPallet)
-            {
-                ResetPallet();
-            }
-            RaiseAddPackageToPalltEvent(package);
             packagesOnPallet.Add(package);
         }
 
         /// <summary>
-        /// Checks if current pallet is full.
+        /// Clears the list of packages on pallet.
         /// </summary>
-        /// <returns>True if the pallet is full or false if not.</returns>
-        public bool IsPalletFull()
-        {
-            return packagesOnPallet.Count > maxPackagesPerPallet - 1;
-        }
-
-        /// <summary>
-        /// Allows to change the  maximum number of packages per pallet.
-        /// </summary>
-        /// <param name="maxPackages">The maximum number of packages allowed on the pallet.</param>
-        public void SetMaxPackagesPerPallet(int maxPackages)
-        {
-            if (maxPackages < 1)
-            {
-                throw new NegativeNumberException("The number of packages per pallet must be greater than 0.");
-            }
-
-            maxPackagesPerPallet = maxPackages;
-        }
-
-        /// <summary>
-        /// Prints the information of each package on the pallet.
-        /// </summary>
-        public void PrintPalletInformation()
-        {
-            int packageCount = PackagesInPallet();
-            Console.WriteLine($"Pallet with {packageCount} packages:");
-            foreach (Package package in GetPackagesOnPallet())
-            {
-                Console.WriteLine($"Package: {package.Name}");
-            }
-        }
-
-        /// <summary>
-        /// Resets the pallet, clearing the current list of packages.
-        /// </summary>
-        private void ResetPallet()
+        public void ClearPallet()
         {
             packagesOnPallet.Clear();
         }
