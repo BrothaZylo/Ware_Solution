@@ -7,26 +7,74 @@ using Ware.Packages;
 
 namespace Ware
 {
-    /// <summary>
-    /// An area where packages are packed together into cardboard boxes.
-    /// </summary>
-    /// <param name="initialBoxCount">Total cardboard boxes available.</param>
-    /// <param name="maxPackagesPerBox">The total number of packages that can be placed in a box.</param>
-    public class KittingArea(int initialBoxCount = 20, int maxPackagesPerBox = 10) : IKittingArea
+    public class KittingArea: IKittingArea
     {
         private List<Package> packagesInBox = new List<Package>();
         private List<Package> packagesGoingToKittingArea = new List<Package>();
         private List<Package> packagesInKittingArea = new List<Package>();
-        private int totalBoxesAvailable = initialBoxCount;
-        private int maxPackagesPerBox = maxPackagesPerBox;
+        private int totalBoxesAvailable;
+        private int maxPackagesPerBox;
+        private string kittingName;
 
         /// <summary>
-        /// Indivates if a package is going to KittingArea
+        /// An area where packages are packed together into cardboard boxes.
         /// </summary>
-        /// <param name="package">package object you want to put in KittingArea</param>
-        public void SchedulePackageForKittingArea(Package package)
+        /// <param name="name">The name of the KittingArea.</param>
+        /// <param name="initialBoxCount">Total cardboard boxes available.</param>
+        /// <param name="maxPackagesPerBox">The total number of packages that can be placed in a box.</param>
+        public KittingArea(string name, int initialBoxCount = 20, int maxPackagesPerBox = 10)
         {
-            packagesGoingToKittingArea.Add(package);
+            kittingName = name;
+            totalBoxesAvailable = initialBoxCount;
+            this.maxPackagesPerBox = maxPackagesPerBox;
+        }
+
+        /// <summary>
+        /// Sets the maximum number of packages that each box can contain.
+        /// </summary>
+        /// <param name="maxPackages">The maximum number of packages.</param>
+        /// <exception cref="ArgumentException">Thrown when if maximum number of packages is less than 1.</exception>
+        public void SetMaxPackagesPerBox(int maxPackages)
+        {
+            if (maxPackages < 1)
+            {
+                throw new ArgumentException("The number of packages per box must be greater than 0.");
+            }
+
+            maxPackagesPerBox = maxPackages;
+        }
+
+        /// <summary>
+        /// Sets the total number of cardboard boxes available.
+        /// </summary>
+        /// <param name="boxes">The total number of boxes.</param>
+        /// <exception cref="ArgumentException">Thrown when if number of boxes is less than 0.</exception>
+        public void SetTotalBoxesAvailable(int boxes)
+        {
+            if (boxes < 0)
+            {
+                throw new ArgumentException("The total number of boxes cannot be negative.");
+            }
+
+            totalBoxesAvailable = boxes;
+        }
+
+        /// <summary>
+        /// Checks if the current box is full.
+        /// </summary>
+        /// <returns>true if the current box is full, otherwise false.</returns>
+        public bool IsBoxFull()
+        {
+            return packagesInBox.Count > maxPackagesPerBox - 1;
+        }
+
+        /// <summary>
+        /// Gets the number of boxes remaining.
+        /// </summary>
+        /// <returns>The number of remaining boxes.</returns>
+        public int BoxesRemaining()
+        {
+            return totalBoxesAvailable;
         }
 
         /// <summary>
@@ -67,66 +115,39 @@ namespace Ware
         }
 
         /// <summary>
-        /// Checks if the current box is full.
+        /// Indivates if a package is going to KittingArea
         /// </summary>
-        /// <returns>true if the current box is full, otherwise false.</returns>
-        public bool IsBoxFull()
+        /// <param name="package">package object you want to put in KittingArea</param>
+        public void SchedulePackageForKittingArea(Package package)
         {
-            return packagesInBox.Count > maxPackagesPerBox - 1;
+            packagesGoingToKittingArea.Add(package);
         }
 
         /// <summary>
-        /// Sets the maximum number of packages that each box can contain.
+        /// Turns the box into a package object.
         /// </summary>
-        /// <param name="maxPackages">The maximum number of packages.</param>
-        /// <exception cref="ArgumentException">Thrown when if maximum number of packages is less than 1.</exception>
-        public void SetMaxPackagesPerBox(int maxPackages)
+        /// <returns>Returns a new pacakge object..</returns>
+        /// <exception cref="InvalidOperationException">Thrown when there's no packages in the box.</exception>
+        public Package TurnBoxIntoPackage()
         {
-            if (maxPackages < 1)
+            if (packagesInBox.Count == 0)
             {
-                throw new ArgumentException("The number of packages per box must be greater than 0.");
+                throw new InvalidOperationException("No packages in the box.");
             }
 
-            maxPackagesPerBox = maxPackages;
-        }
+            string boxName = "Undefined";
+            string goodsType = "Undefined";
+            double totalHeight = packagesInBox.Max(p => p.Height);
+            double totalWidth = packagesInBox.Max(p => p.Width);
 
-        /// <summary>
-        /// Sets the total number of cardboard boxes available.
-        /// </summary>
-        /// <param name="boxes">The total number of boxes.</param>
-        /// <exception cref="ArgumentException">Thrown when if number of boxes is less than 0.</exception>
-        public void SetTotalBoxesAvailable(int boxes)
-        {
-            if (boxes < 0)
-            {
-                throw new ArgumentException("The total number of boxes cannot be negative.");
-            }
-
-            totalBoxesAvailable = boxes;
-        }
-
-        /// <summary>
-        /// Prepares a new box by clearing the current box and reduces the available box count.
-        /// </summary>
-        /// <exception cref="InvalidOperationException">Thrown when there are no new boxes available to prepare.</exception>
-        private void PrepareNewBox()
-        {
-            if (totalBoxesAvailable < 1)
-            {
-                throw new InvalidOperationException("No new boxes available to prepare.");
-            }
+            Package boxPackage = new Package(boxName, goodsType, totalHeight, totalWidth);
 
             packagesInBox.Clear();
-            totalBoxesAvailable--;
-        }
 
-        /// <summary>
-        /// Gets all the packages wich are scheduled to go to kitting area in Kitting Area
-        /// </summary>
-        /// <returns>List of all the packages in KittingArea</returns>
-        public List<Package> GetPackagesGoingToKittingArea()
-        {
-            return packagesGoingToKittingArea;
+            if (totalBoxesAvailable > 0)
+                totalBoxesAvailable--;
+
+            return boxPackage;
         }
 
         /// <summary>
@@ -139,12 +160,12 @@ namespace Ware
         }
 
         /// <summary>
-        /// Gets the number of boxes remaining.
+        /// Gets all the packages wich are scheduled to go to kitting area in Kitting Area
         /// </summary>
-        /// <returns>The number of remaining boxes.</returns>
-        public int BoxesRemaining()
+        /// <returns>List of all the packages in KittingArea</returns>
+        public List<Package> GetPackagesGoingToKittingArea()
         {
-            return totalBoxesAvailable;
+            return packagesGoingToKittingArea;
         }
 
         /// <summary>
@@ -163,6 +184,31 @@ namespace Ware
         {
             get { return maxPackagesPerBox; }
             set { maxPackagesPerBox = value; }
+        }
+
+        /// <summary>
+        /// Name of KittingArea.
+        /// </summary>
+
+        public string KittingName
+        {
+            get { return kittingName; }
+            set { kittingName = value; }
+        }
+
+        /// <summary>
+        /// Prepares a new box by clearing the current box and reduces the available box count.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">Thrown when there are no new boxes available to prepare.</exception>
+        private void PrepareNewBox()
+        {
+            if (totalBoxesAvailable < 1)
+            {
+                throw new InvalidOperationException("No new boxes available to prepare.");
+            }
+
+            packagesInBox.Clear();
+            totalBoxesAvailable--;
         }
 
         /// <summary>

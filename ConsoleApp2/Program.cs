@@ -54,8 +54,8 @@ namespace ConsoleApp2
             Package package2 = new("Ost", dry, 14, 2);
 
             Package package3 = new("Moose", dangerous, 8, 3);
-            Package package4 = new("ebb", dangerous, 8, 3);
-            Package package5 = new("eee", dangerous, 4, 3);
+            Package package4 = new("Nuke", dangerous, 8, 3);
+            Package package5 = new("TNT", dangerous, 4, 3);
 
             Package package6 = new("Cream", refrigerated, 12, 22);
             Package package7 = new("Ice", refrigerated, 18, 12);
@@ -89,16 +89,37 @@ namespace ConsoleApp2
 
             */
 
+            //------------------------------------------------------------//
+            //---------------------- Kitting Area  -----------------------//
+            //------------------------------------------------------------//
+
+            KittingArea kittingArea = new KittingArea("Boxed");
+
+            kittingArea.AddPackageToKittingArea(package1);
+            kittingArea.AddPackageToKittingArea(package2);
+
+            kittingArea.AddPackageToBox(package1);
+            kittingArea.AddPackageToBox(package2);
+
+            Package kittingbox = kittingArea.TurnBoxIntoPackage();
+
+
+
+
             //-----------------------------------------------------------//
             //----------------------Storage Build------------------------//
             //-----------------------------------------------------------//
-            /*
+
             Storage storage = new(refrigerated, "Uteliggeer");
             storage.AddShelf("Big", 11, 100, 100);
             storage.AddShelf("Tiny", 4, 33, 33);
             storage.AddShelf("Mid", 2, 63, 63);
             storage.Build();
 
+            storage.PlacePackageAutomatic(kittingbox);
+            Console.WriteLine("Package id: " + kittingbox.PackageId);
+
+            /*
             Storage storage2 = new(dry, "B");
             storage2.AddShelf("Big", 11, 100, 100);
             storage2.AddShelf("Tiny", 4, 33, 33);
@@ -131,6 +152,7 @@ namespace ConsoleApp2
                 Console.WriteLine(package);
             }
             */
+
             //------------------------------------------------------------//
             //---------------------- Pallets Setup -----------------------//
             //------------------------------------------------------------//
@@ -165,6 +187,28 @@ namespace ConsoleApp2
             palletStorage.PlacePalletAutomatic(pallet1);
             palletStorage.PlacePallet(pallet3, "PalletStorage_1 : Shelf 005");
             palletStorage.PrintAllPalletStorageInformation();
+
+            Console.WriteLine("\nCheck if pallet in storage");
+            Pallet? foundShelf = palletStorage.GetPallet(pallet1);
+            if (foundShelf != null)
+            {
+                Console.WriteLine($"Pallet found on shelf: {foundShelf}");
+            }
+            else
+            {
+                Console.WriteLine("Pallet not found.");
+            }
+
+            Console.WriteLine("\nCheck pallet not in storage");
+            Pallet? notFoundShelf = palletStorage.GetPallet(pallet2);
+            if (notFoundShelf != null)
+            {
+                Console.WriteLine($"Pallet found on shelf: {notFoundShelf}");
+            }
+            else
+            {
+                Console.WriteLine("Pallet not found.");
+            }
 
             Terminal terminal = new Terminal("Terminal numba 1");
 
@@ -299,8 +343,8 @@ namespace ConsoleApp2
             sim.Run();
             */
 
-            
-            Simulation sim = new(35);
+            /*
+            TrueSimulation sim = new(35);
             ReceivingDepartment r1 = new("Rec1");
             ReceivingDepartment r2 = new("Rec2");
             Terminal terminal1 = new("Terminal1");
@@ -369,7 +413,8 @@ namespace ConsoleApp2
 
             sim.AddTerminalToSimulation(terminal1);
             sim.Run();
-            
+            */
+
             /*
             EquipmentDoor doorEquipment = new("hDoor", 1);
             Person person = new("oga",32, AccessLevel.EXTRA1);
