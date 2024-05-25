@@ -8,14 +8,15 @@ namespace Ware
 {
     public interface IKittingArea
     {
-        void SchedulePackageForKittingArea(Package package);
-        void AddPackageToKittingArea(Package package);
-        void AddPackageToBox(Package package);
-        bool IsBoxFull();
         void SetMaxPackagesPerBox(int maxPackages);
         void SetTotalBoxesAvailable(int boxes);
+        bool IsBoxFull();
         int BoxesRemaining();
-        List<Package> GetPackagesInKittingArea();
+        void AddPackageToKittingArea(Package package);
+        void AddPackageToBox(Package package);
+        void SchedulePackageForKittingArea(Package package);
+        Package TurnBoxIntoPackage();
         List<Package> GetPackagesGoingToKittingArea();
+        List<Package> GetPackagesInKittingArea();
     }
 }

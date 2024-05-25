@@ -20,20 +20,20 @@ namespace Ware
         private string areaName;
 
         /// <summary>
+        /// The name of PackingArea.
+        /// </summary>
+        /// <param name="name">Name given to PackingArea.</param>
+        public PackingArea(string name)
+        {
+            areaName = name;
+        }
+
+        /// <summary>
         /// Gets a list of pallets as ReadOnly currently managed by the packing area.
         /// </summary>
         public IReadOnlyList<Pallet> Pallets
         {
             get { return pallets.AsReadOnly(); }
-        }
-
-        /// <summary>
-        /// The name of PackingArea.
-        /// </summary>
-        /// <param name="name">Name given to PackingArea.</param>
-        public PackingArea(string name)
-        { 
-            areaName = name;
         }
 
         /// <summary>

@@ -48,8 +48,8 @@ namespace ConsoleApp2
             Package package2 = new("Ost", dry, 14, 2);
 
             Package package3 = new("Moose", dangerous, 8, 3);
-            Package package4 = new("ebb", dangerous, 8, 3);
-            Package package5 = new("eee", dangerous, 4, 3);
+            Package package4 = new("Nuke", dangerous, 8, 3);
+            Package package5 = new("TNT", dangerous, 4, 3);
 
             Package package6 = new("Cream", refrigerated, 12, 22);
             Package package7 = new("Ice", refrigerated, 18, 12);
@@ -83,16 +83,37 @@ namespace ConsoleApp2
 
             */
 
+            //------------------------------------------------------------//
+            //---------------------- Kitting Area  -----------------------//
+            //------------------------------------------------------------//
+
+            KittingArea kittingArea = new KittingArea("Boxed");
+
+            kittingArea.AddPackageToKittingArea(package1);
+            kittingArea.AddPackageToKittingArea(package2);
+
+            kittingArea.AddPackageToBox(package1);
+            kittingArea.AddPackageToBox(package2);
+
+            Package kittingbox = kittingArea.TurnBoxIntoPackage();
+
+
+
+
             //-----------------------------------------------------------//
             //----------------------Storage Build------------------------//
             //-----------------------------------------------------------//
-            /*
+
             Storage storage = new(refrigerated, "Uteliggeer");
             storage.AddShelf("Big", 11, 100, 100);
             storage.AddShelf("Tiny", 4, 33, 33);
             storage.AddShelf("Mid", 2, 63, 63);
             storage.Build();
 
+            storage.PlacePackageAutomatic(kittingbox);
+            Console.WriteLine("Package id: " + kittingbox.PackageId);
+
+            /*
             Storage storage2 = new(dry, "B");
             storage2.AddShelf("Big", 11, 100, 100);
             storage2.AddShelf("Tiny", 4, 33, 33);
@@ -125,6 +146,7 @@ namespace ConsoleApp2
                 Console.WriteLine(package);
             }
             */
+
             //------------------------------------------------------------//
             //---------------------- Pallets Setup -----------------------//
             //------------------------------------------------------------//
@@ -315,7 +337,7 @@ namespace ConsoleApp2
             sim.Run();
             */
 
-            
+            /*
             TrueSimulation sim = new(35);
             ReceivingDepartment r1 = new("Rec1");
             ReceivingDepartment r2 = new("Rec2");
@@ -385,7 +407,8 @@ namespace ConsoleApp2
 
             sim.AddTerminalToSimulation(terminal1);
             sim.Run();
-            
+            */
+
             /*
             EquipmentDoor doorEquipment = new("hDoor", 1);
             Person person = new("oga",32, AccessLevel.EXTRA1);
