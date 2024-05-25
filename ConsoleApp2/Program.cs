@@ -7,6 +7,7 @@ using Ware.Equipments;
 using Ware.Packages;
 using Ware.Persons;
 using Ware.ReceivingDepartments;
+using Ware.Simulations;
 using Ware.Storages;
 using Ware.Terminals;
 using static Ware.Schedules.Schedule;
@@ -299,7 +300,7 @@ namespace ConsoleApp2
             */
 
             
-            TrueSimulation sim = new(35);
+            Simulation sim = new(35);
             ReceivingDepartment r1 = new("Rec1");
             ReceivingDepartment r2 = new("Rec2");
             Terminal terminal1 = new("Terminal1");

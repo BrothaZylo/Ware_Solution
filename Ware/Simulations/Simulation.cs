@@ -6,12 +6,12 @@ using Ware.Equipments;
 using Ware.ReceivingDepartments;
 using Ware.Terminals;
 
-namespace Ware
+namespace Ware.Simulations
 {
     /// <summary>
     /// Simulate the API
     /// </summary>
-    public class TrueSimulation
+    public class Simulation : ISimulation
     {
         private int runTimeInSeconds = 20;
         private List<Package> packages = new List<Package>();
@@ -24,14 +24,14 @@ namespace Ware
         private List<Equipment> equipments = new List<Equipment>();
         private List<KittingArea> kittingAreas = new List<KittingArea>();
         private List<PackingArea> packingAreas = new List<PackingArea>();
-        private List<ReceivingDepartment> receivingDepartments = new List<ReceivingDepartment>();   
+        private List<ReceivingDepartment> receivingDepartments = new List<ReceivingDepartment>();
         private List<Schedule> schedules = new List<Schedule>();
 
         /// <summary>
         /// Simulate the API
         /// </summary>
         /// <param name="runTimeSeconds"></param>
-        public TrueSimulation(int runTimeSeconds)
+        public Simulation(int runTimeSeconds)
         {
             runTimeInSeconds = runTimeSeconds;
             packages = [];
@@ -48,56 +48,100 @@ namespace Ware
             schedules = [];
         }
 
+        /// <summary>
+        /// Adds a package to the simulation
+        /// </summary>
+        /// <param name="package">Package object</param>
         public void AddPackageToSimulation(Package package)
         {
             packages.Add(package);
         }
 
+        /// <summary>
+        /// Adds a Storage to the simulation
+        /// </summary>
+        /// <param name="storage">Storage object</param>
         public void AddStorageToSimulation(Storage storage)
         {
             storages.Add(storage);
         }
 
+        /// <summary>
+        /// Adds a Pallet to the simulation
+        /// </summary>
+        /// <param name="pallet">Pallet object</param>
         public void AddPalletToSimulation(Pallet pallet)
         {
             pallets.Add(pallet);
         }
 
+        /// <summary>
+        /// Adds a PalletStorage to the simulation
+        /// </summary>
+        /// <param name="palletStorage">PalletStorage object</param>
         public void AddPalletStorageToSimulation(PalletStorage palletStorage)
         {
             palletStorages.Add(palletStorage);
         }
 
+        /// <summary>
+        /// Adds a Person to the simulation
+        /// </summary>
+        /// <param name="person">Person object</param>
         public void AddPersonToSimulation(Person person)
         {
             persons.Add(person);
         }
 
+        /// <summary>
+        /// Adds a Terminal to the simulation
+        /// </summary>
+        /// <param name="terminal">Terminal object</param>
         public void AddTerminalToSimulation(Terminal terminal)
         {
             terminals.Add(terminal);
         }
 
+        /// <summary>
+        /// Adds an Equipment to the simulation
+        /// </summary>
+        /// <param name="equipment">Equipment Object</param>
         public void AddEquipmentToSimulation(Equipment equipment)
         {
             equipments.Add(equipment);
         }
 
+        /// <summary>
+        /// Adds a KittingArea to the simulation
+        /// </summary>
+        /// <param name="kittingArea">KittingArea object</param>
         public void AddKittingAreaToSimulation(KittingArea kittingArea)
         {
             kittingAreas.Add(kittingArea);
         }
 
+        /// <summary>
+        /// Adds a PackingArea to the simulation
+        /// </summary>
+        /// <param name="packingArea">PackingArea object</param>
         public void AddPackingAreaToSimulation(PackingArea packingArea)
         {
             packingAreas.Add(packingArea);
         }
 
+        /// <summary>
+        /// Adds a ReceivingDepartment to the simulation
+        /// </summary>
+        /// <param name="receivingDepartment">ReceivingDepartment object</param>
         public void AddReceivingDepartmentToSimulation(ReceivingDepartment receivingDepartment)
         {
             receivingDepartments.Add(receivingDepartment);
         }
 
+        /// <summary>
+        /// Adds a Schedule to the simulation
+        /// </summary>
+        /// <param name="schedule">schedule object</param>
         public void AddScheduleToSimulation(Schedule schedule)
         {
             schedules.Add(schedule);
@@ -105,7 +149,7 @@ namespace Ware
 
         private bool CanRunSimulation()
         {
-            if(packages.Count == 0 || storages.Count == 0 || terminals.Count == 0 || receivingDepartments.Count == 0)
+            if (packages.Count == 0 || storages.Count == 0 || terminals.Count == 0 || receivingDepartments.Count == 0)
             {
                 return false;
             }
@@ -116,7 +160,7 @@ namespace Ware
         {
             for (int i = 0; i < receivingDepartments.Count; i++)
             {
-                if(packages.Count == 0)
+                if (packages.Count == 0)
                 {
                     return;
                 }
@@ -163,17 +207,17 @@ namespace Ware
             {
                 foreach (KittingArea area in kittingAreas)
                 {
-                    if(area.GetPackagesGoingToKittingArea().Count == area.GetPackagesInKittingArea().Count)
+                    if (area.GetPackagesGoingToKittingArea().Count == area.GetPackagesInKittingArea().Count)
                     {
                         continue;
                     }
-                    for (int i = 0; i < area.GetPackagesGoingToKittingArea().Count ; i++)
+                    for (int i = 0; i < area.GetPackagesGoingToKittingArea().Count; i++)
                     {
                         foreach (Package item in packagesTmp)
                         {
                             if (area.GetPackagesGoingToKittingArea()[i] == item)
                             {
-                                foreach(Storage storage in storages)
+                                foreach (Storage storage in storages)
                                 {
                                     if (storage.GetPackage(item.PackageId) == item)
                                     {
@@ -198,19 +242,19 @@ namespace Ware
 
             if (packingAreas.Count != 0 && packages.Count == 0 && packagesTmp.Count != 0)
             {
-                foreach(PackingArea packingArea in packingAreas)
+                foreach (PackingArea packingArea in packingAreas)
                 {
-                    if(packingArea.GetScheduledPackagesForPackingArea().Count == packingArea.GetPackagesInPackingArea().Count)
+                    if (packingArea.GetScheduledPackagesForPackingArea().Count == packingArea.GetPackagesInPackingArea().Count)
                     {
                         continue;
                     }
-                    for (int i = 0; i < packingArea.GetScheduledPackagesForPackingArea().Count ; i++)
+                    for (int i = 0; i < packingArea.GetScheduledPackagesForPackingArea().Count; i++)
                     {
-                        foreach(Package item in packagesTmp)
+                        foreach (Package item in packagesTmp)
                         {
                             if (packingArea.GetScheduledPackagesForPackingArea()[i] == item)
                             {
-                                foreach(Storage storage in storages)
+                                foreach (Storage storage in storages)
                                 {
                                     if (storage.GetPackage(item.PackageId) == item)
                                     {
@@ -232,12 +276,12 @@ namespace Ware
                     }
                 }
             }
-            
-            foreach(Terminal terminal in terminals)
+
+            foreach (Terminal terminal in terminals)
             {
-                foreach(Storage storage in storages )
+                foreach (Storage storage in storages)
                 {
-                    foreach(Package item in packagesTmp)
+                    foreach (Package item in packagesTmp)
                     {
                         if (storage.GetPackage(item.PackageId) == item)
                         {
@@ -267,7 +311,7 @@ namespace Ware
         {
             foreach (Terminal terminal in terminals)
             {
-                if(terminal.GetPackagesInTerminal().Count != 0)
+                if (terminal.GetPackagesInTerminal().Count != 0)
                 {
                     Console.WriteLine($"{terminal.GetPackagesInTerminal()[0].PackageId} {terminal.GetPackagesInTerminal()[0].Name} was sent out of the {terminal.Name}");
                     terminal.SendPackage(terminal.GetPackagesInTerminal()[0]);
@@ -278,33 +322,33 @@ namespace Ware
         private void PackingAreaPalletCreation()
         {
             int scheduledpackages = 0;
-            if(pallets.Count == 0)
+            if (pallets.Count == 0)
             {
                 return;
             }
             foreach (Pallet pallet in pallets)
             {
-                if(pallet.GetScheduledPackages().Count != 0)
+                if (pallet.GetScheduledPackages().Count != 0)
                 {
                     scheduledpackages++;
                 }
-                if(pallet.GetScheduledPackages().Count == 0)
+                if (pallet.GetScheduledPackages().Count == 0)
                 {
                     continue;
                 }
             }
-            if(scheduledpackages == 0)
+            if (scheduledpackages == 0)
             {
                 return;
             }
 
-            foreach(PackingArea packingArea in packingAreas)
+            foreach (PackingArea packingArea in packingAreas)
             {
-                foreach(Pallet pallet in pallets)
+                foreach (Pallet pallet in pallets)
                 {
-                    foreach(Package scheduled in pallet.GetScheduledPackages())
+                    foreach (Package scheduled in pallet.GetScheduledPackages())
                     {
-                        for(int i = 0; i < packingArea.GetPackagesInPackingArea().Count; i++)
+                        for (int i = 0; i < packingArea.GetPackagesInPackingArea().Count; i++)
                         {
                             if (scheduled == packingArea.GetPackagesInPackingArea()[i])
                             {
@@ -320,18 +364,18 @@ namespace Ware
 
         private void PersonUseForkliftPlacePallet()
         {
-            foreach(Equipment equipment in equipments)
+            foreach (Equipment equipment in equipments)
             {
-                foreach(Person person in persons)
+                foreach (Person person in persons)
                 {
                     if (equipment.HasAccess(person))
                     {
                         equipment.UseEquipment(person);
-                        foreach(PalletStorage palletStorage in palletStorages)
+                        foreach (PalletStorage palletStorage in palletStorages)
                         {
-                            foreach(Pallet pallet in pallets)
+                            foreach (Pallet pallet in pallets)
                             {
-                                if(pallet.GetScheduledPackages().Count == pallet.GetPackagesOnPallet().Count)
+                                if (pallet.GetScheduledPackages().Count == pallet.GetPackagesOnPallet().Count)
                                 {
                                     palletStorage.PlacePalletAutomatic(pallet);
                                     Console.WriteLine($"{pallet} was placed in {palletStorage.StorageName} by {person.Name} using {equipment.Name}");
@@ -356,11 +400,11 @@ namespace Ware
                         equipment.UseEquipment(person);
                         foreach (PalletStorage palletStorage in palletStorages)
                         {
-                            foreach(Pallet pallet in pallets)
+                            foreach (Pallet pallet in pallets)
                             {
-                                foreach(Terminal terminal in terminals)
+                                foreach (Terminal terminal in terminals)
                                 {
-                                    if(pallet == palletStorage.GetPallet(pallet))
+                                    if (pallet == palletStorage.GetPallet(pallet))
                                     {
                                         palletStorage.SendPalletToTerminal(pallet, terminal);
                                     }
@@ -379,12 +423,15 @@ namespace Ware
             {
                 return;
             }
-            foreach(Schedule schedule in schedules)
+            foreach (Schedule schedule in schedules)
             {
                 //fix ;(
             }
         }
 
+        /// <summary>
+        /// Run the simulation after setup
+        /// </summary>
         public void Run()
         {
             int delay = 1000;
@@ -405,9 +452,6 @@ namespace Ware
                 SendFromReceivingToStorage();
                 ReceivePackage();
                 //Schedule
-
-
-
 
                 Console.WriteLine("--------------");
                 Thread.Sleep(delay);
