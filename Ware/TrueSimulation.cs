@@ -7,6 +7,9 @@ using Ware.Scheduler;
 
 namespace Ware
 {
+    /// <summary>
+    /// Simulate the API
+    /// </summary>
     public class TrueSimulation
     {
         private int runTimeInSeconds = 20;
@@ -22,8 +25,11 @@ namespace Ware
         private List<PackingArea> packingAreas = new List<PackingArea>();
         private List<ReceivingDepartment> receivingDepartments = new List<ReceivingDepartment>();   
         private List<Schedule> schedules = new List<Schedule>();
-        private List<ScheduleRepeatingModule> scheduleRepeatingModules = new List<ScheduleRepeatingModule>();
 
+        /// <summary>
+        /// Simulate the API
+        /// </summary>
+        /// <param name="runTimeSeconds"></param>
         public TrueSimulation(int runTimeSeconds)
         {
             runTimeInSeconds = runTimeSeconds;
@@ -39,7 +45,6 @@ namespace Ware
             receivingDepartments = [];
             packagesTmp = [];
             schedules = [];
-            scheduleRepeatingModules = [];
         }
 
         public void AddPackageToSimulation(Package package)
@@ -95,11 +100,6 @@ namespace Ware
         public void AddScheduleToSimulation(Schedule schedule)
         {
             schedules.Add(schedule);
-        }
-
-        public void AddRepeatingModulesToSimulation(ScheduleRepeatingModule scheduleRepeatingModule)
-        {
-            scheduleRepeatingModules.Add(scheduleRepeatingModule);
         }
 
         private bool CanRunSimulation()
@@ -377,6 +377,10 @@ namespace Ware
 
         private void ScheduleCreation()
         {
+            if (schedules.Count == 0)
+            {
+                return;
+            }
             foreach(Schedule schedule in schedules)
             {
                 //fix ;(
