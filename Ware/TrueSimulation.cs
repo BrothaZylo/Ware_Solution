@@ -216,7 +216,7 @@ namespace Ware
                                         try
                                         {
                                             packingArea.SendPackageToPackingArea(storage.MovePackage(item));
-                                            Console.WriteLine($"{item.PackageId} {item.Name} was moved to {packingArea}");
+                                            Console.WriteLine($"{item.PackageId} {item.Name} was moved to {packingArea.AreaName}");
                                             packagesTmp.Remove(item);
                                             return;
                                         }

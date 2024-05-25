@@ -58,6 +58,7 @@ namespace ConsoleApp2
             Package package10 = new("Mini Moose", refrigerated, 18, 12);
             Package package11 = new("Duck", refrigerated, 18, 12);
 
+            /*
 
             ScheduleRepeatingModule repeatingModule = new ScheduleRepeatingModule();
             repeatingModule.AddPackageWeekly(package1, "24.12.2024", DayOfWeek.Sunday, TransferType.Delivery);
@@ -79,6 +80,8 @@ namespace ConsoleApp2
 
             schedule.DeletePackage(package9);
             schedule.PrintSchedule();
+
+            */
 
             //-----------------------------------------------------------//
             //----------------------Storage Build------------------------//
@@ -290,14 +293,14 @@ namespace ConsoleApp2
             sim.Run();
             */
 
-            /*
+            
             TrueSimulation sim = new(35);
             ReceivingDepartment r1 = new("Rec1");
             ReceivingDepartment r2 = new("Rec2");
             Terminal terminal1 = new("Terminal1");
             KittingArea k1 = new();
-            PackingArea p1 = new();
-            PackingArea p2 = new();
+            PackingArea p1 = new("Packing 1");
+            PackingArea p2 = new("Packing 2");
 
 
             k1.SchedulePackageForKittingArea(package1);
@@ -324,7 +327,7 @@ namespace ConsoleApp2
             EquipmentForklift equipmentForklift = new("Bigboy Lifter", 1);
 
             PalletStorage palletStorage1 = new("storPallet");
-            palletStorage1.AddShelf("big", 15, 7);
+            palletStorage1.AddShelf("big", 15);
             palletStorage1.BuildStorage();
 
             Person person = new("oga", 32, AccessLevel.OPERATOR);
@@ -360,7 +363,7 @@ namespace ConsoleApp2
 
             sim.AddTerminalToSimulation(terminal1);
             sim.Run();
-            */
+            
             /*
             EquipmentDoor doorEquipment = new("hDoor", 1);
             Person person = new("oga",32, AccessLevel.EXTRA1);
