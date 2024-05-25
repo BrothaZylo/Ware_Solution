@@ -83,14 +83,13 @@ namespace ConsoleApp2
             //-----------------------------------------------------------//
             //----------------------Storage Build------------------------//
             //-----------------------------------------------------------//
-
+            /*
             Storage storage = new(refrigerated, "Uteliggeer");
             storage.AddShelf("Big", 11, 100, 100);
             storage.AddShelf("Tiny", 4, 33, 33);
             storage.AddShelf("Mid", 2, 63, 63);
             storage.Build();
 
-            /*
             Storage storage2 = new(dry, "B");
             storage2.AddShelf("Big", 11, 100, 100);
             storage2.AddShelf("Tiny", 4, 33, 33);
@@ -101,6 +100,7 @@ namespace ConsoleApp2
             //----------------------Receiving Build----------------------//
             //-----------------------------------------------------------//
 
+            /*
             ReceivingDepartment rex = new("Rec Depart");
             rex.AddPackage(package1);
             rex.AddPackage(package2);
@@ -109,6 +109,7 @@ namespace ConsoleApp2
             rex.AddPackage(package5);
             rex.AddPackage(package6);
             rex.AddPackage(package7);
+            */
 
             /*
             rex.SendPackageToStorage(package1, storage2, "B101");

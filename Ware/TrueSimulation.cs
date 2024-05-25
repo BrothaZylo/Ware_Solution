@@ -359,12 +359,10 @@ namespace Ware
                             {
                                 foreach(Terminal terminal in terminals)
                                 {
-                                    
                                     if(pallet == palletStorage.GetPallet(pallet))
                                     {
                                         palletStorage.SendPalletToTerminal(pallet, terminal);
                                     }
-                                    //ingen implementasjon
                                     return;
                                 }
                             }
