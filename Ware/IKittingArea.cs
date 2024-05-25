@@ -14,12 +14,9 @@ namespace Ware
         void SetMaxPackagesPerBox(int maxPackages);
         void SetTotalBoxesAvailable(int boxes);
         void AddPackageToKittingArea(Package package);
-        void AddPackageToBox(Package package);
         void SchedulePackageForKittingArea(Package package);
         Package TurnBoxIntoPackage();
         List<Package> GetPackagesGoingToKittingArea();
         List<Package> GetPackagesInKittingArea();
-        List<Package> GetPackagesInKittingArea();
-        List<Package> GetPackagesGoingToKittingArea();
     }
 }
