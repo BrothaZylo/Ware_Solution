@@ -421,18 +421,6 @@ namespace Ware.Simulations
             }
         }
 
-        private void ScheduleCreation()
-        {
-            if (schedules.Count == 0)
-            {
-                return;
-            }
-            foreach (Schedule schedule in schedules)
-            {
-                //fix ;(
-            }
-        }
-
         private void PalletStoragePalletToTerminal()
         {
 
@@ -460,7 +448,6 @@ namespace Ware.Simulations
                 PathSelectorFromStorage();
                 SendFromReceivingToStorage();
                 ReceivePackage();
-                //Schedule
 
                 Console.WriteLine("--------------");
                 Thread.Sleep(delay);
