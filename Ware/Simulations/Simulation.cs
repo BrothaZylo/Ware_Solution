@@ -425,20 +425,31 @@ namespace Ware.Simulations
         {
             foreach(KittingArea kit in kittingAreas)
             {
-                foreach(Package p in kit.GetPackagesInKittingArea())
+                foreach (Package p in kit.GetPackagesInKittingArea())
                 {
-                    if(kit.GetPackagesGoingToKittingArea().Count != kit.GetPackagesInKittingArea().Count)
+                    if (kit.GetPackagesGoingToKittingArea().Count != kit.GetPackagesInKittingArea().Count)
                     {
-                        Console.WriteLine("Added " + p.Name + " to a kitted box");
-                        //kit.AddPackageToBox(p);
-                        return;
-                    }
-                    if(kit.GetPackagesGoingToKittingArea().Count == kit.GetPackagesInKittingArea().Count)
-                    {
-                        foreach(Terminal terminal in terminals)
+                        if (kit.GetKittingBoxesInKittingArea().Count == 0)
                         {
-                            //terminal.AddPackage()
+                            kit.CreateKittingBox();
+                            Console.WriteLine("A new box (" + kit.GetKittingBoxesInKittingArea()[0].PackageId + ") was created in " + kit.KittingName);
+                            Console.WriteLine(p.Name + " was put in a box (" + kit.GetKittingBoxesInKittingArea()[0].PackageId + ")");
+                            kit.AddPackageToKittingBox(kit.GetKittingBoxesInKittingArea()[0], p);
+                            return;
                         }
+                        Console.WriteLine(p.Name + " was put in a box (" + kit.GetKittingBoxesInKittingArea()[0].PackageId + ")");
+                        kit.AddPackageToKittingBox(kit.GetKittingBoxesInKittingArea()[0], p);
+                    }
+
+                    foreach (Terminal terminal in terminals)
+                    {
+                        if (kit.GetKittingBoxesInKittingArea().Count == 0)
+                        {
+                            return;
+                        }
+                        Console.WriteLine(kit.GetKittingBoxesInKittingArea()[0].PackageId + " was sent to " + terminal.Name);
+                        terminal.AddPackage(kit.SendBox(kit.GetKittingBoxesInKittingArea()[0]));
+                        return;
                     }
                 }
             }
@@ -462,7 +473,6 @@ namespace Ware.Simulations
                 PersonUseForkliftPlacePallet();
                 PackingAreaPalletCreation();
                 TerminalSendAway();
-                //from kitting -> Terminal -()ingen implementasjon
                 KittingAreaToTerminal();
                 PathSelectorFromStorage();
                 SendFromReceivingToStorage();

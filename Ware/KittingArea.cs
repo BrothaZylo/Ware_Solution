@@ -62,6 +62,7 @@ namespace Ware
                     {
                         box.AddPackage(package);
                         RaisePackageAddToBoxEvent(package);
+                        packagesInKittingArea.Remove(package);
                         return;
                     }
                     else

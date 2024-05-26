@@ -93,6 +93,7 @@ namespace ConsoleApp2
             //---------------------- Kitting Area  -----------------------//
             //------------------------------------------------------------//
 
+            /*
             KittingArea kittingArea = new("kittingAreee");
 
             kittingArea.CreateKittingBox();
@@ -107,7 +108,7 @@ namespace ConsoleApp2
 
             Terminal terminal = new(" terminal");
             terminal.AddPackage(kit[0]);
-
+            */
 
             /*
             Storage storage = new(dry, "Uteliggeer");
@@ -397,7 +398,7 @@ namespace ConsoleApp2
             //-----------------------Simulation-------------------------//
             //----------------------------------------------------------//
 
-            /*
+            
             Simulation sim = new(35);
             ReceivingDepartment r1 = new("Receiving 1");
             ReceivingDepartment r2 = new("Receiving 2");
@@ -469,7 +470,7 @@ namespace ConsoleApp2
             sim.AddTerminalToSimulation(terminal1);
             sim.Run();
 
-            */
+            
 
 
 
