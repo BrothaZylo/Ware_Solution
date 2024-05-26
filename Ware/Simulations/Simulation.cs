@@ -18,6 +18,7 @@ namespace Ware.Simulations
         private List<Package> packagesTmp = new List<Package>();
         private List<Storage> storages = new List<Storage>();
         private List<Pallet> pallets = new List<Pallet>();
+        private List<Pallet> palletsTmp = new List<Pallet>();
         private List<PalletStorage> palletStorages = new List<PalletStorage>();
         private List<Person> persons = new List<Person>();
         private List<Terminal> terminals = new List<Terminal>();
@@ -46,6 +47,7 @@ namespace Ware.Simulations
             receivingDepartments = [];
             packagesTmp = [];
             schedules = [];
+            palletsTmp = [];
         }
 
         /// <summary>
@@ -105,10 +107,10 @@ namespace Ware.Simulations
         /// <summary>
         /// Adds an Equipment to the simulation
         /// </summary>
-        /// <param name="equipment">Equipment Object</param>
-        public void AddEquipmentToSimulation(Equipment equipment)
+        /// <param name="equipmentForklift">Equipment Object</param>
+        public void AddEquipmentToSimulation(Equipment equipmentForklift)
         {
-            equipments.Add(equipment);
+            equipments.Add(equipmentForklift);
         }
 
         /// <summary>
@@ -224,7 +226,7 @@ namespace Ware.Simulations
                                         try
                                         {
                                             area.AddPackageToKittingArea(storage.MovePackage(item));
-                                            Console.WriteLine($"{item.PackageId} {item.Name} was moved to {area}");
+                                            Console.WriteLine($"{item.PackageId} {item.Name} was moved to {area.KittingName}");
                                             packagesTmp.Remove(item);
                                             return;
                                         }
@@ -353,7 +355,7 @@ namespace Ware.Simulations
                             if (scheduled == packingArea.GetPackagesInPackingArea()[i])
                             {
                                 packingArea.AddPackageOnPallet(scheduled, pallet);
-                                Console.WriteLine($"{scheduled.PackageId} {scheduled.Name} was placed in {pallet}");
+                                Console.WriteLine($"{scheduled.PackageId} {scheduled.Name} was placed in {pallet.PalletName}");
                                 return;
                             }
                         }
@@ -378,7 +380,8 @@ namespace Ware.Simulations
                                 if (pallet.GetScheduledPackages().Count == pallet.GetPackagesOnPallet().Count)
                                 {
                                     palletStorage.PlacePalletAutomatic(pallet);
-                                    Console.WriteLine($"{pallet} was placed in {palletStorage.StorageName} by {person.Name} using {equipment.Name}");
+                                    Console.WriteLine($"{pallet.PalletName} was placed in {palletStorage.StorageName} by {person.Name} using {equipment.Name}");
+                                    palletsTmp.Add(pallet);
                                     pallets.Remove(pallet);
                                     return;
                                 }
@@ -400,12 +403,13 @@ namespace Ware.Simulations
                         equipment.UseEquipment(person);
                         foreach (PalletStorage palletStorage in palletStorages)
                         {
-                            foreach (Pallet pallet in pallets)
+                            foreach (Pallet pallet in palletsTmp)
                             {
                                 foreach (Terminal terminal in terminals)
                                 {
                                     if (pallet == palletStorage.GetPallet(pallet))
                                     {
+                                        Console.WriteLine(pallet.PalletName + " was sent to " + terminal.Name + " by " + person.Name + " using " + equipment.Name);
                                         palletStorage.SendPalletToTerminal(pallet, terminal);
                                     }
                                     return;
@@ -427,6 +431,11 @@ namespace Ware.Simulations
             {
                 //fix ;(
             }
+        }
+
+        private void PalletStoragePalletToTerminal()
+        {
+
         }
 
         /// <summary>

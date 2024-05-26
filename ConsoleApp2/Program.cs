@@ -93,6 +93,7 @@ namespace ConsoleApp2
             //---------------------- Kitting Area  -----------------------//
             //------------------------------------------------------------//
 
+            /*
             KittingArea kittingArea = new KittingArea("Boxed");
 
             kittingArea.AddPackageToKittingArea(package1);
@@ -102,7 +103,7 @@ namespace ConsoleApp2
             kittingArea.AddPackageToBox(package2);
 
             Package kittingbox = kittingArea.TurnBoxIntoPackage();
-
+            */
 
 
 
@@ -110,6 +111,7 @@ namespace ConsoleApp2
             //----------------------Storage Build------------------------//
             //-----------------------------------------------------------//
 
+            /*
             Storage storage = new(refrigerated, "Uteliggeer");
             storage.AddShelf("Big", 11, 100, 100);
             storage.AddShelf("Tiny", 4, 33, 33);
@@ -118,6 +120,7 @@ namespace ConsoleApp2
 
             storage.PlacePackageAutomatic(kittingbox);
             Console.WriteLine("Package id: " + kittingbox.PackageId);
+            */
 
             /*
             Storage storage2 = new(dry, "B");
@@ -328,29 +331,13 @@ namespace ConsoleApp2
             //----------------------------------------------------------//
 
 
-            /*
-            Simulation sim = new(30);
-
-            sim.PackageAddedToSchedule += OnPackageAddedToSchedule;
-
-            sim.AddPackage(package1);
-            sim.AddPackage(package2);
-            sim.AddPackage(package3);
-            sim.AddPackage(package4);
-            sim.AddPackage(package5);
-            sim.AddPackage(package6);
-            sim.AddPackage(package7);
-            sim.Run();
-            */
-
-            /*
-            TrueSimulation sim = new(35);
-            ReceivingDepartment r1 = new("Rec1");
-            ReceivingDepartment r2 = new("Rec2");
+            Simulation sim = new(35);
+            ReceivingDepartment r1 = new("Receiving 1");
+            ReceivingDepartment r2 = new("Receiving 2");
             Terminal terminal1 = new("Terminal1");
-            KittingArea k1 = new();
-            PackingArea p1 = new("Packing 1");
-            PackingArea p2 = new("Packing 2");
+            KittingArea k1 = new("Kitting Area 133");
+            PackingArea p1 = new("Packing Area 1");
+            PackingArea p2 = new("Packing Area 2");
 
 
             k1.SchedulePackageForKittingArea(package1);
@@ -370,17 +357,17 @@ namespace ConsoleApp2
             storage2.AddShelf("Mid", 5, 63, 63);
             storage2.Build();
 
-            Pallet pallet1 = new();
+            Pallet pallet1 = new("pallet 4386");
             pallet1.SchedulePackageToPack(package7);
             pallet1.SchedulePackageToPack(package10);
 
             EquipmentForklift equipmentForklift = new("Bigboy Lifter", 1);
 
-            PalletStorage palletStorage1 = new("storPallet");
+            PalletStorage palletStorage1 = new("Pallet Storage 8147");
             palletStorage1.AddShelf("big", 15);
             palletStorage1.BuildStorage();
 
-            Person person = new("oga", 32, AccessLevel.OPERATOR);
+            Person person = new("Ben", 32, AccessLevel.OPERATOR);
             equipmentForklift.AddAccessLevel(AccessLevel.OPERATOR);
             
 
@@ -413,7 +400,7 @@ namespace ConsoleApp2
 
             sim.AddTerminalToSimulation(terminal1);
             sim.Run();
-            */
+            
 
             /*
             EquipmentDoor doorEquipment = new("hDoor", 1);
