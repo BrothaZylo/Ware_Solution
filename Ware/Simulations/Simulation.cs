@@ -460,7 +460,7 @@ namespace Ware.Simulations
         /// </summary>
         public void Run()
         {
-            int delay = 100;
+            int delay = 1000;
             if (!CanRunSimulation())
             {
                 Console.WriteLine("Not Running");
