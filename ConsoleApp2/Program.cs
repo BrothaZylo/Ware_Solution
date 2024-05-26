@@ -100,10 +100,12 @@ namespace ConsoleApp2
 
             KittingArea kittingArea = new KittingArea("KittingArea");
 
-            kittingArea.CardBox = new KittingBox("Foods", dry, 10, 10);
+
+            kittingArea.CardBox = new KittingBox("Dangerous", dry, 10, 10);
             kittingArea.AddPackageToBox(package1);
             kittingArea.AddPackageToBox(package2);
             KittingBox foodBox = kittingArea.AddIntoKittingBox();
+
 
             kittingArea.CardBox = new KittingBox("Dangerous", dry, 10, 10);
             kittingArea.AddPackageToBox(package3);
@@ -115,12 +117,6 @@ namespace ConsoleApp2
             Console.WriteLine(foodBox.PackageId);
             Console.WriteLine(foodBox.Goods);
 
-
-
-            storage.PlacePackageAutomatic(foodBox);
-            storage.GetAllStorageInformationPrint();
-
-            /*
             //adder boxene i kittingarea og printer
             kittingArea.AddKittingBoxToArea(foodBox);
             kittingArea.AddKittingBoxToArea(dangerousBox);
@@ -134,7 +130,7 @@ namespace ConsoleApp2
             terminal.SendOutKittingBox(foodBox);
             terminal.PrintKittingBoxesInformation();
 
-            */
+    
 
 
             //-----------------------------------------------------------//
