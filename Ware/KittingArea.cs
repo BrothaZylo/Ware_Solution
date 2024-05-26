@@ -12,10 +12,8 @@ namespace Ware
     /// </summary>
     public class KittingArea: IKittingArea
     {
-        private List<Package> packagesInBox = new List<Package>();
         private List<Package> packagesGoingToKittingArea = new List<Package>();
         private List<Package> packagesInKittingArea = new List<Package>();
-
         private List<KittingBox> kittingBoxes = new List<KittingBox>();
 
         private int totalBoxesAvailable;
@@ -102,8 +100,6 @@ namespace Ware
             return kittingBoxes;
         }
 
-        //Changes up
-
         /// <summary>
         /// Sets the maximum number of packages that each box can contain.
         /// </summary>
@@ -163,70 +159,6 @@ namespace Ware
         public void AddPackageToKittingArea(Package package)
         {
             packagesInKittingArea.Add(package);
-        }
-
-        /// <summary>
-        /// Adds a package to the current box.
-        /// </summary>
-        /// <param name="package">The package that gets added to the box.</param>
-        public void AddPackageToBox(Package package)
-        {
-            if (totalBoxesAvailable == 0)
-            {
-                throw new InvalidOperationException("No cardboard boxes available.");
-            }
-
-            if (packagesInBox.Count + 1 > maxPackagesPerBox)
-            {
-                PrepareNewBox();
-            }
-            for (int i = 0; i < packagesInKittingArea.Count; i++)
-            {
-                if (packagesInKittingArea[i] == package)
-                {
-                    RaisePackageAddToBoxEvent(package);
-                    packagesInBox.Add(package);
-                    packagesInKittingArea.RemoveAt(i);
-                    return;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Prepares a new box by clearing the current box and reduces the available box count.
-        /// </summary>
-        /// <exception cref="InvalidOperationException">Thrown when there are no new boxes available to prepare.</exception>
-        public void PrepareNewBox()
-        {
-            if (totalBoxesAvailable < 1)
-            {
-                throw new InvalidOperationException("No new boxes available to prepare.");
-            }
-
-            packagesInBox.Clear();
-            totalBoxesAvailable--;
-        }
-
-        /// <summary>
-        /// Prints all kitting boxes and packages in a kitting box.
-        /// </summary>
-        public void PrintAllKittingBoxes()
-        {
-            if (!packagesInBox.Any())
-            {
-                Console.WriteLine("There are no kitting boxes in the Kitting Area.");
-                return;
-            }
-
-            Console.WriteLine("Listing all kitting boxes in the Kitting Area:");
-            foreach (KittingBox box in packagesInBox)
-            {
-                Console.WriteLine($"KittingBox: {box.Name}, Type: {box.Goods}, Height: {box.Height} cm, and Width; {box.Width} cm");
-                foreach (Package package in box.GetPackages())
-                {
-                    Console.WriteLine($"  Package: {package.Name}, Type: {package.Goods}, Height: {package.Height} cm, and Width; {package.Width} cm");
-                }
-            }
         }
 
         /// <summary>
