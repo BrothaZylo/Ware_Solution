@@ -101,6 +101,14 @@ namespace ConsoleApp2
             KittingArea kittingArea = new KittingArea("KittingArea");
 
 
+            KittingBox kit = new KittingBox("kitbox1", dry, 10, 10);
+            Package kit1 = new KittingBox("kitbox2", dry, 10, 10);
+            terminal.AddPackage(kit);
+            terminal.PrintPackageList();
+            storage.PlacePackageAutomatic(kit);
+            storage.GetAllStorageInformationPrint();
+            /*
+
             kittingArea.CardBox = new KittingBox("Dangerous", dry, 10, 10);
             kittingArea.AddPackageToBox(package1);
             kittingArea.AddPackageToBox(package2);
@@ -129,7 +137,7 @@ namespace ConsoleApp2
             Console.WriteLine("\nAfter sending out foodbox");
             terminal.SendOutKittingBox(foodBox);
             terminal.PrintKittingBoxesInformation();
-
+            */
     
 
 

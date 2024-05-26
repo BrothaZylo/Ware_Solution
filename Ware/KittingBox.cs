@@ -8,13 +8,9 @@ using Ware.Packages;
 
 namespace Ware
 {
-    public class KittingBox : Package
+    public class KittingBox(string packageName, string goodsType, double packageHeightCm, double packageWidthCm) : Package(packageName, goodsType, packageHeightCm, packageWidthCm)
     {
         private List<Package> boxes = new List<Package>();
-
-        public KittingBox(string packageName, string goodsType, double packageHeightCm, double packageWidthCm)
-        {
-        }
 
         public void AddPackage(Package package)
         {
