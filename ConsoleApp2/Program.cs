@@ -108,6 +108,8 @@ namespace ConsoleApp2
             kit.AddPackage(package1);
             kit.AddPackage(package2);
 
+            
+
             //storage
             storage.PlacePackageAutomatic(kit);
             storage.GetAllStorageInformationPrint();
