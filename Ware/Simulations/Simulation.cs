@@ -421,9 +421,9 @@ namespace Ware.Simulations
             }
         }
 
-        private void PalletStoragePalletToTerminal()
+        private void KittingAreaToTerminal()
         {
-
+            
         }
 
         /// <summary>
