@@ -99,14 +99,26 @@ namespace ConsoleApp2
             Terminal terminal = new Terminal("terminal");
 
             KittingArea kittingArea = new KittingArea("KittingArea");
+            kittingArea.AddPackageToKittingArea(package1);
+            kittingArea.AddPackageToKittingArea(package2);
 
 
             KittingBox kit = new KittingBox("kitbox1", dry, 10, 10);
-            Package kit1 = new KittingBox("kitbox2", dry, 10, 10);
-            terminal.AddPackage(kit);
-            terminal.PrintPackageList();
+
+            kit.AddPackage(package1);
+            kit.AddPackage(package2);
+
+            //storage
             storage.PlacePackageAutomatic(kit);
             storage.GetAllStorageInformationPrint();
+
+
+            //terminal
+            terminal.AddPackage(kit);
+            terminal.PrintPackageList();
+            terminal.SendPackage(kit);
+            Console.WriteLine("Send ut pakke kit og printer");
+            terminal.PrintPackageList();
             /*
 
             kittingArea.CardBox = new KittingBox("Dangerous", dry, 10, 10);
@@ -138,7 +150,7 @@ namespace ConsoleApp2
             terminal.SendOutKittingBox(foodBox);
             terminal.PrintKittingBoxesInformation();
             */
-    
+
 
 
             //-----------------------------------------------------------//
