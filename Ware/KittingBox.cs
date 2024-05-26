@@ -12,8 +12,7 @@ namespace Ware
     {
         private List<Package> boxes = new List<Package>();
 
-        public KittingBox(string packageName = "Consolidated Box", string goodsType = "Mixed Goods", double packageHeightCm = 10, double packageWidthCm = 10)
-            : base(packageName, goodsType, packageHeightCm, packageWidthCm)
+        public KittingBox(string packageName, string goodsType, double packageHeightCm, double packageWidthCm)
         {
         }
 
