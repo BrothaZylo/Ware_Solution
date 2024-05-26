@@ -9,10 +9,13 @@ namespace Ware
 {
     public interface IKittingArea
     {
+        void CreateKittingBox();
         void AddPackageToBox(Package package);
-        bool IsBoxFull();
+        bool IsBoxFull(KittingBox box);
         void SetMaxPackagesPerBox(int maxPackages);
         void SetTotalBoxesAvailable(int boxes);
+        KittingBox? SendBox(KittingBox box);
+        void AddPackageToKittingBox(KittingBox kitBox, Package package);
         void AddPackageToKittingArea(Package package);
         void PrepareNewBox();
         void PrintAllKittingBoxes();

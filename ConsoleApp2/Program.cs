@@ -92,6 +92,23 @@ namespace ConsoleApp2
             //------------------------------------------------------------//
             //---------------------- Kitting Area  -----------------------//
             //------------------------------------------------------------//
+
+            KittingArea kittingArea = new("kittingAreee");
+
+            kittingArea.CreateKittingBox();
+
+            List<KittingBox> kit = kittingArea.GetKittingBoxesInKittingArea();
+
+            foreach (KittingBox box in kit)
+            {
+                kittingArea.AddPackageToKittingBox(box, package9);
+                Console.WriteLine(box.PackageId);
+            }
+
+            Terminal terminal = new(" terminal");
+            terminal.AddPackage(kit[0]);
+
+
             /*
             Storage storage = new(dry, "Uteliggeer");
             storage.AddShelf("Big", 11, 100, 100);
@@ -455,20 +472,6 @@ namespace ConsoleApp2
             */
 
 
-
-            KittingArea kittingArea = new("kittingAreee");
-
-            kittingArea.CreateKittingBox();
-
-            List<KittingBox> kit = kittingArea.GetKittingBoxesInKittingArea();
-
-            foreach(KittingBox box in kit)
-            {
-                kittingArea.AddPackageToKittingBox(box, package9);
-            }
-
-            Terminal t = new("ogogog term");
-            t.AddPackage(kit[0]);
 
 
 

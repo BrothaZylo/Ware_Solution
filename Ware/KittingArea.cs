@@ -58,14 +58,21 @@ namespace Ware
         {
             foreach (KittingBox box in kittingBoxes)
             {
-                foreach(Package p in packagesInKittingArea)
+                if (box == kitBox)
                 {
-                    if (box == kitBox && p == package)
+                    if (box.GetPackages().Count < maxPackagesPerBox)
                     {
                         box.AddPackage(package);
+                        RaisePackageAddToBoxEvent(package);
+                        return;
+                    }
+                    else
+                    {
+                        throw new InvalidOperationException("Kitting box full.");
                     }
                 }
             }
+            throw new InvalidOperationException("Kitting box is not in KittingArea.");
         }
 
         /// <summary>
@@ -95,12 +102,7 @@ namespace Ware
             return kittingBoxes;
         }
 
-
-
-
         //Changes up
-
-
 
         /// <summary>
         /// Sets the maximum number of packages that each box can contain.
