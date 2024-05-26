@@ -17,6 +17,7 @@ namespace Ware.Terminals
         private readonly List<Package> PackagesToSendOut = new List<Package>();
         private readonly Queue<Package> PackagesToSendOutQueue = new Queue<Package>();
         private readonly List<Pallet> PalletsInTerminal = new List<Pallet>();
+        private readonly List<KittingBox> KittingBoxesInTerminal = new List<KittingBox>();
 
         /// <summary>
         /// This will add a package to a dictionary which are the packages at the terminal.
@@ -42,6 +43,19 @@ namespace Ware.Terminals
             List<Package> packages = pallet.GetPackagesOnPallet();
             PalletsInTerminal.Add(pallet);
             RaisePalletAddEvent(pallet);
+        }
+
+        /// <summary>
+        /// Adds a kitting box to the terminal
+        /// </summary>
+        /// <param name="kittingBox">The box that gets added to the terminal</param>
+        public void AddKittingBox(KittingBox kittingBox)
+        {
+            if (KittingBoxesInTerminal.Contains(kittingBox))
+            {
+                throw new InvalidOperationException("KittingBox already exists in terminal.");
+            }
+            KittingBoxesInTerminal.Add(kittingBox);
         }
 
         /// <summary>
@@ -71,7 +85,7 @@ namespace Ware.Terminals
         {
             if (!PalletsInTerminal.Any())
             {
-                Console.WriteLine($"There are no pallets in {name}.");
+                Console.WriteLine($"There's no pallets in {name}.");
                 return;
             }
 
@@ -85,6 +99,25 @@ namespace Ware.Terminals
                 }
             }
         }
+
+        public void PrintKittingBoxesInformation()
+        {
+            if (!KittingBoxesInTerminal.Any())
+            {
+                Console.WriteLine($"There's no kitting boxes in {name}.");
+                return;
+            }
+
+            foreach (KittingBox kittingBox in KittingBoxesInTerminal)
+            {
+                Console.WriteLine($"KittingBox: {kittingBox.Name} contains {kittingBox.GetPackages().Count} packages.");
+                foreach (Package package in kittingBox.GetPackages())
+                {
+                    Console.WriteLine($" - Package: {package.Name}, Type: {package.Goods}, Height in cm: {package.Height}, Width in cm: {package.Width}");
+                }
+            }
+        }
+
 
         /// <summary>
         /// Sends out a specific package and removes from dictionary
@@ -145,6 +178,19 @@ namespace Ware.Terminals
                 PackagesToSendOutQueue.Enqueue(p);
             }
             PackagesToSendOut.Clear();
+        }
+
+        /// <summary>
+        /// Sends out kitting box from terminal.
+        /// </summary>
+        /// <param name="kittingBox">the kitting box to send out.</param>
+        public void SendOutKittingBox(KittingBox kittingBox)
+        {
+            if (!KittingBoxesInTerminal.Contains(kittingBox))
+            {
+                throw new InvalidOperationException("KittingBox not found in terminal.");
+            }
+            KittingBoxesInTerminal.Remove(kittingBox);
         }
 
         /// <summary>

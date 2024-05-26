@@ -93,17 +93,34 @@ namespace ConsoleApp2
             //---------------------- Kitting Area  -----------------------//
             //------------------------------------------------------------//
 
-            /*
-            KittingArea kittingArea = new KittingArea("Boxed");
+            Terminal terminal = new Terminal("terminal");
 
-            kittingArea.AddPackageToKittingArea(package1);
-            kittingArea.AddPackageToKittingArea(package2);
+            KittingArea kittingArea = new KittingArea("KittingArea");
 
+            kittingArea.CardBox = new KittingBox("Foods", "dry", 25, 30);
             kittingArea.AddPackageToBox(package1);
             kittingArea.AddPackageToBox(package2);
+            KittingBox foodBox = kittingArea.AddIntoKittingBox();
 
-            Package kittingbox = kittingArea.TurnBoxIntoPackage();
-            */
+            kittingArea.CardBox = new KittingBox("Dangerous Goods", "dangerous", 20, 10);
+            kittingArea.AddPackageToBox(package3);
+            kittingArea.AddPackageToBox(package4);
+            kittingArea.AddPackageToBox(package5);
+            KittingBox dangerousBox = kittingArea.AddIntoKittingBox();
+
+            //adder boxene i kittingarea og printer
+            kittingArea.AddKittingBoxToArea(foodBox);
+            kittingArea.AddKittingBoxToArea(dangerousBox);
+            kittingArea.PrintAllKittingBoxes();
+
+            //TEster terminal kitting
+            Console.WriteLine("\nAdding foodbox in terminal:");
+            terminal.AddKittingBox(foodBox);
+            terminal.PrintKittingBoxesInformation();
+            Console.WriteLine("\nAfter sending out foodbox");
+            terminal.SendOutKittingBox(foodBox);
+            terminal.PrintKittingBoxesInformation();
+
 
 
 
@@ -164,7 +181,7 @@ namespace ConsoleApp2
             packingArea.SendPackageToPackingArea(package3);
             packingArea.SendPackageToPackingArea(package4);
             packingArea.SendPackageToPackingArea(package5);
-            
+
             Pallet pallet1 = new Pallet();
             packingArea.AddPackageOnPallet(package3, pallet1);
             packingArea.AddPackageOnPallet(package4, pallet1);
@@ -330,7 +347,7 @@ namespace ConsoleApp2
             //-----------------------Simulation-------------------------//
             //----------------------------------------------------------//
 
-
+            /*
             Simulation sim = new(35);
             ReceivingDepartment r1 = new("Receiving 1");
             ReceivingDepartment r2 = new("Receiving 2");
@@ -369,7 +386,7 @@ namespace ConsoleApp2
 
             Person person = new("Ben", 32, AccessLevel.OPERATOR);
             equipmentForklift.AddAccessLevel(AccessLevel.OPERATOR);
-            
+
 
             sim.AddPersonToSimulation(person);
 
@@ -400,7 +417,7 @@ namespace ConsoleApp2
 
             sim.AddTerminalToSimulation(terminal1);
             sim.Run();
-            
+            */
 
             /*
             EquipmentDoor doorEquipment = new("hDoor", 1);
@@ -416,7 +433,7 @@ namespace ConsoleApp2
             storageSmall.Build();
             */
         }
-        private static void OnPackageAddedToSchedule(object o, PackageEventArgs args)
+    private static void OnPackageAddedToSchedule(object o, PackageEventArgs args)
         {
             Console.WriteLine($"Package {args.Package.Name} was added to schedule");
         }
