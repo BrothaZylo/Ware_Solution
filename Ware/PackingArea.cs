@@ -101,9 +101,9 @@ namespace Ware
         /// Creates a pallet ready to place packages on. 
         /// </summary>
         /// <returns>Makes a new palllet.</returns>
-        public Pallet CreateNewPallet()
+        public Pallet CreateNewPallet(string name)
         {
-            Pallet newPallet = new Pallet();
+            Pallet newPallet = new Pallet(name);
             pallets.Add(newPallet);
             return newPallet;
         }
