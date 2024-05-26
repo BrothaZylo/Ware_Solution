@@ -92,29 +92,33 @@ namespace ConsoleApp2
             //------------------------------------------------------------//
             //---------------------- Kitting Area  -----------------------//
             //------------------------------------------------------------//
-            Storage storage = new(refrigerated, "Uteliggeer");
+            Storage storage = new(dry, "Uteliggeer");
             storage.AddShelf("Big", 11, 100, 100);
-            storage.AddShelf("Tiny", 4, 33, 33);
-            storage.AddShelf("Mid", 2, 63, 63);
             storage.Build();
 
             Terminal terminal = new Terminal("terminal");
 
             KittingArea kittingArea = new KittingArea("KittingArea");
 
-            kittingArea.CardBox = new KittingBox("Foods", "dry", 25, 30);
+            kittingArea.CardBox = new KittingBox("Foods", dry, 10, 10);
             kittingArea.AddPackageToBox(package1);
             kittingArea.AddPackageToBox(package2);
             KittingBox foodBox = kittingArea.AddIntoKittingBox();
 
-            kittingArea.CardBox = new KittingBox("Dangerous Goods", "dangerous", 20, 10);
+            kittingArea.CardBox = new KittingBox("Dangerous", dry, 10, 10);
             kittingArea.AddPackageToBox(package3);
             kittingArea.AddPackageToBox(package4);
             kittingArea.AddPackageToBox(package5);
             KittingBox dangerousBox = kittingArea.AddIntoKittingBox();
 
-            //tester om den får id
-            Console.WriteLine("KittingBox ID: " + foodBox.PackageId);
+            //Teste id og gods
+            Console.WriteLine(foodBox.PackageId);
+            Console.WriteLine(foodBox.Goods);
+
+
+
+            storage.PlacePackageAutomatic(foodBox);
+            storage.GetAllStorageInformationPrint();
 
             /*
             //adder boxene i kittingarea og printer
