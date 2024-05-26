@@ -423,7 +423,25 @@ namespace Ware.Simulations
 
         private void KittingAreaToTerminal()
         {
-            
+            foreach(KittingArea kit in kittingAreas)
+            {
+                foreach(Package p in kit.GetPackagesInKittingArea())
+                {
+                    if(kit.GetPackagesGoingToKittingArea().Count != kit.GetPackagesInKittingArea().Count)
+                    {
+                        Console.WriteLine("Added " + p.Name + " to a kitted box");
+                        //kit.AddPackageToBox(p);
+                        return;
+                    }
+                    if(kit.GetPackagesGoingToKittingArea().Count == kit.GetPackagesInKittingArea().Count)
+                    {
+                        foreach(Terminal terminal in terminals)
+                        {
+                            //terminal.AddPackage()
+                        }
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -431,7 +449,7 @@ namespace Ware.Simulations
         /// </summary>
         public void Run()
         {
-            int delay = 1000;
+            int delay = 100;
             if (!CanRunSimulation())
             {
                 Console.WriteLine("Not Running");
@@ -445,6 +463,7 @@ namespace Ware.Simulations
                 PackingAreaPalletCreation();
                 TerminalSendAway();
                 //from kitting -> Terminal -()ingen implementasjon
+                KittingAreaToTerminal();
                 PathSelectorFromStorage();
                 SendFromReceivingToStorage();
                 ReceivePackage();

@@ -11,10 +11,21 @@ namespace Ware
     public class KittingBox(string packageName, string goodsType, double packageHeightCm, double packageWidthCm) : Package(packageName, goodsType, packageHeightCm, packageWidthCm)
     {
         private List<Package> boxes = new List<Package>();
+        private int maxPackages = 0;
+
 
         public void AddPackage(Package package)
         {
             boxes.Add(package);
+        }
+
+        /// <summary>
+        /// Getter and setter for max amount of packages per box
+        /// </summary>
+        public int MaxPackagesPerBox
+        {
+            get { return maxPackages; }
+            set { maxPackages = value; }
         }
 
         public List<Package> GetPackages()

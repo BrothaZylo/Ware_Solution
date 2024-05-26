@@ -92,6 +92,7 @@ namespace ConsoleApp2
             //------------------------------------------------------------//
             //---------------------- Kitting Area  -----------------------//
             //------------------------------------------------------------//
+            /*
             Storage storage = new(dry, "Uteliggeer");
             storage.AddShelf("Big", 11, 100, 100);
             storage.Build();
@@ -121,6 +122,7 @@ namespace ConsoleApp2
             terminal.SendPackage(kit);
             Console.WriteLine("Send ut pakke kit og printer");
             terminal.PrintPackageList();
+            */
             /*
 
             kittingArea.CardBox = new KittingBox("Dangerous", dry, 10, 10);
@@ -378,7 +380,7 @@ namespace ConsoleApp2
             //-----------------------Simulation-------------------------//
             //----------------------------------------------------------//
 
-            /*
+            
             Simulation sim = new(35);
             ReceivingDepartment r1 = new("Receiving 1");
             ReceivingDepartment r2 = new("Receiving 2");
@@ -389,6 +391,7 @@ namespace ConsoleApp2
 
 
             k1.SchedulePackageForKittingArea(package1);
+            k1.SchedulePackageForKittingArea(package8);
             p1.SchedulePackage(package7);
             p1.SchedulePackage(package10);
             p2.SchedulePackage(package9);
@@ -448,7 +451,7 @@ namespace ConsoleApp2
 
             sim.AddTerminalToSimulation(terminal1);
             sim.Run();
-            */
+            
 
             /*
             EquipmentDoor doorEquipment = new("hDoor", 1);

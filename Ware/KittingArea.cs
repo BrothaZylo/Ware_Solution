@@ -7,14 +7,21 @@ using Ware.Packages;
 
 namespace Ware
 {
+    /// <summary>
+    /// Kitting area - packing packages in boxes
+    /// </summary>
     public class KittingArea: IKittingArea
     {
         private List<Package> packagesInBox = new List<Package>();
         private List<Package> packagesGoingToKittingArea = new List<Package>();
         private List<Package> packagesInKittingArea = new List<Package>();
+
+        private List<KittingBox> kittingBoxes = new List<KittingBox>();
+
         private int totalBoxesAvailable;
         private int maxPackagesPerBox;
         private string kittingName;
+        private int kittingBoxCount = 1;
 
         /// <summary>
         /// An area where packages are packed together into cardboard boxes.
@@ -22,12 +29,78 @@ namespace Ware
         /// <param name="name">The name of the KittingArea.</param>
         /// <param name="initialBoxCount">Total cardboard boxes available.</param>
         /// <param name="packagesPerBox">The total number of packages that can be placed in a box.</param>
-        public KittingArea(string name, int initialBoxCount = 20, int packagesPerBox = 10)
+        public KittingArea(string name, int initialBoxCount = 20, int packagesPerBox = 5)
         {
             kittingName = name;
             totalBoxesAvailable = initialBoxCount;
             maxPackagesPerBox = packagesPerBox;
         }
+
+        /// <summary>
+        /// Creates a kittingbox
+        /// </summary>
+        public void CreateKittingBox()
+        {
+            kittingBoxes.Add(new KittingBox("Kitting Box "+kittingBoxCount, "box", 100, 100));
+            kittingBoxCount++;
+            foreach (KittingBox p in kittingBoxes)
+            {
+                p.MaxPackagesPerBox = maxPackagesPerBox;
+            }
+        }
+
+        /// <summary>
+        /// Adds a package to a box
+        /// </summary>
+        /// <param name="kitBox">wich box</param>
+        /// <param name="package">package in kittingarea</param>
+        public void AddPackageToKittingBox(KittingBox kitBox, Package package)
+        {
+            foreach (KittingBox box in kittingBoxes)
+            {
+                foreach(Package p in packagesInKittingArea)
+                {
+                    if (box == kitBox && p == package)
+                    {
+                        box.AddPackage(package);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Send a box to a chosen location
+        /// </summary>
+        /// <param name="box">box you want to send</param>
+        /// <returns>the box if its in the kittingarea, else null</returns>
+        public KittingBox? SendBox(KittingBox box)
+        {
+            foreach(KittingBox kittingBox in kittingBoxes)
+            {
+                if(box == kittingBox)
+                {
+                    kittingBoxes.Remove(kittingBox);
+                    return box;
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Gets all the kittingboxes in the kitting area
+        /// </summary>
+        /// <returns>list of all kittingboxes</returns>
+        public List<KittingBox> GetKittingBoxesInKittingArea()
+        {
+            return kittingBoxes;
+        }
+
+
+
+
+        //Changes up
+
+
 
         /// <summary>
         /// Sets the maximum number of packages that each box can contain.
@@ -63,9 +136,13 @@ namespace Ware
         /// Checks if the current box is full.
         /// </summary>
         /// <returns>true if the current box is full, otherwise false.</returns>
-        public bool IsBoxFull()
+        public bool IsBoxFull(KittingBox box)
         {
-            return packagesInBox.Count >= maxPackagesPerBox;
+            if(box.GetPackages().Count == maxPackagesPerBox)
+            {
+                return true;
+            }
+            return false;
         }
 
         /// <summary>
