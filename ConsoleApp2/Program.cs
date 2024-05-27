@@ -398,7 +398,7 @@ namespace ConsoleApp2
             //-----------------------Simulation-------------------------//
             //----------------------------------------------------------//
 
-            
+        
             Simulation sim = new(35);
             ReceivingDepartment r1 = new("Receiving 1");
             ReceivingDepartment r2 = new("Receiving 2");
@@ -406,7 +406,6 @@ namespace ConsoleApp2
             KittingArea k1 = new("Kitting Area 133");
             PackingArea p1 = new("Packing Area 1");
             PackingArea p2 = new("Packing Area 2");
-
 
             k1.SchedulePackageForKittingArea(package1);
             k1.SchedulePackageForKittingArea(package8);
@@ -492,9 +491,12 @@ namespace ConsoleApp2
         }
     private static void OnPackageAddedToSchedule(object o, PackageEventArgs args)
         {
-            Console.WriteLine($"Package {args.Package.Name} was added to schedule");
+            Console.WriteLine($"OGGGAA Package {args.Package.Name} was added to schedule");
         }
     }
+
+
 }
+
 
 

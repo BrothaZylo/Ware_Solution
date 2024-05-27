@@ -20,8 +20,12 @@ namespace Ware.Packages
         public Terminal Terminal { get; private set; }
         public string Text { get; private set; }
         public string StorageUniqueId { get; private set; }
+        public Pallet Pallet { get; }
+        public PalletStorage PalletStorage { get; }
+        public Package Package1 { get; }
+        public KittingBox Box { get; }
 
-        public PackageEventArgs()
+        public PackageEventArgs(Package package)
         {
         }
 
@@ -40,7 +44,7 @@ namespace Ware.Packages
             Storage = storage;
         }
 
-        public PackageEventArgs(Package package)
+        public PackageEventArgs(Package package, Pallet pallet)
         {
             Package = package;
         }
@@ -61,6 +65,33 @@ namespace Ware.Packages
         {
             Package = package;
             Terminal = terminal;
+        }
+
+        public PackageEventArgs(Pallet pallet, PalletStorage palletStorage)
+        {
+            Pallet = pallet;
+            PalletStorage = palletStorage;
+        }
+
+        public PackageEventArgs(Pallet pallet, Terminal terminal)
+        {
+            Pallet = pallet;
+            Terminal = terminal;
+        }
+
+        public PackageEventArgs(Terminal terminal)
+        {
+            Terminal = terminal;
+        }
+
+        public PackageEventArgs(Package package, Package package1) : this(package)
+        {
+            Package1 = package1;
+        }
+
+        public PackageEventArgs(Terminal terminal, KittingBox box) : this(terminal)
+        {
+            Box = box;
         }
     }
 }
