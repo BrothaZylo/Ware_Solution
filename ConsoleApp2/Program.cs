@@ -1,4 +1,6 @@
 // See https://aka.ms/new-console-template for more information
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Runtime.ConstrainedExecution;
@@ -25,7 +27,7 @@ namespace ConsoleApp2
 
         static void Package_p(object? sender, PackageEventArgs e)
         {
-            Console.WriteLine(e.Package.PackageId+ " was sent to: "+ e.Storage.GoodsType);
+            Console.WriteLine(e.package.PackageId + " was sent to: " + e.storage.GoodsType);
         }
         static void Storage_P(object? sender, StorageEventArgs e)
         {
@@ -398,8 +400,23 @@ namespace ConsoleApp2
             //-----------------------Simulation-------------------------//
             //----------------------------------------------------------//
 
-        
+
             Simulation sim = new(35);
+
+
+            sim.ReceivedPackageEvent += OnPackageReceived;
+            sim.SendToStoragePackageEvent += OnPackageToStorage;
+            sim.AddToKittingAreaPackageEvent += OnPackageToKittingArea;
+            sim.AddToPackingAreaEvent += OnPackageToPackingArea;
+            sim.SendPackageToTerminalEvent += OnPackageToTerminal;
+            sim.SendPackageOutTerminalEvent += OnPackageSentOutOfTerminal;
+            sim.PlacePackageOntoPalletEvent += OnPackagePlacedOntoPallet;
+            sim.SendPalletToPalletStorageEvent += OnPalletToPalletStorage;
+            sim.SendPalletToPalletToTerminalEvent += OnPalletToTerminal;
+            sim.BoxCreatedInKittingAreaEvent += OnBoxCreatedInKittingArea;
+            sim.PackagedAddedInBoxEvent += OnPackageAddedInBox;
+            sim.SendBoxToTerminalEvent += OnBoxToTerminal;
+
             ReceivingDepartment r1 = new("Receiving 1");
             ReceivingDepartment r2 = new("Receiving 2");
             Terminal terminal1 = new("Terminal1");
@@ -413,13 +430,13 @@ namespace ConsoleApp2
             p1.SchedulePackage(package10);
             p2.SchedulePackage(package9);
 
-            Storage storage1 = new(refrigerated, "A");
+            Storage storage1 = new("Refrigerated", "A");
             storage1.AddShelf("Big", 11, 100, 100);
             storage1.AddShelf("Tiny", 4, 33, 33);
             storage1.AddShelf("Mid", 5, 63, 63);
             storage1.Build();
 
-            Storage storage2 = new(dry, "B");
+            Storage storage2 = new("Dry", "B");
             storage2.AddShelf("Big", 11, 100, 100);
             storage2.AddShelf("Tiny", 4, 33, 33);
             storage2.AddShelf("Mid", 5, 63, 63);
@@ -430,13 +447,13 @@ namespace ConsoleApp2
             pallet1.SchedulePackageToPack(package10);
 
             EquipmentForklift equipmentForklift = new("Bigboy Lifter", 1);
+            equipmentForklift.AddAccessLevel(AccessLevel.OPERATOR);
 
             PalletStorage palletStorage1 = new("Pallet Storage 8147");
             palletStorage1.AddShelf("big", 15);
             palletStorage1.BuildStorage();
 
             Person person = new("Ben", 32, AccessLevel.OPERATOR);
-            equipmentForklift.AddAccessLevel(AccessLevel.OPERATOR);
 
 
             sim.AddPersonToSimulation(person);
@@ -469,7 +486,7 @@ namespace ConsoleApp2
             sim.AddTerminalToSimulation(terminal1);
             sim.Run();
 
-            
+
 
 
 
@@ -489,14 +506,76 @@ namespace ConsoleApp2
             storageSmall.Build();
             */
         }
-    private static void OnPackageAddedToSchedule(object o, PackageEventArgs args)
+        private static void OnPackageReceived(object o, PackageEventArgs args)
         {
-            Console.WriteLine($"OGGGAA Package {args.Package.Name} was added to schedule");
+
+            Console.WriteLine($"Package {args.package.Name} was received in {args.receivingDepartment.Name}");
+        }
+
+        private static void OnPackageToStorage(object o, PackageEventArgs args)
+        {
+
+            Console.WriteLine($"Package {args.package.Name} was sent to storage");
+        }
+
+        private static void OnPackageToKittingArea(object sender, PackageEventArgs e)
+        {
+
+            Console.WriteLine($"Package {e.package.Name} was sent to kitting area");
+        }
+
+        private static void OnPackageToPackingArea(object sender, PackageEventArgs e)
+        {
+
+            Console.WriteLine($"Package {e.package.Name} was sent to packing area");
+        }
+
+        private static void OnPackageToTerminal(object sender, PackageEventArgs e)
+        {
+
+            Console.WriteLine($"Package {e.package.Name} was sent to terminal");
+        }
+
+        private static void OnPackageSentOutOfTerminal(object sender, PackageEventArgs e)
+        {
+
+            Console.WriteLine($"Package {e.package.Name} was sent out of terminal");
+        }
+
+        private static void OnPackagePlacedOntoPallet(object sender, PackageEventArgs e)
+        {
+
+            Console.WriteLine($"Package {e.package.Name} was placed onto pallet");
+        }
+
+        private static void OnPalletToPalletStorage(object sender, PackageEventArgs e)
+        {
+
+            Console.WriteLine($"Pallet {e.pallet.PalletName} was sent to {e.palletStorage.StorageName} by {e.person.Name} using {e.equipment.Name}");
+        }
+
+        private static void OnPalletToTerminal(object sender, PackageEventArgs e)
+        {
+
+            Console.WriteLine($"Pallet {e.pallet.PalletName} was sent to {e.terminal.Name}");
+        }
+
+        private static void OnBoxCreatedInKittingArea(object sender, PackageEventArgs e)
+        {
+    
+            Console.WriteLine($"Box: {e.box.Name} was created in kitting area: {e.kittingArea.KittingName}");
+        }
+
+        private static void OnPackageAddedInBox(object sender, PackageEventArgs e)
+        {
+
+            Console.WriteLine($"{e.package.Name} was put in {e.box.Name} ");
+        }
+
+        private static void OnBoxToTerminal(object sender, PackageEventArgs e)
+        {
+
+            Console.WriteLine($"{e.package.Name} was sent to {e.terminal.Name}");
         }
     }
-
-
 }
-
-
-

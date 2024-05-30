@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Ware.Storages;
 using Ware.ReceivingDepartments;
 using Ware.Terminals;
+using Ware.Persons;
+using Ware.Equipments;
 
 namespace Ware.Packages
 {
@@ -14,84 +16,109 @@ namespace Ware.Packages
     /// </summary>
     public class PackageEventArgs : EventArgs
     {
-        public Package Package { get; private set; }
-        public ReceivingDepartment ReceivingDepartment { get; private set; }
-        public Storage Storage { get; private set; }
-        public Terminal Terminal { get; private set; }
-        public string Text { get; private set; }
-        public string StorageUniqueId { get; private set; }
-        public Pallet Pallet { get; }
-        public PalletStorage PalletStorage { get; }
-        public Package Package1 { get; }
-        public KittingBox Box { get; }
 
-        public PackageEventArgs(Package package)
-        {
-        }
+        public Package package {  get;  set; }
+        public ReceivingDepartment receivingDepartment { get;  set; }
+        public Storage storage { get;  set; }
+        public Terminal terminal { get;  set; }
+        public string text { get;  set; }
+        public string storageUniqueId { get;  set; }
+        public Pallet pallet { get;  set; }
+        public PalletStorage palletStorage { get;  set; }
+        public Package package1 { get;  set; }
+        public KittingBox box { get;  set; }
+        public KittingArea kittingArea{ get;  set;}
+        public PackingArea packingArea { get;  set; }
+        public Equipment equipment { get;  set; }
+        public Person person { get;  set; }
 
-        public PackageEventArgs(Package package, string storageUniqueId)
+        public PackageEventArgs(Package packageO)
         {
-            Package = package;
-            StorageUniqueId = storageUniqueId;
+            package = packageO;
         }
-        public PackageEventArgs(string text)
+        public PackageEventArgs(Package packageO, string storageUniqueIdO)
         {
-            Text = text;
+            package = packageO;
+            storageUniqueId = storageUniqueIdO;
         }
-
-        public PackageEventArgs(Storage storage)
+        public PackageEventArgs(string textO)
         {
-            Storage = storage;
-        }
-
-        public PackageEventArgs(Package package, Pallet pallet)
-        {
-            Package = package;
+            text = textO;
         }
 
-        public PackageEventArgs(Package package, ReceivingDepartment receivingDepartment)
+        public PackageEventArgs(Storage storageO)
         {
-            Package = package;
-            ReceivingDepartment = receivingDepartment;
+            storage = storageO;
+        }
+        public PackageEventArgs(Package packageO, PackingArea packingAreaO)
+        {
+            package = packageO;
+            packingArea = packingAreaO;
+        }
+        public PackageEventArgs(Pallet palletO, PalletStorage palletStorageO, Person personO, Equipment equipmentO)
+        {
+            pallet = palletO;
+            palletStorage = palletStorageO;
+            person = personO;
+            equipment = equipmentO;
         }
 
-        public PackageEventArgs(Package package, Storage storage)
+        public PackageEventArgs(Package packageO, Pallet palletO)
         {
-            Package = package;
-            Storage = storage;
+            package = packageO;
+            pallet = palletO;
         }
 
-        public PackageEventArgs(Package package, Terminal terminal)
+        public PackageEventArgs(Package packageO, ReceivingDepartment receivingDepartmentO)
         {
-            Package = package;
-            Terminal = terminal;
+            package = packageO;
+            receivingDepartment = receivingDepartmentO;
         }
 
-        public PackageEventArgs(Pallet pallet, PalletStorage palletStorage)
+        public PackageEventArgs(Package packageO, Storage storageO)
         {
-            Pallet = pallet;
-            PalletStorage = palletStorage;
+            package = packageO;
+            storage = storageO;
         }
 
-        public PackageEventArgs(Pallet pallet, Terminal terminal)
+        public PackageEventArgs(Package packageO, Terminal terminalO)
         {
-            Pallet = pallet;
-            Terminal = terminal;
+            package = packageO;
+            terminal = terminalO;
         }
 
-        public PackageEventArgs(Terminal terminal)
+        public PackageEventArgs(Pallet palletO, PalletStorage palletStorageO)
         {
-            Terminal = terminal;
+            pallet = palletO;
+            palletStorage = palletStorageO;
         }
 
-        public PackageEventArgs(Package package, Package package1) : this(package)
+        public PackageEventArgs(Pallet palletO, Terminal terminalO)
         {
-            Package1 = package1;
+            pallet = palletO;
+            terminal = terminalO;
+        }
+        public PackageEventArgs(Package packageO, KittingArea kittingAreaO)
+        {
+            package = packageO;
+            kittingArea = kittingAreaO;
         }
 
-        public PackageEventArgs(Terminal terminal, KittingBox box) : this(terminal)
+        public PackageEventArgs(Terminal terminalO)
         {
-            Box = box;
+            terminal = terminalO;
         }
+        public PackageEventArgs(Package packageO, KittingBox boxO)
+        {
+            package = packageO;
+            box = boxO;
+        }
+        public PackageEventArgs(KittingBox boxO , KittingArea kittingAreaO)
+        {
+            box = boxO;
+            kittingArea = kittingAreaO;
+        }
+
+
     }
 }

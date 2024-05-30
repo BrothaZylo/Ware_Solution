@@ -56,7 +56,7 @@ namespace Ware.Simulations
         /// <param name="package">Package object</param>
         public void AddPackageToSimulation(Package package)
         {
-            packages.Add(package);
+                packages.Add(package);
         }
 
         /// <summary>
@@ -168,7 +168,7 @@ namespace Ware.Simulations
                 }
                 //Console.WriteLine("" + receivingDepartments[i].Name + " received: " + packages[0].PackageId);
                 receivingDepartments[i].AddPackage(packages[0]);
-                RaiseReceivedPackageEvent(packages[0]);
+                RaiseReceivedPackageEvent(packages[0], receivingDepartments[i]);
                 packagesTmp.Add(packages[0]);
                 packages.Remove(packages[0]);
             }
@@ -228,7 +228,7 @@ namespace Ware.Simulations
                                         try
                                         {
                                             area.AddPackageToKittingArea(storage.MovePackage(item));
-                                            RaisedAddToKittingAreaPackageEvent(item);
+                                            RaisedAddToKittingAreaPackageEvent(item,area);
                                             //Console.WriteLine($"{item.PackageId} {item.Name} was moved to {area.KittingName}");
                                             packagesTmp.Remove(item);
                                             return;
@@ -266,7 +266,7 @@ namespace Ware.Simulations
                                         try
                                         {
                                             packingArea.SendPackageToPackingArea(storage.MovePackage(item));
-                                            RaisedAddToPackingAreaEvent(item);
+                                            RaisedAddToPackingAreaEvent(item, packingArea);
                                             //Console.WriteLine($"{item.PackageId} {item.Name} was moved to {packingArea.AreaName}");
                                             packagesTmp.Remove(item);
                                             return;
@@ -321,7 +321,7 @@ namespace Ware.Simulations
                 if (terminal.GetPackagesInTerminal().Count != 0)
                 {
                     //Console.WriteLine($"{terminal.GetPackagesInTerminal()[0].PackageId} {terminal.GetPackagesInTerminal()[0].Name} was sent out of the {terminal.Name}");
-                    terminal.SendPackage(terminal.GetPackagesInTerminal()[0]);
+                    Package packageToSendOut = terminal.SendPackage(terminal.GetPackagesInTerminal()[0]);
                     RaisedSendPackageOutTerminalEventRaised(packageToSendOut,terminal);
                 }
             }
@@ -387,7 +387,8 @@ namespace Ware.Simulations
                                 if (pallet.GetScheduledPackages().Count == pallet.GetPackagesOnPallet().Count)
                                 {
                                     palletStorage.PlacePalletAutomatic(pallet);
-                                    RaisedSendPalletToPalletStorageEvent(pallet, palletStorage);
+                                    RaisedSendPalletToPalletStorageEvent(pallet, palletStorage, person, equipment);
+
                                     //Console.WriteLine($"{pallet.PalletName} was placed in {palletStorage.StorageName} by {person.Name} using {equipment.Name}");
                                     palletsTmp.Add(pallet);
                                     pallets.Remove(pallet);
@@ -419,7 +420,7 @@ namespace Ware.Simulations
                                     {
                                         //Console.WriteLine(pallet.PalletName + " was sent to " + terminal.Name + " by " + person.Name + " using " + equipment.Name);
                                         palletStorage.SendPalletToTerminal(pallet, terminal);
-                                        RaisedSendPalletToPalletToTerminalEvent(pallet, terminal);
+                                        RaisedSendPalletFromPalletStorageToTerminalEvent(pallet, terminal);
                                     }
                                     return;
                                 }
@@ -441,7 +442,7 @@ namespace Ware.Simulations
                         if (kit.GetKittingBoxesInKittingArea().Count == 0)
                         {
                             kit.CreateKittingBox();
-                            RaisedBoxCreatedInKittingAreaEvent(kit.GetKittingBoxesInKittingArea()[0]);
+                            RaisedBoxCreatedInKittingAreaEvent(kit,kit.GetKittingBoxesInKittingArea()[0]) ;
                             //Console.WriteLine("A new box (" + kit.GetKittingBoxesInKittingArea()[0].PackageId + ") was created in " + kit.KittingName);
                             //Console.WriteLine(p.Name + " was put in a box (" + kit.GetKittingBoxesInKittingArea()[0].PackageId + ")");
                             kit.AddPackageToKittingBox(kit.GetKittingBoxesInKittingArea()[0], p);
@@ -451,8 +452,9 @@ namespace Ware.Simulations
                         //Console.WriteLine(p.Name + " was put in a box (" + kit.GetKittingBoxesInKittingArea()[0].PackageId + ")");
                         kit.AddPackageToKittingBox(kit.GetKittingBoxesInKittingArea()[0], p);
                         RaisedPackagedAddedInBoxEvent(kit.GetKittingBoxesInKittingArea()[0], p);
-                    }
 
+                    }
+                    
                     foreach (Terminal terminal in terminals)
                     {
                         if (kit.GetKittingBoxesInKittingArea().Count == 0)
@@ -460,7 +462,12 @@ namespace Ware.Simulations
                             return;
                         }
                         //Console.WriteLine(kit.GetKittingBoxesInKittingArea()[0].PackageId + " was sent to " + terminal.Name);
-                        terminal.AddPackage(kit.SendBox(kit.GetKittingBoxesInKittingArea()[0]));
+                        if(kit.GetKittingBoxesInKittingArea()[0] != null)
+                        {
+                            RaisedSendBoxToTerminalEvent(terminal, kit.GetKittingBoxesInKittingArea()[0]);
+                            terminal.AddPackage(kit.SendBox(kit.GetKittingBoxesInKittingArea()[0]));
+                            
+                        }
 
                         return;
                     }
@@ -473,7 +480,7 @@ namespace Ware.Simulations
         /// </summary>
         public void Run()
         {
-            int delay = 1000;
+            int delay = 10;
             if (!CanRunSimulation())
             {
                 Console.WriteLine("Not Running");
@@ -521,9 +528,9 @@ namespace Ware.Simulations
         public event EventHandler<PackageEventArgs>? SendBoxToTerminalEvent;
 
 
-        private void RaiseReceivedPackageEvent(Package package)
+        private void RaiseReceivedPackageEvent(Package package, ReceivingDepartment receivingDepartment)
         {
-            ReceivedPackageEvent?.Invoke(this, new PackageEventArgs(package));
+            ReceivedPackageEvent?.Invoke(this, new PackageEventArgs(package, receivingDepartment));
         }
 
         private void RaisedSendToStoragePackageEvent(Package package, Storage storage)
@@ -531,23 +538,23 @@ namespace Ware.Simulations
             SendToStoragePackageEvent?.Invoke(this, new PackageEventArgs(package, storage));
         }
 
-        private void RaisedAddToKittingAreaPackageEvent(Package package)
+        private void RaisedAddToKittingAreaPackageEvent(Package package, KittingArea kittinarea)
         {
-            AddToKittingAreaPackageEvent?.Invoke(this, new PackageEventArgs(package));
+            AddToKittingAreaPackageEvent?.Invoke(this, new PackageEventArgs(package, kittinarea));
         }
 
-        private void RaisedAddToPackingAreaEvent(Package package)
+        private void RaisedAddToPackingAreaEvent(Package package, PackingArea packingArea)
         {
-            AddToPackingAreaEvent?.Invoke(this, new PackageEventArgs(package));
+            AddToPackingAreaEvent?.Invoke(this, new PackageEventArgs(package, packingArea));
         }
         private void RaisedSendPackageToTerminalEvent(Package package, Terminal terminal)
         {
             SendPackageToTerminalEvent?.Invoke(this, new PackageEventArgs(package, terminal));
         }
 
-        private void RaisedSendPackageOutTerminalEventRaised(Terminal terminal)
+        private void RaisedSendPackageOutTerminalEventRaised(Package package,Terminal terminal)
         {
-            SendPackageOutTerminalEvent?.Invoke(this, new PackageEventArgs(terminal));
+            SendPackageOutTerminalEvent?.Invoke(this, new PackageEventArgs(package, terminal));
         }
 
         private void RaisedPlacePackageOntoPalletEvent(Package package, Pallet pallet)
@@ -555,29 +562,29 @@ namespace Ware.Simulations
             PlacePackageOntoPalletEvent?.Invoke(this, new PackageEventArgs(package, pallet));
         }
 
-        private void RaisedSendPalletToPalletStorageEvent(Pallet pallet, PalletStorage palletStorage)
+        private void RaisedSendPalletToPalletStorageEvent(Pallet pallet, PalletStorage palletStorage, Person person, Equipment equipment)
         {
-            SendPalletToPalletStorageEvent?.Invoke(this, new PackageEventArgs(pallet, palletStorage));
+            SendPalletToPalletStorageEvent?.Invoke(this, new PackageEventArgs(pallet, palletStorage, person, equipment));
         }
 
-        private void RaisedSendPalletToPalletToTerminalEvent(Pallet pallet, Terminal terminal)
+        private void RaisedSendPalletFromPalletStorageToTerminalEvent(Pallet pallet, Terminal terminal)
         {
             SendPalletToPalletToTerminalEvent?.Invoke(this, new PackageEventArgs(pallet, terminal));
         }
 
-        private void RaisedBoxCreatedInKittingAreaEvent(KittingBox box)
+        private void RaisedBoxCreatedInKittingAreaEvent(KittingArea kittingArea, KittingBox box)
         {
-            BoxCreatedInKittingAreaEvent?.Invoke(this, new PackageEventArgs(box));
+            BoxCreatedInKittingAreaEvent?.Invoke(this, new PackageEventArgs(box, kittingArea));
         }
 
         private void RaisedPackagedAddedInBoxEvent(KittingBox box, Package package)
         {
-            PackagedAddedInBoxEvent?.Invoke(this, new PackageEventArgs(box, package));
+            PackagedAddedInBoxEvent?.Invoke(this, new PackageEventArgs(package,box ));
         }
 
-        private void RaisedSendBoxToTerminalEvent(Terminal terminal, KittingBox box)
+        private void RaisedSendBoxToTerminalEvent(Terminal terminal, Package box)
         {
-            SendBoxToTerminalEvent?.Invoke(this, new PackageEventArgs(terminal, box));
+            SendBoxToTerminalEvent?.Invoke(this, new PackageEventArgs(box,terminal ));
         }
 
     }
