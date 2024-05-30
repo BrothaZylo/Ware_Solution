@@ -322,7 +322,7 @@ namespace Ware.Simulations
                 {
                     //Console.WriteLine($"{terminal.GetPackagesInTerminal()[0].PackageId} {terminal.GetPackagesInTerminal()[0].Name} was sent out of the {terminal.Name}");
                     terminal.SendPackage(terminal.GetPackagesInTerminal()[0]);
-                    RaisedSendPackageOutTerminalEventRaised(terminal);
+                    RaisedSendPackageOutTerminalEventRaised(packageToSendOut,terminal);
                 }
             }
         }
