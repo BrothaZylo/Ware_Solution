@@ -90,15 +90,6 @@ namespace Ware
         }
 
         /// <summary>
-        /// Gets all the kittingboxes in the kitting area
-        /// </summary>
-        /// <returns>list of all kittingboxes</returns>
-        public List<KittingBox> GetKittingBoxesInKittingArea()
-        {
-            return kittingBoxes;
-        }
-
-        /// <summary>
         /// Sets the maximum number of packages that each box can contain.
         /// </summary>
         /// <param name="maxPackages">The maximum number of packages.</param>
@@ -129,28 +120,6 @@ namespace Ware
         }
 
         /// <summary>
-        /// Checks if the current box is full.
-        /// </summary>
-        /// <returns>true if the current box is full, otherwise false.</returns>
-        public bool IsBoxFull(KittingBox box)
-        {
-            if(box.GetPackages().Count == maxPackagesPerBox)
-            {
-                return true;
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// Gets the number of boxes remaining.
-        /// </summary>
-        /// <returns>The number of remaining boxes.</returns>
-        public int BoxesRemaining()
-        {
-            return totalBoxesAvailable;
-        }
-
-        /// <summary>
         /// Packages located in KittingArea
         /// </summary>
         /// <param name="package">package object you want to put in KittingArea</param>
@@ -166,6 +135,28 @@ namespace Ware
         public void SchedulePackageForKittingArea(Package package)
         {
             packagesGoingToKittingArea.Add(package);
+        }
+
+        /// <summary>
+        /// Checks if the current box is full.
+        /// </summary>
+        /// <returns>true if the current box is full, otherwise false.</returns>
+        public bool IsBoxFull(KittingBox box)
+        {
+            if (box.GetPackages().Count == maxPackagesPerBox)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Gets all the kittingboxes in the kitting area
+        /// </summary>
+        /// <returns>list of all kittingboxes</returns>
+        public List<KittingBox> GetKittingBoxesInKittingArea()
+        {
+            return kittingBoxes;
         }
 
         /// <summary>
