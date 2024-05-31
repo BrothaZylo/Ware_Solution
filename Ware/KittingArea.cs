@@ -15,7 +15,6 @@ namespace Ware
         private List<Package> packagesGoingToKittingArea = new List<Package>();
         private List<Package> packagesInKittingArea = new List<Package>();
         private List<KittingBox> kittingBoxes = new List<KittingBox>();
-
         private int totalBoxesAvailable;
         private int maxPackagesPerBox;
         private string kittingName;
@@ -37,17 +36,6 @@ namespace Ware
         /// <summary>
         /// Creates a kittingbox
         /// </summary>
-        /*
-        public void CreateKittingBox()
-        {
-            kittingBoxes.Add(new KittingBox("Kitting Box "+kittingBoxCount, "box", 30, 30));
-            kittingBoxCount++;
-            foreach (KittingBox p in kittingBoxes)
-            {
-                p.MaxPackagesPerBox = maxPackagesPerBox;
-            }
-        }
-        */
         public void CreateKittingBox(string packageName, string goodsType, double packageHeightCm, double packageWidthCm)
         {
             KittingBox newKittingBox = new KittingBox(packageName + " " + kittingBoxCount, goodsType, packageHeightCm, packageWidthCm);

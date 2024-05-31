@@ -23,15 +23,6 @@ namespace Ware
         }
 
         /// <summary>
-        /// Getter and setter for max amount of packages per box
-        /// </summary>
-        public int MaxPackagesPerBox
-        {
-            get { return maxPackages; }
-            set { maxPackages = value; }
-        }
-
-        /// <summary>
         /// Gets a packages in the box.
         /// </summary>
         /// <returns>Returns a list of packages that is in the box</returns>
@@ -47,5 +38,15 @@ namespace Ware
         {
             boxes.Clear();
         }
+
+        /// <summary>
+        /// Getter and setter for max amount of packages per box
+        /// </summary>
+        public int MaxPackagesPerBox
+        {
+            get { return maxPackages; }
+            set { maxPackages = value; }
+        }
+
     }
 }
