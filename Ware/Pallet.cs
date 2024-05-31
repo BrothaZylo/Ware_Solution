@@ -55,11 +55,19 @@ namespace Ware
             set { palletName = value; }
         }
 
+        /// <summary>
+        /// Adds a package to the pallet for schedule
+        /// </summary>
+        /// <param name="package">The package to get scheduled</param>
         public void SchedulePackageToPack(Package package)
         {
             schedulePackagesIn.Add(package);
         }
 
+        /// <summary>
+        /// Gets all the packages that have been on the pallet 
+        /// </summary>
+        /// <returns>A list of packages been and on the pallet</returns>
         public List<Package> GetScheduledPackages()
         {
             return schedulePackagesIn;
