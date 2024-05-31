@@ -151,12 +151,12 @@ namespace Ware
         }
 
         /// <summary>
-        /// Gets all the kittingboxes in the kitting area
+        /// Gets all the packages wich are scheduled to go to kitting area in Kitting Area
         /// </summary>
-        /// <returns>list of all kittingboxes</returns>
-        public List<KittingBox> GetKittingBoxesInKittingArea()
+        /// <returns>List of all the packages in KittingArea</returns>
+        public List<Package> GetPackagesGoingToKittingArea()
         {
-            return kittingBoxes;
+            return packagesGoingToKittingArea;
         }
 
         /// <summary>
@@ -169,12 +169,12 @@ namespace Ware
         }
 
         /// <summary>
-        /// Gets all the packages wich are scheduled to go to kitting area in Kitting Area
+        /// Gets all the kittingboxes in the kitting area
         /// </summary>
-        /// <returns>List of all the packages in KittingArea</returns>
-        public List<Package> GetPackagesGoingToKittingArea()
+        /// <returns>list of all kittingboxes</returns>
+        public List<KittingBox> GetKittingBoxesInKittingArea()
         {
-            return packagesGoingToKittingArea;
+            return kittingBoxes;
         }
 
         /// <summary>
