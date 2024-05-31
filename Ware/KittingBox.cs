@@ -13,7 +13,10 @@ namespace Ware
         private List<Package> boxes = new List<Package>();
         private int maxPackages = 10;
 
-
+        /// <summary>
+        /// Adds a package in the box
+        /// </summary>
+        /// <param name="package">the package being placed in the box</param>
         public void AddPackage(Package package)
         {
             boxes.Add(package);
