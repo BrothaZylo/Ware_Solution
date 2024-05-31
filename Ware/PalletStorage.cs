@@ -8,7 +8,7 @@ using Ware.Terminals;
 namespace Ware
 {
     /// <summary>
-    /// Manages the storage of pallets.ee
+    /// Manages the storage of pallets.
     /// </summary>
     public class PalletStorage : IPalletStorage
     {

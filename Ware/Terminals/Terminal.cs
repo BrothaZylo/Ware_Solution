@@ -20,7 +20,7 @@ namespace Ware.Terminals
         private readonly List<KittingBox> KittingBoxesInTerminal = new List<KittingBox>();
 
         /// <summary>
-        /// This will add a package to a dictionary which are the packages at the terminal.
+        /// This will add a package to a list which are the packages at the terminal.
         /// </summary>
         /// <param name="packages">A package object</param>
         public void AddPackage(Package packages)
@@ -59,12 +59,30 @@ namespace Ware.Terminals
         }
 
         /// <summary>
-        /// Returns a dictionary of packages in the terminal
+        /// Gets a list of packages in the terminal
         /// </summary>
-        /// <returns>Returns a dictionary of packages in the terminal</returns>
+        /// <returns>Returns a list of packages in the terminal</returns>
         public List<Package> GetPackagesInTerminal()
         {
             return PackagesToSendOut;
+        }
+
+        /// <summary>
+        /// Gets the pallets in terminal
+        /// </summary>
+        /// <returns>Returns a list of all the pallets in terminal</returns>
+        public List<Pallet> GetPalletsInTerminal()
+        {
+            return PalletsInTerminal;
+        }
+
+        /// <summary>
+        /// Gets the kitting boxes in the terminal
+        /// </summary>
+        /// <returns>Returns a list of all kitting boxes in terminal</returns>
+        public List<KittingBox> GetKittingBoxesInTerminal()
+        {
+            return KittingBoxesInTerminal;
         }
 
         /// <summary>
@@ -120,7 +138,7 @@ namespace Ware.Terminals
 
 
         /// <summary>
-        /// Sends out a specific package and removes from dictionary
+        /// Sends out a specific package and removes from list
         /// </summary>
         /// <param name="package">A package object</param>
         /// <returns>A package if the package was found, else null</returns>
