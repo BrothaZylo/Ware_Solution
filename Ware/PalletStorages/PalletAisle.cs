@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using Ware.Storages;
 
-namespace Ware
+namespace Ware.PalletStorages
 {
     /// <summary>
     /// A class for making an aisle for pallets
@@ -61,7 +61,7 @@ namespace Ware
         /// </summary>
         public void GetAllPalletPrints()
         {
-            foreach(PalletStorage palletStorage in palletAisle)
+            foreach (PalletStorage palletStorage in palletAisle)
             {
                 palletStorage.PrintAllPalletStorageInformation();
             }

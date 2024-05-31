@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Ware.Packages;
+using Ware.Pallets;
 
-namespace Ware
+namespace Ware.PackingAreas
 {
     internal interface IPackingArea
     {

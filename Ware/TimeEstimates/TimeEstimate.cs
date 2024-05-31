@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Ware.PalletStorages;
 using Ware.Storages;
 using static Ware.TimeEstimates.TimeEstimate;
 

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Ware.Packages;
 
-namespace Ware
+namespace Ware.Pallets
 {
     internal interface IPallet
     {

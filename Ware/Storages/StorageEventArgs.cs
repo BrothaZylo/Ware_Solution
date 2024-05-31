@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Ware.Packages;
+using Ware.PalletStorages;
 
 namespace Ware.Storages
 {

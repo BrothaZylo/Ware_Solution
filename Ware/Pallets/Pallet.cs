@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using Ware.Packages;
 
-namespace Ware
+namespace Ware.Pallets
 {
     /// <summary>
     /// Here's where the packages are packed on the pallets before shipment.

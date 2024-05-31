@@ -4,7 +4,9 @@ using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
+using Ware.KittingAreas;
 using Ware.Packages;
+using Ware.Pallets;
 
 namespace Ware.Terminals
 {

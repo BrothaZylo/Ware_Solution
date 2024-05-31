@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Ware.KittingAreas;
 using Ware.Packages;
+using Ware.Pallets;
 
 namespace Ware.Terminals
 {

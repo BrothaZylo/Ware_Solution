@@ -9,6 +9,8 @@ using Ware.Storages;
 using Ware.Packages;
 using Ware.Schedules;
 using Ware.Equipments;
+using Ware.Pallets;
+using Ware.PalletStorages;
 
 namespace Ware
 {

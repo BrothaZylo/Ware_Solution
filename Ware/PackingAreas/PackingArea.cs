@@ -5,8 +5,9 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using Ware.Packages;
+using Ware.Pallets;
 
-namespace Ware
+namespace Ware.PackingAreas
 {
     /// <summary>
     /// Stores the packages, and then used to place packages on pallets. 
@@ -114,7 +115,7 @@ namespace Ware
         public int MaxPackagesPerPallet
         {
             get { return maxPackagesPerPallet; }
-            set { maxPackagesPerPallet = value;}
+            set { maxPackagesPerPallet = value; }
         }
 
         /// <summary>

@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Ware.Packages;
+using Ware.PalletStorages;
 
-namespace Ware
+namespace Ware.Pallets
 {
     /// <summary>
     /// Pallet events
@@ -53,8 +54,8 @@ namespace Ware
         /// </summary>
         /// <param name="pallet">pallet object</param>
         /// <param name="palletStorage">palletstorage object</param>
-        public PalletEventArgs(Pallet? pallet, PalletStorage? palletStorage) 
-        {  
+        public PalletEventArgs(Pallet? pallet, PalletStorage? palletStorage)
+        {
             Pallet = pallet;
             PalletStorage = palletStorage;
         }

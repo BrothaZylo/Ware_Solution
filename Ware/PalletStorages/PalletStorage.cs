@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Ware.Pallets;
 using Ware.Terminals;
 
-namespace Ware
+namespace Ware.PalletStorages
 {
     /// <summary>
     /// Manages the storage of pallets.
@@ -44,7 +45,7 @@ namespace Ware
         public void BuildStorage()
         {
             int shelfNumber = 1;
-            foreach (PalletStorage.ShelvesConfig shelf in shelvesConfigs)
+            foreach (ShelvesConfig shelf in shelvesConfigs)
             {
                 string shelfId = $"{storageName} : Shelf {shelfNumber.ToString("D3")}";
                 palletStorageDict.Add(shelfId, (new List<Pallet>(new Pallet[1]), shelf.SizeName, false));
@@ -90,7 +91,7 @@ namespace Ware
         {
             foreach (KeyValuePair<string, (List<Pallet>, string, bool)> entry in palletStorageDict)
             {
-                (List < Pallet > shelfContent, string sizeName, bool isOccupied) = entry.Value;
+                (List<Pallet> shelfContent, string sizeName, bool isOccupied) = entry.Value;
                 if (!isOccupied)
                 {
                     int index = shelfContent.FindIndex(p => p == null);
@@ -174,7 +175,7 @@ namespace Ware
 
             foreach (KeyValuePair<string, (List<Pallet>, string, bool)> entry in palletStorageDict)
             {
-                (List<Pallet>  shelfContent, string sizeName, bool isOccupied) = entry.Value;
+                (List<Pallet> shelfContent, string sizeName, bool isOccupied) = entry.Value;
 
                 if (isOccupied && shelfContent[0] == pallet)
                 {
@@ -268,7 +269,7 @@ namespace Ware
         /// </summary>
         public string StorageName
         {
-            get { return storageName;  }
+            get { return storageName; }
             set { storageName = value; }
         }
 

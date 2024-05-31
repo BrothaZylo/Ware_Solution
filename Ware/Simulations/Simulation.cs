@@ -5,6 +5,10 @@ using Ware.Persons;
 using Ware.Equipments;
 using Ware.ReceivingDepartments;
 using Ware.Terminals;
+using Ware.Pallets;
+using Ware.PalletStorages;
+using Ware.KittingAreas;
+using Ware.PackingAreas;
 
 namespace Ware.Simulations
 {

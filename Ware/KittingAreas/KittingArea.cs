@@ -5,12 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Ware.Packages;
 
-namespace Ware
+namespace Ware.KittingAreas
 {
     /// <summary>
     /// Kitting area - packing packages in boxes
     /// </summary>
-    public class KittingArea: IKittingArea
+    public class KittingArea : IKittingArea
     {
         private List<Package> packagesGoingToKittingArea = new List<Package>();
         private List<Package> packagesInKittingArea = new List<Package>();
@@ -78,9 +78,9 @@ namespace Ware
         /// <returns>the box if its in the kittingarea, else null</returns>
         public KittingBox? SendBox(KittingBox box)
         {
-            foreach(KittingBox kittingBox in kittingBoxes)
+            foreach (KittingBox kittingBox in kittingBoxes)
             {
-                if(box == kittingBox)
+                if (box == kittingBox)
                 {
                     kittingBoxes.Remove(kittingBox);
                     return box;
@@ -203,7 +203,7 @@ namespace Ware
             get { return kittingName; }
             set { kittingName = value; }
         }
-        
+
         /// <summary>
         /// Used for AddPackageToBox(Package package)
         /// </summary>

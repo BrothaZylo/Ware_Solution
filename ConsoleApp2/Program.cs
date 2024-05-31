@@ -6,7 +6,11 @@ using System.Runtime.CompilerServices;
 using System.Runtime.ConstrainedExecution;
 using Ware;
 using Ware.Equipments;
+using Ware.KittingAreas;
 using Ware.Packages;
+using Ware.PackingAreas;
+using Ware.Pallets;
+using Ware.PalletStorages;
 using Ware.Persons;
 using Ware.ReceivingDepartments;
 using Ware.Simulations;
@@ -350,38 +354,12 @@ namespace ConsoleApp2
             //---------------------- Pallets Setup -----------------------//
             //------------------------------------------------------------//
             /*
-            Pallet pallet1 = new Pallet();
-            pallet1.AddPackageToPallet(package3);
-            pallet1.AddPackageToPallet(package4);
-            pallet1.AddPackageToPallet(package5);
+            Pallet pallet1 = new Pallet("Palelt1");
 
-            Pallet pallet2 = new Pallet();
-            pallet2.AddPackageToPallet(package1);
-            pallet2.AddPackageToPallet(package2);
+            Pallet pallet2 = new Pallet("Pallet2");
 
-            Pallet pallet3 = new Pallet();
-            pallet3.AddPackageToPallet(package6);
-            pallet3.AddPackageToPallet(package7);
-
-            PalletStorage palletStorage = new PalletStorage();
-            palletStorage.AddShelf("Tiny", 3, 4);
-
-            palletStorage.BuildStorage();
-
-            try
-            {
-                palletStorage.PlacePallet(pallet1, "Shelf-1", 0);
-                palletStorage.PlacePallet(pallet2, "Shelf-1", 1);
-                palletStorage.PlacePallet(pallet3, "Shelf-2", 3);
-
-                palletStorage.PrintAllPalletStorageInformation();
-            }
-            catch (Exception message)
-            {
-                Console.WriteLine($"An error occurred: {message.Message}");
-            }
+            Pallet pallet3 = new Pallet("Pallet3");
             */
-
             //----------------------------------------------------------//
             //----------------------Access Level------------------------//
             //----------------------------------------------------------//
