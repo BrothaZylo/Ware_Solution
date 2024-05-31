@@ -187,18 +187,6 @@ namespace Ware.Terminals
         }
 
         /// <summary>
-        /// Transfers all packages from the send-out list to a queue and clears the list.
-        /// </summary>
-        private void AddToQueue()
-        {
-            foreach (Package p in PackagesToSendOut)
-            {
-                PackagesToSendOutQueue.Enqueue(p);
-            }
-            PackagesToSendOut.Clear();
-        }
-
-        /// <summary>
         /// Sends out kitting box from terminal.
         /// </summary>
         /// <param name="kittingBox">the kitting box to send out.</param>
@@ -263,7 +251,22 @@ namespace Ware.Terminals
         /// </summary>
         public event EventHandler<PackageEventArgs>? PackageSendEvent;
 
+        /// <summary>
+        /// Used by AddPallet(Pallet pallet)
+        /// </summary>
         public event EventHandler<PalletEventArgs>? PalletAddEvent;
+
+        /// <summary>
+        /// Transfers all packages from the send-out list to a queue and clears the list.
+        /// </summary>
+        private void AddToQueue()
+        {
+            foreach (Package p in PackagesToSendOut)
+            {
+                PackagesToSendOutQueue.Enqueue(p);
+            }
+            PackagesToSendOut.Clear();
+        }
 
         private void RaisePalletAddEvent(Pallet pallet)
         {

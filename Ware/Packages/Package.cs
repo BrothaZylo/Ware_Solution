@@ -6,13 +6,14 @@ using System.Xml.Linq;
 namespace Ware.Packages
 {
     /// <summary>
-    /// Creating packages 
+    /// Creating packages
     /// </summary>
     public class Package : IPackage
     {
         private string name, goods;
         private double heightCm, widthCm;
         string packageId = GenerateId();
+
         /// <summary>
         /// Create a package
         /// </summary>

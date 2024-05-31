@@ -149,6 +149,59 @@ namespace Ware.Simulations
             schedules.Add(schedule);
         }
 
+        /// <summary>
+        /// Run the simulation after setup
+        /// </summary>
+        public void Run()
+        {
+            int delay = 10;
+            if (!CanRunSimulation())
+            {
+                Console.WriteLine("Not Running");
+                return;
+            }
+
+            while (runTimeInSeconds != 0)
+            {
+                PalletStorageToTerminal();
+                PersonUseForkliftPlacePallet();
+                PackingAreaPalletCreation();
+                TerminalSendAway();
+                KittingAreaToTerminal();
+                PathSelectorFromStorage();
+                SendFromReceivingToStorage();
+                ReceivePackage();
+
+                Console.WriteLine("--------------");
+                Thread.Sleep(delay);
+                runTimeInSeconds--;
+            }
+        }
+
+        public event EventHandler<PackageEventArgs>? ReceivedPackageEvent;
+
+        public event EventHandler<PackageEventArgs>? SendToStoragePackageEvent;
+
+        public event EventHandler<PackageEventArgs>? AddToKittingAreaPackageEvent;
+
+        public event EventHandler<PackageEventArgs>? AddToPackingAreaEvent;
+
+        public event EventHandler<PackageEventArgs>? SendPackageToTerminalEvent;
+
+        public event EventHandler<PackageEventArgs>? SendPackageOutTerminalEvent;
+
+        public event EventHandler<PackageEventArgs>? PlacePackageOntoPalletEvent;
+
+        public event EventHandler<PackageEventArgs>? SendPalletToPalletStorageEvent;
+
+        public event EventHandler<PackageEventArgs>? SendPalletToPalletToTerminalEvent;
+
+        public event EventHandler<PackageEventArgs>? BoxCreatedInKittingAreaEvent;
+
+        public event EventHandler<PackageEventArgs>? PackagedAddedInBoxEvent;
+
+        public event EventHandler<PackageEventArgs>? SendBoxToTerminalEvent;
+
         private bool CanRunSimulation()
         {
             if (packages.Count == 0 || storages.Count == 0 || terminals.Count == 0 || receivingDepartments.Count == 0)
@@ -474,59 +527,6 @@ namespace Ware.Simulations
                 }
             }
         }
-
-        /// <summary>
-        /// Run the simulation after setup
-        /// </summary>
-        public void Run()
-        {
-            int delay = 10;
-            if (!CanRunSimulation())
-            {
-                Console.WriteLine("Not Running");
-                return;
-            }
-
-            while (runTimeInSeconds != 0)
-            {
-                PalletStorageToTerminal();
-                PersonUseForkliftPlacePallet();
-                PackingAreaPalletCreation();
-                TerminalSendAway();
-                KittingAreaToTerminal();
-                PathSelectorFromStorage();
-                SendFromReceivingToStorage();
-                ReceivePackage();
-
-                Console.WriteLine("--------------");
-                Thread.Sleep(delay);
-                runTimeInSeconds--;
-            }
-        }
-        public event EventHandler<PackageEventArgs>? ReceivedPackageEvent;
-
-        public event EventHandler<PackageEventArgs>? SendToStoragePackageEvent;
-
-        public event EventHandler<PackageEventArgs>? AddToKittingAreaPackageEvent;
-
-        public event EventHandler<PackageEventArgs>? AddToPackingAreaEvent;
-
-        public event EventHandler<PackageEventArgs>? SendPackageToTerminalEvent;
-
-        public event EventHandler<PackageEventArgs>? SendPackageOutTerminalEvent;
-
-        public event EventHandler<PackageEventArgs>? PlacePackageOntoPalletEvent;
-
-        public event EventHandler<PackageEventArgs>? SendPalletToPalletStorageEvent;
-
-        public event EventHandler<PackageEventArgs>? SendPalletToPalletToTerminalEvent;
-
-        public event EventHandler<PackageEventArgs>? BoxCreatedInKittingAreaEvent;
-
-        public event EventHandler<PackageEventArgs>? PackagedAddedInBoxEvent;
-
-        public event EventHandler<PackageEventArgs>? SendBoxToTerminalEvent;
-
 
         private void RaiseReceivedPackageEvent(Package package, ReceivingDepartment receivingDepartment)
         {

@@ -135,7 +135,6 @@ namespace Ware.ReceivingDepartments
 
         }
 
-
         /// <summary>
         /// Sends all packages to storage.
         /// </summary>
@@ -189,7 +188,6 @@ namespace Ware.ReceivingDepartments
             get { return name; }
             set { name = value; }
         }
-
 
         /// <summary>
         /// Event for SendAllPackagesToStorage(Storage storage)

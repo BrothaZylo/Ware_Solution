@@ -49,23 +49,6 @@ namespace Ware.Schedules
         }
 
         /// <summary>
-        /// When PrepareDictionary is called will it create a dictionary called calender and add the days monday-sunday
-        /// as keys inside the dictionary with an empty dictionary as its value
-        /// visc. “Creating Dictionaries with Pre-Defined Keys C#.” Stack Overflow, 2024,
-        /// stackoverflow.com/questions/26160503/creating-dictionaries-with-pre-defined-keys-c-sharp.
-        /// Author visc
-        /// </summary>
-        private void PrepareDictionary()
-        {
-            calender = new Dictionary<DaysOfWeek, List<ScheduledPackage>>();
-
-            foreach (DaysOfWeek day in Enum.GetValues(typeof(DaysOfWeek)))
-            {
-                calender.Add(day, new List<ScheduledPackage>());
-            }
-        }
-
-        /// <summary>
         /// Add a single package to the schedule
         /// </summary>
         /// <param name="package">Package object you want to add</param>
@@ -93,14 +76,6 @@ namespace Ware.Schedules
             DaysOfWeek deliveryDay = (DaysOfWeek)(int)day;
 
             return calender[deliveryDay];
-        }
-
-        private void AddPackagesRModule()
-        {
-            foreach (ScheduledPackage package in scheduleRepeating.GetModule())
-            {
-                AddPackage(package.Packages, package.Time, package.Day, package.TransferTypes);
-            }
         }
 
         /// <summary>
@@ -152,6 +127,30 @@ namespace Ware.Schedules
         /// </summary>
         public event EventHandler<PackageEventArgs>? PackageAddEvent;
 
+        /// <summary>
+        /// When PrepareDictionary is called will it create a dictionary called calender and add the days monday-sunday
+        /// as keys inside the dictionary with an empty dictionary as its value
+        /// visc. “Creating Dictionaries with Pre-Defined Keys C#.” Stack Overflow, 2024,
+        /// stackoverflow.com/questions/26160503/creating-dictionaries-with-pre-defined-keys-c-sharp.
+        /// Author visc
+        /// </summary>
+        private void PrepareDictionary()
+        {
+            calender = new Dictionary<DaysOfWeek, List<ScheduledPackage>>();
+
+            foreach (DaysOfWeek day in Enum.GetValues(typeof(DaysOfWeek)))
+            {
+                calender.Add(day, new List<ScheduledPackage>());
+            }
+        }
+
+        private void AddPackagesRModule()
+        {
+            foreach (ScheduledPackage package in scheduleRepeating.GetModule())
+            {
+                AddPackage(package.Packages, package.Time, package.Day, package.TransferTypes);
+            }
+        }
         private void RaisePackageAddEvent(Package package)
         {
             PackageAddEvent?.Invoke(this, new PackageEventArgs(package));
