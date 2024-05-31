@@ -39,7 +39,7 @@ namespace Ware
         /// </summary>
         public void CreateKittingBox()
         {
-            kittingBoxes.Add(new KittingBox("Kitting Box "+kittingBoxCount, "box", 100, 100));
+            kittingBoxes.Add(new KittingBox("Kitting Box "+kittingBoxCount, "box", 30, 30));
             kittingBoxCount++;
             foreach (KittingBox p in kittingBoxes)
             {

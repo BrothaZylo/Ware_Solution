@@ -124,5 +124,6 @@ namespace Ware.Equipments
             Person = person;
             AccessLevel = accessLevel;
         }
+
     }
 }
