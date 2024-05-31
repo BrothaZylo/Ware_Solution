@@ -109,6 +109,15 @@ namespace Ware
         }
 
         /// <summary>
+        /// The max amount of packages that can be on pallet.
+        /// </summary>
+        public int MaxPackagesPerPallet
+        {
+            get { return maxPackagesPerPallet; }
+            set { maxPackagesPerPallet = value;}
+        }
+
+        /// <summary>
         /// The name of the PackingArea.
         /// </summary>
         public string AreaName
