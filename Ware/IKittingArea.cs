@@ -9,7 +9,7 @@ namespace Ware
 {
     public interface IKittingArea
     {
-        void CreateKittingBox();
+        void CreateKittingBox(string packageName, string goodsType, double packageHeightCm, double packageWidthCm);
         bool IsBoxFull(KittingBox box);
         void SetMaxPackagesPerBox(int maxPackages);
         void SetTotalBoxesAvailable(int boxes);

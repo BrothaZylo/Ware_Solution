@@ -37,6 +37,7 @@ namespace Ware
         /// <summary>
         /// Creates a kittingbox
         /// </summary>
+        /*
         public void CreateKittingBox()
         {
             kittingBoxes.Add(new KittingBox("Kitting Box "+kittingBoxCount, "box", 30, 30));
@@ -45,6 +46,14 @@ namespace Ware
             {
                 p.MaxPackagesPerBox = maxPackagesPerBox;
             }
+        }
+        */
+        public void CreateKittingBox(string packageName, string goodsType, double packageHeightCm, double packageWidthCm)
+        {
+            KittingBox newKittingBox = new KittingBox(packageName + " " + kittingBoxCount, goodsType, packageHeightCm, packageWidthCm);
+            kittingBoxes.Add(newKittingBox);
+            kittingBoxCount++;
+            newKittingBox.MaxPackagesPerBox = maxPackagesPerBox;
         }
 
         /// <summary>

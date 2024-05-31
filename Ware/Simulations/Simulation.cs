@@ -441,7 +441,7 @@ namespace Ware.Simulations
                     {
                         if (kit.GetKittingBoxesInKittingArea().Count == 0)
                         {
-                            kit.CreateKittingBox();
+                            kit.CreateKittingBox("Kitting Box ", "box", 50, 50);
                             RaisedBoxCreatedInKittingAreaEvent(kit,kit.GetKittingBoxesInKittingArea()[0]) ;
                             //Console.WriteLine("A new box (" + kit.GetKittingBoxesInKittingArea()[0].PackageId + ") was created in " + kit.KittingName);
                             //Console.WriteLine(p.Name + " was put in a box (" + kit.GetKittingBoxesInKittingArea()[0].PackageId + ")");
